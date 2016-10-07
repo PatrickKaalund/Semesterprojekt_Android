@@ -10,8 +10,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.patrickkaalund.semesterprojekt_android.MainMenu">
 
+    <Button
+        android:text="Single player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="102dp"
+        android:id="@+id/button2" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:text="Welcome"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
+    <Button
+        android:text="Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button"
+        android:layout_marginTop="31dp"
+        android:layout_below="@+id/button2"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
