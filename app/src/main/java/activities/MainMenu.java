@@ -1,7 +1,9 @@
-package com.example.patrickkaalund.semesterprojekt_android;
+package activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class MainMenu extends AppCompatActivity {
 
