@@ -29,6 +29,7 @@ public class MainMenu extends AppCompatActivity {
         if (!preferences.contains("music")) {
             preferences.edit()
                     .putBoolean("music", false) // Music disabled by default
+                    // ToDO Add default preferences
                     .apply();
         }
         //preferences.edit().putBoolean("music", true).apply();     // Enable music (debug)
