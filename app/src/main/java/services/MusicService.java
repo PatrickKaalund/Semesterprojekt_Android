@@ -43,7 +43,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mediaPlayer.setVolume(0.4f, 0.4f);
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.getBoolean("music", true))
+        if (preferences.getBoolean("music", false))
             mediaPlayer.start();
 
         mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
