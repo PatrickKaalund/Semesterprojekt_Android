@@ -51,4 +51,10 @@ public class InGame extends AppCompatActivity {
         gameLoop.startClock();
         super.onPostResume();
     }
+
+    @Override
+    protected void onDestroy() {
+        gameLoop.stopClock();
+        super.onPause();
+    }
 }
