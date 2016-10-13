@@ -21,7 +21,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.teststuff.MapTestActivity"
+            android:name="teststuff.MapTestActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_map_test"
             android:theme="@style/FullscreenTheme"></activity>

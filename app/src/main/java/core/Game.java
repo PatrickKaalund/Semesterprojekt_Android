@@ -1,9 +1,9 @@
 package core;
 
 
-import models.Player;
+import gamelogic.Player;
 
-public class Game implements UpdateInterface {
+public class Game implements UpdateAndDrawInterface {
 
     private Player player;
 
@@ -15,5 +15,10 @@ public class Game implements UpdateInterface {
     @Override
     public void update() {
         player.update();
+    }
+
+    @Override
+    public void draw() {
+
     }
 }

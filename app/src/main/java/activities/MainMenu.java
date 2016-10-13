@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import com.teststuff.MapTestActivity;
+import teststuff.MapTestActivity;
 
 import core.GameLoop;
 import services.MusicService;

@@ -3,8 +3,6 @@ package core;
 import android.os.Handler;
 import android.util.Log;
 
-import models.Player;
-
 public class GameLoop {
     private Handler handler;
     private GameStateHandler gameStateHandler;

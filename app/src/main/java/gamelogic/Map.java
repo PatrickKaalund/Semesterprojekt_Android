@@ -1,4 +1,4 @@
-package models;
+package gamelogic;
 
 import core.GameDrawable;
 

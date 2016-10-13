@@ -1,10 +1,10 @@
-package models;
+package gamelogic;
 
 import android.util.Log;
 
-import core.UpdateInterface;
+import core.UpdateAndDrawInterface;
 
-public class Player extends Creature implements UpdateInterface {
+public class Player extends Creature implements UpdateAndDrawInterface {
 
     public Player(){
         Log.d("Player","Player instantiated");
@@ -18,6 +18,11 @@ public class Player extends Creature implements UpdateInterface {
     @Override
     public void update(){
         Log.d("Player","Updating player...xPos: " + super.xPosition + ". yPos: "+ super.yPosition);
+    }
+
+    @Override
+    public void draw() {
+
     }
 
 }

@@ -2,7 +2,7 @@ package core;
 
 import android.util.Log;
 
-public class GameStateHandler implements UpdateInterface {
+public class GameStateHandler implements UpdateAndDrawInterface {
 
     private enum States {INITIALISE, IN_GAME}
     private States state;
@@ -27,6 +27,11 @@ public class GameStateHandler implements UpdateInterface {
                 game.update();
                 break;
         }
+    }
+
+    @Override
+    public void draw() {
+
     }
 
     public void setState(States newState){

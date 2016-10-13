@@ -1,4 +1,4 @@
-package models;
+package gamelogic;
 
 public class Item {
 }
