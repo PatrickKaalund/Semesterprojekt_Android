@@ -9,6 +9,8 @@ import android.os.Handler;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
 
+import java.util.ArrayList;
+
 public class Game {
 
     private Map map;
@@ -16,17 +18,20 @@ public class Game {
     private ScreenDrawer screenDrawer;
     private Handler handler;
     private boolean isPaused;
-//    private UserInput userInput;
+    //    private UserInput userInput
+    public ArrayList<GUpdateable> objectsToUpdate;
 
-
-
-    public Game(Context context){
+    public Game(Context context) {
+        GUpdateable.game = this;
+        objectsToUpdate = new ArrayList<>();
         screenDrawer = new ScreenDrawer(context);
         map = new Map(context, screenDrawer);
         player = new Player(context, screenDrawer);
         // 30Hz clock
         handler = new Handler();
         start();
+
+
 //        userInput = new UserInput();
     }
 
@@ -52,14 +57,17 @@ public class Game {
 
 
     public void update() {
+        for (GUpdateable updateable : objectsToUpdate) {
+            updateable.update();
+        }
 //        userInput.read();
-        map.update();
-        player.update();
+        //map.update();
+        //player.update();
         screenDrawer.invalidate();
     }
 
 
-    public ScreenDrawer getScreenDrawer(){
+    public ScreenDrawer getScreenDrawer() {
         return screenDrawer;
     }
 

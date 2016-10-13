@@ -11,28 +11,29 @@ import android.util.Log;
 import com.core.ScreenDrawer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
-public class Player extends Creature {
+/**
+ * Created by PatrickKaalund on 13/10/2016.
+ */
 
-    public Player(Context context, ScreenDrawer screenDrawer) {
+public class Enemy extends Creature {
+
+    public Enemy(Context context, ScreenDrawer screenDrawer) {
         super(context, screenDrawer);
-        game.objectsToUpdate.add(this);
         screenDrawer.objectsToDraw.add(this);
-
-
         Log.d("Player","Player instantiated");
 
         super.speed = 1;
         super.health = 100;
         super.xPosition = 100;
-        super.yPosition = 1080;
+        super.yPosition = 1580;
     }
 
     @Override
     public void update(){
-        if(xPosition < 1000){
-            super.xPosition += 2;
+        if(xPosition < 100){
+            super.xPosition -= 2;
         }else{
-            super.xPosition = 100;
+            super.xPosition = 1000;
         }
 
         //Log.d("Player","Updating player...xPos: " + super.xPosition + ". yPos: "+ super.yPosition);
