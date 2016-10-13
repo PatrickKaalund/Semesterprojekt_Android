@@ -1,6 +1,8 @@
 package com.core;
 
 
+import android.graphics.Canvas;
+
 import com.gamelogic.Player;
 
 public class Game implements UpdateAndDrawInterface {
@@ -18,7 +20,7 @@ public class Game implements UpdateAndDrawInterface {
     }
 
     @Override
-    public void draw() {
+    public void draw(Canvas canvas) {
 
     }
 }

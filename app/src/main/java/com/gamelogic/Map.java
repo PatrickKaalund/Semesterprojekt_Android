@@ -1,7 +1,19 @@
 package com.gamelogic;
 
-import com.core.GameDrawable;
 
-public class Map implements GameDrawable{
+import android.graphics.Canvas;
 
+import com.core.UpdateAndDrawInterface;
+
+public class Map implements UpdateAndDrawInterface{
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+
+    }
 }

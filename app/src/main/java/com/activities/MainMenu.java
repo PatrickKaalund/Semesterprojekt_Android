@@ -39,7 +39,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         }
         //preferences.edit().putBoolean("music", true).apply();     // Enable music (debug)
         doBindService();
-        new GameLoop(); // Start GameLoop (debug)
+
 
         findViewById(R.id.buttonMapTest).setOnClickListener(this);
     }
@@ -117,7 +117,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        Intent mapTest = new Intent(this, MapTestActivity.class);
+        //Intent mapTest = new Intent(this, MapTestActivity.class);
+        Intent mapTest = new Intent(this, InGame.class);
         startActivity(mapTest);
     }
 }

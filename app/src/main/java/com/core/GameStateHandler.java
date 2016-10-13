@@ -1,5 +1,6 @@
 package com.core;
 
+import android.graphics.Canvas;
 import android.util.Log;
 
 public class GameStateHandler implements UpdateAndDrawInterface {
@@ -17,6 +18,7 @@ public class GameStateHandler implements UpdateAndDrawInterface {
         this.setState(States.IN_GAME);
     }
 
+    @Override
     public void update(){
         switch(state){
             case INITIALISE:
@@ -30,8 +32,9 @@ public class GameStateHandler implements UpdateAndDrawInterface {
     }
 
     @Override
-    public void draw() {
-
+    public void draw(Canvas canvas) {
+        game.draw(canvas);
+        //player.draw();
     }
 
     public void setState(States newState){
