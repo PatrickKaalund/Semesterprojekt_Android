@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
+
+import core.GameLoop;
 import services.MusicService;
 
 public class MainMenu extends AppCompatActivity {
@@ -34,6 +36,7 @@ public class MainMenu extends AppCompatActivity {
         }
         //preferences.edit().putBoolean("music", true).apply();     // Enable music (debug)
         doBindService();
+        new GameLoop(); // Start GameLoop (debug)
     }
 
     // Kunne undlades..
