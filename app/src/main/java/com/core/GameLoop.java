@@ -16,7 +16,6 @@ public class GameLoop {
     // 30Hz clock
     public GameLoop(GameStateHandler gameStateHandler, GameDrawable gameDrawable) {
         handler = new Handler();
-        handler.postDelayed(clock, 33);
 
         this.gameStateHandler = gameStateHandler;
         this.gameDrawable = gameDrawable;
