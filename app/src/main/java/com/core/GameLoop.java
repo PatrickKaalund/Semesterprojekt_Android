@@ -11,6 +11,7 @@ public class GameLoop {
     private Handler handler;
     private GameStateHandler gameStateHandler;
     private GameDrawable gameDrawable;
+    private boolean isPaused;
 
     // 30Hz clock
     public GameLoop(GameStateHandler gameStateHandler, GameDrawable gameDrawable) {
@@ -19,19 +20,32 @@ public class GameLoop {
 
         this.gameStateHandler = gameStateHandler;
         this.gameDrawable = gameDrawable;
+
+        startClock();
+    }
+
+    public void stopClock() {
+        isPaused = true;
+    }
+
+    public void startClock() {
+        isPaused = false;
+        handler.postDelayed(clock, 33);
     }
 
     private Runnable clock = new Runnable() {
         @Override
         public void run() {
-            Log.d("GameLoop", "Clock ticked!");
-            handler.postDelayed(this, 33);
+            if (!isPaused) {
+                handler.postDelayed(this, 33);
+                //Log.d("GameLoop", "Clock ticked!");
 
-            // updating game logic
-            gameStateHandler.update();
+                // updating game logic
+                gameStateHandler.update();
 
-            // draw canvas
-            gameDrawable.invalidate();
+                // draw canvas
+                gameDrawable.invalidate();
+            }
         }
     };
 }

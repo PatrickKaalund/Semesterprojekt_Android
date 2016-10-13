@@ -12,9 +12,12 @@ import com.core.GameDrawable;
 import com.core.GameStateHandler;
 import com.core.GameLoop;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class InGame extends AppCompatActivity {
 
+    private GameLoop gameLoop;
     public GameStateHandler gameStateHandler;
 
     @Override
@@ -26,6 +29,24 @@ public class InGame extends AppCompatActivity {
         GameDrawable gameDrawable = new GameDrawable(this, gameStateHandler);
         setContentView(gameDrawable);
 
-        GameLoop gameLoop = new GameLoop(gameStateHandler, gameDrawable);
+        gameLoop = new GameLoop(gameStateHandler, gameDrawable);
+    }
+
+    @Override
+    protected void onPause() {
+        gameLoop.stopClock();
+        super.onPause();
+    }
+
+    @Override
+    protected void onPostResume() {
+       gameLoop.startClock();
+       super.onPostResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        gameLoop.stopClock();
+        super.onPause();
     }
 }

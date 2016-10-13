@@ -22,7 +22,7 @@ public class Player extends Creature implements UpdateAndDrawInterface {
     @Override
     public void update(){
         if(xPosition < 1000){
-            super.xPosition += 3;
+            super.xPosition += 2;
         }else{
             super.xPosition = 100;
         }
