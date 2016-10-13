@@ -1,4 +1,4 @@
-package core;
+package com.core;
 
 import android.util.Log;
 

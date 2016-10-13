@@ -1,4 +1,4 @@
-package gamelogic;
+package com.gamelogic;
 
 public class Collision {
 }

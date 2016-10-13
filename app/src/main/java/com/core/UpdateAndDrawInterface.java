@@ -1,4 +1,4 @@
-package core;
+package com.core;
 
 public interface UpdateAndDrawInterface {
     public abstract void update();

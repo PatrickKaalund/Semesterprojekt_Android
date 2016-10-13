@@ -1,4 +1,4 @@
-package teststuff;
+package com.teststuff;
 
 import android.annotation.SuppressLint;
 import android.support.v7.app.ActionBar;

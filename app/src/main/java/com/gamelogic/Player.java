@@ -1,8 +1,8 @@
-package gamelogic;
+package com.gamelogic;
 
 import android.util.Log;
 
-import core.UpdateAndDrawInterface;
+import com.core.UpdateAndDrawInterface;
 
 public class Player extends Creature implements UpdateAndDrawInterface {
 

@@ -1,7 +1,7 @@
-package core;
+package com.core;
 
 
-import gamelogic.Player;
+import com.gamelogic.Player;
 
 public class Game implements UpdateAndDrawInterface {
 

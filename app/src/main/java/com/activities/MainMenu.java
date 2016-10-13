@@ -1,4 +1,4 @@
-package activities;
+package com.activities;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -15,10 +15,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import teststuff.MapTestActivity;
+import com.teststuff.MapTestActivity;
 
-import core.GameLoop;
-import services.MusicService;
+import com.core.GameLoop;
+import com.services.MusicService;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     boolean musicIsBound = false;
