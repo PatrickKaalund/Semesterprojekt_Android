@@ -19,7 +19,7 @@ import android.widget.Toast;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.teststuff.MapTestActivity;
 
-import com.core.GameLoop;
+
 import com.services.MusicService;
 
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {

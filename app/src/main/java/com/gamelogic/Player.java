@@ -6,24 +6,29 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
-import android.media.ImageReader;
-import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
 
-import com.core.UpdateAndDrawInterface;
+import com.core.ScreenDrawer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
-public class Player extends Creature implements UpdateAndDrawInterface {
+public class Player extends Creature {
 
     //private Image playerImage = ;
 
-    public Player(){
-        Log.d("Player","Player instantiated");
+//    public Player(){
+//        Log.d("Player","Player instantiated");
+//
+//
+//        super.speed = 1;
+//        super.health = 100;
+//        super.xPosition = 100;
+//        super.yPosition = 1080;
+//    }
 
+    public Player(Context context, ScreenDrawer screenDrawer) {
+        super(context, screenDrawer);
+        screenDrawer.objectsToDraw.add(this);
+        Log.d("Player","Player instantiated");
 
         super.speed = 1;
         super.health = 100;
@@ -43,9 +48,11 @@ public class Player extends Creature implements UpdateAndDrawInterface {
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint, Context context) {
+    public void draw(Canvas canvas) {
 
         //Log.d("Player","drawing player");
+
+        Paint paint = new Paint();
 
         paint.setColor(Color.BLUE);
 
@@ -61,6 +68,6 @@ public class Player extends Creature implements UpdateAndDrawInterface {
 
     public void setPlayerPosition(int xPos, int yPos){
         this.xPosition = xPos;
-        this.yPosition = yPosition;
+        this.yPosition = yPos;
     }
 }
