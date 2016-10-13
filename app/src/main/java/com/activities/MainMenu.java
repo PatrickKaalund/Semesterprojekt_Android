@@ -126,9 +126,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
 
     @Override
     public void onClick(View v) {
-        //Intent mapTest = new Intent(this, MapTestActivity.class);
-
-
         switch (v.getId()) {
             case R.id.buttonPlay:
                 Intent play = new Intent(this, InGame.class);
