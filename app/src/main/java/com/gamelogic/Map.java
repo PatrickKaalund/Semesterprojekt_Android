@@ -13,6 +13,7 @@ public class Map extends GDrawable {
 
     public Map(Context context, ScreenDrawer screenDrawer) {
         super(context, screenDrawer);
+        game.objectsToUpdate.add(this);
         screenDrawer.objectsToDraw.add(this);
 
     }
