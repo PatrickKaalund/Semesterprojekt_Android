@@ -1,6 +1,7 @@
 package com.activities;
 
 import android.app.Activity;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,6 +31,8 @@ public class InGame extends AppCompatActivity {
         setContentView(gameDrawable);
 
         gameLoop = new GameLoop(gameStateHandler, gameDrawable);
+
+
     }
 
     @Override

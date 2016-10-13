@@ -1,6 +1,7 @@
 package com.core;
 
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
@@ -25,8 +26,8 @@ public class Game implements UpdateAndDrawInterface {
 
     // Layered drawing!
     @Override
-    public void draw(Canvas canvas, Paint paint) {
-        map.draw(canvas, paint);
-        player.draw(canvas, paint);
+    public void draw(Canvas canvas, Paint paint, Context context) {
+        map.draw(canvas, paint, context);
+        player.draw(canvas, paint, context);
     }
 }

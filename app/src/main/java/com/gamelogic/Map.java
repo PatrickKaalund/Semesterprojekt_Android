@@ -1,6 +1,7 @@
 package com.gamelogic;
 
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -16,7 +17,7 @@ public class Map implements UpdateAndDrawInterface{
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint) {
+    public void draw(Canvas canvas, Paint paint, Context context) {
 
         //Log.d("Map","drawing map");
 

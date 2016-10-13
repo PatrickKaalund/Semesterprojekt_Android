@@ -1,5 +1,6 @@
 package com.core;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -34,8 +35,8 @@ public class GameStateHandler implements UpdateAndDrawInterface {
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint) {
-        game.draw(canvas, paint);
+    public void draw(Canvas canvas, Paint paint, Context context) {
+        game.draw(canvas, paint, context);
     }
 
     public void setState(States newState){
