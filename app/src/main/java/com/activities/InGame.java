@@ -1,7 +1,9 @@
 package com.activities;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,8 @@ import com.core.GameLoop;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class InGame extends AppCompatActivity {
+
+    private GameLoop gameLoop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,18 @@ public class InGame extends AppCompatActivity {
         //gameDrawable.setBackgroundResource(R.drawable.logo);
         setContentView(gameDrawable);
 
-        GameLoop gameLoop = new GameLoop(gameDrawable); // Start GameLoop (debug)
+        gameLoop = new GameLoop(gameDrawable); // Start GameLoop (debug)
+    }
+
+    @Override
+    protected void onPause() {
+        gameLoop.stopClock();
+        super.onPause();
+    }
+
+    @Override
+    protected void onPostResume() {
+        gameLoop.startClock();
+        super.onPostResume();
     }
 }

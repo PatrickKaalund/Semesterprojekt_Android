@@ -2,6 +2,7 @@ package com.core;
 
 import android.graphics.Canvas;
 import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 public class GameLoop {
@@ -9,25 +10,35 @@ public class GameLoop {
     private GameStateHandler gameStateHandler;
     private GameDrawable gameDrawable;
     private Canvas canvas;
+    private boolean isPaused;
 
-    // 30Hz clock
     public GameLoop(GameDrawable gameDrawable) {
-        handler = new Handler();
-        handler.postDelayed(clock, 33);
-
-        gameStateHandler = new GameStateHandler();
         this.gameDrawable = gameDrawable;
-
+        handler = new Handler();
+        gameStateHandler = new GameStateHandler();
         canvas = new Canvas();
+        startClock();
     }
 
+    public void stopClock() {
+        isPaused = true;
+    }
+
+    public void startClock() {
+        isPaused = false;
+        handler.postDelayed(clock, 33);
+    }
+
+    // 30Hz clock
     private Runnable clock = new Runnable() {
         @Override
         public void run() {
-            Log.d("GameLoop", "Clock ticked!");
-            handler.postDelayed(this, 33);
+            if (!isPaused) {
+                handler.postDelayed(this, 33);
+                Log.d("GameLoop", "Clock ticked!");
+                gameStateHandler.update();
+            }
 
-            gameStateHandler.update();
             // updating canvas
             //gameStateHandler.draw(canvas);
             // draw canvas
