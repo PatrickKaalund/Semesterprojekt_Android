@@ -1,9 +1,6 @@
 package com.core;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.Log;
 
@@ -11,14 +8,17 @@ public class GameLoop {
     private Handler handler;
     private GameStateHandler gameStateHandler;
     private GameDrawable gameDrawable;
+    private Canvas canvas;
 
     // 30Hz clock
-    public GameLoop(GameStateHandler gameStateHandler, GameDrawable gameDrawable) {
+    public GameLoop(GameDrawable gameDrawable) {
         handler = new Handler();
         handler.postDelayed(clock, 33);
 
-        this.gameStateHandler = gameStateHandler;
+        gameStateHandler = new GameStateHandler();
         this.gameDrawable = gameDrawable;
+
+        canvas = new Canvas();
     }
 
     private Runnable clock = new Runnable() {
@@ -27,11 +27,11 @@ public class GameLoop {
             Log.d("GameLoop", "Clock ticked!");
             handler.postDelayed(this, 33);
 
-            // updating game logic
             gameStateHandler.update();
-
+            // updating canvas
+            //gameStateHandler.draw(canvas);
             // draw canvas
-            gameDrawable.invalidate();
+            //gameDrawable.draw(canvas);
         }
     };
 }
