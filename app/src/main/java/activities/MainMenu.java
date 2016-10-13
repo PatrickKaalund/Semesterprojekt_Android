@@ -26,6 +26,7 @@ public class MainMenu extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         // Add music boolean to preference manager if not present
         if (!preferences.contains("music")) {
