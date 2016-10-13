@@ -2,9 +2,11 @@ package com.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import com.core.Game;
-
+import com.example.patrickkaalund.semesterprojekt_android.R;
 
 
 public class InGame extends AppCompatActivity {
@@ -15,6 +17,10 @@ public class InGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         game = new Game(this);
         setContentView(game.getScreenDrawer());
+        LayoutInflater inflater = getLayoutInflater();
+        getWindow().addContentView(inflater.inflate(R.layout.activity_in_game, null),
+                new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     @Override
