@@ -17,6 +17,7 @@ public abstract class GDrawable {
         this.context = context;
         this.screenDrawer = screenDrawer;
 
+
 //        paint.setStyle(Paint.Style.FILL);
     }
 
