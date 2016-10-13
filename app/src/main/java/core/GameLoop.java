@@ -15,7 +15,6 @@ public class GameLoop {
         handler.postDelayed(clock, 33);
 
         gameStateHandler = new GameStateHandler();
-
     }
 
     private Runnable clock = new Runnable() {
