@@ -11,14 +11,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.teststuff.MapTestActivity;
 
 import core.GameLoop;
 import services.MusicService;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     boolean musicIsBound = false;
     MusicService musicService;
 
@@ -38,6 +40,8 @@ public class MainMenu extends AppCompatActivity {
         //preferences.edit().putBoolean("music", true).apply();     // Enable music (debug)
         doBindService();
         new GameLoop(); // Start GameLoop (debug)
+
+        findViewById(R.id.buttonMapTest).setOnClickListener(this);
     }
 
     // Kunne undlades..
@@ -109,5 +113,11 @@ public class MainMenu extends AppCompatActivity {
             unbindService(serviceConnection);
             musicIsBound = false;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent mapTest = new Intent(this, MapTestActivity.class);
+        startActivity(mapTest);
     }
 }

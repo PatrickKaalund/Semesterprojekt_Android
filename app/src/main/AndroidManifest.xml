@@ -11,7 +11,8 @@
         <service
             android:name="services.MusicService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
         <activity android:name="activities.MainMenu">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +20,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.teststuff.MapTestActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_map_test"
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

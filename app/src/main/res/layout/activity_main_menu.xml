@@ -39,4 +39,14 @@
         android:layout_marginTop="31dp"
         android:layout_below="@+id/button2"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="MapTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonMapTest"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/button"
+        android:layout_alignStart="@+id/button"
+        android:layout_marginBottom="46dp" />
 </RelativeLayout>

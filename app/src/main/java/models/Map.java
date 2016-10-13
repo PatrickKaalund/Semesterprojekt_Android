@@ -1,4 +1,7 @@
 package models;
 
-public class Map {
+import core.GameDrawable;
+
+public class Map implements GameDrawable{
+
 }
