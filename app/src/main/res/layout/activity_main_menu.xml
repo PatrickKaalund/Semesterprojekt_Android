@@ -11,13 +11,13 @@
     tools:context="com.example.patrickkaalund.semesterprojekt_android.views.MainMenu">
 
     <Button
-        android:text="Single player"
+        android:text="Play!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="102dp"
-        android:id="@+id/button2" />
+        android:id="@+id/buttonPlay" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,9 +35,9 @@
         android:text="Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button"
+        android:id="@+id/buttonSettings"
         android:layout_marginTop="31dp"
-        android:layout_below="@+id/button2"
+        android:layout_below="@+id/buttonPlay"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/buttonMapTest"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/button"
-        android:layout_alignStart="@+id/button"
+        android:layout_alignLeft="@+id/buttonSettings"
+        android:layout_alignStart="@+id/buttonSettings"
         android:layout_marginBottom="46dp" />
 </RelativeLayout>

@@ -9,9 +9,11 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
@@ -23,6 +25,7 @@ import com.services.MusicService;
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     boolean musicIsBound = false;
     MusicService musicService;
+    Button play, settings, mapTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,13 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         doBindService();
 
 
-        findViewById(R.id.buttonMapTest).setOnClickListener(this);
+        play = (Button) findViewById(R.id.buttonPlay);
+        settings = (Button) findViewById(R.id.buttonSettings);
+        mapTest = (Button) findViewById(R.id.buttonMapTest);
+
+        play.setOnClickListener(this);
+        settings.setOnClickListener(this);
+        mapTest.setOnClickListener(this);
     }
 
     // Kunne undlades..
@@ -118,7 +127,22 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         //Intent mapTest = new Intent(this, MapTestActivity.class);
-        Intent mapTest = new Intent(this, InGame.class);
-        startActivity(mapTest);
+
+
+        switch (v.getId()) {
+            case R.id.buttonPlay:
+                Intent play = new Intent(this, InGame.class);
+                startActivity(play);
+                break;
+            case R.id.buttonSettings:
+                Log.d("MainMenu", "Settings pressed!");
+                //Intent settings = new Intent(this, InGame.class);
+                //startActivity(settings);
+                break;
+            case R.id.buttonMapTest:
+                Intent mapTest = new Intent(this, MapTestActivity.class);
+                startActivity(mapTest);
+                break;
+        }
     }
 }
