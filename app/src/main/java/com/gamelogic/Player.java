@@ -13,25 +13,32 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class Player extends Creature {
 
+    Bitmap bitmap;
+    Paint paint;
+
     public Player(Context context, ScreenDrawer screenDrawer) {
         super(context, screenDrawer);
         game.objectsToUpdate.add(this);
         screenDrawer.objectsToDraw.add(this);
 
 
-        Log.d("Player","Player instantiated");
+        Log.d("Player", "Player instantiated");
 
         super.speed = 1;
         super.health = 100;
         super.xPosition = 100;
         super.yPosition = 1080;
+
+        paint = new Paint();
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
     }
 
+
     @Override
-    public void update(){
-        if(xPosition < 1000){
+    public void update() {
+        if (xPosition < 1000) {
             super.xPosition += 2;
-        }else{
+        } else {
             super.xPosition = 100;
         }
 
@@ -43,8 +50,6 @@ public class Player extends Creature {
 
         //Log.d("Player","drawing player");
 
-        Paint paint = new Paint();
-
         paint.setColor(Color.BLUE);
 
         canvas.drawCircle(xPosition, yPosition, 15, paint);
@@ -52,12 +57,11 @@ public class Player extends Creature {
         paint.setTextSize(40);
         canvas.drawText("Player", xPosition - 60, yPosition + 60, paint);
 
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
         canvas.drawBitmap(bitmap, 0, 0, null);
 
     }
 
-    public void setPlayerPosition(int xPos, int yPos){
+    public void setPlayerPosition(int xPos, int yPos) {
         this.xPosition = xPos;
         this.yPosition = yPos;
     }

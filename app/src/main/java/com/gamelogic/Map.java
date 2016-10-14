@@ -21,7 +21,7 @@ public class Map extends GDrawable {
 
     private BitmapDrawable backgrundImage;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Map(Context context, ScreenDrawer screenDrawer) {
         super(context, screenDrawer);
         game.objectsToUpdate.add(this);
