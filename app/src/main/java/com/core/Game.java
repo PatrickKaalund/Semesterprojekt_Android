@@ -1,10 +1,7 @@
 package com.core;
 
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.os.Handler;
 import android.util.Log;
 import android.support.design.widget.FloatingActionButton;
@@ -26,12 +23,12 @@ public class Game implements Runnable {
     private boolean isRunning;
     private Handler handler;
     private boolean isPaused;
-    private Control userInput;
+    private Control control;
 
     public ArrayList<GUpdateable> objectsToUpdate;
     private Context context;
 
-    private FPSCounter fpsCounter = new FPSCounter();
+    private FPSMeasuring fpsMeasuring = new FPSMeasuring();
 
     public Game(Context context) {
         GUpdateable.game = this;
@@ -42,25 +39,24 @@ public class Game implements Runnable {
         objectsToUpdate = new ArrayList<>();
         map = new Map(context, screenDrawer);
         player = new Player(context, screenDrawer);
-        userInput = new Control(context);
+        control = new Control(context);
 
         // 30Hz clock
         handler = new Handler();
-        start();
 
         gameStart();
         thread = new Thread(this);
         thread.start();
 
-        fpsCounter.start();
+        fpsMeasuring.start();
     }
 
     public void setJoystick(JoystickView joystickView) {
-        userInput.setJoystick(joystickView);
+        control.setJoystick(joystickView);
     }
 
     public void setShootButton(FloatingActionButton shootButton) {
-        userInput.setShootButton(shootButton);
+        control.setShootButton(shootButton);
     }
 
     // Running thread with 30 Hz
@@ -71,7 +67,7 @@ public class Game implements Runnable {
             if (!isPaused) {
                 update();
                 screenDrawer.draw();
-                fpsCounter.counter++;
+                fpsMeasuring.counter++;
             }
 
 //            handler.postDelayed(this, 33);
@@ -87,7 +83,6 @@ public class Game implements Runnable {
     public void gameStart() {
         isRunning = true;
         isPaused = false;
-        //this.run();
     }
 
     public void gamePause() {
@@ -102,14 +97,18 @@ public class Game implements Runnable {
         for (GUpdateable updateable : objectsToUpdate) {
             updateable.update();
         }
-//        userInput.read();
+//        control.read();
     }
 
     public ScreenDrawer getScreenDrawer() {
-        return screenDrawer;
+        return this.screenDrawer;
+    }
+    public Control getControl() {
+        return this.control;
     }
 
-    class FPSCounter extends Thread {
+    // for debugging
+    class FPSMeasuring extends Thread {
         public int counter = 0;
 
         // one time every second
