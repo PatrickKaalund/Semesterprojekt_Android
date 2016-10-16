@@ -25,6 +25,9 @@ public class Game implements Runnable {
     private Handler handler;
     private boolean isPaused;
     private Control control;
+    private FPSDrawer fpsDrawer;
+
+    private int latestFPS = 0;
 //    private Collision collision;
 
     public ArrayList<GUpdateable> objectsToUpdate;
@@ -41,6 +44,7 @@ public class Game implements Runnable {
         objectsToUpdate = new ArrayList<>();
         map = new Map(context, screenDrawer);
         player = new Player(context, screenDrawer);
+        fpsDrawer = new FPSDrawer(context, screenDrawer);
         control = new Control(context);
 //        collision = new Collision(map);
 
@@ -52,6 +56,7 @@ public class Game implements Runnable {
         thread.start();
 
         fpsMeasuring.start();
+
     }
 
     public void setJoystick(JoystickView joystickView) {
@@ -112,6 +117,7 @@ public class Game implements Runnable {
     public Map getMap() {
         return this.map;
     }
+    public int getFPS() {return this.latestFPS; }
 
 
     // for debugging
@@ -126,7 +132,8 @@ public class Game implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Log.d("FPS counter", "FPS: " + counter);
+//                Log.d("FPS counter", "FPS: " + counter);
+                latestFPS = counter;
                 counter = 0;
             }
         }
