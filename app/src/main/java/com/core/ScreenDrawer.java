@@ -21,6 +21,9 @@ public class ScreenDrawer extends SurfaceView {
 
     Canvas canvas;
     private SurfaceHolder surfaceHolder;
+    private int screenWidth;
+    private int screenHeight;
+    private Paint paint;
 
     public ArrayList<GDrawable> objectsToDraw = new ArrayList<>();
 
@@ -31,14 +34,17 @@ public class ScreenDrawer extends SurfaceView {
         // scaling - begin
         int scale = 1;
 
-        int screenWidth = (int) getResources().getDisplayMetrics().widthPixels / scale;
-        int screenHeight = (int) getResources().getDisplayMetrics().heightPixels / scale;
+        screenWidth = (int) getResources().getDisplayMetrics().widthPixels / scale;
+        screenHeight = (int) getResources().getDisplayMetrics().heightPixels / scale;
 
         Log.d("ScreenDrawer", "ScreenWitdh is: " + screenWidth);
         Log.d("ScreenDrawer", "ScreenHeight is: " + screenHeight);
 
         surfaceHolder.setFixedSize(screenWidth, screenHeight);
         // scaling - end
+
+        paint = new Paint();
+        paint.setColor(Color.RED);
     }
 
     public SurfaceHolder getSurfaceHolder() {
@@ -56,6 +62,18 @@ public class ScreenDrawer extends SurfaceView {
 
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
+    }
+
+    public int getScreenWidth(){
+        return this.screenWidth;
+    }
+
+    public int getScreenHeight(){
+        return this.screenHeight;
+    }
+
+    public Paint getPaint(){
+        return this.paint;
     }
 }
 

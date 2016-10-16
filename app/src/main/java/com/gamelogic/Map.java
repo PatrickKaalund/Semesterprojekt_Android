@@ -12,6 +12,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.core.GDrawable;
 import com.core.ScreenDrawer;
@@ -44,8 +45,6 @@ public class Map extends GDrawable {
     public void update() {
         increase--;
     }
-
-
 }
 
 

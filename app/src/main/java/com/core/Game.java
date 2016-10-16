@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.support.design.widget.FloatingActionButton;
 
+import com.gamelogic.Collision;
 import com.gamelogic.Control;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
@@ -24,6 +25,7 @@ public class Game implements Runnable {
     private Handler handler;
     private boolean isPaused;
     private Control control;
+//    private Collision collision;
 
     public ArrayList<GUpdateable> objectsToUpdate;
     private Context context;
@@ -40,6 +42,7 @@ public class Game implements Runnable {
         map = new Map(context, screenDrawer);
         player = new Player(context, screenDrawer);
         control = new Control(context);
+//        collision = new Collision(map);
 
         // 30Hz clock
         handler = new Handler();
@@ -106,6 +109,10 @@ public class Game implements Runnable {
     public Control getControl() {
         return this.control;
     }
+    public Map getMap() {
+        return this.map;
+    }
+
 
     // for debugging
     class FPSMeasuring extends Thread {
