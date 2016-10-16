@@ -23,8 +23,13 @@ public class Player extends Creature {
     private int bitmapHeight;
     private int bitmapWidth;
 
+    // temp solution
     private Rect mapL;
     private Rect mapR;
+
+    private enum Direction {
+        RIGHT, LEFT
+    };
 
     // animation
     private int numberOfDrawingWidth;
@@ -33,8 +38,6 @@ public class Player extends Creature {
         super(context, screenDrawer);
         game.objectsToUpdate.add(this);
         screenDrawer.objectsToDraw.add(this);
-
-//        Log.d("Player", "Player instantiated");
 
         super.speed = 1;
         super.health = 100;
@@ -78,6 +81,7 @@ public class Player extends Creature {
 
         joystickValues = new ArrayList<>();
 
+        // drawing map bounds with 1 pixel width
         this.mapL = new Rect(0, 0, 1, screenDrawer.getScreenHeight());
         this.mapR = new Rect(screenDrawer.getScreenWidth() - 1, 0, screenDrawer.getScreenWidth(), screenDrawer.getScreenHeight());
     }
@@ -95,44 +99,7 @@ public class Player extends Creature {
 //        Log.d("Player", "Angle: " + joystick_angle);
 //        Log.d("Player", "Strength: " + joystick_strength);
 
-        // stand still
-        if (joystick_strength == 0) {
-
-        }
-        // walk right
-        else if (joystick_angle < 90 || joystick_angle > 270) {
-            // calc animation
-            if (bitmapToShow + 1 > numberOfDrawingWidth - 1) {
-                bitmapToShow = 0;
-            } else {
-                bitmapToShow++;
-            }
-
-            // move player
-            if (super.collisionBox.intersect(mapR)) {
-                Log.d("Player", "Colliding!!");
-            } else {
-                super.xPosition += joystick_strength;
-            }
-        }
-        // walk left
-        else {
-            // calc animation
-            if (bitmapToShow + 1 >= bitmaps.size() || bitmapToShow < numberOfDrawingWidth) {
-                bitmapToShow = numberOfDrawingWidth;
-            } else {
-                bitmapToShow++;
-            }
-
-            // move player
-            if (super.collisionBox.intersect(mapL)) {
-                Log.d("Player", "Colliding!!");
-            } else {
-                super.xPosition -= joystick_strength;
-            }
-        }
-
-        super.collisionBox.set(xPosition, yPosition, xPosition+bitmapWidth, yPosition+bitmapHeight);
+        updatePlayer(joystick_angle, joystick_strength);
     }
 
     @Override
@@ -147,8 +114,75 @@ public class Player extends Creature {
         canvas.drawBitmap(bitmaps.get(bitmapToShow), xPosition, yPosition, null);
     }
 
-    public void setPlayerPosition(int xPos, int yPos) {
-        this.xPosition = xPos;
-        this.yPosition = yPos;
+    private void updatePlayer(int joystick_angle, int joystick_strength){
+        // stand still
+        if (joystick_strength == 0) {
+
+        }
+        // walk right
+        else if (joystick_angle < 90 || joystick_angle > 270) {
+            // calc animation
+            animate(Direction.RIGHT);
+
+            // check collision, and move player
+            if (isColliding(Direction.RIGHT)) {
+                Log.d("Player", "Colliding!!");
+            } else {
+                super.xPosition += joystick_strength;
+            }
+        }
+        // walk left
+        else {
+            // calc animation
+            animate(Direction.LEFT);
+
+            // check collision, and move player
+            if (isColliding(Direction.LEFT)) {
+                Log.d("Player", "Colliding!!");
+            } else {
+                super.xPosition -= joystick_strength;
+            }
+        }
+
+        super.collisionBox.set(xPosition, yPosition, xPosition+bitmapWidth, yPosition+bitmapHeight);
+    }
+
+    private void animate(Direction direction){
+        switch (direction){
+            case RIGHT:
+                if (bitmapToShow + 1 > numberOfDrawingWidth - 1) {
+                    bitmapToShow = 0;
+                } else {
+                    bitmapToShow++;
+                }
+                break;
+            case LEFT:
+                if (bitmapToShow + 1 >= bitmaps.size() || bitmapToShow < numberOfDrawingWidth) {
+                    bitmapToShow = numberOfDrawingWidth;
+                } else {
+                    bitmapToShow++;
+                }
+                break;
+            default:
+                Log.d("Player", "Animate: Unknown direction");
+        }
+    }
+
+    private boolean isColliding(Direction direction){
+        switch (direction){
+            case RIGHT:
+                if(super.collisionBox.intersect(mapR)){
+                    return true;
+                }
+                break;
+            case LEFT:
+                if(super.collisionBox.intersect(mapL)){
+                    return true;
+                }
+                break;
+            default:
+                Log.d("Player", "isColliding: Unknown direction");
+        }
+        return false;
     }
 }
