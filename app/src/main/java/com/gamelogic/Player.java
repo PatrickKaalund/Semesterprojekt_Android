@@ -11,18 +11,21 @@ import android.util.Log;
 import com.core.ScreenDrawer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
+import java.util.ArrayList;
+
 public class Player extends Creature {
 
-    Bitmap bitmap;
-    Paint paint;
+    private ArrayList<Bitmap> bitmaps;
+    private Bitmap bitmap;
+    private Paint paint;
+    private int bitmapToShow;
 
     public Player(Context context, ScreenDrawer screenDrawer) {
         super(context, screenDrawer);
         game.objectsToUpdate.add(this);
         screenDrawer.objectsToDraw.add(this);
 
-
-        Log.d("Player", "Player instantiated");
+//        Log.d("Player", "Player instantiated");
 
         super.speed = 1;
         super.health = 100;
@@ -31,13 +34,51 @@ public class Player extends Creature {
 
         paint = new Paint();
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
+
+        float aspectRatio = bitmap.getWidth() /
+                (float) bitmap.getHeight();
+        int width = 1000;
+        int height = Math.round(width / aspectRatio);
+
+        bitmap = Bitmap.createScaledBitmap(
+                bitmap, width, height, false);
+
+        bitmaps = new ArrayList<>();
+
+//        int numberOfWidth
+
+        int bitmapHeight = bitmap.getHeight() / 2;
+        int bitmapWidth = bitmap.getWidth() / 8;
+//        Log.d("Player", "bitmapHeight: " + bitmapHeight);
+//        Log.d("Player", "bitmapWidth: " + bitmapWidth);
+
+        ArrayList<Bitmap> temp = new ArrayList<>();
+
+        // load right animations
+        for (int i = 0; i < 8; i++) {
+            int startX = bitmapWidth * i;
+            Bitmap croppedBitmap = Bitmap.createBitmap(bitmap, startX, 0, bitmapWidth, bitmapHeight);
+            bitmaps.add(croppedBitmap);
+        }
+
+        bitmapToShow = 0;
+
     }
 
 
     @Override
     public void update() {
-        if (xPosition < 1000) {
-            super.xPosition += 2;
+        if (super.xPosition % 10 == 0) {
+//            Log.d("Player", "Changed animation index");
+            if (bitmapToShow + 1 < bitmaps.size()) {
+                bitmapToShow++;
+            } else {
+                bitmapToShow = 0;
+            }
+        }
+
+        if (xPosition < 900) {
+            super.xPosition += 10;
         } else {
             super.xPosition = 100;
         }
@@ -52,12 +93,8 @@ public class Player extends Creature {
 
         paint.setColor(Color.BLUE);
 
-        canvas.drawCircle(xPosition, yPosition, 15, paint);
 
-        paint.setTextSize(40);
-        canvas.drawText("Player", xPosition - 60, yPosition + 60, paint);
-
-        canvas.drawBitmap(bitmap, 0, 0, null);
+        canvas.drawBitmap(bitmaps.get(bitmapToShow), xPosition, yPosition, null);
 
     }
 
