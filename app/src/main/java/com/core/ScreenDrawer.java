@@ -27,6 +27,18 @@ public class ScreenDrawer extends SurfaceView {
     public ScreenDrawer(Context context) {
         super(context);
         this.surfaceHolder = getHolder();
+
+        // scaling - begin
+        int scale = 1;
+
+        int screenWidth = (int) getResources().getDisplayMetrics().widthPixels / scale;
+        int screenHeight = (int) getResources().getDisplayMetrics().heightPixels / scale;
+
+        Log.d("ScreenDrawer", "ScreenWitdh is: " + screenWidth);
+        Log.d("ScreenDrawer", "ScreenHeight is: " + screenHeight);
+
+        surfaceHolder.setFixedSize(screenWidth, screenHeight);
+        // scaling - end
     }
 
     public SurfaceHolder getSurfaceHolder() {

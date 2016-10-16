@@ -30,7 +30,7 @@ public class Player extends Creature {
         super.speed = 1;
         super.health = 100;
         super.xPosition = 100;
-        super.yPosition = 1080;
+        super.yPosition = 1000;
 
         paint = new Paint();
         bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);

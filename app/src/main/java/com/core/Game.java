@@ -3,9 +3,13 @@ package com.core;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.Handler;
+import android.util.Log;
 
 import com.gamelogic.Player;
 import com.gamelogic.Map;
+
 import java.util.ArrayList;
 
 public class Game implements Runnable {
@@ -15,11 +19,13 @@ public class Game implements Runnable {
     private Player player;
     private ScreenDrawer screenDrawer;
     private boolean isRunning;
-    //    private Handler handler;
+    private Handler handler;
     private boolean isPaused;
     //    private UserInput userInput
     public ArrayList<GUpdateable> objectsToUpdate;
     private Context context;
+
+    private FPSCounter fpsCounter = new FPSCounter();
 
     public Game(Context context) {
         GUpdateable.game = this;
@@ -32,11 +38,13 @@ public class Game implements Runnable {
         player = new Player(context, screenDrawer);
 
         // 30Hz clock
-//        handler = new Handler();
+        handler = new Handler();
 
         gameStart();
         thread = new Thread(this);
         thread.start();
+
+        fpsCounter.start();
 
 //        userInput = new UserInput();
     }
@@ -44,29 +52,18 @@ public class Game implements Runnable {
     // Running thread with 30 Hz
     @Override
     public void run() {
-        Canvas canvas = null;
 
         while (isRunning) {
             if (!isPaused) {
                 update();
                 screenDrawer.draw();
-//                update();
-//                try {
-//                    canvas = screenDrawer.getHolder().lockCanvas(null);
-//                    synchronized (screenDrawer.getHolder()) {
-//                        screenDrawer.postInvalidate();
-//                    }
-//                } finally {
-//                    if (canvas != null) {
-////                   Log.d("Game", "Unlocking canvas!");
-//                        screenDrawer.getHolder().unlockCanvasAndPost(canvas);
-//                    } else {
-//                        Log.d("Game", "Canvas is null!");
-//                    }
-//                }
+                fpsCounter.counter++;
             }
+
+//            handler.postDelayed(this, 33);
+
 //            try {
-//                this.sleep(1);
+//                Thread.sleep(33);
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
@@ -98,4 +95,20 @@ public class Game implements Runnable {
         return screenDrawer;
     }
 
+    class FPSCounter extends Thread {
+        public int counter = 0;
+
+        // one time every second
+        public void run() {
+            while (isRunning) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Log.d("FPS counter", "FPS: " + counter);
+                counter = 0;
+            }
+        }
+    }
 }
