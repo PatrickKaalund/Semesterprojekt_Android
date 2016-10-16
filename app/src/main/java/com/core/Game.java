@@ -1,16 +1,21 @@
 package com.core;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Handler;
 import android.util.Log;
+import android.support.design.widget.FloatingActionButton;
 
+import com.gamelogic.Control;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
 
 import java.util.ArrayList;
+
+import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 public class Game implements Runnable {
 
@@ -21,7 +26,8 @@ public class Game implements Runnable {
     private boolean isRunning;
     private Handler handler;
     private boolean isPaused;
-    //    private UserInput userInput
+    private Control userInput;
+
     public ArrayList<GUpdateable> objectsToUpdate;
     private Context context;
 
@@ -36,17 +42,25 @@ public class Game implements Runnable {
         objectsToUpdate = new ArrayList<>();
         map = new Map(context, screenDrawer);
         player = new Player(context, screenDrawer);
+        userInput = new Control(context);
 
         // 30Hz clock
         handler = new Handler();
+        start();
 
         gameStart();
         thread = new Thread(this);
         thread.start();
 
         fpsCounter.start();
+    }
 
-//        userInput = new UserInput();
+    public void setJoystick(JoystickView joystickView) {
+        userInput.setJoystick(joystickView);
+    }
+
+    public void setShootButton(FloatingActionButton shootButton) {
+        userInput.setShootButton(shootButton);
     }
 
     // Running thread with 30 Hz

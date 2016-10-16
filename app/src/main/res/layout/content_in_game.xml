@@ -17,7 +17,7 @@
         app:JV_buttonColor="#000000"
         app:JV_borderColor="#0000FF"
         app:JV_backgroundColor="#11000000"
-        app:JV_borderWidth="0dp"
+        app:JV_borderWidth="1dp"
         android:id="@+id/joystickView"
         android:minWidth="70dp"
         android:minHeight="70dp"
