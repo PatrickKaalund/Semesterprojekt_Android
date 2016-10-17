@@ -112,7 +112,7 @@ public class Player extends Creature {
 //        canvas.drawRect(mapL, screenDrawer.getPaint());
 //        canvas.drawRect(mapU, screenDrawer.getPaint());
 //        canvas.drawRect(mapD, screenDrawer.getPaint());
-        canvas.drawRect(super.collisionBox, screenDrawer.getPaint());
+//        canvas.drawRect(super.collisionBox, screenDrawer.getPaint());
         // --------//
 
         canvas.drawBitmap(bitmaps.get(bitmapToShow), xPosition, yPosition, null);
