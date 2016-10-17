@@ -108,10 +108,10 @@ public class Player extends Creature {
     public void draw(Canvas canvas) {
 
         // for debugging:
-        canvas.drawRect(mapR, screenDrawer.getPaint());
-        canvas.drawRect(mapL, screenDrawer.getPaint());
-        canvas.drawRect(mapU, screenDrawer.getPaint());
-        canvas.drawRect(mapD, screenDrawer.getPaint());
+//        canvas.drawRect(mapR, screenDrawer.getPaint());
+//        canvas.drawRect(mapL, screenDrawer.getPaint());
+//        canvas.drawRect(mapU, screenDrawer.getPaint());
+//        canvas.drawRect(mapD, screenDrawer.getPaint());
         canvas.drawRect(super.collisionBox, screenDrawer.getPaint());
         // --------//
 
