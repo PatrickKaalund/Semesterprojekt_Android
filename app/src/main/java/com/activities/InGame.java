@@ -30,19 +30,19 @@ public class InGame extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-//        game.stop();
+        game.gamePause();
         super.onPause();
     }
 
     @Override
     protected void onPostResume() {
-//        game.start();
+        game.gameStart();
        super.onPostResume();
     }
 
     @Override
     protected void onDestroy() {
-//        game.stop();
+        game.gameStop();
         super.onPause();
     }
 }
