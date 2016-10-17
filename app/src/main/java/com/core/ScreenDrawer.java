@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -45,6 +46,7 @@ public class ScreenDrawer extends SurfaceView {
 
         paint = new Paint();
         paint.setColor(Color.RED);
+        paint.setAlpha(0);
         paint.setTextSize(100);
         paint.setFakeBoldText(true);
     }
