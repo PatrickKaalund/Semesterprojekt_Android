@@ -46,7 +46,6 @@ public class ScreenDrawer extends SurfaceView {
 
         paint = new Paint();
         paint.setColor(Color.RED);
-        paint.setAlpha(0);
         paint.setTextSize(100);
         paint.setFakeBoldText(true);
     }

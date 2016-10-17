@@ -15,9 +15,9 @@
 
     <io.github.controlwear.virtual.joystick.android.JoystickView
         app:JV_buttonColor="#000000"
-        app:JV_borderColor="#0000FF"
+        app:JV_borderColor="@color/black_overlay"
         app:JV_backgroundColor="#11000000"
-        app:JV_borderWidth="1dp"
+        app:JV_borderWidth="2dp"
         android:id="@+id/joystickView"
         android:minWidth="70dp"
         android:minHeight="70dp"
@@ -33,9 +33,9 @@
         android:layout_height="60dp"
         android:clickable="true"
         app:fabSize="auto"
-        app:srcCompat="@android:drawable/ic_menu_mylocation"
+        app:srcCompat="@drawable/target_scaled"
         android:id="@+id/floatingActionButton"
-        app:backgroundTint="@android:color/holo_red_dark"
+        app:backgroundTint="@color/black_overlay"
         android:alpha="0.8"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
