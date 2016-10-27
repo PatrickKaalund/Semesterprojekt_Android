@@ -3,7 +3,9 @@ package com.views;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -24,6 +26,7 @@ import android.view.animation.LinearInterpolator;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.activities.OptionsActivity;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class DropDownMenu extends View {
@@ -39,18 +42,18 @@ public class DropDownMenu extends View {
     private int mCenterX;
     private int mCenterY;
     private Paint mCirclePaint;
-    private ArrayList<CirclePoint> mMenuPoints = new ArrayList<>();
+    public ArrayList<CirclePoint> mMenuPoints = new ArrayList<>();
     private ArrayList<ObjectAnimator> mShowAnimation = new ArrayList<>();
     private ArrayList<ObjectAnimator> mHideAnimation = new ArrayList<>();
     private ValueAnimator mBezierAnimation, mBezierEndAnimation, mRotationAnimation;
-    private boolean isMenuVisible = true;
+    public boolean isMenuVisible = true;
     private Float bezierConstant = BEZIER_CONSTANT;
     private Bitmap mPlusBitmap;
     private float mRotationAngle;
     private ValueAnimator mRotationReverseAnimation;
     private GooeyMenuInterface mGooeyMenuInterface;
     private Paint mCircleBorder;
-    private List<Drawable> mDrawableArray;
+    public List<Drawable> mDrawableArray;
 
     public static final int[] STATE_ACTIVE =
             {android.R.attr.state_enabled, android.R.attr.state_active};
@@ -275,7 +278,7 @@ public class DropDownMenu extends View {
         return path;
     }
 
-    private void closeMenu() {
+    public void closeMenu() {
         mBezierAnimation.start();
         cancelAllAnimation();
         if (isMenuVisible)
@@ -295,16 +298,6 @@ public class DropDownMenu extends View {
                     if (menuItem <= mDrawableArray.size()) {
                         mDrawableArray.get(mMenuPoints.size() - menuItem).setState(STATE_PRESSED);
                         invalidate();
-                        if (menuItem == 1) {
-                            Log.d("DropDownPressed", "Options");
-                            closeMenu();
-                        } else if (menuItem == 2) {
-                            Log.d("DropDownPressed", "Rifle");
-                            closeMenu();
-                        } else if (menuItem == 3) {
-                            Log.d("DropDownPressed", "Sidearm");
-                            closeMenu();
-                        }
                     }
                     return true;
                 }
@@ -346,10 +339,11 @@ public class DropDownMenu extends View {
         return true;
     }
 
-    private int isMenuItemTouched(MotionEvent event) {
+    public int isMenuItemTouched(MotionEvent event) {
         if (!isMenuVisible) {
             return -1;
         }
+
         for (int i = 0; i < mMenuPoints.size(); i++) {
             CirclePoint circlePoint = mMenuPoints.get(i);
             float x = (float) (mGab * Math.cos(circlePoint.angle)) + mCenterX;
