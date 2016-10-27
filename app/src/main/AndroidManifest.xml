@@ -28,7 +28,7 @@
         <activity
             android:name="com.activities.InGame"
             android:label="@string/title_activity_in_game"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

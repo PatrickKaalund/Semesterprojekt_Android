@@ -8,13 +8,12 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.patrickkaalund.semesterprojekt_android.views.MainMenu">
+    tools:context="com.activities.MainMenu">
 
     <Button
         android:text="Play!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="102dp"
         android:id="@+id/buttonPlay" />
