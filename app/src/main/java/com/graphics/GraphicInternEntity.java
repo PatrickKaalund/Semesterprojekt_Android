@@ -1,6 +1,5 @@
 package com.graphics;
 
-import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
@@ -13,32 +12,28 @@ import java.util.Arrays;
  * Created by thor on 10/22/16.
  */
 
-public class GEntity implements Comparable<GEntity> {
-    private final int textureAtlasRows;
-    private final int textureAtlasColumns;
+ class GraphicInternEntity implements  Entity {
+
     private final float height, width;
-    ArrayList<RectF> sprites = new ArrayList<>();
     ArrayList<Integer> drawOrder = new ArrayList<>();
-    private int spriteCount;
     float angle;
     float scale;
     RectF baseRact;
     PointF currentPos;
     private int currentSprite;
 
-    private int textureName = 0;
-    private int textureID = 0;
-    public boolean drawThis;
+
+    private boolean drawThis;
+    private EntityFactory mother;
+    protected int index;
 
 
-    public GEntity(float modelBaseHeight, float modelBaseWidth,
-                   int textureAtlasRows, int textureAtlasColumns,
-                   PointF pos) {
-        this.textureAtlasRows = textureAtlasRows;
-        this.textureAtlasColumns = textureAtlasColumns;
-
+    public GraphicInternEntity(float modelBaseHeight, float modelBaseWidth,
+                               PointF pos, EntityFactory mother, int index) {
+        this.mother = mother;
         width = modelBaseWidth / 2;
         height = modelBaseHeight / 2;
+        this.index = index;
         this.baseRact = new RectF(-width, height, width, -height);
 
         // Initial Pos
@@ -47,14 +42,22 @@ public class GEntity implements Comparable<GEntity> {
         scale = 1f;
         // Initial angle
         angle = 0f;
-        drawThis = true;
-
+        mustDrawThis(true);
     }
 
-
-    public GEntity() {
-        this(100f, 100f, 1, 1, new PointF(50f, 50f));
+    public void mustDrawThis(boolean draw) {
+        this.drawThis = draw;
+        mother.entityDrawCount += draw ? 1 : -1;
     }
+
+    public boolean mustDrawThis() {
+        return drawThis;
+    }
+
+//    public GraphicInternEntity(float height) {
+//        this(100f, 100f, 1, 1, new PointF(50f, 50f));
+//
+//    }
 
 
     public void moveBy(float deltaX, float deltaY) {
@@ -78,34 +81,41 @@ public class GEntity implements Comparable<GEntity> {
     }
 
 
-    protected void makeSprites() {
-        spriteCount = textureAtlasColumns * textureAtlasRows;
-        float xOffset = 1 / (float) textureAtlasColumns;
-        float yOffset = 1 / (float) textureAtlasRows;
-        RectF subTexture = new RectF();
-        subTexture.right = xOffset;
-        subTexture.bottom = yOffset;
-        for (int i = 0; i < textureAtlasRows; i++) {
-            for (int j = 0; j < textureAtlasColumns; j++) {
-                sprites.add(new RectF(subTexture));
-                subTexture.left = subTexture.right;
-                subTexture.right += xOffset;
-            }
-            subTexture.top = subTexture.bottom;
-            subTexture.bottom += yOffset;
-            subTexture.left = 0;
-            subTexture.right = xOffset;
-        }
+//    protected void makeSprites() {
+//        spriteCount = textureAtlasColumns * textureAtlasRows;
+//        float xOffset = 1 / (float) textureAtlasColumns;
+//        float yOffset = 1 / (float) textureAtlasRows;
+//        RectF subTexture = new RectF();
+//        subTexture.right = xOffset;
+//        subTexture.bottom = yOffset;
+//        for (int i = 0; i < textureAtlasRows; i++) {
+//            for (int j = 0; j < textureAtlasColumns; j++) {
+//                sprites.add(new RectF(subTexture));
+//                subTexture.left = subTexture.right;
+//                subTexture.right += xOffset;
+//            }
+//            subTexture.top = subTexture.bottom;
+//            subTexture.bottom += yOffset;
+//            subTexture.left = 0;
+//            subTexture.right = xOffset;
+//        }
+//    }
+
+//    public void loadTextrue(Bitmap bmp) {
+//        int id[] = GlRendere.loadTextrue(bmp);
+//        textureID = id[GlRendere.TEXTURE_SLOT];
+//        textureName = id[GlRendere.TEXTURE_NAME];
+//    }
+
+    public int getIndex() {
+        return index;
     }
 
-    public void loadTextrue(Bitmap bmp) {
-        int id[] = GlRendere.loadTextrue(bmp);
-        textureID = id[GlRendere.TEXTURE_SLOT];
-        textureName = id[GlRendere.TEXTURE_NAME];
-    }
-
-    public int getTextureID() {
-        return textureID;
+    protected float[] getSpriteUvs() {
+//        Log.d("sprite", mother.sprites.get(currentSprite).toString());
+//        Log.d("sprite", "" + GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite)).length);
+//        Log.d("sprite", Arrays.toString(GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite))));
+        return GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite));
     }
 
     /**
@@ -117,16 +127,13 @@ public class GEntity implements Comparable<GEntity> {
         return getTransformedVertices();
     }
 
-    protected float[] getSpriteUvs() {
-        Log.d("sprite", sprites.get(currentSprite).toString());
-        Log.d("sprite", "" + GraphicsTools.getCornersFromRect(sprites.get(currentSprite)).length);
-        Log.d("sprite", Arrays.toString(GraphicsTools.getCornersFromRect(sprites.get(currentSprite))));
-        return GraphicsTools.getCornersFromRect(sprites.get(currentSprite));
-    }
+//    protected float[] getSpriteUvs() {
+//        Log.d("sprite", sprites.get(currentSprite).toString());
+//        Log.d("sprite", "" + GraphicsTools.getCornersFromRect(sprites.get(currentSprite)).length);
+//        Log.d("sprite", Arrays.toString(GraphicsTools.getCornersFromRect(sprites.get(currentSprite))));
+//        return GraphicsTools.getCornersFromRect(sprites.get(currentSprite));
+//    }
 
-    public String spritesToString() {
-        return GraphicsTools.allVertecisToString(sprites);
-    }
 
 
     //Flyt ud!!
@@ -185,18 +192,11 @@ public class GEntity implements Comparable<GEntity> {
     }
 
     public void setCurrentSprite(int currentSprite) {
-        currentSprite = currentSprite % spriteCount;
         this.currentSprite = currentSprite;
     }
 
-    public void nextSprite() {
+    public void drawNextSprite() {
         currentSprite++;
-        currentSprite = currentSprite % spriteCount;
     }
 
-
-    @Override
-    public int compareTo(GEntity o) {
-        return Integer.compare(this.textureID, o.textureID);
-    }
 }
