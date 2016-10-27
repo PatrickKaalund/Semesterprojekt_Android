@@ -23,14 +23,13 @@ import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class DropDownMenu extends View {
 
     private static final long ANIMATION_DURATION = 1000;
     private static final int DEFUALT_MENU_NO = 3;
-    private final float START_ANGLE = 160f;
-    private final float END_ANGLE = 180f;
     private int mNumberOfMenu;//Todo
     private final float BEZIER_CONSTANT = 0.551915024494f;// pre-calculated value
 
@@ -50,16 +49,13 @@ public class DropDownMenu extends View {
     private float mRotationAngle;
     private ValueAnimator mRotationReverseAnimation;
     private GooeyMenuInterface mGooeyMenuInterface;
-    private boolean gooeyMenuTouch;
     private Paint mCircleBorder;
     private List<Drawable> mDrawableArray;
 
     public static final int[] STATE_ACTIVE =
             {android.R.attr.state_enabled, android.R.attr.state_active};
     public static final int[] STATE_PRESSED =
-            {android.R.attr.state_enabled, -android.R.attr.state_active,
-                    android.R.attr.state_pressed};
-
+            {android.R.attr.state_enabled, -android.R.attr.state_active, android.R.attr.state_pressed};
 
     public DropDownMenu(Context context) {
         super(context);
@@ -89,8 +85,6 @@ public class DropDownMenu extends View {
                     R.styleable.DropDownMenu,
                     0, 0);
             try {
-
-
                 mNumberOfMenu = typedArray.getInt(R.styleable.DropDownMenu_no_of_menu, DEFUALT_MENU_NO);
                 mFabButtonRadius = (int) typedArray.getDimension(R.styleable.DropDownMenu_fab_radius, getResources().getDimension(R.dimen.big_circle_radius));
                 mMenuButtonRadius = (int) typedArray.getDimension(R.styleable.DropDownMenu_menu_radius, getResources().getDimension(R.dimen.small_circle_radius));
@@ -108,14 +102,11 @@ public class DropDownMenu extends View {
                     }
                     array.recycle();
                 }
-
             } finally {
                 typedArray.recycle();
                 typedArray = null;
             }
-
         }
-
         mCirclePaint = new Paint();
         mCirclePaint.setColor(getResources().getColor(R.color.black_overlay_matte));
         mCirclePaint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -137,6 +128,8 @@ public class DropDownMenu extends View {
         mBezierAnimation.addUpdateListener(mBezierUpdateListener);
         mBezierAnimation.addListener(mBezierAnimationListener);
 
+        float START_ANGLE = 160f;
+        float END_ANGLE = 180f;
         mRotationAnimation = ValueAnimator.ofFloat(START_ANGLE, END_ANGLE);
         mRotationAnimation.setDuration(ANIMATION_DURATION / 4);
         mRotationAnimation.setInterpolator(new AccelerateInterpolator());
@@ -163,6 +156,7 @@ public class DropDownMenu extends View {
 
         int width;
         int height;
+
         //Measure Width
         if (widthMode == MeasureSpec.EXACTLY) {
             //Must be this size
@@ -174,7 +168,6 @@ public class DropDownMenu extends View {
             //Be whatever you want
             width = desiredWidth;
         }
-
         //Measure Height
         if (heightMode == MeasureSpec.EXACTLY) {
             //Must be this size
@@ -254,13 +247,9 @@ public class DropDownMenu extends View {
                         canvas.restore();
                     }
                 }
-            } else {
-                mBezierAnimation.start();
-                cancelAllAnimation();
-                if (isMenuVisible)
-                    startHideAnimate();
-                isMenuVisible = false;
-            }
+            } else
+                closeMenu();
+
             canvas.save();
             canvas.translate(mCenterX, mCenterY);
             Path path = createPath();
@@ -286,6 +275,14 @@ public class DropDownMenu extends View {
         return path;
     }
 
+    private void closeMenu() {
+        mBezierAnimation.start();
+        cancelAllAnimation();
+        if (isMenuVisible)
+            startHideAnimate();
+        isMenuVisible = false;
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
@@ -299,14 +296,16 @@ public class DropDownMenu extends View {
                         mDrawableArray.get(mMenuPoints.size() - menuItem).setState(STATE_PRESSED);
                         invalidate();
                         if (menuItem == 1) {
-                            Log.d("DropDownPressed","Options");
+                            Log.d("DropDownPressed", "Options");
+                            closeMenu();
                         } else if (menuItem == 2) {
-                            Log.d("DropDownPressed","Rifle");
+                            Log.d("DropDownPressed", "Rifle");
+                            closeMenu();
                         } else if (menuItem == 3) {
-                            Log.d("DropDownPressed","Sidearm");
+                            Log.d("DropDownPressed", "Sidearm");
+                            closeMenu();
                         }
                     }
-
                     return true;
                 }
                 return false;
@@ -328,7 +327,6 @@ public class DropDownMenu extends View {
                     isMenuVisible = !isMenuVisible;
                     return true;
                 }
-
                 if (isMenuVisible) {
                     menuItem = isMenuItemTouched(event);
                     invalidate();
@@ -344,17 +342,14 @@ public class DropDownMenu extends View {
                     }
                 }
                 return false;
-
         }
         return true;
     }
 
     private int isMenuItemTouched(MotionEvent event) {
-
         if (!isMenuVisible) {
             return -1;
         }
-
         for (int i = 0; i < mMenuPoints.size(); i++) {
             CirclePoint circlePoint = mMenuPoints.get(i);
             float x = (float) (mGab * Math.cos(circlePoint.angle)) + mCenterX;
@@ -367,10 +362,6 @@ public class DropDownMenu extends View {
         }
 
         return -1;
-    }
-
-    public void setOnMenuListener(GooeyMenuInterface onMenuListener) {
-        mGooeyMenuInterface = onMenuListener;
     }
 
     public boolean isGooeyMenuTouch(MotionEvent event) {
@@ -389,36 +380,12 @@ public class DropDownMenu extends View {
         private float radius = 0.0f;
         private double angle = 0.0f;
 
-        public void setX(float x1) {
-            x = x1;
-        }
-
-        public float getX() {
-            return x;
-        }
-
-        public void setY(float y1) {
-            y = y1;
-        }
-
-        public float getY() {
-            return y;
-        }
-
         public void setRadius(float r) {
             radius = r;
         }
 
-        public float getRadius() {
-            return radius;
-        }
-
         public void setAngle(double angle) {
             this.angle = angle;
-        }
-
-        public double getAngle() {
-            return angle;
         }
     }
 
@@ -488,7 +455,6 @@ public class DropDownMenu extends View {
 
         }
     };
-
 
     public interface GooeyMenuInterface {
         /**
