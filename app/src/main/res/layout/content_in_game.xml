@@ -15,9 +15,9 @@
 
         <android.support.design.widget.FloatingActionButton
             android:layout_margin="8dp"
-            android:minWidth="50dp"
-            android:minHeight="50dp"
-            android:layout_height="wrap_content"
+            android:minWidth="60dp"
+            android:minHeight="60dp"
+            android:layout_height="60dp"
             android:clickable="true"
             app:fabSize="mini"
             app:srcCompat="@drawable/target_scaled"
@@ -33,14 +33,14 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
             app:layout_constraintVertical_bias="0.0"
-            android:layout_width="wrap_content"
-            />
+            android:layout_width="60dp"
+            android:longClickable="false"/>
 
         <io.github.controlwear.virtual.joystick.android.JoystickView
-            app:JV_buttonColor="#000000"
+            app:JV_buttonColor="#ffffff"
             app:JV_borderColor="@color/black_overlay"
-            app:JV_backgroundColor="#11000000"
-            app:JV_borderWidth="2dp"
+            app:JV_backgroundColor="@color/black_overlay"
+            app:JV_borderWidth="0dp"
             android:id="@+id/joystickView"
             android:minWidth="55dp"
             android:minHeight="55dp"
@@ -52,7 +52,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true" />
 
-        <com.activities.GooeyMenu
+        <com.views.DropDownMenu
             android:id="@+id/gooey_menu"
             android:layout_width="100dp"
             android:layout_height="100dp"
