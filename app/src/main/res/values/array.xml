@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="drawable_array">
+        <item>@drawable/selector_pistol</item>
+        <item>@drawable/selector_ak</item>
+        <item>@drawable/selector_options</item>
+    </array>
+</resources>

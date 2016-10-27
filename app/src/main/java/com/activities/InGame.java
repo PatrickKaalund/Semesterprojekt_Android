@@ -24,6 +24,7 @@ public class InGame extends AppCompatActivity {
         getWindow().addContentView(inflater.inflate(R.layout.activity_in_game, null),
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
+
         game.setJoystick((JoystickView) findViewById(R.id.joystickView));
         game.setShootButton((FloatingActionButton) findViewById(R.id.floatingActionButton));
     }
