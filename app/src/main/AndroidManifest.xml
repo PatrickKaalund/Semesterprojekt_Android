@@ -31,7 +31,12 @@
             android:name="com.activities.InGame"
             android:label="@string/title_activity_in_game"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name="com.network.FirebaseActivity"></activity>
+        <activity
+            android:name="com.activities.OptionsActivity"
+            android:label="Options"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.network.FirebaseActivity" />
     </application>
 
 </manifest>
