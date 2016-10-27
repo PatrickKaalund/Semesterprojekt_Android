@@ -18,8 +18,6 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -37,7 +35,7 @@ public class GlRendere implements Renderer {
     private final float[] mtrxView = new float[16];
     private final float[] mtrxProjectionAndView = new float[16];
 
-    GEntity entity = new GEntity(100f, 100f, 2, 8, new PointF(50f, 50f));
+    //   GraphicInternEntity entity = new GraphicInternEntity(100f, 100f, 2, 8, new PointF(50f, 50f));
 
     // Geometric variables
     public static float vertices[];
@@ -60,8 +58,10 @@ public class GlRendere implements Renderer {
     int mProgram;
     ShaderHandler shaderHandler;
     boolean durtyDrawList;
-    ArrayList<GEntity> drawList = new ArrayList<>();
-
+    protected static ArrayList<EntityFactory> drawList = new ArrayList<>();
+    protected static int totalModelCount = 0;
+    private int modelInterval = 0;
+    Entity en1,en2,be1;
 
     public GlRendere(Context c) {
         mContext = c;
@@ -81,10 +81,8 @@ public class GlRendere implements Renderer {
     @Override
     public void onDrawFrame(GL10 unused) {
 
-        if (durtyDrawList){
-            Collections.sort(drawList);
-            durtyDrawList = false;
-        }
+        drawScreen();
+
         // Get the current time
         long now = System.currentTimeMillis();
 
@@ -104,33 +102,102 @@ public class GlRendere implements Renderer {
 
     }
 
-    private void drawScreen(){
-
-//        for (int i = 0; i < drawList.size(); i++) {
-//            currentTexture
-//        }
-
-    }
-
-    public void UpdateSprite() {
-        // Get new transformed vertices
-        vertices = entity.getModel();
-//        vertices = sprite.getTransformedVertices();
-
-        // The vertex buffer.
-        ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
-        bb.order(ByteOrder.nativeOrder());
-        vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-    }
-
-    private void Render(float[] m) {
-        UpdateSprite();
+    private void drawScreen() {
         // clear Screen and Depth Buffer,
         // we have set the clear color as black.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+        for (EntityFactory ef : drawList) {
+            if (ef.entityDrawCount == 0) continue;
+            currentTexture = ef.textureID;
+            // Collection of vertices
+            //4 vertices of 3 coordinates each x,y,z
+            vertices = new float[ef.entityDrawCount * 4 * 3];
+            //6 indices for each model
+            indices = new short[ef.entityDrawCount * 6];
+            int last = 0;
+            //imageobjects times 4 vertices times (u and v)
+            uvs = new float[ef.entityDrawCount * 4 * 2];
+            int draw = 0;
+            GraphicInternEntity e;
+            // Create the vertex data
+            for (int i = 0; i < ef.entityDrawCount; i++) {
+                e = ef.productionLine.get(draw++);
+                while (!e.mustDrawThis()) {
+                    e = ef.productionLine.get(draw++);
+                }
 
+
+                float[] model = e.getModel();
+                float modelUVs[] = e.getSpriteUvs();
+
+                // Create the 2D parts of our 3D vertices, others are default 0.0f
+                vertices[(i * 12) + 0] = model[0];
+                vertices[(i * 12) + 1] = model[1];
+                vertices[(i * 12) + 2] = model[2];
+                vertices[(i * 12) + 3] = model[3];
+                vertices[(i * 12) + 4] = model[4];
+                vertices[(i * 12) + 5] = model[5];
+                vertices[(i * 12) + 6] = model[6];
+                vertices[(i * 12) + 7] = model[7];
+                vertices[(i * 12) + 8] = model[8];
+                vertices[(i * 12) + 9] = model[9];
+                vertices[(i * 12) + 10] = model[10];
+                vertices[(i * 12) + 11] = model[11];
+
+
+                // We need to set the new indices for the new quads
+                indices[(i * 6) + 0] = (short) (last + 0);
+                indices[(i * 6) + 1] = (short) (last + 1);
+                indices[(i * 6) + 2] = (short) (last + 2);
+                indices[(i * 6) + 3] = (short) (last + 0);
+                indices[(i * 6) + 4] = (short) (last + 2);
+                indices[(i * 6) + 5] = (short) (last + 3);
+                // Our indices are connected to the vertices so we need to keep them
+                // in the correct order.
+                // normal quad = 0,1,2,0,2,3 so the next one will be 4,5,6,4,6,7
+                last += 4;
+
+                // Adding the UV's
+                uvs[(i * 8) + 0] = modelUVs[0];
+                uvs[(i * 8) + 1] = modelUVs[1];
+                uvs[(i * 8) + 2] = modelUVs[2];
+                uvs[(i * 8) + 3] = modelUVs[3];
+                uvs[(i * 8) + 4] = modelUVs[4];
+                uvs[(i * 8) + 5] = modelUVs[5];
+                uvs[(i * 8) + 6] = modelUVs[6];
+                uvs[(i * 8) + 7] = modelUVs[7];
+
+
+            }
+
+            // The vertex buffer.
+            ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
+            bb.order(ByteOrder.nativeOrder());
+            vertexBuffer = bb.asFloatBuffer();
+            vertexBuffer.put(vertices);
+            vertexBuffer.position(0);
+
+            // initialize byte buffer for the draw list
+            ByteBuffer dlb = ByteBuffer.allocateDirect(indices.length * 2);
+            dlb.order(ByteOrder.nativeOrder());
+            indexBuffer = dlb.asShortBuffer();
+            indexBuffer.put(indices);
+            indexBuffer.position(0);
+
+            // The texture buffer
+            ByteBuffer uvsbb = ByteBuffer.allocateDirect(uvs.length * 4);
+            uvsbb.order(ByteOrder.nativeOrder());
+            uvBuffer = uvsbb.asFloatBuffer();
+            uvBuffer.put(uvs);
+            uvBuffer.position(0);
+            Render(mtrxProjectionAndView);
+        }
+    }
+
+    private void Render(float[] m) {
+//        UpdateSprite();
+        GLES20.glEnable(GLES20.GL_BLEND);
+        GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
         // get handle to vertex shader's vPosition member
         int mPositionHandle =
                 GLES20.glGetAttribLocation(shaderHandler.getShaderProgramID(), "vPosition");
@@ -166,7 +233,7 @@ public class GlRendere implements Renderer {
                 "s_texture");
 
         // Set the sampler texture unit to 0, where we have saved the texture.
-        GLES20.glUniform1i(mSamplerLoc, 0);
+        GLES20.glUniform1i(mSamplerLoc, currentTexture);
 
         // Draw the triangle
         GLES20.glDrawElements(GLES20.GL_TRIANGLES, indices.length,
@@ -187,40 +254,31 @@ public class GlRendere implements Renderer {
         GLES20.glGetIntegerv(GLES20.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, i);
         textureSlotCount = i.get(0);
         Log.d("Texture count", "" + i.get(0));
+        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.player);
+        EntityFactory ef = new EntityFactory(100, 100, 2, 8, new PointF(50f, 50f), bmp);
+        bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.backgrounddetailed2);
+        EntityFactory ef2 = new EntityFactory(100, 100, 1, 1, new PointF(400f, 50f), bmp);
 
-        // Create the triangle
-
-
-        SetupTriangle();
-        entity.makeSprites();
-
-        SetupImage();
+        be1 = ef2.crateEntity();
+        en1 = ef.crateEntity();
+        en2 = ef.crateEntity();
 
         // Set the clear color to black
-        GLES20.glClearColor(0.0f, 0.0f, 0.0f, 1);
-
-
+        GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         shaderHandler.installShaderFiles();
+        en1.moveBy(500f, 500f);
+        en1.scale(2f);
+        en2.scale(1f);
+        en2.setCurrentSprite(3);
+        en2.moveBy(400f,800f);
 
-        entity.moveBy(500f, 500f);
-        entity.scale(1.5f);
-        entity.rotate(90f);
-
-//        // Create the shaders
-//        int vertexShader = shaderHandler.loadShader(GLES20.GL_VERTEX_SHADER, ShaderHandler.VERTEX_SHADER_SOLIDCOLOR);
-//        int fragmentShader = shaderHandler.loadShader(GLES20.GL_FRAGMENT_SHADER, ShaderHandler.FRAGMENT_SHADER_SOLID_COLOR);
-//
-//        ShaderHandler.sp_SolidColor = GLES20.glCreateProgram();             // create empty OpenGL ES Program
-//        GLES20.glAttachShader(ShaderHandler.sp_SolidColor, vertexShader);   // add the vertex shader to program
-//        GLES20.glAttachShader(ShaderHandler.sp_SolidColor, fragmentShader); // add the fragment shader to program
-//        GLES20.glLinkProgram(ShaderHandler.sp_SolidColor);                  // creates OpenGL ES program executables
-//
-//        // Set our shader programm
-//        GLES20.glUseProgram(ShaderHandler.sp_SolidColor);
+        en2.moveBy(100f, 100f);
     }
+
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+
 
         // We need to know the current width and height.
         mScreenWidth = width;
@@ -247,68 +305,6 @@ public class GlRendere implements Renderer {
 
     }
 
-    public void SetupTriangle() {
-
-        // Get information of sprite.
-//        vertices = sprite.getTransformedVertices();
-        vertices = entity.getModel();
-
-        // The order of vertexrendering for a quad
-        indices = new short[]{0, 1, 2, 0, 2, 3};
-
-        // The vertex buffer.
-        ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
-        bb.order(ByteOrder.nativeOrder());
-        vertexBuffer = bb.asFloatBuffer();
-        vertexBuffer.put(vertices);
-        vertexBuffer.position(0);
-
-        // initialize byte buffer for the draw list
-        ByteBuffer dlb = ByteBuffer.allocateDirect(indices.length * 2);
-        dlb.order(ByteOrder.nativeOrder());
-        indexBuffer = dlb.asShortBuffer();
-        indexBuffer.put(indices);
-        indexBuffer.position(0);
-
-
-//        // We have create the vertices of our view.
-//        vertices = new float[]
-//
-////                {
-////                        10.0f, 200f, 0.0f,
-////                        10.0f, 100f, 0.0f,
-////                        100f, 100f, 0.0f,
-////                };
-//
-//                {
-//                        //Vertecie must be declared counterclockwise order
-//                        //it doesent matter in wich you start with
-//                        300.0f/*x*/, 600f/*y*/, 0.0f/*z*/,
-//                        300.0f, 400f, 0.0f,
-//                        400f, 400f, 0.0f,
-//                        400f, 600f, 0.0f,
-//                };
-//
-//        //Indexbuffer must be declared counterclockwise order same order as verticebuffer
-//        indices = new short[]{// The order of vertexrendering.
-//                0, 1, 2, //first triangle
-//                0, 2, 3  //second triangle etc.
-//        };
-//        // The vertex buffer.
-//        ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
-//        bb.order(ByteOrder.nativeOrder());
-//        vertexBuffer = bb.asFloatBuffer();
-//        vertexBuffer.put(vertices);
-//        vertexBuffer.position(0);
-//
-//        // initialize byte buffer for the draw list
-//        ByteBuffer dlb = ByteBuffer.allocateDirect(indices.length * 2);
-//        dlb.order(ByteOrder.nativeOrder());
-//        indexBuffer = dlb.asShortBuffer();
-//        indexBuffer.put(indices);
-//        indexBuffer.position(0);
-
-    }
 
     /**
      * TODO CHECK TEXTURE SPACE!!!!!!!!
@@ -340,280 +336,6 @@ public class GlRendere implements Renderer {
         textureSlot++;
         return texturenames;
     }
-
-    public void SetupImage() {
-
-        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.player);
-        entity.loadTextrue(bmp);
-        // Create our UV coordinates.
-//        uvs = (new float[]{
-//                0.0f, 0.0f, //  0,0  ---> left, top
-//                0.0f, 0.5f,  //  1,0  ---> left, bot
-//                0.125f, 0.5f, // 1,1  ---> right, bot
-//                0.125f, 0.0f, // 0,1  ---> right, top
-//
-//
-//        });
-
-//        uvs = new float[]{
-//                0.0f, 0.0f, // 0,0  ---> left, top
-//                0.0f, 1.0f,  // 1,0  ---> left, bot
-//                1.0f, 1.0f, // 1,1  ---> right, bot
-//                1.0f, 0.0f, // 0,1  ---> right, top
-//        };
-        Log.d("uvs direct", Arrays.toString(uvs));
-
-        uvs = entity.getSpriteUvs();
-        Log.d("uvs from sprite", entity.spritesToString());
-
-
-        // The texture buffer
-        ByteBuffer bb = ByteBuffer.allocateDirect(uvs.length * 4);
-        bb.order(ByteOrder.nativeOrder());
-        uvBuffer = bb.asFloatBuffer();
-        uvBuffer.put(uvs);
-        uvBuffer.position(0);
-
-//        // Generate Textures, if more needed, alter these numbers.
-//        int[] texturenames = new int[1];
-//        GLES20.glGenTextures(1, texturenames, 0);
-//
-//        // Retrieve our image from resources.
-//
-//
-//        // Temporary create a bitmap
-//
-////        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.skate1);
-//        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.player);
-//        // Bind texture to texturename
-//        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texturenames[0]);
-//
-//        // Set filtering
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-//
-////        // Set wrapping mode
-////        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_CLAMP_TO_EDGE);
-////        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_CLAMP_TO_EDGE);
-//
-//        // Load the bitmap into the bound texture.
-//        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);
-//
-//        // We are done using the bitmap so we should recycle it.
-//        bmp.recycle();
-
-    }
-
-    public void addEntety(GEntity entity) {
-        durtyDrawList = true;
-        drawList.add(entity);
-    }
-
-//    public void SetupTriangle() {
-//        // We will need a randomizer
-//        Random rnd = new Random();
-//
-//        // Our collection of vertices
-//        vertices = new float[30 * 4 * 3];
-//
-//        // Create the vertex data
-//        for (int i = 0; i < 30; i++) {
-//            int offset_x = rnd.nextInt((int) swp);
-//            int offset_y = rnd.nextInt((int) shp);
-//
-//            // Create the 2D parts of our 3D vertices, others are default 0.0f
-//            vertices[(i * 12) + 0] = offset_x;
-//            vertices[(i * 12) + 1] = offset_y + (30.0f * ssu);
-//            vertices[(i * 12) + 2] = 0f;
-//            vertices[(i * 12) + 3] = offset_x;
-//            vertices[(i * 12) + 4] = offset_y;
-//            vertices[(i * 12) + 5] = 0f;
-//            vertices[(i * 12) + 6] = offset_x + (30.0f * ssu);
-//            vertices[(i * 12) + 7] = offset_y;
-//            vertices[(i * 12) + 8] = 0f;
-//            vertices[(i * 12) + 9] = offset_x + (30.0f * ssu);
-//            vertices[(i * 12) + 10] = offset_y + (30.0f * ssu);
-//            vertices[(i * 12) + 11] = 0f;
-//        }
-//
-//        // The indices for all textured quads
-//        indices = new short[30 * 6];
-//        int last = 0;
-//        for (int i = 0; i < 30; i++) {
-//            // We need to set the new indices for the new quad
-//            indices[(i * 6) + 0] = (short) (last + 0);
-//            indices[(i * 6) + 1] = (short) (last + 1);
-//            indices[(i * 6) + 2] = (short) (last + 2);
-//            indices[(i * 6) + 3] = (short) (last + 0);
-//            indices[(i * 6) + 4] = (short) (last + 2);
-//            indices[(i * 6) + 5] = (short) (last + 3);
-//
-//            // Our indices are connected to the vertices so we need to keep them
-//            // in the correct order.
-//            // normal quad = 0,1,2,0,2,3 so the next one will be 4,5,6,4,6,7
-//            last = last + 4;
-//        }
-//
-//        // The vertex buffer.
-//        ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
-//        bb.order(ByteOrder.nativeOrder());
-//        vertexBuffer = bb.asFloatBuffer();
-//        vertexBuffer.put(vertices);
-//        vertexBuffer.position(0);
-//
-//        // initialize byte buffer for the draw list
-//        ByteBuffer dlb = ByteBuffer.allocateDirect(indices.length * 2);
-//        dlb.order(ByteOrder.nativeOrder());
-//        drawListBuffer = dlb.asShortBuffer();
-//        drawListBuffer.put(indices);
-//        drawListBuffer.position(0);
-//    }
-//
-//    public void SetupImage() {
-//        // We will use a randomizer for randomizing the textures from texture atlas.
-//        // This is strictly optional as it only effects the output of our app,
-//        // Not the actual knowledge.
-//        Random rnd = new Random();
-//
-//        // 30 imageobjects times 4 vertices times (u and v)
-//        uvs = new float[30 * 4 * 2];
-//
-//        // We will make 30 randomly textures objects
-//        for (int i = 0; i < 30; i++) {
-//            int random_u_offset = rnd.nextInt(2);
-//            int random_v_offset = rnd.nextInt(2);
-//
-//            // Adding the UV's using the offsets
-//            uvs[(i * 8) + 0] = random_u_offset * 0.5f;
-//            uvs[(i * 8) + 1] = random_v_offset * 0.5f;
-//            uvs[(i * 8) + 2] = random_u_offset * 0.5f;
-//            uvs[(i * 8) + 3] = (random_v_offset + 1) * 0.5f;
-//            uvs[(i * 8) + 4] = (random_u_offset + 1) * 0.5f;
-//            uvs[(i * 8) + 5] = (random_v_offset + 1) * 0.5f;
-//            uvs[(i * 8) + 6] = (random_u_offset + 1) * 0.5f;
-//            uvs[(i * 8) + 7] = random_v_offset * 0.5f;
-//        }
-//
-//        // The texture buffer
-//        ByteBuffer bb = ByteBuffer.allocateDirect(uvs.length * 4);
-//        bb.order(ByteOrder.nativeOrder());
-//        uvBuffer = bb.asFloatBuffer();
-//        uvBuffer.put(uvs);
-//        uvBuffer.position(0);
-//
-//        // Generate Textures, if more needed, alter these numbers.
-//        int[] texturenames = new int[1];
-//        GLES20.glGenTextures(1, texturenames, 0);
-//
-//        // Retrieve our image from resources.
-//        int id = mContext.getResources().getIdentifier("drawable/textureatlas", null, mContext.getPackageName());
-//
-//        // Temporary create a bitmap
-//        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), id);
-//
-//        // Bind texture to texturename
-//        GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-//        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texturenames[0]);
-//
-//        // Set filtering
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
-//        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-//
-//        // Load the bitmap into the bound texture.
-//        GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);
-//
-//        // We are done using the bitmap so we should recycle it.
-//        bmp.recycle();
-//
-//    }
-
-
-//    class Sprite {
-//        float angle;
-//        float scale;
-//        RectF base;
-//        PointF translation;
-//
-//        public Sprite() {
-//            // Initialise our intital size around the 0,0 point
-//            base = new RectF(-50f, 50f, 50f, -50f);
-//
-//            // Initial currentPos
-//            translation = new PointF(50f, 50f);
-//
-//            // We start with our inital size
-//            scale = 1f;
-//
-//            // We start in our inital angle
-//            angle = 0f;
-//        }
-//
-//
-//        public void translate(float deltax, float deltay) {
-//            // Update our location.
-//            translation.x += deltax;
-//            translation.y += deltay;
-//        }
-//
-//        public void scale(float deltas) {
-//            scale += deltas;
-//        }
-//
-//        public void rotate(float deltaa) {
-//            angle += deltaa;
-//        }
-//
-//        public float[] getTransformedVertices() {
-//            // Start with scaling
-//            float x1 = base.left * scale;
-//            float x2 = base.right * scale;
-//            float y1 = base.bottom * scale;
-//            float y2 = base.top * scale;
-//
-//            // We now detach from our Rect because when rotating,
-//            // we need the seperate points, so we do so in opengl order
-//            PointF one = new PointF(x1, y2);
-//            PointF two = new PointF(x1, y1);
-//            PointF three = new PointF(x2, y1);
-//            PointF four = new PointF(x2, y2);
-//
-//            // We create the sin and cos function once,
-//            // so we do not have calculate them each time.
-//            float s = (float) Math.sin(angle);
-//            float c = (float) Math.cos(angle);
-//
-//            // Then we rotate each point
-//            one.x = x1 * c - y2 * s;
-//            one.y = x1 * s + y2 * c;
-//            two.x = x1 * c - y1 * s;
-//            two.y = x1 * s + y1 * c;
-//            three.x = x2 * c - y1 * s;
-//            three.y = x2 * s + y1 * c;
-//            four.x = x2 * c - y2 * s;
-//            four.y = x2 * s + y2 * c;
-//
-//            // Finally we translate the sprite to its correct position.
-//            one.x += translation.x;
-//            one.y += translation.y;
-//            two.x += translation.x;
-//            two.y += translation.y;
-//            three.x += translation.x;
-//            three.y += translation.y;
-//            four.x += translation.x;
-//            four.y += translation.y;
-//
-//            // We now return our float array of vertices.
-//            return new float[]
-//                    {
-//                            one.x, one.y, 0.0f,
-//                            two.x, two.y, 0.0f,
-//                            three.x, three.y, 0.0f,
-//                            four.x, four.y, 0.0f,
-//                    };
-//        }
-//    }
-
-
 }
+
 

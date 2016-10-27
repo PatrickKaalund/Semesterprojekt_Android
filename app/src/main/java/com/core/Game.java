@@ -10,6 +10,7 @@ import com.gamelogic.Collision;
 import com.gamelogic.Control;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
+import com.graphics.OurGLSurfaceView;
 
 import java.util.ArrayList;
 
@@ -20,7 +21,7 @@ public class Game implements Runnable {
     private Thread thread;
     private Map map;
     private Player player;
-    private ScreenDrawer screenDrawer;
+//    private ScreenDrawer screenDrawer;
     private boolean isRunning;
     private Handler handler;
     private boolean isPaused;
@@ -34,17 +35,19 @@ public class Game implements Runnable {
     private Context context;
 
     private FPSMeasuring fpsMeasuring = new FPSMeasuring();
+    private OurGLSurfaceView gl;
 
     public Game(Context context) {
         GUpdateable.game = this;
+        gl = new OurGLSurfaceView(context);
 
         this.context = context;
 
-        screenDrawer = new ScreenDrawer(context);
+//        screenDrawer = new ScreenDrawer(context);
         objectsToUpdate = new ArrayList<>();
-        map = new Map(context, screenDrawer);
-        fpsDrawer = new FPSDrawer(context, screenDrawer);
-        player = new Player(context, screenDrawer);
+//        map = new Map(context, screenDrawer);
+//        fpsDrawer = new FPSDrawer(context, screenDrawer);
+//        player = new Player(context, screenDrawer);
         control = new Control(context);
 //        collision = new Collision(map);
 
@@ -74,7 +77,7 @@ public class Game implements Runnable {
         while (isRunning) {
             if (!isPaused) {
                 update();
-                screenDrawer.draw();
+//                screenDrawer.draw();
                 fpsMeasuring.counter++;
             }
 
@@ -108,9 +111,14 @@ public class Game implements Runnable {
 //        control.read();
     }
 
-    public ScreenDrawer getScreenDrawer() {
-        return this.screenDrawer;
+//    public ScreenDrawer getScreenDrawer() {
+//        return this.screenDrawer;
+//    }
+
+    public OurGLSurfaceView getGlSurfaceView(){
+        return gl;
     }
+
     public Control getControl() {
         return this.control;
     }

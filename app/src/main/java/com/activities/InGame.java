@@ -18,7 +18,7 @@ public class InGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         game = new Game(this);
-        setContentView(game.getScreenDrawer());
+        setContentView(game.getGlSurfaceView());
 
         LayoutInflater inflater = getLayoutInflater();
         getWindow().addContentView(inflater.inflate(R.layout.activity_in_game, null),
