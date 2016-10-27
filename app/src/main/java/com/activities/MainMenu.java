@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.network.FirebaseActivity;
 import com.teststuff.MapTestActivity;
 
 
@@ -25,7 +26,7 @@ import com.services.MusicService;
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     boolean musicIsBound = false;
     MusicService musicService;
-    Button play, settings, mapTest;
+    Button play, settings, mapTest, networkTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,12 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         play = (Button) findViewById(R.id.buttonPlay);
         settings = (Button) findViewById(R.id.buttonSettings);
         mapTest = (Button) findViewById(R.id.buttonMapTest);
+        networkTest = (Button) findViewById(R.id.buttonNetworkTest);
 
         play.setOnClickListener(this);
         settings.setOnClickListener(this);
         mapTest.setOnClickListener(this);
+        networkTest.setOnClickListener(this);
     }
 
     // Kunne undlades..
@@ -81,7 +84,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     // Handle music when Home is pressed
     @Override
     protected void onPause() {
-        if(musicIsBound) {
+        if (musicIsBound) {
             musicService.pauseMusic();
             musicIsBound = false;
         }
@@ -93,7 +96,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     protected void onPostResume() {
         // Check if music is enabled in preferences (default false)
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if(!musicIsBound && preferences.getBoolean("music", false)) {
+        if (!musicIsBound && preferences.getBoolean("music", false)) {
             musicService.resumeMusic();
             musicIsBound = true;
         }
@@ -112,13 +115,13 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     };
 
     void doBindService() {
-        bindService(new Intent(this,MusicService.class),
+        bindService(new Intent(this, MusicService.class),
                 serviceConnection, Context.BIND_AUTO_CREATE);
         musicIsBound = true;
     }
 
     void doUnbindService() {
-        if(musicIsBound) {
+        if (musicIsBound) {
             unbindService(serviceConnection);
             musicIsBound = false;
         }
@@ -139,6 +142,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
             case R.id.buttonMapTest:
                 Intent mapTest = new Intent(this, MapTestActivity.class);
                 startActivity(mapTest);
+                break;
+            case R.id.buttonNetworkTest:
+                Intent networkTest = new Intent(this, FirebaseActivity.class);
+                startActivity(networkTest);
                 break;
         }
     }

@@ -11,6 +11,15 @@
     tools:context="com.activities.MainMenu">
 
     <Button
+        android:text="MapTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonMapTest"
+        android:layout_marginBottom="46dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/buttonSettings" />
+
+    <Button
         android:text="Play!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,12 +49,11 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="MapTest"
+        android:text="NetworkTest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonMapTest"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/buttonSettings"
-        android:layout_alignStart="@+id/buttonSettings"
-        android:layout_marginBottom="46dp" />
+        android:id="@+id/buttonNetworkTest"
+        android:layout_above="@+id/buttonMapTest"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="14dp" />
 </RelativeLayout>
