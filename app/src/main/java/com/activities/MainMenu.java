@@ -9,12 +9,10 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.network.FirebaseActivity;
@@ -33,17 +31,17 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        // Add prefs to preference manager if not present
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        // Add music boolean to preference manager if not present
         if (!preferences.contains("music")) {
             preferences.edit()
-                    .putBoolean("music", false) // Music disabled by default
-                    // ToDO Add default preferences
+                    .putBoolean("music", false)
+                    .putBoolean("sound", false)
+                    .putBoolean("online", false)
                     .apply();
         }
-        //preferences.edit().putBoolean("music", true).apply();     // Enable music (debug)
-        doBindService();
 
+        doBindService();
 
         play = (Button) findViewById(R.id.buttonPlay);
         settings = (Button) findViewById(R.id.buttonSettings);
@@ -56,7 +54,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         networkTest.setOnClickListener(this);
     }
 
-    // Kunne undlades..
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -64,12 +61,11 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         return true;
     }
 
-    // Kunne undlades..
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.options) {
-            // Todo Implement options
-            Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
+            Intent settings = new Intent(this, OptionsActivity.class);
+            startActivity(settings);
         } else if (item.getItemId() == R.id.quit)
             finish();
         return super.onOptionsItemSelected(item);
@@ -135,9 +131,8 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 startActivity(play);
                 break;
             case R.id.buttonSettings:
-                Log.d("MainMenu", "Settings pressed!");
-                //Intent settings = new Intent(this, InGame.class);
-                //startActivity(settings);
+                Intent settings = new Intent(this, OptionsActivity.class);
+                startActivity(settings);
                 break;
             case R.id.buttonMapTest:
                 Intent mapTest = new Intent(this, MapTestActivity.class);
