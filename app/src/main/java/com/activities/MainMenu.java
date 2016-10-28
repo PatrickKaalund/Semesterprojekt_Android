@@ -31,16 +31,6 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        // Add prefs to preference manager if not present
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!preferences.contains("music")) {
-            preferences.edit()
-                    .putBoolean("music", false)
-                    .putBoolean("sound", false)
-                    .putBoolean("online", false)
-                    .apply();
-        }
-
         doBindService();
 
         play = (Button) findViewById(R.id.buttonPlay);
@@ -77,7 +67,7 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         super.onDestroy();
     }
 
-    // Handle music when Home is pressed
+    // Handle lounge_music when Home is pressed
     @Override
     protected void onPause() {
         if (musicIsBound) {
@@ -87,12 +77,12 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         super.onPause();
     }
 
-    // Handle music when app is resumed
+    // Handle lounge_music when app is resumed
     @Override
     protected void onPostResume() {
-        // Check if music is enabled in preferences (default false)
+        // Check if lounge_music is enabled in preferences (default false)
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!musicIsBound && preferences.getBoolean("music", false)) {
+        if (!musicIsBound && preferences.getBoolean("lounge_music", false)) {
             musicService.resumeMusic();
             musicIsBound = true;
         }
