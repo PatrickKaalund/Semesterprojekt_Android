@@ -19,7 +19,7 @@ public class FPSMeasuring extends Thread {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Log.d("FPS counter", "FPS: " + counter);
+            Log.d("FPS counter", "FPS--> " + counter);
             latestFPS = counter;
             counter = 0;
         }
