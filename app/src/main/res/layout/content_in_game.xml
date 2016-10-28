@@ -9,62 +9,61 @@
     tools:context="com.activities.InGame"
     tools:showIn="@layout/activity_in_game">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <com.views.DropDownMenu
+        android:id="@+id/gooey_menu"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:fab_radius="@dimen/big_circle_radius"
+        app:gap_between_menu_fab="@dimen/min_gap"
+        app:menu_radius="@dimen/small_circle_radius"
+        app:no_of_menu="3"
+        app:menu_drawable="@array/drawable_array"
+        android:rotation="220"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"/>
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_margin="8dp"
-            android:minWidth="60dp"
-            android:minHeight="60dp"
-            android:layout_height="60dp"
-            android:clickable="true"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/target_scaled"
-            android:id="@+id/floatingActionButton"
-            app:backgroundTint="@color/black_overlay"
-            android:alpha="0.9"
-            tools:layout_constraintTop_creator="1"
-            tools:layout_constraintBottom_creator="1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/joystickView"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_width="60dp"
-            android:longClickable="false"/>
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        app:JV_buttonColor="#ffffff"
+        app:JV_borderColor="@color/black_overlay"
+        app:JV_backgroundColor="@color/black_overlay"
+        app:JV_borderWidth="0dp"
+        android:id="@+id/joystickView"
+        android:minWidth="55dp"
+        android:minHeight="55dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_editor_absoluteY="507dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="15dp"
+        app:useCompatPadding="true"
+        android:layout_alignTop="@+id/floatingActionButton"
+        android:layout_alignParentStart="true" />
 
-        <io.github.controlwear.virtual.joystick.android.JoystickView
-            app:JV_buttonColor="#ffffff"
-            app:JV_borderColor="@color/black_overlay"
-            app:JV_backgroundColor="@color/black_overlay"
-            app:JV_borderWidth="0dp"
-            android:id="@+id/joystickView"
-            android:minWidth="55dp"
-            android:minHeight="55dp"
-            tools:layout_constraintLeft_creator="1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            tools:layout_editor_absoluteY="507dp"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
-
-        <com.views.DropDownMenu
-            android:id="@+id/gooey_menu"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:fab_radius="@dimen/big_circle_radius"
-            app:gap_between_menu_fab="@dimen/min_gap"
-            app:menu_radius="@dimen/small_circle_radius"
-            app:no_of_menu="3"
-            app:menu_drawable="@array/drawable_array"
-            android:rotation="220"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"/>
-
-    </RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:fabSize="mini"
+        app:srcCompat="@drawable/target_scaled"
+        android:id="@+id/floatingActionButton"
+        app:backgroundTint="@color/black_overlay"
+        android:alpha="0.9"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        android:longClickable="false"
+        app:useCompatPadding="true"
+        app:layout_constraintTop_toTopOf="@+id/joystickView"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="14dp"
+        app:elevation="0dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="17dp" />
 
 </RelativeLayout>
