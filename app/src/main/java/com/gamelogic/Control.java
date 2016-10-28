@@ -33,9 +33,8 @@ public class Control {
 
         joystickValues = new ArrayList<>();
 
-        // fix this? :-)
-        joystickValues.add(0);
-        joystickValues.add(0);
+        joystickValues.add(0, 0);
+        joystickValues.add(0, 1);
     }
 
     public void setJoystick(JoystickView joystickView) {
