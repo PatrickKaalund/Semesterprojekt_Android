@@ -33,8 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.activities.OptionsActivity"
-            android:label="Options"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Options" />
         <activity
             android:name="com.network.FirebaseActivity" />
     </application>
