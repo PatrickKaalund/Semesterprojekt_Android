@@ -10,7 +10,7 @@ import java.util.Arrays;
  * Created by thor on 10/22/16.
  */
 
-public class GraphicsTools {
+class GraphicsTools {
 
     /**
      * Gets a float array of the 2D coordinates representing a rectangles

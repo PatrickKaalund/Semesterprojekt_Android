@@ -3,15 +3,11 @@ package com.graphics;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.PointF;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView.Renderer;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
 import android.util.Log;
-
-import com.example.patrickkaalund.semesterprojekt_android.R;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -26,16 +22,10 @@ import javax.microedition.khronos.opengles.GL10;
  */
 
 public class GlRendere implements Renderer {
-    public static final int TEXTURE_NAME = 0;
-    public static final int TEXTURE_SLOT = 1;
-
-
     // Our matrices
     private final float[] mtrxProjection = new float[16];
     private final float[] mtrxView = new float[16];
     private final float[] mtrxProjectionAndView = new float[16];
-
-    //   GraphicInternEntity entity = new GraphicInternEntity(100f, 100f, 2, 8, new PointF(50f, 50f));
 
     // Geometric variables
     public static float vertices[];
@@ -53,19 +43,17 @@ public class GlRendere implements Renderer {
     private int currentTexture = 0;
 
     // Misc
-    Context mContext;
+    Context context;
     long mLastTime;
     int mProgram;
     ShaderHandler shaderHandler;
-    boolean durtyDrawList;
+    protected static boolean durtyDrawList;
     protected static ArrayList<EntityFactory> drawList = new ArrayList<>();
     protected static int totalModelCount = 0;
-    private int modelInterval = 0;
-    Entity en1,en2,be1;
 
     public GlRendere(Context c) {
-        mContext = c;
-        shaderHandler = new ShaderHandler(mContext);
+        context = c;
+        shaderHandler = new ShaderHandler(context);
         mLastTime = System.currentTimeMillis() + 100;
     }
 
@@ -80,33 +68,12 @@ public class GlRendere implements Renderer {
 
     @Override
     public void onDrawFrame(GL10 unused) {
-
-        drawScreen();
-
-        // Get the current time
-        long now = System.currentTimeMillis();
-
-        // We should make sure we are valid and sane
-        if (mLastTime > now) return;
-
-        // Get the amount of time the last frame took.
-        long elapsed = now - mLastTime;
-
-        // Update our example
-
-        // Render our example
-        Render(mtrxProjectionAndView);
-
-        // Save the current time to see how long it took <img src="http://androidblog.reindustries.com/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley"> .
-        mLastTime = now;
-
-    }
-
-    private void drawScreen() {
+        FPSMeasuring.counter++;
         // clear Screen and Depth Buffer,
         // we have set the clear color as black.
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         for (EntityFactory ef : drawList) {
+            if(!ef.textureLoaded) loadTextrue(ef);
             if (ef.entityDrawCount == 0) continue;
             currentTexture = ef.textureID;
             // Collection of vertices
@@ -126,7 +93,6 @@ public class GlRendere implements Renderer {
                     e = ef.productionLine.get(draw++);
                 }
 
-
                 float[] model = e.getModel();
                 float modelUVs[] = e.getSpriteUvs();
 
@@ -143,7 +109,6 @@ public class GlRendere implements Renderer {
                 vertices[(i * 12) + 9] = model[9];
                 vertices[(i * 12) + 10] = model[10];
                 vertices[(i * 12) + 11] = model[11];
-
 
                 // We need to set the new indices for the new quads
                 indices[(i * 6) + 0] = (short) (last + 0);
@@ -166,12 +131,10 @@ public class GlRendere implements Renderer {
                 uvs[(i * 8) + 5] = modelUVs[5];
                 uvs[(i * 8) + 6] = modelUVs[6];
                 uvs[(i * 8) + 7] = modelUVs[7];
-
-
             }
 
             // The vertex buffer.
-            ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
+            ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4*2);
             bb.order(ByteOrder.nativeOrder());
             vertexBuffer = bb.asFloatBuffer();
             vertexBuffer.put(vertices);
@@ -193,6 +156,7 @@ public class GlRendere implements Renderer {
             Render(mtrxProjectionAndView);
         }
     }
+
 
     private void Render(float[] m) {
 //        UpdateSprite();
@@ -245,7 +209,6 @@ public class GlRendere implements Renderer {
 
     }
 
-
     @Override
     public void onSurfaceCreated(GL10 gl, javax.microedition.khronos.egl.EGLConfig config) {
 
@@ -254,31 +217,15 @@ public class GlRendere implements Renderer {
         GLES20.glGetIntegerv(GLES20.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, i);
         textureSlotCount = i.get(0);
         Log.d("Texture count", "" + i.get(0));
-        Bitmap bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.player);
-        EntityFactory ef = new EntityFactory(100, 100, 2, 8, new PointF(50f, 50f), bmp);
-        bmp = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.backgrounddetailed2);
-        EntityFactory ef2 = new EntityFactory(100, 100, 1, 1, new PointF(400f, 50f), bmp);
-
-        be1 = ef2.crateEntity();
-        en1 = ef.crateEntity();
-        en2 = ef.crateEntity();
 
         // Set the clear color to black
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         shaderHandler.installShaderFiles();
-        en1.moveBy(500f, 500f);
-        en1.scale(2f);
-        en2.scale(1f);
-        en2.setCurrentSprite(3);
-        en2.moveBy(400f,800f);
-
-        en2.moveBy(100f, 100f);
     }
 
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-
 
         // We need to know the current width and height.
         mScreenWidth = width;
@@ -305,37 +252,31 @@ public class GlRendere implements Renderer {
 
     }
 
-
-    /**
-     * TODO CHECK TEXTURE SPACE!!!!!!!!
-     *
-     * @param bmp
-     * @return texturenames[TEXTURE_NAME, TEXTURE_SLOT]
-     */
-    protected static int[] loadTextrue(Bitmap bmp) {
+    public void loadTextrue(EntityFactory ef) {
 
         // Generate Textures, if more needed, alter these numbers.
-        int[] texturenames = new int[2];
+        int[] texturename = new int[1];
 
-        GLES20.glGenTextures(1, texturenames, 0);
-
+        GLES20.glGenTextures(1, texturename, 0);
+        ef.textureName = texturename[0];
         // Bind texture to texturename
         GLES20.glActiveTexture(GLES20.GL_TEXTURE0 + textureSlot);
-        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texturenames[TEXTURE_NAME]);
+        GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, texturename[0]);
 
         // Set filtering
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
-
+        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), ef.bitMapID);
         // Load the bitmap into the bound texture.
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);
 
         // We are done using the bitmap so we should recycle it.
-        bmp.recycle();
-        texturenames[TEXTURE_SLOT] = textureSlot;
+        // bmp.recycle();
         textureSlot++;
-        return texturenames;
+        ef.textureLoaded = true;
     }
+
+
 }
 
 

@@ -1,10 +1,11 @@
 package com.graphics;
 
-import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
 import java.util.ArrayList;
+
+import static com.graphics.GlRendere.drawList;
 
 /**
  * Created by thor on 10/27/16.
@@ -13,8 +14,8 @@ import java.util.ArrayList;
 public class EntityFactory {
     private final int textureAtlasRows;
     private final int textureAtlasColumns;
-    protected final int textureID;
-    protected final int textureName;
+    protected int textureID;
+    protected int textureName;
     protected int spriteCount;
 
     protected ArrayList<RectF> sprites = new ArrayList<>();
@@ -24,21 +25,23 @@ public class EntityFactory {
     private PointF pos;
     protected int entityDrawCount = 0;
     private int index;
+    public int bitMapID;
+    protected boolean textureLoaded;
 
-    public EntityFactory(float modelBaseHeight, float modelBaseWidth,
+    public EntityFactory(int bmpId, float modelBaseHeight, float modelBaseWidth,
                          int textureAtlasRows, int textureAtlasColumns,
-                         PointF pos, Bitmap bmp) {
+                         PointF pos) {
         this.modelBaseHeight = modelBaseHeight;
         this.modelBaseWidth = modelBaseWidth;
         this.pos = pos;
-        int id[] = GlRendere.loadTextrue(bmp);
-        textureID = id[GlRendere.TEXTURE_SLOT];
-        textureName = id[GlRendere.TEXTURE_NAME];
+        this.bitMapID = bmpId;
         this.textureAtlasRows = textureAtlasRows;
         this.textureAtlasColumns = textureAtlasColumns;
-        this.index = GlRendere.drawList.size();
-        GlRendere.drawList.add(this);
+        this.index = drawList.size();
         makeSprites();
+        textureLoaded = false;
+        GlRendere.drawList.add(this);
+        GlRendere.durtyDrawList = false;
     }
 
     public Entity crateEntity() {
@@ -53,16 +56,18 @@ public class EntityFactory {
                 productionLine.size());
 
         productionLine.add(newEntity);
-        return  newEntity;
+        return newEntity;
     }
 
-    public void removeEntity(GraphicInternEntity e){
-        if(e.mustDrawThis()){entityDrawCount--;}
+    public void removeEntity(GraphicInternEntity e) {
+        if (e.mustDrawThis()) {
+            entityDrawCount--;
+        }
         productionLine.remove(e.index);
     }
 
-    public void delete(){
-        GlRendere.drawList.remove(this.index);
+    public void delete() {
+        drawList.remove(this.index);
     }
 
     private void makeSprites() {
@@ -89,6 +94,7 @@ public class EntityFactory {
     public String spritesToString() {
         return GraphicsTools.allVertecisToString(sprites);
     }
+
 
 
 }

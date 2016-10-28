@@ -2,39 +2,43 @@ package com.graphics;
 
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 /**
  * Created by thor on 10/16/16.
  */
 
 public class OurGLSurfaceView extends GLSurfaceView {
-    private final GlRendere mRenderer;
+    private final GlRendere renderer;
+    protected Context context;
 
     public OurGLSurfaceView(Context context) {
         super(context);
+        this.context = context;
 
         // Create an OpenGL ES 2.0 context.
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the OurGLSurfaceView
-        mRenderer = new GlRendere(context);
-        setRenderer(mRenderer);
+        renderer = new GlRendere(context);
+        Log.d("OurGLSurfaceView", "Setting renderer");
+        setRenderer(renderer);
 
         // Render the view only when there is a change in the drawing data
-        setRenderMode(OurGLSurfaceView.RENDERMODE_CONTINUOUSLY);
+        setRenderMode(OurGLSurfaceView.RENDERMODE_WHEN_DIRTY);
     }
 
     @Override
     public void onPause() {
         // TODO Auto-generated method stub
         super.onPause();
-        mRenderer.onPause();
+        renderer.onPause();
     }
 
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
         super.onResume();
-        mRenderer.onResume();
+        renderer.onResume();
     }
 }
