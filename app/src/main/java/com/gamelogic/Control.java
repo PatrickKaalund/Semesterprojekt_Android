@@ -23,7 +23,9 @@ public class Control {
 
     private ArrayList<Integer> joystickValues;
     private Game game;
-    Context context;
+    private Context context;
+    private boolean shooting = false;
+
     public Control(Context context, Game game){
         this.context = context;
         this.game = game;
@@ -49,10 +51,20 @@ public class Control {
     }
 
     public void setShootButton(FloatingActionButton shootButton) {
-        shootButton.setOnClickListener(new View.OnClickListener() {
+        shootButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                Log.d("Shoot_button", "Bang!");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.d("ShootPressed", "Shooting");
+                    shooting = true;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.d("ShootPressed", "Stopped shooting");
+                    shooting = false;
+                } else {
+                    Log.d("MoveEventX", String.valueOf(event.getAxisValue(MotionEvent.AXIS_X)));
+                    Log.d("MoveEventY", String.valueOf(event.getAxisValue(MotionEvent.AXIS_Y)));
+                }
+                return false;
             }
         });
     }
