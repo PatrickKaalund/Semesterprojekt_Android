@@ -19,6 +19,10 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
 dependencies {
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -31,4 +35,10 @@ dependencies {
     compile 'io.github.controlwear:virtualjoystick:0.9.9'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta1'
+
+    compile 'com.google.firebase:firebase-database:9.2.1'
+
+    compile 'org.zeromq:jeromq:0.3.5'
 }
+
+apply plugin: 'com.google.gms.google-services'

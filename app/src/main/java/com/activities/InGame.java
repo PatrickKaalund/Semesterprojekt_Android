@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.views.DropDownMenu;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
@@ -28,6 +29,7 @@ public class InGame extends AppCompatActivity {
 
         game.setJoystick((JoystickView) findViewById(R.id.joystickView));
         game.setShootButton((FloatingActionButton) findViewById(R.id.floatingActionButton));
+        game.setInventoryButton((DropDownMenu) findViewById(R.id.gooey_menu));
         Log.d("IndGame", "onCreate");
 
     }
