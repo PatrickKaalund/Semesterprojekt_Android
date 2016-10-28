@@ -50,6 +50,9 @@ public class Control {
         });
     }
 
+    private float lastX = 0;
+    private float lastY = 0;
+
     public void setShootButton(FloatingActionButton shootButton) {
         shootButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -61,10 +64,18 @@ public class Control {
                     Log.d("ShootPressed", "Stopped shooting");
                     shooting = false;
                 } else {
-                    Log.d("MoveEventX", String.valueOf(event.getAxisValue(MotionEvent.AXIS_X)));
-                    Log.d("MoveEventY", String.valueOf(event.getAxisValue(MotionEvent.AXIS_Y)));
+                    if (lastX < event.getAxisValue(MotionEvent.AXIS_X))
+                        Log.d("MoveEventX", "Right");
+                    else if (lastX > event.getAxisValue(MotionEvent.AXIS_X))
+                        Log.d("MoveEventX", "Left");
+                    else if (lastY < event.getAxisValue(MotionEvent.AXIS_Y))
+                        Log.d("MoveEventX", "Down");
+                    else if (lastX > event.getAxisValue(MotionEvent.AXIS_Y))
+                        Log.d("MoveEventX", "Up");
+                    lastX = event.getAxisValue(MotionEvent.AXIS_X);
+                    lastY = event.getAxisValue(MotionEvent.AXIS_Y);
                 }
-                return false;
+                return true;
             }
         });
     }
