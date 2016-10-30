@@ -23,7 +23,9 @@ public class Control {
 
     private ArrayList<Integer> joystickValues;
     private Game game;
-    Context context;
+    private Context context;
+    private boolean shooting = false;
+
     public Control(Context context, Game game){
         this.context = context;
         this.game = game;
@@ -31,9 +33,8 @@ public class Control {
 
         joystickValues = new ArrayList<>();
 
-        // fix this? :-)
-        joystickValues.add(0);
-        joystickValues.add(0);
+        joystickValues.add(0, 0);
+        joystickValues.add(0, 1);
     }
 
     public void setJoystick(JoystickView joystickView) {
@@ -48,11 +49,32 @@ public class Control {
         });
     }
 
+    private float lastX = 0;
+    private float lastY = 0;
+
     public void setShootButton(FloatingActionButton shootButton) {
-        shootButton.setOnClickListener(new View.OnClickListener() {
+        shootButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                Log.d("Shoot_button", "Bang!");
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    Log.d("ShootPressed", "Shooting");
+                    shooting = true;
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    Log.d("ShootPressed", "Stopped shooting");
+                    shooting = false;
+                } else {
+                    if (lastX < event.getAxisValue(MotionEvent.AXIS_X))
+                        Log.d("MoveEventX", "Right");
+                    else if (lastX > event.getAxisValue(MotionEvent.AXIS_X))
+                        Log.d("MoveEventX", "Left");
+                    else if (lastY < event.getAxisValue(MotionEvent.AXIS_Y))
+                        Log.d("MoveEventX", "Down");
+                    else if (lastX > event.getAxisValue(MotionEvent.AXIS_Y))
+                        Log.d("MoveEventX", "Up");
+                    lastX = event.getAxisValue(MotionEvent.AXIS_X);
+                    lastY = event.getAxisValue(MotionEvent.AXIS_Y);
+                }
+                return true;
             }
         });
     }
