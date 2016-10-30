@@ -29,7 +29,6 @@ public class GlRendere implements Renderer {
     private final float[] mtrxProjectionAndView = new float[16];
 
     // Geometric variables
-//    public static short indices[];
     public FloatBuffer vertexBuffer;
     public ShortBuffer indexBuffer;
     public FloatBuffer uvBuffer; //for texture
