@@ -108,7 +108,7 @@ public class GlRendere implements Renderer {
 
 
     /**
-     * Render a fra frame
+     * Render a frame
      * @param unused
      */
     @Override
@@ -123,7 +123,7 @@ public class GlRendere implements Renderer {
             if (ef.entityDrawCount == 0) continue; //Continue if there is nothing to draw
             //Check if we need to encase buffer size. Current buffer size
             // is allays as big as the biggest factory.
-            // TODO maybe decease buffer size at some point???
+            // TODO maybe decrease buffer size at some point???
             if (ef.entityDrawCount > currentModelBufferSize){
                 allocateBuffers(ef.entityDrawCount);
             }
