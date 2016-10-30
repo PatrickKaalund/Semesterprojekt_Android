@@ -17,7 +17,9 @@ public class Map extends GUpdateable {
 
     Entity map;
     EntityFactory mapFactory;
-
+    EntityFactory mapFactory2;
+    Entity t1,t2,t3;
+    Entity f1,f2,f3;
 
     public Map() {
 
@@ -25,9 +27,25 @@ public class Map extends GUpdateable {
         game.objectsToUpdate.add(this);
 //        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
         mapFactory = new EntityFactory(R.drawable.player,100,100,2,8,new PointF(50,50));
+        mapFactory2 = new EntityFactory(R.drawable.soldier_topdown,100,100,4,2,new PointF(50,50));
+
         map = mapFactory.crateEntity();
         map.setCurrentSprite(1);
         map.moveBy(500f,500f);
+        t1 = mapFactory.crateEntity();
+        t1.setCurrentSprite(2);
+        t1.moveBy(250f,250f);
+
+        f1 = mapFactory2.crateEntity();
+        f2 = mapFactory2.crateEntity();
+        f3 = mapFactory2.crateEntity();
+        f1.moveBy(100f,100f);
+
+
+        f2.moveBy(600f,600f);
+        f3.moveBy(800f,800f);
+        f3.setCurrentSprite(5);
+        f2.setCurrentSprite(3);
 
     }
 
@@ -36,8 +54,8 @@ public class Map extends GUpdateable {
 
     @Override
     public void update() {
-        map.rotate(rotation++);
-        rotation = rotation%360;
+//        map.rotate(rotation++);
+//        rotation = rotation%360;
     }
 }
 

@@ -43,6 +43,7 @@ import java.util.Arrays;
         // Initial angle
         angle = 0f;
         mustDrawThis(true);
+
     }
 
     public void mustDrawThis(boolean draw) {

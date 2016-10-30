@@ -1,7 +1,6 @@
 package com.core;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +31,7 @@ public class Game implements Runnable {
     private FPSDrawer fpsDrawer;
 
 
+    private int latestFPS = 0;
 //    private Collision collision;
 
     public ArrayList<GUpdateable> objectsToUpdate;
@@ -44,8 +44,6 @@ public class Game implements Runnable {
         Log.d("Game","Game greated");
         GUpdateable.game = this;
         glSurfaceView = new OurGLSurfaceView(context);
-
-        gl = new OurGLSurfaceView(context);
 
         this.context = context;
 
@@ -65,6 +63,7 @@ public class Game implements Runnable {
         thread.start();
 
         fpsMeasuring.start();
+
     }
 
     public void setJoystick(JoystickView joystickView) {
@@ -86,8 +85,7 @@ public class Game implements Runnable {
         while (isRunning) {
             if (!isPaused) {
                 update();
-//                screenDrawer.draw();
-                fpsMeasuring.counter++;
+                glSurfaceView.requestRender();
             } else { try {
                     Log.d("Game", "Clock is Paused!");
                     // Slow loop down when paused to save CPU
@@ -95,11 +93,7 @@ public class Game implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                glSurfaceView.requestRender();
             }
-
-//            handler.postDelayed(this, 33);
-
             try {
                 Thread.sleep(33);
             } catch (InterruptedException e) {

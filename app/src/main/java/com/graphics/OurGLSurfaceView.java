@@ -1,8 +1,11 @@
 package com.graphics;
 
 import android.content.Context;
+import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
+
+import com.example.patrickkaalund.semesterprojekt_android.R;
 
 /**
  * Created by thor on 10/16/16.

@@ -111,16 +111,16 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
     };
 
     void doBindService() {
-        bindService(new Intent(this, MusicService.class),
-                serviceConnection, Context.BIND_AUTO_CREATE);
-        musicIsBound = true;
+//        bindService(new Intent(this, MusicService.class),
+//                serviceConnection, Context.BIND_AUTO_CREATE);
+//        musicIsBound = true;
     }
 
     void doUnbindService() {
-        if (musicIsBound) {
-            unbindService(serviceConnection);
-            musicIsBound = false;
-        }
+//        if (musicIsBound) {
+//            unbindService(serviceConnection);
+//            musicIsBound = false;
+//        }
     }
 
     @Override

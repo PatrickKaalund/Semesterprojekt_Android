@@ -15,7 +15,6 @@ public class EntityFactory {
     private final int textureAtlasRows;
     private final int textureAtlasColumns;
     protected int textureID;
-    protected int textureName;
     protected int spriteCount;
 
     protected ArrayList<RectF> sprites = new ArrayList<>();
