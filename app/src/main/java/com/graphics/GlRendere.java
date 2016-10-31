@@ -129,7 +129,7 @@ public class GlRendere implements Renderer {
             currentTexture = ef.textureID;
 
             int draw = 0;
-            GraphicInternEntity e;
+            GraphicEntity e;
             // Create the vertex data
             for (int i = 0; i < ef.entityDrawCount; i++) {
                 e = ef.productionLine.get(draw++);
@@ -138,7 +138,7 @@ public class GlRendere implements Renderer {
                 }
                 //Add the model data to buffers
                 vertexBuffer.put(e.getModel());
-                uvBuffer.put(e.getSpriteUvs());
+                uvBuffer.put(e.getUvs());
             }
             vertexBuffer.position(0);
             indexBuffer.position(0);

@@ -5,36 +5,35 @@ import android.graphics.RectF;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
+import static com.graphics.GraphicsTools.rectToString;
 
 
 /**
  * Created by thor on 10/22/16.
  */
 
- class GraphicInternEntity implements  Entity {
+ class SpriteEntity extends GraphicEntity implements Entity {
 
-    private final float height, width;
     ArrayList<Integer> drawOrder = new ArrayList<>();
     float angle;
     float scale;
-    RectF baseRact;
     PointF currentPos;
     private int currentSprite;
 
 
-    private boolean drawThis;
-    private EntityFactory mother;
+    private SpriteEntityFactory mother;
     protected int index;
 
 
-    public GraphicInternEntity(float modelBaseHeight, float modelBaseWidth,
-                               PointF pos, EntityFactory mother, int index) {
-        this.mother = mother;
-        width = modelBaseWidth / 2;
-        height = modelBaseHeight / 2;
-        this.index = index;
+    public SpriteEntity(float modelBaseHeight, float modelBaseWidth,
+                        PointF pos, SpriteEntityFactory mother, int index) {
+        float width = modelBaseWidth / 2;
+        float height = modelBaseHeight / 2;
         this.baseRact = new RectF(-width, height, width, -height);
+        Log.d("SpriteEntity","BaseRect: "+rectToString(baseRact));
+        this.mother = mother;
+        this.index = index;
 
         // Initial Pos
         currentPos = pos;
@@ -55,7 +54,7 @@ import java.util.Arrays;
         return drawThis;
     }
 
-//    public GraphicInternEntity(float height) {
+//    public SpriteEntity(float height) {
 //        this(100f, 100f, 1, 1, new PointF(50f, 50f));
 //
 //    }
@@ -112,7 +111,7 @@ import java.util.Arrays;
         return index;
     }
 
-    protected float[] getSpriteUvs() {
+    protected float[] getUvs() {
 //        Log.d("sprite", mother.sprites.get(currentSprite).toString());
 //        Log.d("sprite", "" + GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite)).length);
 //        Log.d("sprite", Arrays.toString(GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite))));
@@ -125,10 +124,11 @@ import java.util.Arrays;
      * @return
      */
     protected float[] getModel() {
+
         return getTransformedVertices();
     }
 
-//    protected float[] getSpriteUvs() {
+//    protected float[] getUvs() {
 //        Log.d("sprite", sprites.get(currentSprite).toString());
 //        Log.d("sprite", "" + GraphicsTools.getCornersFromRect(sprites.get(currentSprite)).length);
 //        Log.d("sprite", Arrays.toString(GraphicsTools.getCornersFromRect(sprites.get(currentSprite))));

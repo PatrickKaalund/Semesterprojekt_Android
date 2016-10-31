@@ -2,32 +2,36 @@ package com.gamelogic;
 
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PointF;
 import android.util.Log;
 
 import com.core.GUpdateable;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.graphics.BackgroundEntity;
+import com.graphics.BackgroundFactory;
 import com.graphics.Entity;
-import com.graphics.EntityFactory;
-import com.graphics.OurGLSurfaceView;
+import com.graphics.SpriteEntityFactory;
 
 public class Map extends GUpdateable {
 
     Entity map;
-    EntityFactory mapFactory;
-    EntityFactory mapFactory2;
+    SpriteEntityFactory mapFactory;
+    SpriteEntityFactory mapFactory2;
     Entity t1,t2,t3;
     Entity f1,f2,f3;
+    BackgroundEntity background;
+    BackgroundFactory bf;
 
-    public Map() {
-
+    public Map(Context c) {
+//
+//        DisplayMetrics metrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         Log.d("Map", "making map");
+
         game.objectsToUpdate.add(this);
 //        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
-        mapFactory = new EntityFactory(R.drawable.player,100,100,2,8,new PointF(50,50));
-        mapFactory2 = new EntityFactory(R.drawable.soldier_topdown,100,100,4,2,new PointF(50,50));
+        mapFactory = new SpriteEntityFactory(R.drawable.player,100,100,2,8,new PointF(50,50));
+        mapFactory2 = new SpriteEntityFactory(R.drawable.soldier_topdown,100,100,4,2,new PointF(50,50));
 
         map = mapFactory.crateEntity();
         map.setCurrentSprite(1);
@@ -46,6 +50,8 @@ public class Map extends GUpdateable {
         f3.moveBy(800f,800f);
         f3.setCurrentSprite(5);
         f2.setCurrentSprite(3);
+        bf = new BackgroundFactory(R.drawable.backgrounddetailed2,c);
+        background = bf.crateEntity();
 
     }
 

@@ -56,7 +56,7 @@ public class Game implements Runnable {
 
         // 30Hz clock
         handler = new Handler();
-        map = new Map();
+        map = new Map(context);
 
         gameStart();
         thread = new Thread(this);

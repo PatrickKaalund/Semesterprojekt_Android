@@ -43,12 +43,32 @@ class GraphicsTools {
         return corners;
     }
 
+    public static float[] getCornersFromRectWithZ(RectF r) {
+        float[] corners = {
+                r.left, r.top, 0f,
+                r.left, r.bottom, 0f,
+                r.right, r.bottom, 0f,
+                r.right, r.top, 0f,
+//                WRONG  (open gl is reversed!!!)
+//                  |
+//                  v
+//                r.left, r.top,
+//                r.right, r.top,
+//                r.right, r.bottom,
+//                r.left, r.bottom
+        };
+        return corners;
+    }
 
-    public static String allVertecisToString(ArrayList<RectF> sprites){
+    public static String rectToString(RectF r) {
+        return Arrays.toString(getCornersFromRect(r));
+    }
+
+    public static String allVertecisToString(ArrayList<RectF> sprites) {
         String r = new String();
-        r = "Sprites count: "+sprites.size()+'\n';
+        r = "Sprites count: " + sprites.size() + '\n';
         for (RectF s : sprites) {
-            r += Arrays.toString(getCornersFromRect(s))+'\n';
+            r += Arrays.toString(getCornersFromRect(s)) + '\n';
         }
         return r;
     }

@@ -5,8 +5,7 @@ package com.graphics;
  */
 
 public interface Entity {
-    public void mustDrawThis(boolean draw);
-    public boolean mustDrawThis();
+
     public void moveBy(float deltaX, float deltaY);
     public void placeAt(float x, float y);
     public void scale(float deltas);
