@@ -10,6 +10,7 @@ public interface Entity {
     public void placeAt(float x, float y);
     public void scale(float deltas);
     public void rotate(float deltaa);
-    public void setCurrentSprite(int currentSprite);
     public void drawNextSprite();
+    public void setCurrentSprite(int currentSprite);
+    public int getCurrentSprite();
 }

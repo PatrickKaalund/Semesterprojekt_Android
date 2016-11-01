@@ -56,6 +56,7 @@ public class Game implements Runnable {
 
         // 30Hz clock
         handler = new Handler();
+        handler.postDelayed(gameThread, 33);
         map = new Map(context);
 
         gameStart();
@@ -78,13 +79,26 @@ public class Game implements Runnable {
         control.setInventoryButton(dropDownMenu);
     }
 
-    // Running thread with 30 Hz
+    private final Runnable gameThread = new Runnable(){
+        public void run(){
+            try {
+                update();
+                handler.postDelayed(gameThread, 33);
+//                Log.d("Game", "Testthread");
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    };
+
+    // Running gui thread
     @Override
     public void run() {
 
         while (isRunning) {
             if (!isPaused) {
-                update();
+                //update();
                 glSurfaceView.requestRender();
             } else {
                 try {
@@ -95,6 +109,7 @@ public class Game implements Runnable {
                     e.printStackTrace();
                 }
             }
+
             try {
                 Thread.sleep(33);
             } catch (InterruptedException e) {
@@ -107,6 +122,7 @@ public class Game implements Runnable {
         isRunning = true;
         isPaused = false;
         fpsMeasuring.startFPS();
+        //handler.post(gameThread);
     }
 
     public void gamePause() {

@@ -1,7 +1,5 @@
 package com.gamelogic;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.Log;
@@ -21,12 +19,7 @@ public class Player extends Creature {
     private SpriteEntityFactory playerFactory;
     private Entity player;
 
-    private ArrayList<Bitmap> bitmaps;
-    private int bitmapToShow;
     private ArrayList<Integer> joystickValues;
-
-    private int bitmapHeight;
-    private int bitmapWidth;
 
     // temp solution
     private Rect mapL;
@@ -34,12 +27,11 @@ public class Player extends Creature {
     private Rect mapU;
     private Rect mapD;
 
+    private int animationCounter = 0;
+
     private enum Direction {
         EAST, WEST, NORTH, SOUTH, NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST
     }
-
-    // animation
-    private int numberOfDrawingWidth;
 
     public Player() {
         game.objectsToUpdate.add(this);
@@ -49,16 +41,10 @@ public class Player extends Creature {
         super.xPosition = 150;
         super.yPosition = 500;
 
-        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown, 200, 200, 4, 2, new PointF(super.xPosition,super.yPosition));
+        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown, 200, 200, 4, 2, new PointF(super.xPosition, super.yPosition));
 
         player = playerFactory.createEntity();
-        player.setCurrentSprite(3);
-
-
-//        player.rotate(-1.5f);
-
-
-//        bitmapToShow = 0;
+        player.setCurrentSprite(0);
 
         joystickValues = new ArrayList<>();
 
@@ -84,7 +70,6 @@ public class Player extends Creature {
 
         updatePlayer(joystick_angle, joystick_strength);
 
-        //player.moveBy(5f, 5f);
     }
 
 
@@ -101,7 +86,7 @@ public class Player extends Creature {
 
         }
 
-        super.collisionBox.set(xPosition, yPosition, xPosition + bitmapWidth, yPosition + bitmapHeight);
+//        super.collisionBox.set(xPosition, yPosition, xPosition + bitmapWidth, yPosition + bitmapHeight);
     }
 
     private Direction calculateWalkingDirection(int joystick_angle) {
@@ -126,6 +111,20 @@ public class Player extends Creature {
 
     private void animate(Direction direction, int joystick_angle) {
 //        player.rotate(joystick_angle);
+//        Log.d("Player", "Current sprite ID: !!! " + player.getCurrentSprite());
+
+        if((++animationCounter % 10) == 0){
+            animationCounter = 0;
+            if(player.getCurrentSprite() < 5){
+                player.drawNextSprite();
+            }else{
+                player.setCurrentSprite(0);
+            }
+        }
+//        Log.d("Player", "Animate counter: " + animationCounter);
+
+
+
 //        player.drawNextSprite();
 
 //        switch (direction) {
