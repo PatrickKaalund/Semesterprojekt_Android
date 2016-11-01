@@ -1,18 +1,25 @@
 package com.gamelogic;
 
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.Log;
 
-import com.core.ScreenDrawer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.graphics.Entity;
+import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
 
+/**
+ * Created by PatrickKaalund on 13/10/2016.
+ */
+
 public class Player extends Creature {
+
+    private SpriteEntityFactory playerFactory;
+    private Entity player;
 
     private ArrayList<Bitmap> bitmaps;
     private int bitmapToShow;
@@ -34,58 +41,32 @@ public class Player extends Creature {
     // animation
     private int numberOfDrawingWidth;
 
-    public Player(Context context, ScreenDrawer screenDrawer) {
-        super(context, screenDrawer);
+    public Player() {
         game.objectsToUpdate.add(this);
-        screenDrawer.objectsToDraw.add(this);
 
         super.speed = 1;
         super.health = 100;
-        super.xPosition = 100;
+        super.xPosition = 150;
         super.yPosition = 500;
 
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
+        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown, 200, 200, 4, 2, new PointF(super.xPosition,super.yPosition));
 
-        float aspectRatio = bitmap.getWidth() /
-                (float) bitmap.getHeight();
-        int width = 1000;
-        int height = Math.round(width / aspectRatio);
+        player = playerFactory.createEntity();
+        player.setCurrentSprite(3);
 
-        bitmap = Bitmap.createScaledBitmap(
-                bitmap, width, height, false);
 
-        bitmaps = new ArrayList<>();
+//        player.rotate(-1.5f);
 
-        numberOfDrawingWidth = 8;
-        int numberOfDrawingHeight = 2;
 
-        bitmapHeight = bitmap.getHeight() / numberOfDrawingHeight;
-        bitmapWidth = bitmap.getWidth() / numberOfDrawingWidth;
-//        Log.d("Player", "bitmapHeight: " + bitmapHeight);
-//        Log.d("Player", "bitmapWidth: " + bitmapWidth);
-
-        ArrayList<Bitmap> temp = new ArrayList<>();
-
-        // loads animations.
-        for (int i = 0; i < numberOfDrawingHeight; i++) {
-            // load right animations when j = 0
-            // load left animations when j = 1
-            for (int j = 0; j < numberOfDrawingWidth; j++) {
-                int startX = bitmapWidth * j;
-                Bitmap croppedBitmap = Bitmap.createBitmap(bitmap, startX, bitmapHeight * i, bitmapWidth, bitmapHeight);
-                bitmaps.add(croppedBitmap);
-            }
-        }
-
-        bitmapToShow = 0;
+//        bitmapToShow = 0;
 
         joystickValues = new ArrayList<>();
 
         // drawing map bounds with 1 pixel width
-        this.mapL = new Rect(0, 0, 1, screenDrawer.getScreenHeight());
-        this.mapR = new Rect(screenDrawer.getScreenWidth() - 1, 0, screenDrawer.getScreenWidth(), screenDrawer.getScreenHeight());
-        this.mapU = new Rect(0, 79, screenDrawer.getScreenWidth(), 80);
-        this.mapD = new Rect(0, screenDrawer.getScreenHeight() - 1, screenDrawer.getScreenWidth(), screenDrawer.getScreenHeight());
+        this.mapL = new Rect(0, 0, 1, 1776);
+        this.mapR = new Rect(1080 - 1, 0, 1080, 1776);
+        this.mapU = new Rect(0, 79, 1080, 80);
+        this.mapD = new Rect(0, 1776 - 1, 1080, 1776);
     }
 
 
@@ -102,21 +83,10 @@ public class Player extends Creature {
 //        Log.d("Player", "Strength: " + joystick_strength);
 
         updatePlayer(joystick_angle, joystick_strength);
+
+        //player.moveBy(5f, 5f);
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-
-        // for debugging:
-//        canvas.drawRect(mapR, screenDrawer.getPaint());
-//        canvas.drawRect(mapL, screenDrawer.getPaint());
-//        canvas.drawRect(mapU, screenDrawer.getPaint());
-//        canvas.drawRect(mapD, screenDrawer.getPaint());
-//        canvas.drawRect(super.collisionBox, screenDrawer.getPaint());
-        // --------//
-
-        canvas.drawBitmap(bitmaps.get(bitmapToShow), xPosition, yPosition, null);
-    }
 
     private void updatePlayer(int joystick_angle, int joystick_strength) {
 
@@ -126,7 +96,7 @@ public class Player extends Creature {
         } else {
             Direction myDirection = calculateWalkingDirection(joystick_angle);
             myDirection = calculateWalkingDirection(joystick_angle);
-            animate(myDirection);
+            animate(myDirection, joystick_angle);
             checkCollisionAndMove(myDirection, joystick_strength);
 
         }
@@ -154,29 +124,32 @@ public class Player extends Creature {
         }
     }
 
-    private void animate(Direction direction) {
-        switch (direction) {
-            case EAST:
-            case NORTH_EAST:
-            case SOUTH_EAST:
-                if (bitmapToShow + 1 > numberOfDrawingWidth - 1) {
-                    bitmapToShow = 0;
-                } else {
-                    bitmapToShow++;
-                }
-                break;
-            case WEST:
-            case NORTH_WEST:
-            case SOUTH_WEST:
-                if (bitmapToShow + 1 >= bitmaps.size() || bitmapToShow < numberOfDrawingWidth) {
-                    bitmapToShow = numberOfDrawingWidth;
-                } else {
-                    bitmapToShow++;
-                }
-                break;
-            default:
-//                Log.d("Player", "Animate: Unknown direction");
-        }
+    private void animate(Direction direction, int joystick_angle) {
+//        player.rotate(joystick_angle);
+//        player.drawNextSprite();
+
+//        switch (direction) {
+//            case EAST:
+//            case NORTH_EAST:
+//            case SOUTH_EAST:
+//                if (bitmapToShow + 1 > numberOfDrawingWidth - 1) {
+//                    bitmapToShow = 0;
+//                } else {
+//                    bitmapToShow++;
+//                }
+//                break;
+//            case WEST:
+//            case NORTH_WEST:
+//            case SOUTH_WEST:
+//                if (bitmapToShow + 1 >= bitmaps.size() || bitmapToShow < numberOfDrawingWidth) {
+//                    bitmapToShow = numberOfDrawingWidth;
+//                } else {
+//                    bitmapToShow++;
+//                }
+//                break;
+//            default:
+////                Log.d("Player", "Animate: Unknown direction");
+//        }
     }
 
     private void checkCollisionAndMove(Direction direction, int joystick_strength) {
@@ -186,6 +159,7 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else {
                     super.xPosition += joystick_strength;
+                    player.moveBy(5f, 0f);
                 }
                 break;
             case WEST:
@@ -193,6 +167,7 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else {
                     super.xPosition -= joystick_strength;
+                    player.moveBy(-5f, 0f);
                 }
                 break;
             case NORTH:
@@ -200,6 +175,7 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else {
                     super.yPosition -= joystick_strength;
+                    player.moveBy(0f, 5f);
                 }
                 break;
             case SOUTH:
@@ -207,6 +183,7 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else {
                     super.yPosition += joystick_strength;
+                    player.moveBy(0f, -5f);
                 }
                 break;
             case NORTH_EAST:
@@ -214,11 +191,14 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else if (super.collisionBox.intersect(mapU)) {
                     super.xPosition += joystick_strength;
+                    player.moveBy(5f, 0f);
                 } else if (super.collisionBox.intersect(mapR)) {
                     super.yPosition -= joystick_strength;
+                    player.moveBy(0f, -5f);
                 } else {
                     super.xPosition += joystick_strength;
                     super.yPosition -= joystick_strength;
+                    player.moveBy(5f, 5f);
                 }
                 break;
             case NORTH_WEST:
@@ -226,11 +206,14 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else if (super.collisionBox.intersect(mapU)) {
                     super.xPosition -= joystick_strength;
+                    player.moveBy(-5f, 0f);
                 } else if (super.collisionBox.intersect(mapL)) {
                     super.yPosition -= joystick_strength;
+                    player.moveBy(0f, -5f);
                 } else {
                     super.xPosition -= joystick_strength;
                     super.yPosition -= joystick_strength;
+                    player.moveBy(-5f, 5f);
                 }
                 break;
             case SOUTH_EAST:
@@ -238,11 +221,14 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else if (super.collisionBox.intersect(mapD)) {
                     super.xPosition += joystick_strength;
+                    player.moveBy(5f, 0f);
                 } else if (super.collisionBox.intersect(mapR)) {
                     super.yPosition += joystick_strength;
+                    player.moveBy(0f, 5f);
                 } else {
                     super.xPosition += joystick_strength;
                     super.yPosition += joystick_strength;
+                    player.moveBy(5f, -5f);
                 }
                 break;
             case SOUTH_WEST:
@@ -250,11 +236,14 @@ public class Player extends Creature {
                     Log.d("Player", "Colliding!!!");
                 } else if (super.collisionBox.intersect(mapD)) {
                     super.xPosition -= joystick_strength;
+                    player.moveBy(-5f, 0f);
                 } else if (super.collisionBox.intersect(mapL)) {
                     super.yPosition += joystick_strength;
+                    player.moveBy(0f, 5f);
                 } else {
                     super.xPosition -= joystick_strength;
                     super.yPosition += joystick_strength;
+                    player.moveBy(-5f, -5f);
                 }
                 break;
             default:

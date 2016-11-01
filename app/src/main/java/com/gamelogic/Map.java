@@ -36,23 +36,23 @@ public class Map extends GUpdateable {
         mapFactory2 = new SpriteEntityFactory(R.drawable.soldier_topdown,100,100,4,2,new PointF(50,50));
         this.metrics = c.getResources().getDisplayMetrics();
 
-        map = mapFactory.crateEntity();
-        map.setCurrentSprite(1);
-        map.moveBy(500f,500f);
-        t1 = mapFactory.crateEntity();
-        t1.setCurrentSprite(2);
-        t1.moveBy(250f,250f);
+//        map = mapFactory.createEntity();
+//        map.setCurrentSprite(1);
+//        map.moveBy(500f,500f);
+//        t1 = mapFactory.createEntity();
+//        t1.setCurrentSprite(2);
+//        t1.moveBy(250f,250f);
 
-        f1 = mapFactory2.crateEntity();
-        f2 = mapFactory2.crateEntity();
-        f3 = mapFactory2.crateEntity();
-        f1.moveBy(100f,100f);
+//        f1 = mapFactory2.createEntity();
+//        f2 = mapFactory2.createEntity();
+//        f3 = mapFactory2.createEntity();
+//        f1.moveBy(100f,100f);
 
-
-        f2.moveBy(600f,600f);
-        f3.moveBy(800f,800f);
-        f3.setCurrentSprite(5);
-        f2.setCurrentSprite(3);
+//
+//        f2.moveBy(600f,600f);
+//        f3.moveBy(800f,800f);
+//        f3.setCurrentSprite(5);
+//        f2.setCurrentSprite(3);
         bf = new BackgroundFactory(R.drawable.backgrounddetailed_resized_grid,c.getResources().getDisplayMetrics());
         background = bf.crateEntity();
 

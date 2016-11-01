@@ -31,7 +31,7 @@ public class SpriteEntityFactory extends EntityFactory{
         GlRendere.durtyDrawList = false;
     }
 
-    public Entity crateEntity() {
+    public Entity createEntity() {
         PointF newPoint = new PointF();
         newPoint.set(pos);
 

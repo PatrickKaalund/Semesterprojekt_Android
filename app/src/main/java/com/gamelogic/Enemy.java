@@ -16,50 +16,54 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
  */
 
 public class Enemy extends Creature {
-
-    public Enemy(Context context, ScreenDrawer screenDrawer) {
-        super(context, screenDrawer);
-        screenDrawer.objectsToDraw.add(this);
-        Log.d("Player","Player instantiated");
-
-        super.speed = 1;
-        super.health = 100;
-        super.xPosition = 100;
-        super.yPosition = 1580;
-    }
-
     @Override
-    public void update(){
-        if(xPosition < 100){
-            super.xPosition -= 2;
-        }else{
-            super.xPosition = 1000;
-        }
-
-        //Log.d("Player","Updating player...xPos: " + super.xPosition + ". yPos: "+ super.yPosition);
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-
-        //Log.d("Player","drawing player");
-
-        Paint paint = new Paint();
-
-        paint.setColor(Color.BLUE);
-
-        canvas.drawCircle(xPosition, yPosition, 15, paint);
-
-        paint.setTextSize(40);
-        canvas.drawText("Player", xPosition - 60, yPosition + 60, paint);
-
-        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
-        canvas.drawBitmap(bitmap, 0, 0, null);
+    public void update() {
 
     }
 
-    public void setPlayerPosition(int xPos, int yPos){
-        this.xPosition = xPos;
-        this.yPosition = yPos;
-    }
+//    public Enemy(Context context, ScreenDrawer screenDrawer) {
+//        super(context, screenDrawer);
+//        screenDrawer.objectsToDraw.add(this);
+//        Log.d("Player","Player instantiated");
+//
+//        super.speed = 1;
+//        super.health = 100;
+//        super.xPosition = 100;
+//        super.yPosition = 1580;
+//    }
+//
+//    @Override
+//    public void update(){
+//        if(xPosition < 100){
+//            super.xPosition -= 2;
+//        }else{
+//            super.xPosition = 1000;
+//        }
+//
+//        //Log.d("Player","Updating player...xPos: " + super.xPosition + ". yPos: "+ super.yPosition);
+//    }
+//
+//    @Override
+//    public void draw(Canvas canvas) {
+//
+//        //Log.d("Player","drawing player");
+//
+//        Paint paint = new Paint();
+//
+//        paint.setColor(Color.BLUE);
+//
+//        canvas.drawCircle(xPosition, yPosition, 15, paint);
+//
+//        paint.setTextSize(40);
+//        canvas.drawText("Player", xPosition - 60, yPosition + 60, paint);
+//
+//        Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
+//        canvas.drawBitmap(bitmap, 0, 0, null);
+//
+//    }
+//
+//    public void setPlayerPosition(int xPos, int yPos){
+//        this.xPosition = xPos;
+//        this.yPosition = yPos;
+//    }
 }
