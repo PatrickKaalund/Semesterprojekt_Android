@@ -50,7 +50,7 @@ public class Map extends GUpdateable {
         f3.moveBy(800f,800f);
         f3.setCurrentSprite(5);
         f2.setCurrentSprite(3);
-        bf = new BackgroundFactory(R.drawable.backgrounddetailed2,c);
+        bf = new BackgroundFactory(R.drawable.backgrounddetailed_resized,c);
         background = bf.crateEntity();
 
     }
