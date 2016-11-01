@@ -1,4 +1,4 @@
-package com.network;
+package com.network.Firebase;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +26,7 @@ public class FirebaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_network);
+        setContentView(R.layout.activity_firebase);
 
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
 

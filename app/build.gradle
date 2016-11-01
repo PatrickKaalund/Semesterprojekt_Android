@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.example.patrickkaalund.semesterprojekt_android"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
@@ -20,7 +20,18 @@ android {
 }
 
 repositories {
-    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    maven {
+        url 'https://oss.sonatype.org/content/repositories/snapshots'
+    }
+
+    maven {
+        // MQTT Lib
+        url "https://repo.eclipse.org/content/repositories/paho-snapshots/"
+    }
+    maven {
+        // MQTT - http://www.hivemq.com/blog/mqtt-client-library-enyclopedia-paho-android-service
+        url "https://repo.eclipse.org/content/repositories/paho-releases/"
+    }
 }
 
 dependencies {
@@ -36,9 +47,20 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-beta1'
 
+    // Firebase
     compile 'com.google.firebase:firebase-database:9.2.1'
 
+    // ZeroMQ
     compile 'org.zeromq:jeromq:0.3.5'
+
+    // MQTT
+    compile 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0'
+    compile 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.0'
+    compile('org.eclipse.paho:org.eclipse.paho.android.service') {
+        //exclude module: 'support-v4'
+        transitive=true
+    }
+
 }
 
 apply plugin: 'com.google.gms.google-services'

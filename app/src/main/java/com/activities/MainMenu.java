@@ -1,7 +1,6 @@
 package com.activities;
 
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
@@ -15,7 +14,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import com.network.FirebaseActivity;
+import com.network.Firebase.FirebaseActivity;
+import com.network.MQTT.MQTTActivity;
 import com.teststuff.MapTestActivity;
 
 
@@ -24,7 +24,7 @@ import com.services.MusicService;
 public class MainMenu extends AppCompatActivity implements View.OnClickListener {
     boolean musicIsBound = false;
     MusicService musicService;
-    Button play, settings, mapTest, networkTest;
+    Button play, settings, mapTest, mqttTest, firebaseTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +36,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         play = (Button) findViewById(R.id.buttonPlay);
         settings = (Button) findViewById(R.id.buttonSettings);
         mapTest = (Button) findViewById(R.id.buttonMapTest);
-        networkTest = (Button) findViewById(R.id.buttonNetworkTest);
+        mqttTest = (Button) findViewById(R.id.buttonMQTTTest);
+        firebaseTest = (Button) findViewById(R.id.buttonFirebaseTest);
 
         play.setOnClickListener(this);
         settings.setOnClickListener(this);
         mapTest.setOnClickListener(this);
-        networkTest.setOnClickListener(this);
+        mqttTest.setOnClickListener(this);
+        firebaseTest.setOnClickListener(this);
     }
 
     @Override
@@ -128,9 +130,13 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
                 Intent mapTest = new Intent(this, MapTestActivity.class);
                 startActivity(mapTest);
                 break;
-            case R.id.buttonNetworkTest:
-                Intent networkTest = new Intent(this, FirebaseActivity.class);
-                startActivity(networkTest);
+            case R.id.buttonMQTTTest:
+                Intent mqttTest = new Intent(this, MQTTActivity.class);
+                startActivity(mqttTest);
+                break;
+            case R.id.buttonFirebaseTest:
+                Intent firebaseTest = new Intent(this, FirebaseActivity.class);
+                startActivity(firebaseTest);
                 break;
         }
     }

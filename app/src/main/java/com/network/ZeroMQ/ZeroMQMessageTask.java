@@ -1,4 +1,4 @@
-package com.network;
+package com.network.ZeroMQ;
 
 /**
  * Created by PatrickKaalund on 27/10/2016.
@@ -6,7 +6,6 @@ package com.network;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.util.Log;
 
 import org.zeromq.ZMQ;
 

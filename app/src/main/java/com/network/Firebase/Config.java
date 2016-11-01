@@ -1,4 +1,4 @@
-package com.network;
+package com.network.Firebase;
 
 /**
  * Created by PatrickKaalund on 27/10/2016.

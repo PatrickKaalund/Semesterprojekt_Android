@@ -1,6 +1,7 @@
-package com.network;
+package com.network.ZeroMQ;
 
 import android.os.Handler;
+
 import org.zeromq.*;
 
 /**

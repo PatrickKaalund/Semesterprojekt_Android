@@ -49,11 +49,21 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="NetworkTest"
+        android:text="MQTT"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonNetworkTest"
+        android:id="@+id/buttonMQTTTest"
+        android:layout_marginStart="65dp"
+        android:layout_marginBottom="18dp"
         android:layout_above="@+id/buttonMapTest"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp" />
+        android:layout_alignStart="@+id/buttonPlay" />
+
+    <Button
+        android:text="Firebase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonFirebaseTest"
+        android:layout_alignBaseline="@+id/buttonMQTTTest"
+        android:layout_alignBottom="@+id/buttonMQTTTest"
+        android:layout_toStartOf="@+id/buttonMapTest" />
 </RelativeLayout>
