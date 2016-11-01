@@ -86,7 +86,8 @@ public class Game implements Runnable {
             if (!isPaused) {
                 update();
                 glSurfaceView.requestRender();
-            } else { try {
+            } else {
+                try {
                     Log.d("Game", "Clock is Paused!");
                     // Slow loop down when paused to save CPU
                     Thread.sleep(10);
@@ -105,14 +106,17 @@ public class Game implements Runnable {
     public void gameStart() {
         isRunning = true;
         isPaused = false;
+        fpsMeasuring.startFPS();
     }
 
     public void gamePause() {
         isPaused = true;
+        fpsMeasuring.stopFPS();
     }
 
     public void gameStop() {
         isRunning = false;
+        fpsMeasuring.stopFPS();
     }
 
     public void update() {

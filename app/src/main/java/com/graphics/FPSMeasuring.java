@@ -10,10 +10,11 @@ import android.util.Log;
 public class FPSMeasuring extends Thread {
     public static int counter = 0;
     public int latestFPS = 0;
+    private boolean isRunning = true;
 
     // one time every second
     public void run() {
-        while (true) {
+        while (isRunning) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -23,5 +24,13 @@ public class FPSMeasuring extends Thread {
             latestFPS = counter;
             counter = 0;
         }
+    }
+
+    public void startFPS(){
+        isRunning = true;
+    }
+
+    public void stopFPS(){
+        isRunning = false;
     }
 }
