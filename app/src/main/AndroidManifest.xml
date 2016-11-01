@@ -34,8 +34,8 @@
         <activity
             android:name="com.activities.OptionsActivity"
             android:label="Options" />
-        <activity
-            android:name="com.network.FirebaseActivity" />
+        <activity android:name="com.network.FirebaseActivity" />
+        <activity android:name="com.network.ZeroMQActivity"></activity>
     </application>
 
 </manifest>
