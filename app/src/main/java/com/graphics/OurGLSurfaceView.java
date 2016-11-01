@@ -24,7 +24,7 @@ public class OurGLSurfaceView extends GLSurfaceView {
 
         // Set the Renderer for drawing on the OurGLSurfaceView
         renderer = new GlRendere(context);
-        Log.d("OurGLSurfaceView", "Setting renderer");
+        Log.d("OurGLSurfaceView", "OurGLSurfaceView constructer: Setting renderer");
         setRenderer(renderer);
 
         // Render the view only when there is a change in the drawing data
@@ -36,6 +36,8 @@ public class OurGLSurfaceView extends GLSurfaceView {
         // TODO Auto-generated method stub
         super.onPause();
         renderer.onPause();
+        Log.d("OurGLSurfaceView", "onPause");
+
     }
 
     @Override
@@ -43,5 +45,7 @@ public class OurGLSurfaceView extends GLSurfaceView {
         // TODO Auto-generated method stub
         super.onResume();
         renderer.onResume();
+        Log.d("OurGLSurfaceView", "onResume");
+
     }
 }

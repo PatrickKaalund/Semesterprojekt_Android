@@ -50,16 +50,22 @@ public class GlRendere implements Renderer {
     protected static int totalModelCount = 0;
 
     public GlRendere(Context c) {
+        Log.d("GlRendere", "CONSTRUCTER" );
+
         context = c;
         shaderHandler = new ShaderHandler(context);
         mLastTime = System.currentTimeMillis() + 100;
     }
 
     public void onPause() {
+        Log.d("GlRendere", "onPause" );
+
         /* Do stuff to pause the renderer */
     }
 
     public void onResume() {
+        Log.d("GlRendere", "onResume" );
+
         /* Do stuff to resume the renderer */
         mLastTime = System.currentTimeMillis();
     }
@@ -202,8 +208,8 @@ public class GlRendere implements Renderer {
         IntBuffer i = IntBuffer.allocate(1);
         GLES20.glGetIntegerv(GLES20.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, i);
         textureSlotCount = i.get(0);
-        Log.d("Texture count", "" + i.get(0));
-
+        Log.d("GlRendere", "Texture count: " + i.get(0));
+        Log.d("GlRendere", "onSurfaceCreated" );
         // Set the clear color to black
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         shaderHandler.installShaderFiles();
@@ -212,6 +218,7 @@ public class GlRendere implements Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        Log.d("GlRendere", "onSurfaceChanged" );
 
         // We need to know the current width and height.
         mScreenWidth = width;
