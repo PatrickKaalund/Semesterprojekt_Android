@@ -41,7 +41,7 @@ public class Player extends Creature {
         super.xPosition = 150;
         super.yPosition = 500;
 
-        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown, 200, 200, 4, 2, new PointF(super.xPosition, super.yPosition));
+        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(super.xPosition, super.yPosition));
 
         player = playerFactory.createEntity();
         player.setCurrentSprite(0);
@@ -54,7 +54,6 @@ public class Player extends Creature {
         this.mapU = new Rect(0, 79, 1080, 80);
         this.mapD = new Rect(0, 1776 - 1, 1080, 1776);
     }
-
 
     @Override
     public void update() {
@@ -113,7 +112,7 @@ public class Player extends Creature {
 //        player.rotate(joystick_angle);
 //        Log.d("Player", "Current sprite ID: !!! " + player.getCurrentSprite());
 
-        if((++animationCounter % 10) == 0){
+        if((++animationCounter % 3) == 0){
             animationCounter = 0;
             if(player.getCurrentSprite() < 5){
                 player.drawNextSprite();
