@@ -21,7 +21,7 @@ public class BackgroundEntity extends GraphicEntity {
         this.baseWidth = baseWidth;
         baseRact = new RectF(0,baseHeight,baseWidth,0);
 
-        this.uvs = new RectF(0f,0f,1f,1f);
+        this.uvs = new RectF(0f,0f,.25f,.25f);
         mustDrawThis(true);
         Log.d("BackgroundEntity","baseHeight: "+baseHeight+" baseWidth: "+baseWidth);
         Log.d("BackgroundEntity","BaseRect: "+rectToString(baseRact));
@@ -46,5 +46,9 @@ public class BackgroundEntity extends GraphicEntity {
     @Override
     public boolean mustDrawThis() {
         return drawThis;
+    }
+
+    public void moveFrame(){
+
     }
 }

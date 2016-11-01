@@ -3,6 +3,7 @@ package com.gamelogic;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.core.GUpdateable;
@@ -14,6 +15,7 @@ import com.graphics.SpriteEntityFactory;
 
 public class Map extends GUpdateable {
 
+    private DisplayMetrics metrics;
     Entity map;
     SpriteEntityFactory mapFactory;
     SpriteEntityFactory mapFactory2;
@@ -32,6 +34,7 @@ public class Map extends GUpdateable {
 //        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
         mapFactory = new SpriteEntityFactory(R.drawable.player,100,100,2,8,new PointF(50,50));
         mapFactory2 = new SpriteEntityFactory(R.drawable.soldier_topdown,100,100,4,2,new PointF(50,50));
+        this.metrics = c.getResources().getDisplayMetrics();
 
         map = mapFactory.crateEntity();
         map.setCurrentSprite(1);
@@ -50,7 +53,7 @@ public class Map extends GUpdateable {
         f3.moveBy(800f,800f);
         f3.setCurrentSprite(5);
         f2.setCurrentSprite(3);
-        bf = new BackgroundFactory(R.drawable.backgrounddetailed2,c);
+        bf = new BackgroundFactory(R.drawable.backgrounddetailed_resized_grid,c.getResources().getDisplayMetrics());
         background = bf.crateEntity();
 
     }
