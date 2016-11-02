@@ -13,13 +13,15 @@ import static com.graphics.GraphicsTools.rectToString;
  * Created by thor on 10/22/16.
  */
 
- class SpriteEntity extends GraphicEntity implements Entity {
+class SpriteEntity extends GraphicEntity implements Entity {
+
 
     ArrayList<Integer> drawOrder = new ArrayList<>();
     float angle;
     float scale;
     PointF currentPos;
     private int currentSprite;
+    private int drawOrderIndex = 0;
 
 
     private SpriteEntityFactory mother;
@@ -31,9 +33,10 @@ import static com.graphics.GraphicsTools.rectToString;
         float width = modelBaseWidth / 2;
         float height = modelBaseHeight / 2;
         this.baseRact = new RectF(-width, height, width, -height);
-        Log.d("SpriteEntity","BaseRect: "+rectToString(baseRact));
+        Log.d("SpriteEntity", "BaseRect: " + rectToString(baseRact));
         this.mother = mother;
         this.index = index;
+
 
         // Initial Pos
         currentPos = pos;
@@ -80,6 +83,34 @@ import static com.graphics.GraphicsTools.rectToString;
         angle += deltaa;
     }
 
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+
+    public int getCurrentSprite() {
+        return currentSprite;
+    }
+
+    public void setCurrentSprite(int currentSprite) {
+        this.currentSprite = currentSprite;
+    }
+
+    public void drawNextSprite() {
+        if (drawOrder.isEmpty()) {
+            currentSprite++;
+            currentSprite = currentSprite % mother.spriteCount;
+        } else {
+            drawOrderIndex++;
+            drawOrderIndex = drawOrderIndex % drawOrder.size();
+            currentSprite = drawOrder.get(drawOrderIndex);
+        }
+    }
+
+
+    public void setDrawOrder(ArrayList<Integer> drawOrder) {
+        this.drawOrder = drawOrder;
+    }
 
 //    protected void makeSprites() {
 //        spriteCount = textureAtlasColumns * textureAtlasRows;
@@ -136,7 +167,6 @@ import static com.graphics.GraphicsTools.rectToString;
 //    }
 
 
-
     //Flyt ud!!
     private float[] getTransformedVertices() {
         // Start with scaling
@@ -187,17 +217,5 @@ import static com.graphics.GraphicsTools.rectToString;
                 };
     }
 
-
-    public int getCurrentSprite() {
-        return currentSprite;
-    }
-
-    public void setCurrentSprite(int currentSprite) {
-        this.currentSprite = currentSprite;
-    }
-
-    public void drawNextSprite() {
-        currentSprite++;
-    }
 
 }

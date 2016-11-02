@@ -13,4 +13,5 @@ public interface Entity {
     public void drawNextSprite();
     public void setCurrentSprite(int currentSprite);
     public int getCurrentSprite();
+    public void setAngle(float angle);
 }
