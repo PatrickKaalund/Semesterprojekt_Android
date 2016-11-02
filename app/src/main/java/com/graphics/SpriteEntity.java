@@ -112,31 +112,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
         this.drawOrder = drawOrder;
     }
 
-//    protected void makeSprites() {
-//        spriteCount = textureAtlasColumns * textureAtlasRows;
-//        float xOffset = 1 / (float) textureAtlasColumns;
-//        float yOffset = 1 / (float) textureAtlasRows;
-//        RectF subTexture = new RectF();
-//        subTexture.right = xOffset;
-//        subTexture.bottom = yOffset;
-//        for (int i = 0; i < textureAtlasRows; i++) {
-//            for (int j = 0; j < textureAtlasColumns; j++) {
-//                sprites.add(new RectF(subTexture));
-//                subTexture.left = subTexture.right;
-//                subTexture.right += xOffset;
-//            }
-//            subTexture.top = subTexture.bottom;
-//            subTexture.bottom += yOffset;
-//            subTexture.left = 0;
-//            subTexture.right = xOffset;
-//        }
-//    }
 
-//    public void loadTextrue(Bitmap bmp) {
-//        int id[] = GlRendere.loadTextrue(bmp);
-//        textureID = id[GlRendere.TEXTURE_SLOT];
-//        textureName = id[GlRendere.TEXTURE_NAME];
-//    }
 
     public int getIndex() {
         return index;
@@ -159,15 +135,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
         return getTransformedVertices();
     }
 
-//    protected float[] getUvs() {
-//        Log.d("sprite", sprites.get(currentSprite).toString());
-//        Log.d("sprite", "" + GraphicsTools.getCornersFromRect(sprites.get(currentSprite)).length);
-//        Log.d("sprite", Arrays.toString(GraphicsTools.getCornersFromRect(sprites.get(currentSprite))));
-//        return GraphicsTools.getCornersFromRect(sprites.get(currentSprite));
-//    }
-
-
-    //Flyt ud!!
     private float[] getTransformedVertices() {
         // Start with scaling
         float x1 = baseRact.left * scale;
