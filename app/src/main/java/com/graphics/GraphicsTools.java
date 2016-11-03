@@ -49,13 +49,6 @@ class GraphicsTools {
                 r.left, r.bottom, 0f,
                 r.right, r.bottom, 0f,
                 r.right, r.top, 0f,
-//                WRONG  (open gl is reversed!!!)
-//                  |
-//                  v
-//                r.left, r.top,
-//                r.right, r.top,
-//                r.right, r.bottom,
-//                r.left, r.bottom
         };
         return corners;
     }

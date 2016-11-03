@@ -16,6 +16,7 @@ public class BackgroundFactory extends EntityFactory{
         super(bmpId, 1, 1);
         this.metrics = metrics;
         this.context = context;
+//        metrics.
 
         //If index 0 is a background replace it else
         // make this index 0 so we draw the background first

@@ -1,5 +1,6 @@
 package com.graphics;
 
+import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.util.Log;
 
@@ -30,6 +31,7 @@ public class BackgroundEntity extends GraphicEntity {
 
     @Override
     protected float[] getUvs() {
+        Matrix transformMatrix = new Matrix();
         return getCornersFromRect(uvs);
     }
 

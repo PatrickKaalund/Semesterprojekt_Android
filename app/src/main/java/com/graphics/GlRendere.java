@@ -107,8 +107,9 @@ public class GlRendere implements Renderer {
             last += 4;
         }
         Log.d("Renderer", "############# ALLOCATING BUFFERS ##########\n" +
-                "Allocating models : "+ modelsToAllocate+'\n'+
-                "Allocating bytes  : "+ (((modelsToAllocate * 4 * 3) * 4)+ ((modelsToAllocate *6) * 2)+(modelsToAllocate * 6)));
+                          "Allocating models : "+ modelsToAllocate+'\n'+
+                          "Allocating bytes  : "+ (((modelsToAllocate * 4 * 3) * 4)+ ((modelsToAllocate *6) * 2)+(modelsToAllocate * 6))+
+                          "###########################################\n");
     }
 
 
