@@ -1,5 +1,7 @@
 package com.graphics;
 
+import android.graphics.RectF;
+
 /**
  * Created by thor on 10/27/16.
  */
@@ -14,4 +16,5 @@ public interface Entity {
     public void setCurrentSprite(int currentSprite);
     public int getCurrentSprite();
     public void setAngle(float angle);
+    public RectF getRect();
 }

@@ -82,4 +82,6 @@ public class SpriteEntityFactory extends EntityFactory{
         return GraphicsTools.allVertecisToString(sprites);
     }
 
+    public PointF getPos(){ return this.pos; }
+
 }

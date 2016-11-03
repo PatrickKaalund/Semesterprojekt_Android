@@ -38,8 +38,8 @@ public class Player extends Creature {
 
         super.speed = 1;
         super.health = 100;
-        super.xPosition = 150;
-        super.yPosition = 500;
+        super.xPosition = 400;
+        super.yPosition = 400;
 
         playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(super.xPosition, super.yPosition));
 
@@ -77,11 +77,11 @@ public class Player extends Creature {
         // stand still
         if (joystick_strength == 0) {
             // do nothing
+            // animate standing movement :-)
         } else {
             Direction myDirection = calculateWalkingDirection(joystick_angle);
-            myDirection = calculateWalkingDirection(joystick_angle);
             animate(myDirection, joystick_angle);
-            checkCollisionAndMove(myDirection, joystick_strength);
+//            checkCollisionAndMove(myDirection, joystick_strength);
 
         }
 
@@ -112,6 +112,9 @@ public class Player extends Creature {
 //        player.rotate(joystick_angle);
 //        Log.d("Player", "Current sprite ID: !!! " + player.getCurrentSprite());
 
+        Log.d("Player", "Animation angle: " + joystick_angle);
+        player.setAngle(joystick_angle);
+
         if((++animationCounter % 3) == 0){
             animationCounter = 0;
             if(player.getCurrentSprite() < 5){
@@ -120,34 +123,6 @@ public class Player extends Creature {
                 player.setCurrentSprite(0);
             }
         }
-//        Log.d("Player", "Animate counter: " + animationCounter);
-
-
-
-//        player.drawNextSprite();
-
-//        switch (direction) {
-//            case EAST:
-//            case NORTH_EAST:
-//            case SOUTH_EAST:
-//                if (bitmapToShow + 1 > numberOfDrawingWidth - 1) {
-//                    bitmapToShow = 0;
-//                } else {
-//                    bitmapToShow++;
-//                }
-//                break;
-//            case WEST:
-//            case NORTH_WEST:
-//            case SOUTH_WEST:
-//                if (bitmapToShow + 1 >= bitmaps.size() || bitmapToShow < numberOfDrawingWidth) {
-//                    bitmapToShow = numberOfDrawingWidth;
-//                } else {
-//                    bitmapToShow++;
-//                }
-//                break;
-//            default:
-////                Log.d("Player", "Animate: Unknown direction");
-//        }
     }
 
     private void checkCollisionAndMove(Direction direction, int joystick_strength) {
@@ -248,4 +223,6 @@ public class Player extends Creature {
                 Log.d("Player", "isColliding: Unknown direction");
         }
     }
+
+    public Entity getPlayer(){ return this.player; }
 }
