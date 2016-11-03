@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
 import com.gamelogic.Control;
+import com.gamelogic.Enemy;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
 import com.graphics.FPSMeasuring;
@@ -22,6 +23,7 @@ public class Game implements Runnable {
     private Thread thread;
     private Map map;
     private Player player;
+    private Enemy enemy;
     private OurGLSurfaceView glSurfaceView;
     //    private ScreenDrawer screenDrawer;
     private boolean isRunning;
@@ -51,6 +53,7 @@ public class Game implements Runnable {
         objectsToUpdate = new ArrayList<>();
 //        fpsDrawer = new FPSDrawer(context, screenDrawer);
         player = new Player();
+        enemy = new Enemy();
         control = new Control(context, this);
 //        collision = new Collision(map);
 
@@ -161,6 +164,8 @@ public class Game implements Runnable {
     public int getFPS() {
         return fpsMeasuring.latestFPS;
     }
+
+    public Player getPlayer(){ return this.player; }
 }
 
 

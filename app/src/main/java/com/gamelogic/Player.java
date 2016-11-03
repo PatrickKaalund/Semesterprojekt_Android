@@ -38,8 +38,8 @@ public class Player extends Creature {
 
         super.speed = 1;
         super.health = 100;
-        super.xPosition = 700;
-        super.yPosition = 700;
+        super.xPosition = 400;
+        super.yPosition = 400;
 
         playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(super.xPosition, super.yPosition));
 
@@ -223,4 +223,6 @@ public class Player extends Creature {
                 Log.d("Player", "isColliding: Unknown direction");
         }
     }
+
+    public Entity getPlayer(){ return this.player; }
 }

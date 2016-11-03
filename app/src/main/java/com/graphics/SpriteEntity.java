@@ -32,7 +32,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
                         PointF pos, SpriteEntityFactory mother, int index) {
         float width = modelBaseWidth / 2;
         float height = modelBaseHeight / 2;
-        this.baseRact = new RectF(-width, height, width, -height);
+        PointF motherPos = mother.getPos();
+        this.baseRact = new RectF(motherPos.x - width, motherPos.y + height, motherPos.x + width, motherPos.y - height);
         Log.d("SpriteEntity", "BaseRect: " + rectToString(baseRact));
         this.mother = mother;
         this.index = index;
@@ -67,6 +68,12 @@ class SpriteEntity extends GraphicEntity implements Entity {
         // Update our location.
         currentPos.x += deltaX;
         currentPos.y += deltaY;
+
+//        Log.d("SpriteEntity", "Rectangle before: " + baseRact.toString());
+
+        baseRact.set(baseRact.left + deltaX, baseRact.top + deltaY, baseRact.right + deltaX, baseRact.bottom + deltaY);
+
+//        Log.d("SpriteEntity", "Rectangle after: " + baseRact.toString());
     }
 
     public void placeAt(float x, float y) {
@@ -95,6 +102,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
     public void setCurrentSprite(int currentSprite) {
         this.currentSprite = currentSprite;
     }
+
+    public RectF getRect(){ return this.baseRact;}
 
     public void drawNextSprite() {
         if (drawOrder.isEmpty()) {
