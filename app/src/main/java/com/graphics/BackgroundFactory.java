@@ -15,6 +15,7 @@ public class BackgroundFactory extends EntityFactory{
     public BackgroundFactory(int bmpId, DisplayMetrics metrics) {
         super(bmpId, 1, 1);
         this.metrics = metrics;
+        index = 0;
         this.context = context;
 //        metrics.
 

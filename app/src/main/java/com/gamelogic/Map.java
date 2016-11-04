@@ -3,6 +3,7 @@ package com.gamelogic;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -11,61 +12,97 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
 import com.graphics.BackgroundFactory;
 import com.graphics.Entity;
+import com.graphics.GraphicsTools;
 import com.graphics.SpriteEntityFactory;
+import com.graphics.Direction;
+
+import java.util.ArrayList;
 
 public class Map extends GUpdateable {
 
+    private final SpriteEntityFactory playerFactory;
+    private final Entity player;
     private DisplayMetrics metrics;
-    Entity map;
-    SpriteEntityFactory mapFactory;
-    SpriteEntityFactory mapFactory2;
-    Entity t1,t2,t3;
-    Entity f1,f2,f3;
-    BackgroundEntity background;
-    BackgroundFactory bf;
+    BackgroundEntity mapBackground;
+    BackgroundFactory mapFactory;
+    //    Direction vel = new Direction();
+    Direction velMap;
+    Direction velPlayer;
+    RectF boarder = new RectF(0f, 0f, 2000f, 2000f);
+    RectF boarderInder;
+
 
     public Map(Context c) {
-//
-//        DisplayMetrics metrics = new DisplayMetrics();
-//        getWindowManager().getDefaultDisplay().getMetrics(metrics);
         Log.d("Map", "making map");
-
         game.objectsToUpdate.add(this);
-//        Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.player);
-        mapFactory = new SpriteEntityFactory(R.drawable.player,100,100,2,8,new PointF(50,50));
-        mapFactory2 = new SpriteEntityFactory(R.drawable.soldier_topdown,100,100,4,2,new PointF(50,50));
         this.metrics = c.getResources().getDisplayMetrics();
+        mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed2, metrics);
+        mapBackground = mapFactory.crateEntity();
+        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted,
+                200, 200, 4, 2, new PointF(metrics.widthPixels / 2, metrics.heightPixels / 2));
 
-//        map = mapFactory.createEntity();
-//        map.setCurrentSprite(1);
-//        map.moveBy(500f,500f);
-//        t1 = mapFactory.createEntity();
-//        t1.setCurrentSprite(2);
-//        t1.moveBy(250f,250f);
+        player = playerFactory.createEntity();
+        player.setCurrentSprite(0);
+        player.setAngleOffSet(90);
+        velMap = new Direction();
+        velPlayer = new Direction();
+        boarderInder = new RectF(0f, 0f, metrics.widthPixels - 200, metrics.heightPixels - 200);
+        Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
-//        f1 = mapFactory2.createEntity();
-//        f2 = mapFactory2.createEntity();
-//        f3 = mapFactory2.createEntity();
-//        f1.moveBy(100f,100f);
-
-//
-//        f2.moveBy(600f,600f);
-//        f3.moveBy(800f,800f);
-//        f3.setCurrentSprite(5);
-//        f2.setCurrentSprite(3);
-        bf = new BackgroundFactory(R.drawable.backgrounddetailed_resized_grid,c.getResources().getDisplayMetrics());
-        background = bf.crateEntity();
 
     }
 
 
     int rotation = 0;
 
+//    @Override
+//    public void update() {
+//        // read joystick
+//        ArrayList<Integer> joystickValues = game.getControl().getJoystickValues();
+//
+//        int joystick_angle = -joystickValues.get(0);
+//        float joystick_strength = ((float) joystickValues.get(1) / 10000);
+//
+////        Log.d("Player", "Angle: " + joystick_angle);
+////        Log.d("Player", "Strength: " + joystick_strength);
+//
+//        vel.angle = joystick_angle;
+//        vel.velocety = joystick_strength;
+//
+//        mapBackground.moveFrame(vel);
+//    }
+
     @Override
     public void update() {
-//        map.rotate(rotation++);
-//        rotation = rotation%360;
+        // read joystick
+        ArrayList<Integer> joystickValues = game.getControl().getJoystickValues();
+
+        int joystick_angle = joystickValues.get(0);
+        float joystick_strength = ((float) joystickValues.get(1) / 5);
+
+        velPlayer.set(joystick_angle, joystick_strength);
+        velMap.set(joystick_angle, joystick_strength / metrics.heightPixels);
+
+        mapBackground.moveFrame(velMap);
+        RectF pboarder = player.move(velPlayer);
+
+        if (joystick_strength > 0) {
+
+            if (boarderInder.contains(pboarder.centerX(), pboarder.centerY())) {
+                Log.e("Map", "############ lock ##############");
+
+                mapBackground.setLock(false);
+                player.setLock(true);
+            } else {
+                Log.e("Map", "############ unlock ##############");
+
+                mapBackground.setLock(true);
+                player.setLock(false);
+            }
+
+        }
     }
+
 }
 
 

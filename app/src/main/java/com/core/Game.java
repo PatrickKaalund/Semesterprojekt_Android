@@ -52,14 +52,14 @@ public class Game implements Runnable {
 //        screenDrawer = new ScreenDrawer(context);
         objectsToUpdate = new ArrayList<>();
 //        fpsDrawer = new FPSDrawer(context, screenDrawer);
-        player = new Player();
-        enemy = new Enemy();
+//        player = new Player();
+//        enemy = new Enemy();
         control = new Control(context, this);
 //        collision = new Collision(map);
 
         // 30Hz clock
         handler = new Handler();
-        handler.postDelayed(gameThread, 33);
+     //   handler.postDelayed(gameThread, 33);
         map = new Map(context);
 
         gameStart();
@@ -82,18 +82,18 @@ public class Game implements Runnable {
         control.setInventoryButton(dropDownMenu);
     }
 
-    private final Runnable gameThread = new Runnable(){
-        public void run(){
-            try {
-                update();
-                handler.postDelayed(gameThread, 33);
-//                Log.d("Game", "Testthread");
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    };
+//    private final Runnable gameThread = new Runnable(){
+//        public void run(){
+//            try {
+//                update();
+//                handler.postDelayed(gameThread, 33);
+////                Log.d("Game", "Testthread");
+//            }
+//            catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    };
 
     // Running gui thread
     @Override
@@ -101,7 +101,7 @@ public class Game implements Runnable {
 
         while (isRunning) {
             if (!isPaused) {
-                //update();
+                update();
                 glSurfaceView.requestRender();
             } else {
                 try {
@@ -115,6 +115,7 @@ public class Game implements Runnable {
 
             try {
                 Thread.sleep(33);
+//               Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

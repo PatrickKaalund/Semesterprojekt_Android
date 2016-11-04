@@ -113,7 +113,7 @@ public class Player extends Creature {
 //        Log.d("Player", "Current sprite ID: !!! " + player.getCurrentSprite());
 
         Log.d("Player", "Animation angle: " + joystick_angle);
-        player.setAngle(joystick_angle);
+        player.setAngleOffSet(joystick_angle);
 
         if((++animationCounter % 3) == 0){
             animationCounter = 0;

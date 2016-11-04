@@ -108,7 +108,7 @@ public class GlRendere implements Renderer {
         }
         Log.d("Renderer", "############# ALLOCATING BUFFERS ##########\n" +
                           "Allocating models : "+ modelsToAllocate+'\n'+
-                          "Allocating bytes  : "+ (((modelsToAllocate * 4 * 3) * 4)+ ((modelsToAllocate *6) * 2)+(modelsToAllocate * 6))+
+                          "Allocating bytes  : "+ (((modelsToAllocate * 4 * 3) * 4)+ ((modelsToAllocate *6) * 2)+(modelsToAllocate * 6))+'\n'+
                           "###########################################\n");
     }
 
@@ -153,7 +153,7 @@ public class GlRendere implements Renderer {
 
             //========== Do the rendering ============
             GLES20.glEnable(GLES20.GL_BLEND);
-            GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+//            GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
             // get handle to vertex shader's vPosition member
             int mPositionHandle =
                     GLES20.glGetAttribLocation(shaderHandler.getShaderProgramID(), "vPosition");
@@ -264,6 +264,9 @@ public class GlRendere implements Renderer {
         // Set filtering
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MIN_FILTER, GLES20.GL_LINEAR);
         GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_MAG_FILTER, GLES20.GL_LINEAR);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_S, GLES20.GL_REPEAT);
+        GLES20.glTexParameteri(GLES20.GL_TEXTURE_2D, GLES20.GL_TEXTURE_WRAP_T, GLES20.GL_REPEAT);
+
         Bitmap bmp = BitmapFactory.decodeResource(context.getResources(), ef.bitMapID);
         // Load the bitmap into the bound texture.
         GLUtils.texImage2D(GLES20.GL_TEXTURE_2D, 0, bmp, 0);

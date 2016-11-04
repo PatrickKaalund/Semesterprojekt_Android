@@ -9,6 +9,7 @@ import android.graphics.RectF;
 abstract class GraphicEntity {
     protected RectF baseRact;
     protected boolean drawThis;
+    protected boolean lock = false;
 
     abstract protected float[] getUvs();
 
@@ -17,6 +18,10 @@ abstract class GraphicEntity {
     abstract public void mustDrawThis(boolean draw);
 
     abstract public boolean mustDrawThis();
+
+    abstract public boolean isLocked();
+
+    abstract public void setLock(boolean lock);
 
 //    protected GraphicEntity (float baseHeight, float baseWidth){
 //        float width = baseWidth / 2;

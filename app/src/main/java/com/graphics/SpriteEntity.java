@@ -1,5 +1,6 @@
 package com.graphics;
 
+import android.graphics.Matrix;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
@@ -17,12 +18,20 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     ArrayList<Integer> drawOrder = new ArrayList<>();
-    float angle;
+    float angleOffSet;
     float scale;
     PointF currentPos;
     private int currentSprite;
     private int drawOrderIndex = 0;
+    float[] modelPoints;
 
+    public boolean isLocked() {
+        return lock;
+    }
+
+    public void setLock(boolean lock) {
+        this.lock = lock;
+    }
 
     private SpriteEntityFactory mother;
     protected int index;
@@ -43,8 +52,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
         currentPos = pos;
         // Initial size
         scale = 1f;
-        // Initial angle
-        angle = 0f;
+        // Initial angleOffSet
+        angleOffSet = 0f;
         mustDrawThis(true);
 
     }
@@ -64,6 +73,40 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //    }
 
 
+    protected float[] getModel() {
+        float[] modelPointWithz = {
+                modelPoints[0], modelPoints[1], 0f,
+                modelPoints[2], modelPoints[3], 0f,
+                modelPoints[4], modelPoints[5], 0f,
+                modelPoints[6], modelPoints[7], 0f,
+        };
+        return modelPointWithz;
+    }
+
+
+    public RectF move(Direction direction) {
+        RectF shadowRect = baseRact;
+        float cos = (float) Math.cos(direction.rad());
+        float sin = (float) Math.sin(direction.rad());
+        float velocity_X = direction.getVelocity() * cos;
+        float velocity_Y = direction.getVelocity() * sin;
+        Matrix transformationMatrix = new Matrix();
+        transformationMatrix.setTranslate(velocity_X, velocity_Y);
+        if (lock) {
+            shadowRect = new RectF(baseRact);
+            transformationMatrix.mapRect(shadowRect);
+        } else {
+            transformationMatrix.mapRect(baseRact);
+        }
+
+        Matrix rotationMatrix = new Matrix();
+        rotationMatrix.setRotate(direction.getAngle() + angleOffSet, baseRact.centerX(), baseRact.centerY());
+        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
+        rotationMatrix.mapPoints(modelPoints);
+        return shadowRect;
+    }
+
+
     public void moveBy(float deltaX, float deltaY) {
         // Update our location.
         currentPos.x += deltaX;
@@ -78,8 +121,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     public void placeAt(float x, float y) {
         // Update our location.
-        currentPos.x = x;
-        currentPos.y = y;
+        baseRact.set(x - baseRact.width(), y + baseRact.height(), x + baseRact.width(), y - baseRact.height());
     }
 
     public void scale(float deltas) {
@@ -87,11 +129,11 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void rotate(float deltaa) {
-        angle += deltaa;
+        angleOffSet += deltaa;
     }
 
-    public void setAngle(float angle) {
-        this.angle = angle;
+    public void setAngleOffSet(float angleOffSet) {
+        this.angleOffSet = angleOffSet;
     }
 
 
@@ -103,7 +145,9 @@ class SpriteEntity extends GraphicEntity implements Entity {
         this.currentSprite = currentSprite;
     }
 
-    public RectF getRect(){ return this.baseRact;}
+    public RectF getRect() {
+        return this.baseRact;
+    }
 
     public void drawNextSprite() {
         if (drawOrder.isEmpty()) {
@@ -122,7 +166,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
 
-
     public int getIndex() {
         return index;
     }
@@ -139,11 +182,10 @@ class SpriteEntity extends GraphicEntity implements Entity {
      *
      * @return
      */
-    protected float[] getModel() {
-
-        return getTransformedVertices();
-    }
-
+//    protected float[] getModel() {
+//
+//        return getTransformedVertices();
+//    }
     private float[] getTransformedVertices() {
         // Start with scaling
         float x1 = baseRact.left * scale;
@@ -160,8 +202,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
         // We create the sin and cos function once,
         // so we do not have calculate them each time.
-        float s = (float) Math.sin(angle);
-        float c = (float) Math.cos(angle);
+        float s = (float) Math.sin(angleOffSet);
+        float c = (float) Math.cos(angleOffSet);
 
         // Then we rotate each point
         one.x = x1 * c - y2 * s;
