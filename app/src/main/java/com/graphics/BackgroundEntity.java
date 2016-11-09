@@ -65,16 +65,18 @@ public class BackgroundEntity extends GraphicEntity {
 
     public void moveFrame(Direction direction) {
         if (lock) {
-            float cos = (float) Math.cos(direction.rad());
-            float sin = (float) Math.sin(direction.rad());
-            float velocity_X = (direction.getVelocity() * cos);
-            float velocity_Y = direction.getVelocity() * sin;
-
-            Matrix transformMatrix = new Matrix();
-//        Log.w("BackgroundEntity", "Uvs before: " + rectToString(uvs));
-            transformMatrix.setTranslate(velocity_X, -velocity_Y);
-//        Log.w("BackgroundEntity", "Uvs after: " + rectToString(uvs));
-            transformMatrix.mapRect(uvs);
+            return;
         }
+        float cos = (float) Math.cos(direction.rad());
+        float sin = (float) Math.sin(direction.rad());
+        float velocity_X = (direction.getVelocity() * cos);
+        float velocity_Y = direction.getVelocity() * sin;
+
+        Matrix transformMatrix = new Matrix();
+//        Log.w("BackgroundEntity", "Uvs before: " + rectToString(uvs));
+        transformMatrix.setTranslate(velocity_X, -velocity_Y);
+//        Log.w("BackgroundEntity", "Uvs after: " + rectToString(uvs));
+        transformMatrix.mapRect(uvs);
+
     }
 }

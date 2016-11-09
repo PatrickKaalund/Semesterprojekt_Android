@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import static com.graphics.GraphicsTools.LL;
 import static com.graphics.GraphicsTools.rectToString;
 
 
@@ -92,12 +93,12 @@ class SpriteEntity extends GraphicEntity implements Entity {
         float velocity_Y = direction.getVelocity() * sin;
         Matrix transformationMatrix = new Matrix();
         transformationMatrix.setTranslate(velocity_X, velocity_Y);
+
         if (lock) {
             shadowRect = new RectF(baseRact);
-            transformationMatrix.mapRect(shadowRect);
-        } else {
-            transformationMatrix.mapRect(baseRact);
+            LL(this,"in logged");
         }
+        transformationMatrix.mapRect(shadowRect);
 
         Matrix rotationMatrix = new Matrix();
         rotationMatrix.setRotate(direction.getAngle() + angleOffSet, baseRact.centerX(), baseRact.centerY());

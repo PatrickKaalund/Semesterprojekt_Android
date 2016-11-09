@@ -127,7 +127,7 @@ public class GlRendere implements Renderer {
         for (EntityFactory ef : drawList) {
             if (!ef.textureLoaded) loadTextrue(ef);//Check if the texture is loaded (only once per factory)
             if (ef.entityDrawCount == 0) continue; //Continue if there is nothing to draw
-            //Check if we need to encase buffer size. Current buffer size
+            //Check if we need to increase buffer size. Current buffer size
             // is allays as big as the biggest factory.
             // TODO maybe decrease buffer size at some point???
             if (ef.entityDrawCount > currentModelBufferSize){

@@ -1,10 +1,12 @@
 package com.graphics;
 
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Created by thor on 10/22/16.
@@ -111,7 +113,7 @@ public class GraphicsTools {
     public static RectF setCornersToRect(float[] p) {
         RectF r = new RectF();
         //float[] p = {200, 450, 600, 450, 600, 300, 200, 300};
-        r.set(p[0],p[1],p[4],p[5]);
+        r.set(p[0], p[1], p[4], p[5]);
         return r;
     }
 
@@ -155,6 +157,7 @@ public class GraphicsTools {
     public static String rectToString(RectF r) {
         return Arrays.toString(getCornersFromRect(r));
     }
+
     public static String rectToStringWithZ(RectF r) {
         return Arrays.toString(getCornersFromRectWithZ(r));
     }
@@ -173,6 +176,10 @@ public class GraphicsTools {
 //                1.0f, 1.0f, // 1,1  --->
 //                1.0f, 0.0f, // 1,0  --->
 //    };
+
+    public static void LL(Object o, String msg){
+        Log.d(o.getClass().toString(),msg);
+    }
 
 
 }

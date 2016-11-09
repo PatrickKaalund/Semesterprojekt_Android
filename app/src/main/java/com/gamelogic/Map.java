@@ -40,13 +40,13 @@ public class Map extends GUpdateable {
         mapBackground = mapFactory.crateEntity();
         playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted,
                 200, 200, 4, 2, new PointF(metrics.widthPixels / 2, metrics.heightPixels / 2));
-
+        float ratio = metrics.widthPixels / metrics.heightPixels;
         player = playerFactory.createEntity();
         player.setCurrentSprite(0);
         player.setAngleOffSet(90);
         velMap = new Direction();
         velPlayer = new Direction();
-        boarderInder = new RectF(0f, 0f, metrics.widthPixels - 200, metrics.heightPixels - 200);
+        boarderInder = new RectF(0f, 0f, metrics.widthPixels - 200, metrics.heightPixels - 200*ratio);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
 
@@ -91,19 +91,58 @@ public class Map extends GUpdateable {
             if (boarderInder.contains(pboarder.centerX(), pboarder.centerY())) {
                 Log.e("Map", "############ lock ##############");
 
-                mapBackground.setLock(false);
-                player.setLock(true);
-            } else {
-                Log.e("Map", "############ unlock ##############");
-
                 mapBackground.setLock(true);
                 player.setLock(false);
+
+            } else {
+                Log.e("Map", "############ unlock ##############");
+                mapBackground.setLock(false);
+                player.setLock(true);
             }
 
         }
     }
 
-}
+
+    /**
+     * If the rectangle specified by left,top,right,bottom intersects this
+     * rectangle, return true and set this rectangle to that intersection,
+     * otherwise return false and do not change this rectangle. No check is
+     * performed to see if either rectangle is empty. Note: To just test for
+     * intersection, use intersects()
+     *
+     * @param left The left side of the rectangle being intersected with this
+     *             rectangle
+     * @param top The top of the rectangle being intersected with this rectangle
+     * @param right The right side of the rectangle being intersected with this
+     *              rectangle.
+     * @param bottom The bottom of the rectangle being intersected with this
+     *             rectangle.
+     * @return true if the specified rectangle and this rectangle intersect
+     *              (and this rectangle is then set to that intersection) else
+     *              return false and do not change this rectangle.
+     */
+//    public boolean intersect(,float left, float top, float right, float bottom) {
+//        if (this.left < right && left < this.right
+//                && this.top < bottom && top < this.bottom) {
+//            if (this.left < left) {
+//                this.left = left;
+//            }
+//            if (this.top < top) {
+//                this.top = top;
+//            }
+//            if (this.right > right) {
+//                this.right = right;
+//            }
+//            if (this.bottom > bottom) {
+//                this.bottom = bottom;
+//            }
+//            return true;
+//        }
+//        return false;
+    }
+
+//}
 
 
 //package com.gamelogic;
