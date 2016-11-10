@@ -1,17 +1,10 @@
 package com.gamelogic;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.Rect;
-import android.util.Log;
+import android.graphics.RectF;
 
-import com.core.ScreenDrawer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.graphics.Direction;
 import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
 
@@ -23,37 +16,47 @@ import java.util.ArrayList;
 
 public class Enemy extends Creature {
 
-    private SpriteEntityFactory enemyFactory;
+
     private Entity enemy;
+    private ArrayList<Integer> joystickValues;
 
-    public Enemy() {
-        game.objectsToUpdate.add(this);
+    Direction direction;
 
-        super.speed = 1;
-        super.health = 100;
-        super.xPosition = 700;
-        super.yPosition = 700;
+    public Enemy(SpriteEntityFactory enemyFactory, int health, int speed, PointF startLocation) {
 
-        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown, 350, 350, 8, 36, new PointF(super.xPosition, super.yPosition));
+        super.speed = speed;
+        super.health = health;
 
         enemy = enemyFactory.createEntity();
+        enemy.placeAt(startLocation.x, startLocation.y);
         enemy.setCurrentSprite(4);
+        enemy.setAngleOffSet(-45);
+        enemy.setAnimationDivider(3);
+        enemy.setAnimationOrder(new int[]{4, 5, 6, 7, 8, 9, 10, 11});
 
-        enemy.rotate(-30);
+        direction = new Direction();
+
+        joystickValues = new ArrayList<>();
     }
+
+    public void update(Direction velMap) {
+
+        int angle = 0;
+
+        // Adjust for map vel
+//        direction.set(angle, velMap.getVelocity());
+        direction.set(angle, 0);
+
+        enemy.move(direction);
+
+        enemy.drawNextSprite();
+    }
+
+    public RectF getRect(){ return this.enemy.getRect(); }
+    public void setLock(LockDirection lockDirection){ enemy.setLock(lockDirection);}
 
     @Override
     public void update() {
-
-        // for testing :-)
-        //enemy.moveBy(1, -1);
-
-
-//        Log.d("Enemy", "Player rect: " + game.getPlayer().getPlayer().getRect());
-//        Log.d("Enemy", "Enemy rect: " + enemy.getRect());
-//
-//        if(enemy.getRect().intersect(game.getPlayer().getPlayer().getRect())){
-//            Log.d("Enemy", "You died!!!");
-//        }
+            // SHOULD BE REMOVED! INTERFACE ISSUES ATM
     }
 }

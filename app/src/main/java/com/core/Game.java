@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
 import com.gamelogic.Control;
-import com.gamelogic.Enemy;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
 import com.graphics.FPSMeasuring;
@@ -23,7 +22,7 @@ public class Game implements Runnable {
     private Thread thread;
     private Map map;
     private Player player;
-    private Enemy enemy;
+//    private Enemy enemy;
     private OurGLSurfaceView glSurfaceView;
     //    private ScreenDrawer screenDrawer;
     private boolean isRunning;
@@ -43,31 +42,28 @@ public class Game implements Runnable {
 
 
     public Game(Context context) {
-        Log.d("Game","Game greated");
+        Log.d("Game","Game created");
         GUpdateable.game = this;
         glSurfaceView = new OurGLSurfaceView(context);
 
         this.context = context;
 
-//        screenDrawer = new ScreenDrawer(context);
         objectsToUpdate = new ArrayList<>();
 //        fpsDrawer = new FPSDrawer(context, screenDrawer);
         player = new Player();
-//        enemy = new Enemy();
         control = new Control(context, this);
-//        collision = new Collision(map);
-
-        // 30Hz clock
-        handler = new Handler();
-     //   handler.postDelayed(gameThread, 33);
         map = new Map(context);
 
         gameStart();
         thread = new Thread(this);
         thread.start();
 
+//        Thread thread2 = new Thread(renderThread);
+//        thread2.start();
+
         fpsMeasuring.start();
 
+        update();
     }
 
     public void setJoystick(JoystickView joystickView) {
@@ -82,27 +78,16 @@ public class Game implements Runnable {
         control.setInventoryButton(dropDownMenu);
     }
 
-//    private final Runnable gameThread = new Runnable(){
-//        public void run(){
-//            try {
-//                update();
-//                handler.postDelayed(gameThread, 33);
-////                Log.d("Game", "Testthread");
-//            }
-//            catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    };
-
     // Running gui thread
     @Override
     public void run() {
 
         while (isRunning) {
             if (!isPaused) {
+//                handler.postDelayed(this, 33);
                 update();
-                glSurfaceView.requestRender();
+//                glSurfaceView.requestRender();
+
             } else {
                 try {
                     Log.d("Game", "Clock is Paused!");
@@ -115,7 +100,6 @@ public class Game implements Runnable {
 
             try {
                 Thread.sleep(33);
-//               Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -126,7 +110,6 @@ public class Game implements Runnable {
         isRunning = true;
         isPaused = false;
         fpsMeasuring.startFPS();
-        //handler.post(gameThread);
     }
 
     public void gamePause() {
@@ -143,29 +126,18 @@ public class Game implements Runnable {
         for (GUpdateable updateable : objectsToUpdate) {
             updateable.update();
         }
-//        control.read();
     }
 
-//    public ScreenDrawer getScreenDrawer() {
-//        return this.screenDrawer;
-//    }
-
+    // Getters
     public OurGLSurfaceView getGameView() {
         return glSurfaceView;
     }
-
     public Control getControl() {
         return this.control;
     }
-
-    public Map getMap() {
-        return this.map;
-    }
-
     public int getFPS() {
         return fpsMeasuring.latestFPS;
     }
-
     public Player getPlayer(){ return this.player; }
 }
 

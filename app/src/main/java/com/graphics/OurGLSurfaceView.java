@@ -27,7 +27,7 @@ public class OurGLSurfaceView extends GLSurfaceView {
         Log.d("OurGLSurfaceView", "OurGLSurfaceView constructer: Setting renderer");
         setRenderer(renderer);
         // Render the view only when there is a change in the drawing data
-        setRenderMode(OurGLSurfaceView.RENDERMODE_WHEN_DIRTY);
+        setRenderMode(OurGLSurfaceView.RENDERMODE_CONTINUOUSLY);
 
     }
 

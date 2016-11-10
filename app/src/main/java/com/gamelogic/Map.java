@@ -11,6 +11,7 @@ import com.core.GUpdateable;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
 import com.graphics.BackgroundFactory;
+import com.graphics.EnemySpawner;
 import com.graphics.Entity;
 import com.graphics.GraphicsTools;
 import com.graphics.SpriteEntityFactory;
@@ -20,14 +21,14 @@ import java.util.ArrayList;
 
 public class Map extends GUpdateable {
 
-//    private final SpriteEntityFactory playerFactory;
-//    private final Entity player;
     private DisplayMetrics metrics;
     BackgroundEntity mapBackground;
     BackgroundFactory mapFactory;
     Direction velMap;
     RectF boarder = new RectF(0f, 0f, 2000f, 2000f);
     RectF boarderInder;
+
+    private EnemySpawner enemySpawner;
 
 
     public Map(Context c) {
@@ -36,16 +37,13 @@ public class Map extends GUpdateable {
         this.metrics = c.getResources().getDisplayMetrics();
         mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed2, metrics);
         mapBackground = mapFactory.crateEntity();
-//        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted,
-//                200, 200, 4, 2, new PointF(metrics.widthPixels / 2, metrics.heightPixels / 2));
         float ratio = metrics.widthPixels / metrics.heightPixels;
-//        player = playerFactory.createEntity();
-//        player.setCurrentSprite(0);
-
         velMap = new Direction();
         boarderInder = new RectF(0f, 0f, metrics.widthPixels - 200, metrics.heightPixels - 200*ratio);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
+        enemySpawner = new EnemySpawner();
+        enemySpawner.spawnEnemies(100, 10, 10);
 
     }
 
@@ -85,18 +83,19 @@ public class Map extends GUpdateable {
         if (joystick_strength > 0) {
 
             if (boarderInder.contains(pboarder.centerX(), pboarder.centerY())) {
-                Log.e("Map", "############ lock ##############");
+//                Log.e("Map", "############ lock ##############");
 
                 mapBackground.setLock(LockDirection.ALL);
 //                player.setLock(false);
 
             } else {
-                Log.e("Map", "############ unlock ##############");
+//                Log.e("Map", "############ unlock ##############");
                 mapBackground.setLock(LockDirection.ALL);
 //                player.setLock(true);
             }
 
         }
+        enemySpawner.update(velMap);
     }
 
 

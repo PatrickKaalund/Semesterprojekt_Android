@@ -19,10 +19,9 @@ import static com.graphics.GraphicsTools.rectToString;
 class SpriteEntity extends GraphicEntity implements Entity {
 
 
-    int[] animationOrder;
+    int[] animationOrder = new int[0];
     float angleOffSet;
     float scale;
-    PointF currentPos;
     private int currentSprite;
     private int drawOrderIndex = 0;
     private int animationDivider = 1;
@@ -43,8 +42,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
         this.mother = mother;
         this.index = index;
 
-        // Initial Pos
-        currentPos = pos;
         // Initial size
         scale = 1f;
         // Initial angleOffSet
@@ -115,9 +112,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     public void moveBy(float deltaX, float deltaY) {
-        // Update our location.
-        currentPos.x += deltaX;
-        currentPos.y += deltaY;
 
 //        Log.d("SpriteEntity", "Rectangle before: " + baseRact.toString());
 
@@ -128,7 +122,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     public void placeAt(float x, float y) {
         // Update our location.
-        baseRact.set(x - baseRact.width(), y + baseRact.height(), x + baseRact.width(), y - baseRact.height());
+        baseRact.set(x - baseRact.width()/2, y + baseRact.height()/2, x + baseRact.width()/2, y - baseRact.height()/2);
     }
 
     public void scale(float deltas) {
@@ -196,54 +190,54 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //
 //        return getTransformedVertices();
 //    }
-    private float[] getTransformedVertices() {
-        // Start with scaling
-        float x1 = baseRact.left * scale;
-        float x2 = baseRact.right * scale;
-        float y1 = baseRact.bottom * scale;
-        float y2 = baseRact.top * scale;
-
-        // We now detach from our Rect because when rotating,
-        // we need the seperate points, so we do so in opengl order
-        PointF one = new PointF(x1, y2);
-        PointF two = new PointF(x1, y1);
-        PointF three = new PointF(x2, y1);
-        PointF four = new PointF(x2, y2);
-
-        // We create the sin and cos function once,
-        // so we do not have calculate them each time.
-        float s = (float) Math.sin(angleOffSet);
-        float c = (float) Math.cos(angleOffSet);
-
-        // Then we rotate each point
-        one.x = x1 * c - y2 * s;
-        one.y = x1 * s + y2 * c;
-        two.x = x1 * c - y1 * s;
-        two.y = x1 * s + y1 * c;
-        three.x = x2 * c - y1 * s;
-        three.y = x2 * s + y1 * c;
-        four.x = x2 * c - y2 * s;
-        four.y = x2 * s + y2 * c;
-
-        // Finally we translate the sprite to its correct position.
-        one.x += currentPos.x;
-        one.y += currentPos.y;
-        two.x += currentPos.x;
-        two.y += currentPos.y;
-        three.x += currentPos.x;
-        three.y += currentPos.y;
-        four.x += currentPos.x;
-        four.y += currentPos.y;
-
-        // We now return our float array of vertices.
-        return new float[]
-                {
-                        one.x, one.y, 0.0f,
-                        two.x, two.y, 0.0f,
-                        three.x, three.y, 0.0f,
-                        four.x, four.y, 0.0f,
-                };
-    }
+//    private float[] getTransformedVertices() {
+//        // Start with scaling
+//        float x1 = baseRact.left * scale;
+//        float x2 = baseRact.right * scale;
+//        float y1 = baseRact.bottom * scale;
+//        float y2 = baseRact.top * scale;
+//
+//        // We now detach from our Rect because when rotating,
+//        // we need the seperate points, so we do so in opengl order
+//        PointF one = new PointF(x1, y2);
+//        PointF two = new PointF(x1, y1);
+//        PointF three = new PointF(x2, y1);
+//        PointF four = new PointF(x2, y2);
+//
+//        // We create the sin and cos function once,
+//        // so we do not have calculate them each time.
+//        float s = (float) Math.sin(angleOffSet);
+//        float c = (float) Math.cos(angleOffSet);
+//
+//        // Then we rotate each point
+//        one.x = x1 * c - y2 * s;
+//        one.y = x1 * s + y2 * c;
+//        two.x = x1 * c - y1 * s;
+//        two.y = x1 * s + y1 * c;
+//        three.x = x2 * c - y1 * s;
+//        three.y = x2 * s + y1 * c;
+//        four.x = x2 * c - y2 * s;
+//        four.y = x2 * s + y2 * c;
+//
+//        // Finally we translate the sprite to its correct position.
+//        one.x += currentPos.x;
+//        one.y += currentPos.y;
+//        two.x += currentPos.x;
+//        two.y += currentPos.y;
+//        three.x += currentPos.x;
+//        three.y += currentPos.y;
+//        four.x += currentPos.x;
+//        four.y += currentPos.y;
+//
+//        // We now return our float array of vertices.
+//        return new float[]
+//                {
+//                        one.x, one.y, 0.0f,
+//                        two.x, two.y, 0.0f,
+//                        three.x, three.y, 0.0f,
+//                        four.x, four.y, 0.0f,
+//                };
+//    }
 
 
 }
