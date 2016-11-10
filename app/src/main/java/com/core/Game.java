@@ -52,7 +52,7 @@ public class Game implements Runnable {
 //        screenDrawer = new ScreenDrawer(context);
         objectsToUpdate = new ArrayList<>();
 //        fpsDrawer = new FPSDrawer(context, screenDrawer);
-//        player = new Player();
+        player = new Player();
 //        enemy = new Enemy();
         control = new Control(context, this);
 //        collision = new Collision(map);

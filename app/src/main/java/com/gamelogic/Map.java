@@ -20,14 +20,12 @@ import java.util.ArrayList;
 
 public class Map extends GUpdateable {
 
-    private final SpriteEntityFactory playerFactory;
-    private final Entity player;
+//    private final SpriteEntityFactory playerFactory;
+//    private final Entity player;
     private DisplayMetrics metrics;
     BackgroundEntity mapBackground;
     BackgroundFactory mapFactory;
-    //    Direction vel = new Direction();
     Direction velMap;
-    Direction velPlayer;
     RectF boarder = new RectF(0f, 0f, 2000f, 2000f);
     RectF boarderInder;
 
@@ -38,14 +36,13 @@ public class Map extends GUpdateable {
         this.metrics = c.getResources().getDisplayMetrics();
         mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed2, metrics);
         mapBackground = mapFactory.crateEntity();
-        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted,
-                200, 200, 4, 2, new PointF(metrics.widthPixels / 2, metrics.heightPixels / 2));
+//        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted,
+//                200, 200, 4, 2, new PointF(metrics.widthPixels / 2, metrics.heightPixels / 2));
         float ratio = metrics.widthPixels / metrics.heightPixels;
-        player = playerFactory.createEntity();
-        player.setCurrentSprite(0);
-        player.setAngleOffSet(90);
+//        player = playerFactory.createEntity();
+//        player.setCurrentSprite(0);
+
         velMap = new Direction();
-        velPlayer = new Direction();
         boarderInder = new RectF(0f, 0f, metrics.widthPixels - 200, metrics.heightPixels - 200*ratio);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
@@ -78,26 +75,25 @@ public class Map extends GUpdateable {
         ArrayList<Integer> joystickValues = game.getControl().getJoystickValues();
 
         int joystick_angle = joystickValues.get(0);
-        float joystick_strength = ((float) joystickValues.get(1) / 5);
+        float joystick_strength = ((float) joystickValues.get(1) / 50);
 
-        velPlayer.set(joystick_angle, joystick_strength);
         velMap.set(joystick_angle, joystick_strength / metrics.heightPixels);
 
         mapBackground.moveFrame(velMap);
-        RectF pboarder = player.move(velPlayer);
+        RectF pboarder = game.getPlayer().getRect();
 
         if (joystick_strength > 0) {
 
             if (boarderInder.contains(pboarder.centerX(), pboarder.centerY())) {
                 Log.e("Map", "############ lock ##############");
 
-                mapBackground.setLock(true);
-                player.setLock(false);
+                mapBackground.setLock(LockDirection.ALL);
+//                player.setLock(false);
 
             } else {
                 Log.e("Map", "############ unlock ##############");
-                mapBackground.setLock(false);
-                player.setLock(true);
+                mapBackground.setLock(LockDirection.ALL);
+//                player.setLock(true);
             }
 
         }

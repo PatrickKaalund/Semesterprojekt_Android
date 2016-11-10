@@ -5,9 +5,10 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
 
+import com.gamelogic.LockDirection;
+
 import java.util.ArrayList;
 
-import static com.graphics.GraphicsTools.LL;
 import static com.graphics.GraphicsTools.rectToString;
 
 
@@ -18,21 +19,15 @@ import static com.graphics.GraphicsTools.rectToString;
 class SpriteEntity extends GraphicEntity implements Entity {
 
 
-    ArrayList<Integer> drawOrder = new ArrayList<>();
+    int[] animationOrder;
     float angleOffSet;
     float scale;
     PointF currentPos;
     private int currentSprite;
     private int drawOrderIndex = 0;
+    private int animationDivider = 1;
+    private int animationCounter = 0;
     float[] modelPoints;
-
-    public boolean isLocked() {
-        return lock;
-    }
-
-    public void setLock(boolean lock) {
-        this.lock = lock;
-    }
 
     private SpriteEntityFactory mother;
     protected int index;
@@ -47,7 +42,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
         Log.d("SpriteEntity", "BaseRect: " + rectToString(baseRact));
         this.mother = mother;
         this.index = index;
-
 
         // Initial Pos
         currentPos = pos;
@@ -75,6 +69,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     protected float[] getModel() {
+//        drawNextSprite();
         float[] modelPointWithz = {
                 modelPoints[0], modelPoints[1], 0f,
                 modelPoints[2], modelPoints[3], 0f,
@@ -85,26 +80,37 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
 
-    public RectF move(Direction direction) {
-        RectF shadowRect = baseRact;
+    public void move(Direction direction) {
+        float velocity_X, velocity_Y;
         float cos = (float) Math.cos(direction.rad());
         float sin = (float) Math.sin(direction.rad());
-        float velocity_X = direction.getVelocity() * cos;
-        float velocity_Y = direction.getVelocity() * sin;
         Matrix transformationMatrix = new Matrix();
-        transformationMatrix.setTranslate(velocity_X, velocity_Y);
-
-        if (lock) {
-            shadowRect = new RectF(baseRact);
-            LL(this,"in logged");
+        switch (lockDirection) {
+            case X:
+                velocity_Y = direction.getVelocity() * sin;
+                transformationMatrix.setTranslate(0, velocity_Y);
+                break;
+            case Y:
+                velocity_X = direction.getVelocity() * cos;
+                transformationMatrix.setTranslate(velocity_X, 0);
+                break;
+            case UNLOCK:
+                velocity_X = direction.getVelocity() * cos;
+                velocity_Y = direction.getVelocity() * sin;
+                transformationMatrix.setTranslate(velocity_X, velocity_Y);
+                break;
+            case ALL:
+                break;
         }
-        transformationMatrix.mapRect(shadowRect);
-
+        transformationMatrix.mapRect(baseRact);
         Matrix rotationMatrix = new Matrix();
         rotationMatrix.setRotate(direction.getAngle() + angleOffSet, baseRact.centerX(), baseRact.centerY());
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
         rotationMatrix.mapPoints(modelPoints);
-        return shadowRect;
+    }
+
+    public void setLock(LockDirection lockDirection) {
+        this.lockDirection = lockDirection;
     }
 
 
@@ -137,7 +143,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
         this.angleOffSet = angleOffSet;
     }
 
-
     public int getCurrentSprite() {
         return currentSprite;
     }
@@ -151,20 +156,24 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void drawNextSprite() {
-        if (drawOrder.isEmpty()) {
-            currentSprite++;
-            currentSprite = currentSprite % mother.spriteCount;
-        } else {
-            drawOrderIndex++;
-            drawOrderIndex = drawOrderIndex % drawOrder.size();
-            currentSprite = drawOrder.get(drawOrderIndex);
+        if(++this.animationCounter == this.animationDivider){
+            animationCounter = 0;
+            if (animationOrder.length == 0) {
+                currentSprite++;
+                currentSprite = currentSprite % mother.spriteCount;
+            } else {
+                drawOrderIndex++;
+                drawOrderIndex = drawOrderIndex % animationOrder.length;
+                currentSprite = animationOrder[drawOrderIndex];
+            }
         }
     }
 
-
-    public void setDrawOrder(ArrayList<Integer> drawOrder) {
-        this.drawOrder = drawOrder;
+    public void setAnimationOrder(int[] animationOrder) {
+        this.animationOrder = animationOrder;
     }
+
+    public void setAnimationDivider(int animationDivider) { this.animationDivider = animationDivider; }
 
 
     public int getIndex() {

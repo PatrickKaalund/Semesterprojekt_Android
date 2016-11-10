@@ -2,6 +2,10 @@ package com.graphics;
 
 import android.graphics.RectF;
 
+import com.gamelogic.LockDirection;
+
+import java.util.ArrayList;
+
 /**
  * Created by thor on 10/27/16.
  */
@@ -26,9 +30,11 @@ public interface Entity {
 
     public RectF getRect();
 
-    public RectF move(Direction direction);
+    public void move(Direction direction);
 
-    public boolean isLocked();
+    public void setLock(LockDirection lockDirection);
 
-    public void setLock(boolean lock);
+    public void setAnimationDivider(int animationSpeed);
+
+    public void setAnimationOrder(int[] animationOrder);
 }
