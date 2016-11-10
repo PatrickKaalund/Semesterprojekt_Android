@@ -28,7 +28,6 @@ public class SpriteEntityFactory extends EntityFactory{
         this.pos = pos;
         makeSprites();
         GlRendere.drawList.add(this);
-        GlRendere.durtyDrawList = false;
     }
 
     public Entity createEntity() {

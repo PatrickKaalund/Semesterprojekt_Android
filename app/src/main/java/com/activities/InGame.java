@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.graphics.GlRendere;
 import com.views.DropDownMenu;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
