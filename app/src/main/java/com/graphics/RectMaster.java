@@ -24,9 +24,9 @@ public class RectMaster extends RectF {
         super(r);
     }
 
-    public boolean contains(float x, float y) {
-        return left < right && top < bottom  // check for empty first
-                && x >= left && x < right && y >= top && y < bottom;
-    }
+//    public Direction contains(float x, float y) {
+//        return left < right && top < bottom  // check for empty first
+//                && x >= left && x < right && y >= top && y < bottom;
+//    }
 
 }
