@@ -36,8 +36,6 @@ public class GlRendere implements Renderer {
     // Our screenresolution
     float mScreenWidth = 1280;
     float mScreenHeight = 768;
-    protected static int textureSlotCount;
-    protected static int textureSlot = 0;
     private int currentTexture = 0;
     private int currentModelBufferSize = 0;
 
@@ -45,26 +43,29 @@ public class GlRendere implements Renderer {
     Context context;
     long mLastTime;
     ShaderHandler shaderHandler;
-    protected static boolean durtyDrawList;
+    //Statics
     protected static ArrayList<EntityFactory> drawList = new ArrayList<>();
-    protected static int totalModelCount = 0;
+    protected static int textureSlotCount;
+    protected static int textureSlot;
 
     public GlRendere(Context c) {
-        Log.d("GlRendere", "CONSTRUCTER" );
-
+        Log.d("GlRendere", "CONSTRUCTER");
+        GlRendere.drawList.clear();
+        textureSlotCount = 0;
+        textureSlot = 0;
         context = c;
         shaderHandler = new ShaderHandler(context);
         mLastTime = System.currentTimeMillis() + 100;
     }
 
     public void onPause() {
-        Log.d("GlRendere", "onPause" );
+        Log.d("GlRendere", "onPause");
 
         /* Do stuff to pause the renderer */
     }
 
     public void onResume() {
-        Log.d("GlRendere", "onResume" );
+        Log.d("GlRendere", "onResume");
 
         /* Do stuff to resume the renderer */
         mLastTime = System.currentTimeMillis();
@@ -74,9 +75,10 @@ public class GlRendere implements Renderer {
      * Allocate bytes for "vertexBuffer","indexBuffer","uvBuffer"
      * The buffers will be able to hold the amount of models corresponding to
      * "modelsToAllocate" after this call
+     *
      * @param modelsToAllocate
      */
-    private void allocateBuffers(int modelsToAllocate){
+    private void allocateBuffers(int modelsToAllocate) {
         currentModelBufferSize = modelsToAllocate;
         // The vertex buffer.
         //4 vertices of 3 coordinates each x,y,z
@@ -88,7 +90,7 @@ public class GlRendere implements Renderer {
         uvsbb.order(ByteOrder.nativeOrder());
         uvBuffer = uvsbb.asFloatBuffer();
         // initialize byte buffer for the draw list (indexBuffer)
-        ByteBuffer dlb = ByteBuffer.allocateDirect((modelsToAllocate *6) * 2);
+        ByteBuffer dlb = ByteBuffer.allocateDirect((modelsToAllocate * 6) * 2);
         dlb.order(ByteOrder.nativeOrder());
         indexBuffer = dlb.asShortBuffer();
         //Fill the Index buffer. This is the same for all models. Only done once per buffer increase
@@ -107,14 +109,15 @@ public class GlRendere implements Renderer {
             last += 4;
         }
         Log.d("Renderer", "############# ALLOCATING BUFFERS ##########\n" +
-                          "Allocating models : "+ modelsToAllocate+'\n'+
-                          "Allocating bytes  : "+ (((modelsToAllocate * 4 * 3) * 4)+ ((modelsToAllocate *6) * 2)+(modelsToAllocate * 6))+'\n'+
-                          "###########################################\n");
+                "Allocating models : " + modelsToAllocate + '\n' +
+                "Allocating bytes  : " + (((modelsToAllocate * 4 * 3) * 4) + ((modelsToAllocate * 6) * 2) + (modelsToAllocate * 6)) + '\n' +
+                "###########################################\n");
     }
 
 
     /**
      * Render a frame
+     *
      * @param unused
      */
     @Override
@@ -125,12 +128,13 @@ public class GlRendere implements Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         for (EntityFactory ef : drawList) {
-            if (!ef.textureLoaded) loadTextrue(ef);//Check if the texture is loaded (only once per factory)
+            if (!ef.textureLoaded)
+                loadTextrue(ef);//Check if the texture is loaded (only once per factory)
             if (ef.entityDrawCount == 0) continue; //Continue if there is nothing to draw
             //Check if we need to increase buffer size. Current buffer size
             // is allays as big as the biggest factory.
             // TODO maybe decrease buffer size at some point???
-            if (ef.entityDrawCount > currentModelBufferSize){
+            if (ef.entityDrawCount > currentModelBufferSize) {
                 allocateBuffers(ef.entityDrawCount);
             }
             currentTexture = ef.textureID;
@@ -192,7 +196,7 @@ public class GlRendere implements Renderer {
             GLES20.glUniform1i(mSamplerLoc, currentTexture);
 
             // Draw the triangle
-            GLES20.glDrawElements(GLES20.GL_TRIANGLES, ef.entityDrawCount*6,//<-- indices.length for current factory
+            GLES20.glDrawElements(GLES20.GL_TRIANGLES, ef.entityDrawCount * 6,//<-- indices.length for current factory
                     GLES20.GL_UNSIGNED_SHORT, indexBuffer);
 
             // Disable vertex array
@@ -210,7 +214,7 @@ public class GlRendere implements Renderer {
         GLES20.glGetIntegerv(GLES20.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, i);
         textureSlotCount = i.get(0);
         Log.d("GlRendere", "Texture count: " + i.get(0));
-        Log.d("GlRendere", "onSurfaceCreated" );
+        Log.d("GlRendere", "onSurfaceCreated");
         // Set the clear color to black
         GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1);
         shaderHandler.installShaderFiles();
@@ -219,7 +223,7 @@ public class GlRendere implements Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        Log.d("GlRendere", "onSurfaceChanged" );
+        Log.d("GlRendere", "onSurfaceChanged");
 
         // We need to know the current width and height.
         mScreenWidth = width;
@@ -248,6 +252,7 @@ public class GlRendere implements Renderer {
 
     /**
      * Load textures to the video mem
+     *
      * @param ef
      */
     private void loadTextrue(EntityFactory ef) {
@@ -273,7 +278,7 @@ public class GlRendere implements Renderer {
 
         // We are done using the bitmap so we should recycle it.
         bmp.recycle();
-        Log.d("Renderer", "Texture loaded at slot "+textureSlot);
+        Log.d("Renderer", "Texture loaded at slot " + textureSlot);
         textureSlot++;
         ef.textureLoaded = true;
     }

@@ -26,9 +26,9 @@ public class OurGLSurfaceView extends GLSurfaceView {
         renderer = new GlRendere(context);
         Log.d("OurGLSurfaceView", "OurGLSurfaceView constructer: Setting renderer");
         setRenderer(renderer);
-
         // Render the view only when there is a change in the drawing data
         setRenderMode(OurGLSurfaceView.RENDERMODE_WHEN_DIRTY);
+
     }
 
     @Override
@@ -38,6 +38,12 @@ public class OurGLSurfaceView extends GLSurfaceView {
         renderer.onPause();
         Log.d("OurGLSurfaceView", "onPause");
 
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        Log.d("OurGLSurfaceView", "onDetachedFromWindow");
+        super.onDetachedFromWindow();
     }
 
     @Override
