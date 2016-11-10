@@ -2,6 +2,7 @@ package com.graphics;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.util.DisplayMetrics;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.Enemy;
@@ -16,17 +17,21 @@ import java.util.Random;
 public class EnemySpawner {
     private SpriteEntityFactory enemyFactory;
     private ArrayList<Enemy> enemies;
+    private PointF sizeOfEnemy;
+    private DisplayMetrics displayMetrics;
 
-    public EnemySpawner(){
-        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown, 350, 350, 8, 36, new PointF(0, 0));
+    public EnemySpawner(Context c){
+        this.displayMetrics = c.getResources().getDisplayMetrics();
+        sizeOfEnemy = new PointF(350, 350);
+        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown, sizeOfEnemy.x, sizeOfEnemy.y, 8, 36, new PointF(0, 0));
         enemies = new ArrayList<>();
     }
 
     public void spawn(int health, int speed){
-        float min = 100.0f;
+        float min = sizeOfEnemy.x/2;
         // Must load screen resolution
-        float maxX = 950.0f;
-        float maxY = 1550.0f;
+        float maxX = displayMetrics.widthPixels - sizeOfEnemy.x/2;
+        float maxY = displayMetrics.heightPixels - sizeOfEnemy.y/2;
         Random rand = new Random();
 
         float randomX = rand.nextFloat() * (maxX - min) + min;

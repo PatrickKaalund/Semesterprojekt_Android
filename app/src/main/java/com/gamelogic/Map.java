@@ -42,7 +42,7 @@ public class Map extends GUpdateable {
         boarderInder = new RectF(0f, 0f, metrics.widthPixels - 200, metrics.heightPixels - 200*ratio);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
-        enemySpawner = new EnemySpawner();
+        enemySpawner = new EnemySpawner(c);
         enemySpawner.spawnEnemies(100, 10, 10);
 
     }
