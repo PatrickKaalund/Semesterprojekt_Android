@@ -53,7 +53,7 @@ public class Enemy extends Creature {
     }
 
     public RectF getRect(){ return this.enemy.getRect(); }
-    public void setLock(LockDirection lockDirection){ enemy.setLock(lockDirection);}
+//    public void setLock(LockDirection lockDirection){ enemy.setLock(lockDirection);}
 
     @Override
     public void update() {

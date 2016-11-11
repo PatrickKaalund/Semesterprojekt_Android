@@ -5,10 +5,6 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
 
-import com.gamelogic.LockDirection;
-
-import java.util.ArrayList;
-
 import static com.graphics.GraphicsTools.rectToString;
 
 
@@ -77,24 +73,17 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
 
-    public void move(Direction direction) {
-        float velocity_X, velocity_Y;
-        float cos = (float) Math.cos(direction.rad());
-        float sin = (float) Math.sin(direction.rad());
+    public Direction move(Direction direction) {
         Matrix transformationMatrix = new Matrix();
-        switch (lockDirection) {
+        switch (direction.lock) {
             case X:
-                velocity_Y = direction.getVelocity() * sin;
-                transformationMatrix.setTranslate(0, velocity_Y);
+                transformationMatrix.setTranslate(0, direction.calcVelocity_Y());
                 break;
             case Y:
-                velocity_X = direction.getVelocity() * cos;
-                transformationMatrix.setTranslate(velocity_X, 0);
+                transformationMatrix.setTranslate(direction.calcVelocity_X(), 0);
                 break;
             case UNLOCK:
-                velocity_X = direction.getVelocity() * cos;
-                velocity_Y = direction.getVelocity() * sin;
-                transformationMatrix.setTranslate(velocity_X, velocity_Y);
+                transformationMatrix.setTranslate(direction.calcVelocity_X(), direction.calcVelocity_Y());
                 break;
             case ALL:
                 break;
@@ -104,11 +93,12 @@ class SpriteEntity extends GraphicEntity implements Entity {
         rotationMatrix.setRotate(direction.getAngle() + angleOffSet, baseRact.centerX(), baseRact.centerY());
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
         rotationMatrix.mapPoints(modelPoints);
+        return direction;
     }
 
-    public void setLock(LockDirection lockDirection) {
-        this.lockDirection = lockDirection;
-    }
+//    public void setLock(LockDirection lockDirection) {
+//        this.lockDirection = lockDirection;
+//    }
 
 
     public void moveBy(float deltaX, float deltaY) {

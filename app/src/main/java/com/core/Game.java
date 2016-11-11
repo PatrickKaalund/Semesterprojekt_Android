@@ -20,7 +20,7 @@ import io.github.controlwear.virtual.joystick.android.JoystickView;
 public class Game implements Runnable {
 
     private Thread thread;
-    private Map map;
+    public Map map;
     private Player player;
 //    private Enemy enemy;
     private OurGLSurfaceView glSurfaceView;

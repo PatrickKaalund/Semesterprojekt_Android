@@ -19,6 +19,8 @@ import com.graphics.Direction;
 
 import java.util.ArrayList;
 
+import static com.graphics.GraphicsTools.LL;
+
 public class Map extends GUpdateable {
 
     private DisplayMetrics metrics;
@@ -39,11 +41,11 @@ public class Map extends GUpdateable {
         mapBackground = mapFactory.crateEntity();
         float ratio = metrics.widthPixels / metrics.heightPixels;
         velMap = new Direction();
-        boarderInder = new RectF(0f, 0f, metrics.widthPixels - 200, metrics.heightPixels - 200*ratio);
+        boarderInder = new RectF(0f, 0f, metrics.widthPixels, metrics.heightPixels);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
-        enemySpawner = new EnemySpawner(c);
-        enemySpawner.spawnEnemies(100, 10, 10);
+//        enemySpawner = new EnemySpawner(c);
+//        enemySpawner.spawnEnemies(100, 10, 10);
 
     }
 
@@ -77,121 +79,62 @@ public class Map extends GUpdateable {
 
         velMap.set(joystick_angle, joystick_strength / metrics.heightPixels);
 
-        mapBackground.moveFrame(velMap);
+//        mapBackground.moveFrame(velMap);
         RectF pboarder = game.getPlayer().getRect();
 
-        if (joystick_strength > 0) {
-
-            if (boarderInder.contains(pboarder.centerX(), pboarder.centerY())) {
-//                Log.e("Map", "############ lock ##############");
-
-                mapBackground.setLock(LockDirection.ALL);
-//                player.setLock(false);
-
-            } else {
-//                Log.e("Map", "############ unlock ##############");
-                mapBackground.setLock(LockDirection.ALL);
-//                player.setLock(true);
-            }
-
-        }
-        enemySpawner.update(velMap);
-    }
-
-
-    /**
-     * If the rectangle specified by left,top,right,bottom intersects this
-     * rectangle, return true and set this rectangle to that intersection,
-     * otherwise return false and do not change this rectangle. No check is
-     * performed to see if either rectangle is empty. Note: To just test for
-     * intersection, use intersects()
-     *
-     * @param left The left side of the rectangle being intersected with this
-     *             rectangle
-     * @param top The top of the rectangle being intersected with this rectangle
-     * @param right The right side of the rectangle being intersected with this
-     *              rectangle.
-     * @param bottom The bottom of the rectangle being intersected with this
-     *             rectangle.
-     * @return true if the specified rectangle and this rectangle intersect
-     *              (and this rectangle is then set to that intersection) else
-     *              return false and do not change this rectangle.
-     */
-//    public boolean intersect(,float left, float top, float right, float bottom) {
-//        if (this.left < right && left < this.right
-//                && this.top < bottom && top < this.bottom) {
-//            if (this.left < left) {
-//                this.left = left;
+//        if (joystick_strength > 0) {
+//
+//            if (boarderInder.contains(pboarder.centerX(), pboarder.centerY())) {
+////                Log.e("Map", "############ lock ##############");
+//
+//                mapBackground.setLock(LockDirection.ALL);
+////                player.setLock(false);
+//
+//            } else {
+////                Log.e("Map", "############ unlock ##############");
+//                mapBackground.setLock(LockDirection.ALL);
+////                player.setLock(true);
 //            }
-//            if (this.top < top) {
-//                this.top = top;
-//            }
-//            if (this.right > right) {
-//                this.right = right;
-//            }
-//            if (this.bottom > bottom) {
-//                this.bottom = bottom;
-//            }
-//            return true;
+//
 //        }
-//        return false;
+//        enemySpawner.update(velMap);
     }
 
-//}
+
+    public void move(Entity player, Direction direction) {
+
+        if (direction.getVelocity() != 0) {
+
+            direction.lockInside(boarderInder, player.getRect().centerX(), player.getRect().centerY());
+        }
+        mapBackground.moveFrame(player.move(direction), metrics.heightPixels);
 
 
-//package com.gamelogic;
-//
-//
-//        import android.content.Context;
-//        import android.graphics.Bitmap;
-//        import android.graphics.BitmapFactory;
-//        import android.graphics.Canvas;
-//        import android.graphics.Rect;
-//        import android.graphics.drawable.BitmapDrawable;
-//        import android.graphics.drawable.Drawable;
-//        import android.os.Build;
-//        import android.support.annotation.RequiresApi;
-//        import android.util.AttributeSet;
-//
-//        import com.core.GDrawable;
-//        import com.core.ScreenDrawer;
-//        import com.example.patrickkaalund.semesterprojekt_android.R;
-//
-//public class Map extends GDrawable {
-//
-//    private Drawable backgrundImage;
-//
-//    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-//    public Map(Context context, ScreenDrawer screenDrawer) {
-//        super(context, screenDrawer);
-//        game.objectsToUpdate.add(this);
-//        screenDrawer.objectsToDraw.add(this);
-//        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.bg_image);
-//        BitmapDrawable bitmapDrawable = new BitmapDrawable(bmp);
-//        bitmapDrawable.setTileModeXY(Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-//        backgrundImage = context.getResources().getDrawable(R.drawable.backgrounddetailed2, null);
-//        backgrundImage.setTileModeXY
-//    }
-//
-//    int increase = 0;
-//
-//    @Override
-//    public void draw(Canvas canvas) {
-//        Rect imageBounds = canvas.getClipBounds();
-//        imageBounds.right += increase;
-//        imageBounds.left += increase;
-//        imageBounds.top += increase;
-//        imageBounds.bottom += increase;
-//        imageBounds.union(imageBounds);
-//        backgrundImage.setBounds(imageBounds);
-//        backgrundImage.draw(canvas);
-//    }
-//
-//    @Override
-//    public void update() {
-//        increase--;
-//    }
-//
-//
-//}
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

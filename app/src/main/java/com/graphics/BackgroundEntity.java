@@ -4,8 +4,6 @@ import android.graphics.Matrix;
 import android.graphics.RectF;
 import android.util.Log;
 
-import com.gamelogic.LockDirection;
-
 import static com.graphics.GraphicsTools.getCornersFromRect;
 import static com.graphics.GraphicsTools.getCornersFromRectWithZ;
 import static com.graphics.GraphicsTools.rectToString;
@@ -55,29 +53,22 @@ public class BackgroundEntity extends GraphicEntity {
         return drawThis;
     }
 
-    @Override
-    public void setLock(LockDirection lockDirection) {
+//    @Override
+//    public void setLock(LockDirection lockDirection) {
+//        this.lockDirection = lockDirection;
+//    }
 
-    }
-
-    public void moveFrame(Direction direction) {
-        float velocity_X, velocity_Y;
-        float cos = (float) Math.cos(direction.rad());
-        float sin = (float) Math.sin(direction.rad());
+    public void moveFrame(Direction direction, float devider) {
         Matrix transformationMatrix = new Matrix();
-        switch (lockDirection) {
+        switch (direction.lock) {
             case X:
-                velocity_Y = direction.getVelocity() * sin;
-                transformationMatrix.setTranslate(0, velocity_Y);
+                transformationMatrix.setTranslate(0, -direction.velocity_Y/devider);
                 break;
             case Y:
-                velocity_X = direction.getVelocity() * cos;
-                transformationMatrix.setTranslate(velocity_X, 0);
+                transformationMatrix.setTranslate(direction.velocity_X/devider, 0);
                 break;
             case UNLOCK:
-                velocity_X = direction.getVelocity() * cos;
-                velocity_Y = direction.getVelocity() * sin;
-                transformationMatrix.setTranslate(velocity_X, velocity_Y);
+                transformationMatrix.setTranslate(direction.velocity_X/devider, -direction.velocity_Y/devider);
                 break;
             case ALL:
                 break;

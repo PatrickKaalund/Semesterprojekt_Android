@@ -33,7 +33,7 @@ public class Player extends Creature {
         player = playerFactory.createEntity();
         player.setCurrentSprite(0);
         player.setAngleOffSet(90);
-        player.setAnimationDivider(3);
+        player.setAnimationDivider(5);
         player.setAnimationOrder(new int[]{0, 1, 2, 3, 4});
 
         direction = new Direction();
@@ -52,7 +52,7 @@ public class Player extends Creature {
 
         direction.set(joystick_angle, joystick_strength);
 
-        player.move(direction);
+        game.map.move(player, direction);
 
         if(joystick_strength > 0){
             player.drawNextSprite();
@@ -65,5 +65,5 @@ public class Player extends Creature {
     }
 
     public RectF getRect(){ return this.player.getRect(); }
-    public void setLock(LockDirection lockDirection){ player.setLock(lockDirection);}
+//    public void setLock(LockDirection lockDirection){ player.setLock(lockDirection);}
 }
