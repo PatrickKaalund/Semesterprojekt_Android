@@ -3,6 +3,8 @@ package com.graphics;
 import android.graphics.RectF;
 import android.widget.Switch;
 
+import java.util.concurrent.locks.Lock;
+
 import static com.graphics.GraphicsTools.LL;
 
 /**
@@ -35,7 +37,7 @@ public class Direction {
         NONE
     }
 
-    private void checkX(RectF r,float x) {
+    private void checkX(RectF r, float x) {
 
         if (x <= r.left) {
             this.EGDE_X = Edge.LEFT;
@@ -45,7 +47,7 @@ public class Direction {
         }
     }
 
-    private void checkY(RectF r,float y) {
+    private void checkY(RectF r, float y) {
 
         if (y >= r.bottom) {
             this.EGDE_Y = Edge.BOTTUM;
@@ -60,18 +62,24 @@ public class Direction {
 
         switch (lock) {
             case X:
+                if (EGDE_X == Edge.RIGHT && angle > 90 && angle < 270) lock = Lock_e.UNLOCK;
+                else if (EGDE_X == Edge.LEFT && angle < 90 && angle > 270) lock = Lock_e.UNLOCK;
                 break;
             case Y:
+                if (EGDE_Y == Edge.TOP && angle > 0 && angle < 180) lock = Lock_e.UNLOCK;
+                else if (EGDE_X == Edge.BOTTUM && angle < 0 && angle > 180) lock = Lock_e.UNLOCK;
                 break;
             case UNLOCK:
-                checkX(r,x);
-                checkY(r,y);
-
+                checkX(r, x);
+                checkY(r, y);
+                if (EGDE_X != Edge.NONE && EGDE_Y != Edge.NONE) lock = Lock_e.ALL;
+                else if (EGDE_X != Edge.NONE) lock = Lock_e.X;
+                else if (EGDE_Y != Edge.NONE) lock = Lock_e.Y;
+                else lock = Lock_e.UNLOCK;
                 break;
             case ALL:
                 break;
         }
-
 
 
 //
