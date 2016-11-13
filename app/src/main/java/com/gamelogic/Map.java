@@ -29,7 +29,6 @@ public class Map extends GUpdateable {
     Direction velMap;
     RectF boarder = new RectF(0f, 0f, 2000f, 2000f);
     RectF boarderInder;
-
     private EnemySpawner enemySpawner;
 
 

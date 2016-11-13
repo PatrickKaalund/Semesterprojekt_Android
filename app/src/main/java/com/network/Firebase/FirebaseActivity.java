@@ -25,62 +25,40 @@ import org.json.JSONObject;
  * Created by Patrick on 11/01/16.
  */
 
-public class FirebaseActivity extends AppCompatActivity implements View.OnClickListener {
+public class FirebaseActivity extends AppCompatActivity /*implements View.OnClickListener, RemotePlayer */{
 
-    private DatabaseReference mFirebaseDatabaseReference;
     private Button mSendButton;
     private EditText mMessageEditText;
     private TextView mMessageReceivedText;
+    private NetworkHandler networkHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_firebase);
-
-        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+    }
+/*
+        networkHandler = new NetworkHandler();
+        networkHandler.addPlayerListener(this);
 
         mSendButton = (Button) findViewById(R.id.button_send_message);
         mMessageEditText = (EditText) findViewById(R.id.text_message);
         mMessageReceivedText = (TextView) findViewById(R.id.text_console);
 
         mSendButton.setOnClickListener(this);
-
-        mFirebaseDatabaseReference.child("Player").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object receivedObject = dataSnapshot.getValue();
-                if (receivedObject != null) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(receivedObject.toString());
-                        Log.d("FirebaseActivity", "Received json: " + jsonObject.toString());
-                        Long receivedTime = jsonObject.getLong("Time");
-                        long time = System.currentTimeMillis() - receivedTime;
-                        mMessageReceivedText.setText("Time delay: " + time + " millis");
-                        Log.d("FirebaseActivity", "Time delay: " + time + " millis");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("FirebaseActivity", "Cancel subscriebtion!");
-            }
-        });
-    }
-
-    public void sendMessage(String message) {
-        Long time = System.currentTimeMillis();
-        mFirebaseDatabaseReference.child("Player").child("Time").setValue(time);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button_send_message:
-                sendMessage("");
+                networkHandler.updatePlayerPosition(200,200);
                 break;
         }
     }
+
+    @Override
+    public void receiveMessage(String received) {
+        Log.d("FirebaseActivity", "Received: " + received);
+    }*/
 }
