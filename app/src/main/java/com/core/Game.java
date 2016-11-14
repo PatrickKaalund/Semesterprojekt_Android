@@ -9,8 +9,10 @@ import android.util.Log;
 import com.gamelogic.Control;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
+import com.gamelogic.PlayerRemote;
 import com.graphics.FPSMeasuring;
 import com.graphics.OurGLSurfaceView;
+import com.network.Firebase.NetworkHandler;
 import com.views.DropDownMenu;
 
 import java.util.ArrayList;
@@ -22,7 +24,10 @@ public class Game implements Runnable {
     private Thread thread;
     public Map map;
     private Player player;
-//    private Enemy enemy;
+    private PlayerRemote playerRemote;
+    private NetworkHandler networkHandler;
+
+    //    private Enemy enemy;
     private OurGLSurfaceView glSurfaceView;
     //    private ScreenDrawer screenDrawer;
     private boolean isRunning;
@@ -50,7 +55,12 @@ public class Game implements Runnable {
 
         objectsToUpdate = new ArrayList<>();
 //        fpsDrawer = new FPSDrawer(context, screenDrawer);
-        player = new Player();
+
+        networkHandler = new NetworkHandler();
+//        networkHandler.addPlayerListener(this);
+
+        playerRemote = new PlayerRemote(networkHandler);
+        player = new Player(networkHandler);
         control = new Control(context, this);
         map = new Map(context);
 

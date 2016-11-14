@@ -106,7 +106,6 @@ public class Map extends GUpdateable {
 //        enemySpawner.update(velMap);
     }
 
-    float x, y;
 
     public void move(Entity player, Direction direction) {
 

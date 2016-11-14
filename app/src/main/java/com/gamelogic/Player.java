@@ -2,11 +2,13 @@ package com.gamelogic;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Direction;
 import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
+import com.network.Firebase.NetworkHandler;
 
 import java.util.ArrayList;
 
@@ -14,30 +16,20 @@ import java.util.ArrayList;
  * Created by PatrickKaalund on 13/10/2016.
  */
 
-public class Player extends Creature {
+public class Player extends PlayerCommon {
 
-    private SpriteEntityFactory playerFactory;
     private Entity player;
+    private NetworkHandler networkHandler;
 
     private ArrayList<Integer> joystickValues;
 
-    Direction direction;
-
-    public Player() {
+    public Player(NetworkHandler networkHandler) {
         game.objectsToUpdate.add(this);
 
-        super.speed = 5;
-        super.health = 100;
+        this.networkHandler = networkHandler;
 
-        playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(400, 400));
-
-        player = playerFactory.createEntity();
-        player.setCurrentSprite(0);
-        player.setAngleOffSet(90);
-        player.setAnimationDivider(5);
-        player.setAnimationOrder(new int[]{0, 1, 2, 3, 4});
-
-        direction = new Direction(speed,200);
+        player = super.player;
+        player.placeAt(400, 400);
 
         joystickValues = new ArrayList<>();
     }
@@ -49,15 +41,16 @@ public class Player extends Creature {
         joystickValues = game.getControl().getJoystickValues();
 
         int joystick_angle = joystickValues.get(0);
-        int joystick_strength = (joystickValues.get(1));
+        int joystick_strength = (joystickValues.get(1) / speed);
 
-        direction.set(joystick_angle, joystick_strength);
+        super.direction.set(joystick_angle, joystick_strength);
 
-        game.map.move(player, direction);
+        game.map.move(player, super.direction);
 
-        if (joystick_strength > 0) {
+        if(joystick_strength > 0){
             player.drawNextSprite();
-        } else {
+            networkHandler.updatePlayerPosition(player.getRect().centerX(), player.getRect().centerY());
+        }else{
             player.setCurrentSprite(0);
         }
 
@@ -65,8 +58,5 @@ public class Player extends Creature {
 //        Log.d("Player", "Strength: " + joystick_strength);
     }
 
-    public RectF getRect() {
-        return this.player.getRect();
-    }
-//    public void setLock(LockDirection lockDirection){ player.setLock(lockDirection);}
+    public RectF getRect(){ return this.player.getRect(); }
 }
