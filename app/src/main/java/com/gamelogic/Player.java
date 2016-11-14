@@ -2,6 +2,7 @@ package com.gamelogic;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Direction;
 import com.graphics.Entity;
@@ -25,7 +26,7 @@ public class Player extends Creature {
     public Player() {
         game.objectsToUpdate.add(this);
 
-        super.speed = 10;
+        super.speed = 5;
         super.health = 100;
 
         playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(400, 400));
@@ -36,7 +37,7 @@ public class Player extends Creature {
         player.setAnimationDivider(5);
         player.setAnimationOrder(new int[]{0, 1, 2, 3, 4});
 
-        direction = new Direction();
+        direction = new Direction(speed,200);
 
         joystickValues = new ArrayList<>();
     }
@@ -48,15 +49,15 @@ public class Player extends Creature {
         joystickValues = game.getControl().getJoystickValues();
 
         int joystick_angle = joystickValues.get(0);
-        int joystick_strength = (joystickValues.get(1) / speed);
+        int joystick_strength = (joystickValues.get(1));
 
         direction.set(joystick_angle, joystick_strength);
 
         game.map.move(player, direction);
 
-        if(joystick_strength > 0){
+        if (joystick_strength > 0) {
             player.drawNextSprite();
-        }else{
+        } else {
             player.setCurrentSprite(0);
         }
 
@@ -64,6 +65,8 @@ public class Player extends Creature {
 //        Log.d("Player", "Strength: " + joystick_strength);
     }
 
-    public RectF getRect(){ return this.player.getRect(); }
+    public RectF getRect() {
+        return this.player.getRect();
+    }
 //    public void setLock(LockDirection lockDirection){ player.setLock(lockDirection);}
 }

@@ -19,6 +19,9 @@ import com.graphics.Direction;
 
 import java.util.ArrayList;
 
+import static com.graphics.Direction.UNLOCK;
+import static com.graphics.Direction.X;
+import static com.graphics.Direction.Y;
 import static com.graphics.GraphicsTools.LL;
 
 public class Map extends GUpdateable {
@@ -29,6 +32,8 @@ public class Map extends GUpdateable {
     Direction velMap;
     RectF boarder = new RectF(0f, 0f, 2000f, 2000f);
     RectF boarderInder;
+    RectF outerBorader;
+    Direction mapDirektion;
 
     private EnemySpawner enemySpawner;
 
@@ -40,8 +45,10 @@ public class Map extends GUpdateable {
         mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed2, metrics);
         mapBackground = mapFactory.crateEntity();
         float ratio = metrics.widthPixels / metrics.heightPixels;
-        velMap = new Direction();
-        boarderInder = new RectF(0f, 0f, metrics.widthPixels, metrics.heightPixels);
+//        velMap = new Direction();
+        mapDirektion = new Direction();
+        boarderInder = new RectF(200f, 200f, metrics.widthPixels - 200, metrics.heightPixels - 200);
+        outerBorader = new RectF(0f, 0f, 2000f, 2000f);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
 //        enemySpawner = new EnemySpawner(c);
@@ -52,7 +59,7 @@ public class Map extends GUpdateable {
 
     int rotation = 0;
 
-//    @Override
+    //    @Override
 //    public void update() {
 //        // read joystick
 //        ArrayList<Integer> joystickValues = game.getControl().getJoystickValues();
@@ -68,19 +75,18 @@ public class Map extends GUpdateable {
 //
 //        mapBackground.moveFrame(vel);
 //    }
-
     @Override
     public void update() {
-        // read joystick
-        ArrayList<Integer> joystickValues = game.getControl().getJoystickValues();
-
-        int joystick_angle = joystickValues.get(0);
-        float joystick_strength = ((float) joystickValues.get(1) / 50);
-
-        velMap.set(joystick_angle, joystick_strength / metrics.heightPixels);
-
-//        mapBackground.moveFrame(velMap);
-        RectF pboarder = game.getPlayer().getRect();
+//        // read joystick
+//        ArrayList<Integer> joystickValues = game.getControl().getJoystickValues();
+//
+//        int joystick_angle = joystickValues.get(0);
+//        float joystick_strength = ((float) joystickValues.get(1) / 50);
+//
+//        velMap.set(joystick_angle, joystick_strength / metrics.heightPixels);
+//
+////        mapBackground.moveFrame(velMap);
+//        RectF pboarder = game.getPlayer().getRect();
 
 //        if (joystick_strength > 0) {
 //
@@ -100,14 +106,31 @@ public class Map extends GUpdateable {
 //        enemySpawner.update(velMap);
     }
 
+    float x, y;
 
     public void move(Entity player, Direction direction) {
 
         if (direction.getVelocity() != 0) {
 
             direction.lockInside(boarderInder, player.getRect().centerX(), player.getRect().centerY());
+            mapDirektion.tranfareWithRatio(player.move(direction));
+            mapDirektion.lockInside(outerBorader, player.getPosition().x, player.getPosition().y);
+
+            switch (mapDirektion.lock) {
+                case X:
+                    player.getPosition().y += direction.calcVelocity_Y();
+                    break;
+                case Y:
+                    player.getPosition().x += direction.calcVelocity_X();
+                    break;
+                case UNLOCK:
+                    player.getPosition().x += direction.calcVelocity_X();
+                    player.getPosition().y += direction.calcVelocity_Y();
+                    break;
+            }
+            Direction mapd = mapBackground.moveFrame(mapDirektion);
+//            LL(this, "Map x: "+x+" y: "+y);
         }
-        mapBackground.moveFrame(player.move(direction), metrics.heightPixels);
 
 
     }

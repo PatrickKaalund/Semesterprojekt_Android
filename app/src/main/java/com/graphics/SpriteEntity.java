@@ -24,6 +24,9 @@ class SpriteEntity extends GraphicEntity implements Entity {
     private int animationCounter = 0;
     float[] modelPoints;
 
+
+    private PointF position;
+
     private SpriteEntityFactory mother;
     protected int index;
 
@@ -37,12 +40,13 @@ class SpriteEntity extends GraphicEntity implements Entity {
         Log.d("SpriteEntity", "BaseRect: " + rectToString(baseRact));
         this.mother = mother;
         this.index = index;
-
+        position = pos;
         // Initial size
         scale = 1f;
         // Initial angleOffSet
         angleOffSet = 0f;
         mustDrawThis(true);
+        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
 
     }
 
@@ -75,17 +79,18 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     public Direction move(Direction direction) {
         Matrix transformationMatrix = new Matrix();
+
         switch (direction.lock) {
-            case X:
+            case Direction.X:
                 transformationMatrix.setTranslate(0, direction.calcVelocity_Y());
                 break;
-            case Y:
+            case Direction.Y:
                 transformationMatrix.setTranslate(direction.calcVelocity_X(), 0);
                 break;
-            case UNLOCK:
+            case Direction.UNLOCK:
                 transformationMatrix.setTranslate(direction.calcVelocity_X(), direction.calcVelocity_Y());
                 break;
-            case ALL:
+            case Direction.ALL:
                 break;
         }
         transformationMatrix.mapRect(baseRact);
@@ -112,7 +117,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     public void placeAt(float x, float y) {
         // Update our location.
-        baseRact.set(x - baseRact.width()/2, y + baseRact.height()/2, x + baseRact.width()/2, y - baseRact.height()/2);
+        baseRact.set(x - baseRact.width() / 2, y + baseRact.height() / 2, x + baseRact.width() / 2, y - baseRact.height() / 2);
     }
 
     public void scale(float deltas) {
@@ -140,7 +145,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void drawNextSprite() {
-        if(++this.animationCounter == this.animationDivider){
+        if (++this.animationCounter == this.animationDivider) {
             animationCounter = 0;
             if (animationOrder.length == 0) {
                 currentSprite++;
@@ -157,8 +162,13 @@ class SpriteEntity extends GraphicEntity implements Entity {
         this.animationOrder = animationOrder;
     }
 
-    public void setAnimationDivider(int animationDivider) { this.animationDivider = animationDivider; }
+    public void setAnimationDivider(int animationDivider) {
+        this.animationDivider = animationDivider;
+    }
 
+    public PointF getPosition() {
+        return position;
+    }
 
     public int getIndex() {
         return index;

@@ -34,7 +34,7 @@ public class Enemy extends Creature {
         enemy.setAnimationDivider(3);
         enemy.setAnimationOrder(new int[]{4, 5, 6, 7, 8, 9, 10, 11});
 
-        direction = new Direction();
+//        direction = new Direction();
 
         joystickValues = new ArrayList<>();
     }

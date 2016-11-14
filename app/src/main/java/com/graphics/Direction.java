@@ -1,9 +1,6 @@
 package com.graphics;
 
 import android.graphics.RectF;
-import android.widget.Switch;
-
-import java.util.concurrent.locks.Lock;
 
 import static com.graphics.GraphicsTools.LL;
 
@@ -12,22 +9,48 @@ import static com.graphics.GraphicsTools.LL;
  */
 
 public class Direction {
+    public static final int UNLOCK = 0;
+    public static final int X = 1;
+    public static final int Y = 2;
+    public static final int ALL = 3;
+    public static final int SETY = 1;
+    public static final int SETX = 0;
+    private float divider;
     private float velocity;
     private int angle;
     private int lastActiveAngle;
     public float velocity_X, velocity_Y;
-    public Lock_e lock = Lock_e.UNLOCK;
+    public int lock = UNLOCK;
+    public int baseSpeed = 1;
+    public int objectSize = 1;
 
-    public enum Lock_e {
-        X,
-        Y,
-        UNLOCK,
-        ALL;
-
-    }
 
     Edge EGDE_X = Edge.NONE;
     Edge EGDE_Y = Edge.NONE;
+
+    public Direction(int baseSpeed, int objectSize) {
+        this.baseSpeed = baseSpeed;
+        this.objectSize = objectSize;
+        this.divider = 1f / (objectSize * baseSpeed);
+    }
+
+    public Direction() {
+
+    }
+
+    public Direction(Direction other) {
+        this.divider = other.divider;
+        this.velocity = other.velocity;
+        this.angle = other.angle;
+        this.lastActiveAngle = other.lastActiveAngle;
+        this.velocity_X = other.velocity_X;
+        this.velocity_Y = other.velocity_Y;
+        this.lock = other.lock;
+        this.baseSpeed = other.baseSpeed;
+        this.objectSize = other.objectSize;
+        this.EGDE_X = other.EGDE_X;
+        this.EGDE_Y = other.EGDE_Y;
+    }
 
     public enum Edge {
         LEFT,
@@ -37,62 +60,97 @@ public class Direction {
         NONE
     }
 
-    private void checkX(RectF r, float x) {
+    private int checkX(RectF r, float x) {
 
         if (x <= r.left) {
             this.EGDE_X = Edge.LEFT;
+            return 1;
         } else if (x >= r.right) {
             this.EGDE_X = Edge.RIGHT;
             LL(this, "lock X " + x + " r.l " + r.left + " r.r " + r.right);
+            return 1;
         }
+        return 0;
     }
 
-    private void checkY(RectF r, float y) {
+    private int checkY(RectF r, float y) {
 
         if (y >= r.bottom) {
             this.EGDE_Y = Edge.BOTTUM;
+            return 1;
         } else if (y <= r.top) {
             this.EGDE_Y = Edge.TOP;
             LL(this, "lock Y " + y + " r.bot " + r.bottom + " r.top " + r.top);
+            return 1;
         }
+        return 0;
     }
 
 
     public void lockInside(RectF r, float x, float y) {
+        LL(this, "lockInside x " + x + " y " + y);
+        LL(this, "lockInside RectF " + " r.bot " + r.bottom + " r.top " + r.top+" r.l " + r.left + " r.r " + r.right);
+
+//        LL(this, "lockInside Angle: " + angle + " edge x " + EGDE_X);
+//        LL(this, "lockInside eval1: " + (EGDE_X == Edge.RIGHT && angle > 90 && angle < 270));
+//        LL(this, "lockInside eval2: " + ((EGDE_X == Edge.LEFT && angle < 90 && angle > 270)));
+        lock |= (checkX(r, x) << SETX);
+        lock |= (checkY(r, y) << SETY);
+        LL(this, "lockInside lock1 : " + lock);
+
 
         switch (lock) {
+            case UNLOCK:
+//                LL(this, "lockInside unlock");
+//                lock |= (checkX(r, x) << SETX);
+//                lock |= (checkY(r, y) << SETY);
+                break;
             case X:
-                if (EGDE_X == Edge.RIGHT && angle > 90 && angle < 270) lock = Lock_e.UNLOCK;
-                else if (EGDE_X == Edge.LEFT && angle < 90 && angle > 270) lock = Lock_e.UNLOCK;
+                if ((EGDE_X == Edge.RIGHT && angle > 90 && angle < 270) || ((EGDE_X == Edge.LEFT && (angle < 90 || angle > 270)))) {
+//                    LL(this, "lockInside x 1");
+                    lock = UNLOCK;
+                    EGDE_X = Edge.NONE;
+                }
                 break;
             case Y:
-                if (EGDE_Y == Edge.TOP && angle > 0 && angle < 180) lock = Lock_e.UNLOCK;
-                else if (EGDE_X == Edge.BOTTUM && angle < 0 && angle > 180) lock = Lock_e.UNLOCK;
-                break;
-            case UNLOCK:
-                checkX(r, x);
-                checkY(r, y);
-                if (EGDE_X != Edge.NONE && EGDE_Y != Edge.NONE) lock = Lock_e.ALL;
-                else if (EGDE_X != Edge.NONE) lock = Lock_e.X;
-                else if (EGDE_Y != Edge.NONE) lock = Lock_e.Y;
-                else lock = Lock_e.UNLOCK;
+                if ((EGDE_Y == Edge.TOP && angle < 180) || (EGDE_Y == Edge.BOTTUM && angle > 180)) {
+//                    LL(this, "lockInside y 1");
+                    EGDE_Y = Edge.NONE;
+                    lock = UNLOCK;
+                }
                 break;
             case ALL:
+                if ((EGDE_X == Edge.RIGHT && angle > 90 && angle < 270) || ((EGDE_X == Edge.LEFT && (angle < 90 || angle > 270)))) {
+//                    LL(this, "lockInside x 1");
+                    lock = UNLOCK;
+                    EGDE_X = Edge.NONE;
+                }
+                if ((EGDE_Y == Edge.TOP && angle < 180) || (EGDE_Y == Edge.BOTTUM && angle > 180)) {
+//                    LL(this, "lockInside y 1");
+                    EGDE_Y = Edge.NONE;
+                    lock = UNLOCK;
+                }
+//                LL(this, "lockInside ALL");
                 break;
         }
-
-
-//
-//        this.lock = Lock_e.UNLOCK;
-//        this.lock.EGDE_X = Lock_e.Edge.NONE;
-//        this.lock.EGDE_Y = Lock_e.Edge.NONE;
-//        LL(this, "lock UNLOCK: X--> " + x + " y--> " + y);
+        LL(this, "lockInside lock2 : " + lock);
 
 
     }
 
+    public void tranfareWithRatio(Direction d) {
+        velocity_Y = d.velocity_Y * d.divider;
+        velocity_X = d.divider * d.velocity_X;
+        angle = d.angle;
+        lock = ~(d.lock | 0xFFFFFFFC);
+        LL(this, "tranfareWithRatio lock : " + lock);
+
+    }
+
+
     public float calcVelocity_Y() {
         velocity_Y = velocity * (float) Math.sin((float) Math.toRadians((double) angle));
+
         return velocity_Y;
     }
 
@@ -102,7 +160,7 @@ public class Direction {
     }
 
     public void set(int angle, float velocity) {
-        this.velocity = velocity;
+        this.velocity = velocity / baseSpeed;
         if (velocity > 0) {
             this.lastActiveAngle = this.angle = angle;
         } else {

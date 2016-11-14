@@ -1,5 +1,6 @@
 package com.graphics;
 
+import android.graphics.PointF;
 import android.graphics.RectF;
 
 
@@ -36,4 +37,6 @@ public interface Entity {
     public void setAnimationDivider(int animationSpeed);
 
     public void setAnimationOrder(int[] animationOrder);
+
+    public PointF getPosition();
 }
