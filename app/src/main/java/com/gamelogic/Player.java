@@ -19,6 +19,7 @@ import java.util.ArrayList;
 public class Player extends PlayerCommon {
 
     private Entity player;
+    private Entity player2;
     private NetworkHandler networkHandler;
 
     private ArrayList<Integer> joystickValues;
@@ -41,7 +42,7 @@ public class Player extends PlayerCommon {
         joystickValues = game.getControl().getJoystickValues();
 
         int joystick_angle = joystickValues.get(0);
-        int joystick_strength = (joystickValues.get(1) / speed);
+        int joystick_strength = (joystickValues.get(1));
 
         super.direction.set(joystick_angle, joystick_strength);
 
@@ -49,7 +50,7 @@ public class Player extends PlayerCommon {
 
         if(joystick_strength > 0){
             player.drawNextSprite();
-            networkHandler.updatePlayerPosition(player.getRect().centerX(), player.getRect().centerY());
+           // networkHandler.updatePlayerPosition(player.getRect().centerX(), player.getRect().centerY());
         }else{
             player.setCurrentSprite(0);
         }

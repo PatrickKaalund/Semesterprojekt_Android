@@ -43,7 +43,8 @@ public class PlayerRemote extends PlayerCommon implements RemotePlayer {
     @Override
     public void updatePlayerPosition(float centerX, float centerY) {
         centerX += 250;
-        remotePlayer.placeAt(centerX, centerY);
+        //remotePlayer.placeAt(centerX, centerY);
+        remotePlayer.placeAt(1000, 1000);
         xNew = centerX;
         yNew = centerY;
 

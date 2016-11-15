@@ -16,6 +16,7 @@ import com.graphics.Entity;
 import com.graphics.GraphicsTools;
 import com.graphics.SpriteEntityFactory;
 import com.graphics.Direction;
+import com.network.Firebase.NetworkHandler;
 
 import java.util.ArrayList;
 
@@ -35,10 +36,11 @@ public class Map extends GUpdateable {
     RectF outerBorader;
     Direction mapDirektion;
 
+//    private PlayerRemote playerRemote;
     private EnemySpawner enemySpawner;
 
 
-    public Map(Context c) {
+    public Map(Context c, NetworkHandler networkHandler) {
         Log.d("Map", "making map");
         game.objectsToUpdate.add(this);
         this.metrics = c.getResources().getDisplayMetrics();
@@ -53,6 +55,7 @@ public class Map extends GUpdateable {
 
 //        enemySpawner = new EnemySpawner(c);
 //        enemySpawner.spawnEnemies(100, 10, 10);
+     //   playerRemote = new PlayerRemote(networkHandler);
 
     }
 

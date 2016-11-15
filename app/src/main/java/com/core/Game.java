@@ -24,7 +24,6 @@ public class Game implements Runnable {
     private Thread thread;
     public Map map;
     private Player player;
-    private PlayerRemote playerRemote;
     private NetworkHandler networkHandler;
 
     //    private Enemy enemy;
@@ -59,10 +58,9 @@ public class Game implements Runnable {
         networkHandler = new NetworkHandler();
 //        networkHandler.addPlayerListener(this);
 
-        playerRemote = new PlayerRemote(networkHandler);
         player = new Player(networkHandler);
         control = new Control(context, this);
-        map = new Map(context);
+        map = new Map(context, networkHandler);
 
         gameStart();
         thread = new Thread(this);

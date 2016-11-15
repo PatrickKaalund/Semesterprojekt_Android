@@ -5,6 +5,9 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
 
+import java.util.Arrays;
+
+import static com.graphics.GraphicsTools.LL;
 import static com.graphics.GraphicsTools.rectToString;
 
 
@@ -116,8 +119,16 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void placeAt(float x, float y) {
+
+        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
+        LL(this,"place at: "+ Arrays.toString(modelPoints));
         // Update our location.
         baseRact.set(x - baseRact.width() / 2, y + baseRact.height() / 2, x + baseRact.width() / 2, y - baseRact.height() / 2);
+        position.set(x,y);
+        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
+        LL(this,"place at: "+ Arrays.toString(modelPoints));
+
+
     }
 
     public void scale(float deltas) {
