@@ -184,6 +184,7 @@ public class GlRendere implements Renderer {
             int mtrxhandle = GLES20.glGetUniformLocation(shaderHandler.getShaderProgramID(),
                     "uMVPMatrix");
 
+
             // Apply the projection and view transformation
             GLES20.glUniformMatrix4fv(mtrxhandle, 1, false, mtrxProjectionAndView, 0);
 

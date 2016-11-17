@@ -139,7 +139,6 @@ public class Map extends GUpdateable {
                 case X:
                     player.getPosition().y += direction.velocity_Y;
                     this.playerStill.placeAt(this.playerStill.getPosition().x, this.playerStill.getPosition().y-direction.velocity_Y);
-
                     break;
                 case Y:
                     player.getPosition().x += direction.velocity_X;
