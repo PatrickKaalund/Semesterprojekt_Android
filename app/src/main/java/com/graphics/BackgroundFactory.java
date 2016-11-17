@@ -34,8 +34,9 @@ public class BackgroundFactory extends EntityFactory{
     public BackgroundEntity crateEntity() {
         entityDrawCount++;
         BackgroundEntity newBackground = new BackgroundEntity(
-                metrics.heightPixels,
-                metrics.widthPixels
+                4000,
+                4000,
+                metrics
         );
         productionLine.add(newBackground);
         return newBackground;

@@ -29,12 +29,11 @@ public class Map extends GUpdateable {
     BackgroundEntity mapBackground;
     BackgroundFactory mapFactory;
     Direction velMap;
-    RectF boarder = new RectF(0f, 0f, 2000f, 2000f);
     RectF boarderInder;
     RectF outerBorader;
     Direction mapDirektion;
 
-    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(400, 400));
+    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(0, 00));
     protected Entity playerStill;
     protected Direction direction;
 

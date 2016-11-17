@@ -30,7 +30,7 @@ public class Player extends PlayerCommon {
         this.networkHandler = networkHandler;
 
         player = super.player;
-        player.placeAt(400, 400);
+        player.placeAt(00, 00);
 
         joystickValues = new ArrayList<>();
     }

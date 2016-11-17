@@ -89,7 +89,7 @@ public class Direction {
 
     public void lockInside(RectF r, float x, float y) {
         LL(this, "lockInside x " + x + " y " + y);
-        LL(this, "lockInside RectF " + " r.bot " + r.bottom + " r.top " + r.top+" r.l " + r.left + " r.r " + r.right);
+        LL(this, "lockInside RectF " + " r.bot " + r.bottom + " r.top " + r.top + " r.l " + r.left + " r.r " + r.right);
 
 //        LL(this, "lockInside Angle: " + angle + " edge x " + EGDE_X);
 //        LL(this, "lockInside eval1: " + (EGDE_X == Edge.RIGHT && angle > 90 && angle < 270));
@@ -139,8 +139,8 @@ public class Direction {
     }
 
     public void tranfareWithRatio(Direction d) {
-        velocity_Y = d.velocity_Y * d.divider;
-        velocity_X = d.divider * d.velocity_X;
+        velocity_Y = d.velocity_Y;// * d.divider;
+        velocity_X = d.velocity_X;// * d.divider;
         angle = d.angle;
         lock = ~(d.lock | 0xFFFFFFFC);
         LL(this, "tranfareWithRatio lock : " + lock);

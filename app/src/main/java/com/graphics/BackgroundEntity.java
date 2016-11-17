@@ -2,6 +2,7 @@ package com.graphics;
 
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import static com.graphics.Direction.ALL;
@@ -23,13 +24,14 @@ public class BackgroundEntity extends GraphicEntity {
     private float baseWidth;
     float ratio;
 
-    protected BackgroundEntity(float baseHeight, float baseWidth) {
+    protected BackgroundEntity(float baseHeight, float baseWidth, DisplayMetrics metrics) {
         this.baseHeight = baseHeight;
         this.baseWidth = baseWidth;
-        baseRact = new RectF(0, baseHeight, baseWidth, 0);
-        ratio = (float) baseHeight / (float) baseWidth;
+//        baseRact = new RectF(-baseWidth/2, -baseHeight/2, baseWidth/2, baseHeight/2);
+        baseRact = new RectF(0,0, baseWidth, baseHeight);
+        ratio = (float) metrics.heightPixels / (float) metrics.widthPixels;
 
-        this.uvs = new RectF(0f, 0f, 1f, ratio);
+        this.uvs = new RectF(0f, 0f, 4f, 4f);
         mustDrawThis(true);
         Log.d("BackgroundEntity", "baseHeight: " + baseHeight + " baseWidth: " + baseWidth + " baseRatio: " + ratio);
         Log.d("BackgroundEntity", "BaseRect: " + rectToString(baseRact));
@@ -74,10 +76,12 @@ public class BackgroundEntity extends GraphicEntity {
 
         switch (direction.lock) {
             case Y:
-                transformationMatrix.setTranslate(direction.velocity_X, 0);
+                transformationMatrix.setTranslate(-direction.velocity_X, 0);
+
                 break;
             case X:
                 transformationMatrix.setTranslate(0, -direction.velocity_Y);
+
                 break;
             case ALL:
                 break;
@@ -85,9 +89,9 @@ public class BackgroundEntity extends GraphicEntity {
                 transformationMatrix.setTranslate(direction.velocity_X, -direction.velocity_Y);
                 break;
         }
-//        Log.w("BackgroundEntity", "Uvs before: " + rectToString(uvs));
-        transformationMatrix.mapRect(uvs);
-//        Log.w("BackgroundEntity", "Uvs after: " + rectToString(uvs));
+        Log.w("BackgroundEntity", "baseRact before: " + rectToString(baseRact));
+        transformationMatrix.mapRect(baseRact);
+        Log.w("BackgroundEntity", "baseRact after: " + rectToString(baseRact));
         return direction;
     }
 
