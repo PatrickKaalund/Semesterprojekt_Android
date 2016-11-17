@@ -123,7 +123,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
         LL(this,"place at: "+ Arrays.toString(modelPoints));
         // Update our location.
-        baseRact.set(x - baseRact.width() / 2, y + baseRact.height() / 2, x + baseRact.width() / 2, y - baseRact.height() / 2);
+        baseRact.set(x - baseRact.width() / 2, y - baseRact.height() / 2, x + baseRact.width() / 2, y + baseRact.height() / 2);
         position.set(x,y);
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
         LL(this,"place at: "+ Arrays.toString(modelPoints));

@@ -85,7 +85,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
 
     public boolean onError(MediaPlayer mp, int what, int extra) {
 
-        Log.d("ERROR", "Music player failed");
+        Log.d("ERROR", "Music playerStill failed");
 
         if (mediaPlayer != null) {
             try {

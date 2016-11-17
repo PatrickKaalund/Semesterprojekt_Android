@@ -50,7 +50,7 @@ public class Player extends PlayerCommon {
 
         if(joystick_strength > 0){
             player.drawNextSprite();
-           // networkHandler.updatePlayerPosition(player.getRect().centerX(), player.getRect().centerY());
+           // networkHandler.updatePlayerPosition(playerStill.getRect().centerX(), playerStill.getRect().centerY());
         }else{
             player.setCurrentSprite(0);
         }

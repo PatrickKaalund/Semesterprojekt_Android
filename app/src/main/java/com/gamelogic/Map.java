@@ -18,12 +18,10 @@ import com.graphics.SpriteEntityFactory;
 import com.graphics.Direction;
 import com.network.Firebase.NetworkHandler;
 
-import java.util.ArrayList;
-
+import static com.graphics.Direction.ALL;
 import static com.graphics.Direction.UNLOCK;
 import static com.graphics.Direction.X;
 import static com.graphics.Direction.Y;
-import static com.graphics.GraphicsTools.LL;
 
 public class Map extends GUpdateable {
 
@@ -35,6 +33,10 @@ public class Map extends GUpdateable {
     RectF boarderInder;
     RectF outerBorader;
     Direction mapDirektion;
+
+    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(400, 400));
+    protected Entity playerStill;
+    protected Direction direction;
 
 //    private PlayerRemote playerRemote;
     private EnemySpawner enemySpawner;
@@ -56,6 +58,20 @@ public class Map extends GUpdateable {
 //        enemySpawner = new EnemySpawner(c);
 //        enemySpawner.spawnEnemies(100, 10, 10);
      //   playerRemote = new PlayerRemote(networkHandler);
+
+        playerStill = playerFactory.createEntity();
+        //player2 = playerFactory.createEntity();
+        playerStill.setCurrentSprite(0);
+        playerStill.setAngleOffSet(90);
+        playerStill.setAnimationDivider(10);
+        playerStill.setAnimationOrder(new int[]{0, 1, 2, 3, 4});
+        playerStill.placeAt(1000,1000);
+        int speed = 0;
+
+        direction = new Direction(speed, 200);
+
+
+        int health = 100;
 
     }
 
@@ -97,12 +113,12 @@ public class Map extends GUpdateable {
 ////                Log.e("Map", "############ lock ##############");
 //
 //                mapBackground.setLock(LockDirection.ALL);
-////                player.setLock(false);
+////                playerStill.setLock(false);
 //
 //            } else {
 ////                Log.e("Map", "############ unlock ##############");
 //                mapBackground.setLock(LockDirection.ALL);
-////                player.setLock(true);
+////                playerStill.setLock(true);
 //            }
 //
 //        }
@@ -114,24 +130,33 @@ public class Map extends GUpdateable {
 
         if (direction.getVelocity() != 0) {
 
+
             direction.lockInside(boarderInder, player.getRect().centerX(), player.getRect().centerY());
             mapDirektion.tranfareWithRatio(player.move(direction));
             mapDirektion.lockInside(outerBorader, player.getPosition().x, player.getPosition().y);
 
+
             switch (mapDirektion.lock) {
                 case X:
-                    player.getPosition().y += direction.calcVelocity_Y();
+                    player.getPosition().y += direction.velocity_Y;
+                    this.playerStill.placeAt(this.playerStill.getPosition().x, this.playerStill.getPosition().y-direction.velocity_Y);
+
                     break;
                 case Y:
-                    player.getPosition().x += direction.calcVelocity_X();
+                    player.getPosition().x += direction.velocity_X;
+                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y);
                     break;
                 case UNLOCK:
-                    player.getPosition().x += direction.calcVelocity_X();
-                    player.getPosition().y += direction.calcVelocity_Y();
+                    player.getPosition().x += direction.velocity_X;
+                    player.getPosition().y += direction.velocity_Y;
+                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y-direction.velocity_Y);
+
+                    break;
+                case ALL:
                     break;
             }
             Direction mapd = mapBackground.moveFrame(mapDirektion);
-//            LL(this, "Map x: "+x+" y: "+y);
+
         }
 
 
