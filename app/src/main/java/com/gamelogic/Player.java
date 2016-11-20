@@ -59,12 +59,14 @@ public class Player extends PlayerCommon {
             int offset = 150;
             int offset_top = 250;
 //            Log.d("Player", "Player pos: " + player.getPosition().toString() + " + joystick angle: " + joystick_angle);
-            
             if(player.getPosition().x > offset && player.getPosition().x < displayMetrics.widthPixels - offset && player.getPosition().y > offset && player.getPosition().y < displayMetrics.heightPixels - offset_top){
-               // full move
+                Log.d("Player", "Condition 1");
+                // full move
                 move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
             }
             else if(player.getPosition().x > offset && player.getPosition().x < displayMetrics.widthPixels - offset){
+                Log.d("Player", "Condition 2");
+                game.map.move(0, direction.velocity_Y);
                 // unlock bottom Y? - movement 1
                 if (player.getPosition().y < offset && (joystick_angle < 180 && joystick_angle > 0)) {
                     // full move
@@ -81,7 +83,8 @@ public class Player extends PlayerCommon {
                 }
             }
             else if(player.getPosition().y > offset && player.getPosition().y < displayMetrics.heightPixels - offset_top) {
-//                Log.d("Player", "In condition 3!");
+                Log.d("Player", "In condition 3!");
+                game.map.move(direction.velocity_X, 0);
                 // unlock left X? - movement 1
                 if (player.getPosition().x < offset && (joystick_angle < 90 || joystick_angle > 270)) {
                     // full move
@@ -99,6 +102,9 @@ public class Player extends PlayerCommon {
             }
             // check BL cornor
             else if(player.getPosition().y < offset && player.getPosition().x < offset){
+                Log.d("Player", "Condition 4");
+                game.map.move(direction.velocity_X, direction.velocity_Y);
+
                 if(joystick_angle < 90 && joystick_angle > 0){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
@@ -114,6 +120,9 @@ public class Player extends PlayerCommon {
             }
             // check TL cornor
             else if(player.getPosition().y > displayMetrics.heightPixels - offset_top && player.getPosition().x < offset){
+                Log.d("Player", "Condition 5");
+                game.map.move(direction.velocity_X, direction.velocity_Y);
+
                 if(joystick_angle < 360 && joystick_angle > 270){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
@@ -129,6 +138,9 @@ public class Player extends PlayerCommon {
             }
             // check TR cornor
             else if(player.getPosition().y > displayMetrics.heightPixels - offset_top && player.getPosition().x > offset){
+                Log.d("Player", "Condition 6");
+                game.map.move(direction.velocity_X, direction.velocity_Y);
+
                 if(joystick_angle < 270 && joystick_angle > 180){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
@@ -144,6 +156,9 @@ public class Player extends PlayerCommon {
             }
             // check BR cornor
             else if(player.getPosition().y < offset && player.getPosition().x > offset){
+                Log.d("Player", "Condition 7");
+                game.map.move(direction.velocity_X, direction.velocity_Y);
+
                 if(joystick_angle < 180 && joystick_angle > 90){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
@@ -159,7 +174,8 @@ public class Player extends PlayerCommon {
             }
             player.drawNextSprite();
            // networkHandler.updatePlayerPosition(playerStill.getRect().centerX(), playerStill.getRect().centerY());
-        }else{
+        }
+        else{
             player.setCurrentSprite(0);
         }
 
@@ -182,8 +198,6 @@ public class Player extends PlayerCommon {
         player.moveBy(0, deltaY, angle);
         player.getPosition().y += super.direction.velocity_Y;
     }
-
-
 
     public RectF getRect(){ return this.player.getRect(); }
     public PointF getPos(){ return this.player.getPosition(); }

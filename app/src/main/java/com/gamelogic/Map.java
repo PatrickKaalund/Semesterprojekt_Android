@@ -144,6 +144,10 @@ public class Map extends GUpdateable {
         enemySpawner.update();
     }
 
+    public void move(float deltaX, float deltaY){
+        mapBackground.moveFrame(deltaX, deltaY);
+    }
+
 
     public void move(Entity player, Direction direction) {
 

@@ -65,7 +65,7 @@ public class BackgroundEntity extends GraphicEntity {
 //        this.lockDirection = lockDirection;
 //    }
 
-    public Direction moveFrame(Direction direction) {
+    public Direction moveFrame(float deltaX, float deltaY) {
         Matrix transformationMatrix = new Matrix();
 
 //        if (direction.lock == UNLOCK) {
@@ -74,25 +74,29 @@ public class BackgroundEntity extends GraphicEntity {
 //            transformationMatrix.setTranslate(direction.velocity_X, -direction.velocity_Y);
 //        }
 
-        switch (direction.lock) {
-            case Y:
-                transformationMatrix.setTranslate(-direction.velocity_X, 0);
 
-                break;
-            case X:
-                transformationMatrix.setTranslate(0, -direction.velocity_Y);
 
-                break;
-            case ALL:
-                break;
-            case UNLOCK:
-                transformationMatrix.setTranslate(direction.velocity_X, -direction.velocity_Y);
-                break;
-        }
+//        switch (direction.lock) {
+//            case Y:
+//                transformationMatrix.setTranslate(-direction.velocity_X, 0);
+//
+//                break;
+//            case X:
+//                transformationMatrix.setTranslate(0, -direction.velocity_Y);
+//
+//                break;
+//            case ALL:
+//                break;
+//            case UNLOCK:
+//                transformationMatrix.setTranslate(direction.velocity_X, -direction.velocity_Y);
+//                break;
+//        }
+        transformationMatrix.setTranslate(-deltaX, -deltaY);
         Log.w("BackgroundEntity", "baseRact before: " + rectToString(baseRact));
         transformationMatrix.mapRect(baseRact);
         Log.w("BackgroundEntity", "baseRact after: " + rectToString(baseRact));
-        return direction;
+//        return direction;
+        return null;
     }
 
 }
