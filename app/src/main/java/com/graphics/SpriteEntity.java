@@ -182,6 +182,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     public PointF getPosition() {
         return position;
     }
+    public void setPosition(PointF newPos) {this.position.set(newPos.x, newPos.y);}
 
     public int getIndex() {
         return index;

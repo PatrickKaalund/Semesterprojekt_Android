@@ -39,4 +39,5 @@ public interface Entity {
     public void setAnimationOrder(int[] animationOrder);
 
     public PointF getPosition();
+    public void setPosition(PointF position);
 }

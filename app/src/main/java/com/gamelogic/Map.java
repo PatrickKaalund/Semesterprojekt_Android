@@ -157,20 +157,23 @@ public class Map extends GUpdateable {
 
             switch (mapDirektion.lock) {
                 case X:
+//                    Log.d("Map", "X");
                     player.getPosition().y += direction.velocity_Y;
 //                    this.playerStill.placeAt(this.playerStill.getPosition().x, this.playerStill.getPosition().y-direction.velocity_Y);
                     break;
                 case Y:
+//                    Log.d("Map", "Y");
                     player.getPosition().x += direction.velocity_X;
 //                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y);
                     break;
                 case UNLOCK:
-                    player.getPosition().x += direction.velocity_X;
-                    player.getPosition().y += direction.velocity_Y;
+//                    Log.d("Map", "UNLOCK");
 //                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y-direction.velocity_Y);
-
                     break;
                 case ALL:
+//                    Log.d("Map", "ALL");
+                    player.getPosition().x += direction.velocity_X;
+                    player.getPosition().y += direction.velocity_Y;
                     break;
             }
 //            Direction mapd = mapBackground.moveFrame(mapDirektion);

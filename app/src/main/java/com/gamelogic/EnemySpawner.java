@@ -2,6 +2,7 @@ package com.gamelogic;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -21,12 +22,14 @@ public class EnemySpawner {
     private ArrayList<Enemy> enemies;
     private PointF sizeOfEnemy;
     private DisplayMetrics displayMetrics;
+    private DataContainer dataContainer;
 
     public EnemySpawner(Context c){
         this.displayMetrics = c.getResources().getDisplayMetrics();
         sizeOfEnemy = new PointF(250, 250);
         enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown, sizeOfEnemy.x, sizeOfEnemy.y, 8, 36, new PointF(0, 0));
         enemies = new ArrayList<>();
+        dataContainer = new DataContainer();
     }
 
     public void spawn(int health, int speed){
@@ -71,7 +74,7 @@ public class EnemySpawner {
         float randomX = rand.nextFloat() * (maxX - minX) + minX;
         float randomY = rand.nextFloat() * (maxY - minY) + minY;
 
-        Enemy enemy = new Enemy(enemyFactory, health, speed, new PointF(randomX, randomY));
+        Enemy enemy = new Enemy(enemyFactory, health, speed, new PointF(randomX, randomY), dataContainer);
         enemies.add(enemy);
     }
 
