@@ -1,5 +1,6 @@
 package com.graphics;
 
+import android.content.Context;
 import android.util.Log;
 
 
@@ -9,9 +10,14 @@ import android.util.Log;
 
 // for debugging
 public class FPSMeasuring extends Thread {
+    private FPSDrawer fpsDrawer;
     public static int counter = 0;
     public int latestFPS = 0;
     private boolean isRunning = true;
+
+    public FPSMeasuring(Context context){
+        fpsDrawer = new FPSDrawer(context);
+    }
 
     // one time every second
     public void run() {
@@ -23,6 +29,7 @@ public class FPSMeasuring extends Thread {
             }
             Log.d("FPS counter", "FPS--> " + counter);
             latestFPS = counter;
+            fpsDrawer.update(counter);
             counter = 0;
         }
     }

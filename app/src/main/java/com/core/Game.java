@@ -9,7 +9,7 @@ import android.util.Log;
 import com.gamelogic.Control;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
-import com.gamelogic.PlayerRemote;
+import com.graphics.FPSDrawer;
 import com.graphics.FPSMeasuring;
 import com.graphics.OurGLSurfaceView;
 import com.network.Firebase.NetworkHandler;
@@ -33,8 +33,6 @@ public class Game implements Runnable {
     private Handler handler;
     private boolean isPaused;
     private Control control;
-    private FPSDrawer fpsDrawer;
-
 
     private int latestFPS = 0;
 //    private Collision collision;
@@ -42,7 +40,7 @@ public class Game implements Runnable {
     public ArrayList<GUpdateable> objectsToUpdate;
     private Context context;
 
-    private FPSMeasuring fpsMeasuring = new FPSMeasuring();
+    private FPSMeasuring fpsMeasuring;
 
 
     public Game(Context context) {
@@ -61,6 +59,8 @@ public class Game implements Runnable {
         player = new Player(networkHandler);
         control = new Control(context, this);
         map = new Map(context, networkHandler);
+
+        fpsMeasuring = new FPSMeasuring(context);
 
         gameStart();
         thread = new Thread(this);
