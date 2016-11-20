@@ -1,6 +1,7 @@
 package com.graphics;
 
 import android.graphics.Matrix;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,8 +24,12 @@ public class BackgroundEntity extends GraphicEntity {
     private float baseHeight;
     private float baseWidth;
     float ratio;
+    private PointF mapCenter;
+    private float maxMapValue = 4000;
+    private DisplayMetrics metrics;
 
     protected BackgroundEntity(float baseHeight, float baseWidth, DisplayMetrics metrics) {
+        this.metrics = metrics;
         this.baseHeight = baseHeight;
         this.baseWidth = baseWidth;
 //        baseRact = new RectF(-baseWidth/2, -baseHeight/2, baseWidth/2, baseHeight/2);
@@ -36,6 +41,8 @@ public class BackgroundEntity extends GraphicEntity {
         Log.d("BackgroundEntity", "baseHeight: " + baseHeight + " baseWidth: " + baseWidth + " baseRatio: " + ratio);
         Log.d("BackgroundEntity", "BaseRect: " + rectToString(baseRact));
         Log.d("BackgroundEntity", "uvs: " + rectToString(uvs));
+
+        mapCenter = new PointF(metrics.widthPixels/2, metrics.heightPixels/2);
     }
 
     @Override
@@ -68,6 +75,97 @@ public class BackgroundEntity extends GraphicEntity {
     public Direction moveFrame(float deltaX, float deltaY) {
         Matrix transformationMatrix = new Matrix();
 
+        // Sanity checks :-)
+
+        // Corners
+        if(deltaX != 0 && deltaY != 0){
+//            Log.d("BackgroundEntity", "Condition Corners!");
+            // TL
+            if(deltaX < 0 && deltaY > 0){
+                if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2 && deltaY > 0 && mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
+                    transformationMatrix.setTranslate(-deltaX, -deltaY);
+                    mapCenter.y += deltaY;
+                    mapCenter.x += deltaX;
+                }
+                else if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2){
+                    transformationMatrix.setTranslate(0, -deltaY);
+                    mapCenter.y += deltaY;
+                }else if(mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
+                    transformationMatrix.setTranslate(-deltaX, 0);
+                    mapCenter.x += deltaX;
+                }
+            }
+            // TR
+            else if(deltaX > 0 && deltaY > 0){
+                if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2 && deltaY > 0 && mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
+                    transformationMatrix.setTranslate(-deltaX, -deltaY);
+                    mapCenter.y += deltaY;
+                    mapCenter.x += deltaX;
+                }
+                else if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2){
+                    transformationMatrix.setTranslate(0, -deltaY);
+                    mapCenter.y += deltaY;
+                }else if(mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
+                    transformationMatrix.setTranslate(-deltaX, 0);
+                    mapCenter.x += deltaX;
+                }
+            }
+            // BR
+            else if(deltaX > 0 && deltaY < 0){
+                if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0 && mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
+                    transformationMatrix.setTranslate(-deltaX, -deltaY);
+                    mapCenter.y += deltaY;
+                    mapCenter.x += deltaX;
+                }
+                else if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0){
+                    transformationMatrix.setTranslate(0, -deltaY);
+                    mapCenter.y += deltaY;
+                }else if(mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
+                    transformationMatrix.setTranslate(-deltaX, 0);
+                    mapCenter.x += deltaX;
+                }
+            }
+            // BL
+            else if(deltaX < 0 && deltaY < 0){
+                if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0 && mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
+                    transformationMatrix.setTranslate(-deltaX, -deltaY);
+                    mapCenter.y += deltaY;
+                    mapCenter.x += deltaX;
+                }
+                else if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0){
+                    transformationMatrix.setTranslate(0, -deltaY);
+                    mapCenter.y += deltaY;
+                }else if(mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
+                    transformationMatrix.setTranslate(-deltaX, 0);
+                    mapCenter.x += deltaX;
+                }
+            }
+        }
+        // top
+        else if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2 && deltaY > 0){
+//            Log.d("BackgroundEntity", "Condition 1");
+            transformationMatrix.setTranslate(-deltaX, -deltaY);
+            mapCenter.y += deltaY;
+        }
+        // bottom
+        else if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0){
+//            Log.d("BackgroundEntity", "Condition 2");
+            transformationMatrix.setTranslate(-deltaX, -deltaY);
+            mapCenter.y += deltaY;
+        }
+        // left
+        else if(mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
+//            Log.d("BackgroundEntity", "Condition 3");
+            transformationMatrix.setTranslate(-deltaX, -deltaY);
+            mapCenter.x += deltaX;
+        }
+        // right
+        else if(mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2 && deltaX > 0){
+//            Log.d("BackgroundEntity", "Condition 4");
+            transformationMatrix.setTranslate(-deltaX, -deltaY);
+            mapCenter.x += deltaX;
+        }
+
 //        if (direction.lock == UNLOCK) {
 //            return direction;
 //        } else {
@@ -91,10 +189,10 @@ public class BackgroundEntity extends GraphicEntity {
 //                transformationMatrix.setTranslate(direction.velocity_X, -direction.velocity_Y);
 //                break;
 //        }
-        transformationMatrix.setTranslate(-deltaX, -deltaY);
-        Log.w("BackgroundEntity", "baseRact before: " + rectToString(baseRact));
+
+//        Log.w("BackgroundEntity", "baseRact before: " + rectToString(baseRact));
         transformationMatrix.mapRect(baseRact);
-        Log.w("BackgroundEntity", "baseRact after: " + rectToString(baseRact));
+//        Log.w("BackgroundEntity", "baseRact after: " + rectToString(baseRact));
 //        return direction;
         return null;
     }
