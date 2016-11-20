@@ -1,4 +1,13 @@
 package com.gamelogic;
 
-public class Item {
+import com.core.GUpdateable;
+
+public abstract class Item extends GUpdateable {
+
+    int size;
+    int type;
+
+    public Item() {
+
+    }
 }

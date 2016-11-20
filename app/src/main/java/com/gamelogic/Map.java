@@ -36,6 +36,7 @@ public class Map extends GUpdateable {
 
 //    private PlayerRemote playerRemote;
     private EnemySpawner enemySpawner;
+    private ItemSpawner itemSpawner;
 
     public Map(Context c, NetworkHandler networkHandler) {
         Log.d("Map", "making map");
@@ -50,8 +51,12 @@ public class Map extends GUpdateable {
         outerBorader = new RectF(0f, 0f, 2000f, 2000f);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
+        itemSpawner = new ItemSpawner(c);
+        itemSpawner.spawnItemsRandom(50);
         enemySpawner = new EnemySpawner(c);
         enemySpawner.spawnEnemies(100, 1, 3);
+
+
 //        playerRemote = new PlayerRemote(networkHandler);
 
         borderFactory = new SpriteEntityFactory(R.drawable.tree, 250, 250, 1, 1, new PointF(0, 0));
@@ -141,7 +146,9 @@ public class Map extends GUpdateable {
 //            }
 //
 //        }
+        itemSpawner.update();
         enemySpawner.update();
+
     }
 
     public void move(float deltaX, float deltaY){
