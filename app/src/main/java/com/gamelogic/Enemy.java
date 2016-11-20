@@ -30,22 +30,25 @@ public class Enemy extends Creature {
         enemy = enemyFactory.createEntity();
         enemy.placeAt(startLocation.x, startLocation.y);
         enemy.setCurrentSprite(4);
-        enemy.setAngleOffSet(-45);
+        enemy.setAngleOffSet(-135);     // pointing right
         enemy.setAnimationDivider(3);
         enemy.setAnimationOrder(new int[]{4, 5, 6, 7, 8, 9, 10, 11});
 
-//        direction = new Direction();
+        direction = new Direction();
 
         joystickValues = new ArrayList<>();
     }
 
-    public void update(Direction velMap) {
+    @Override
+    public void update() {
 
-        int angle = 0;
+        // calculate angle between player and enemy
+        int angle = (int) Math.toDegrees(Math.atan2(400.0F - enemy.getPosition().y, 400.0F - enemy.getPosition().x));
+        if (angle < 0) {
+            angle += 360;
+        }
 
-        // Adjust for map vel
-//        direction.set(angle, velMap.getVelocity());
-        direction.set(angle, 0);
+        direction.set(angle, this.speed);
 
         enemy.move(direction);
 
@@ -53,10 +56,4 @@ public class Enemy extends Creature {
     }
 
     public RectF getRect(){ return this.enemy.getRect(); }
-//    public void setLock(LockDirection lockDirection){ enemy.setLock(lockDirection);}
-
-    @Override
-    public void update() {
-            // SHOULD BE REMOVED! INTERFACE ISSUES ATM
-    }
 }

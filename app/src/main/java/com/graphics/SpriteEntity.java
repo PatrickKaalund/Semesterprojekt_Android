@@ -96,9 +96,9 @@ class SpriteEntity extends GraphicEntity implements Entity {
             case Direction.ALL:
                 break;
         }
-        Log.w("SpriteEntety", "baseRact before: " + rectToString(baseRact));
+//        Log.w("SpriteEntety", "baseRact before: " + rectToString(baseRact));
         transformationMatrix.mapRect(baseRact);
-        Log.w("SpriteEntety", "baseRact after: " + rectToString(baseRact));
+//        Log.w("SpriteEntety", "baseRact after: " + rectToString(baseRact));
         Matrix rotationMatrix = new Matrix();
         rotationMatrix.setRotate(direction.getAngle() + angleOffSet, baseRact.centerX(), baseRact.centerY());
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);

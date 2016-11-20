@@ -16,20 +16,15 @@ public class PlayerCommon extends Creature {
     private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(400, 400));
     protected Entity player;
     protected Direction direction;
-    //private Entity player2;
 
     public PlayerCommon(){
         player = playerFactory.createEntity();
-        //player2 = playerFactory.createEntity();
         player.setCurrentSprite(0);
         player.setAngleOffSet(90);
         player.setAnimationDivider(10);
         player.setAnimationOrder(new int[]{0, 1, 2, 3, 4});
-        //player2.placeAt(1000,1000);
         super.speed = 5;
-
         direction = new Direction(super.speed, 200);
-
 
         super.health = 100;
     }

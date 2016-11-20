@@ -19,7 +19,6 @@ import java.util.ArrayList;
 public class Player extends PlayerCommon {
 
     private Entity player;
-    private Entity player2;
     private NetworkHandler networkHandler;
 
     private ArrayList<Integer> joystickValues;
@@ -30,7 +29,7 @@ public class Player extends PlayerCommon {
         this.networkHandler = networkHandler;
 
         player = super.player;
-        player.placeAt(00, 00);
+        player.placeAt(400, 400);
 
         joystickValues = new ArrayList<>();
     }

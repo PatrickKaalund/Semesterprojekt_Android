@@ -2,7 +2,6 @@ package com.gamelogic;
 
 
 import android.content.Context;
-import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -11,10 +10,8 @@ import com.core.GUpdateable;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
 import com.graphics.BackgroundFactory;
-import com.graphics.EnemySpawner;
 import com.graphics.Entity;
 import com.graphics.GraphicsTools;
-import com.graphics.SpriteEntityFactory;
 import com.graphics.Direction;
 import com.network.Firebase.NetworkHandler;
 
@@ -33,13 +30,8 @@ public class Map extends GUpdateable {
     RectF outerBorader;
     Direction mapDirektion;
 
-    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(0, 00));
-    protected Entity playerStill;
-    protected Direction direction;
-
 //    private PlayerRemote playerRemote;
     private EnemySpawner enemySpawner;
-
 
     public Map(Context c, NetworkHandler networkHandler) {
         Log.d("Map", "making map");
@@ -54,23 +46,11 @@ public class Map extends GUpdateable {
         outerBorader = new RectF(0f, 0f, 2000f, 2000f);
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
-//        enemySpawner = new EnemySpawner(c);
-//        enemySpawner.spawnEnemies(100, 10, 10);
-     //   playerRemote = new PlayerRemote(networkHandler);
+        enemySpawner = new EnemySpawner(c);
+        enemySpawner.spawnEnemies(100, 1, 3);
+//        playerRemote = new PlayerRemote(networkHandler);
 
-        playerStill = playerFactory.createEntity();
-        //player2 = playerFactory.createEntity();
-        playerStill.setCurrentSprite(0);
-        playerStill.setAngleOffSet(90);
-        playerStill.setAnimationDivider(10);
-        playerStill.setAnimationOrder(new int[]{0, 1, 2, 3, 4});
-        playerStill.placeAt(1000,1000);
         int speed = 0;
-
-        direction = new Direction(speed, 200);
-
-
-        int health = 100;
 
     }
 
@@ -121,7 +101,7 @@ public class Map extends GUpdateable {
 //            }
 //
 //        }
-//        enemySpawner.update(velMap);
+        enemySpawner.update();
     }
 
 
@@ -138,22 +118,22 @@ public class Map extends GUpdateable {
             switch (mapDirektion.lock) {
                 case X:
                     player.getPosition().y += direction.velocity_Y;
-                    this.playerStill.placeAt(this.playerStill.getPosition().x, this.playerStill.getPosition().y-direction.velocity_Y);
+//                    this.playerStill.placeAt(this.playerStill.getPosition().x, this.playerStill.getPosition().y-direction.velocity_Y);
                     break;
                 case Y:
                     player.getPosition().x += direction.velocity_X;
-                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y);
+//                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y);
                     break;
                 case UNLOCK:
                     player.getPosition().x += direction.velocity_X;
                     player.getPosition().y += direction.velocity_Y;
-                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y-direction.velocity_Y);
+//                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y-direction.velocity_Y);
 
                     break;
                 case ALL:
                     break;
             }
-            Direction mapd = mapBackground.moveFrame(mapDirektion);
+//            Direction mapd = mapBackground.moveFrame(mapDirektion);
 
         }
 
