@@ -1,20 +1,20 @@
 package com.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import com.graphics.GlRendere;
 import com.views.DropDownMenu;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
-public class InGame extends AppCompatActivity {
+public class InGame extends BaseActivity {
     private Game game;
 
     @Override
@@ -22,6 +22,7 @@ public class InGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         game = new Game(this);
         setContentView(game.getGameView());
+
 
         LayoutInflater inflater = getLayoutInflater();
         getWindow().addContentView(inflater.inflate(R.layout.activity_in_game, null),
@@ -32,7 +33,6 @@ public class InGame extends AppCompatActivity {
         game.setShootButton((FloatingActionButton) findViewById(R.id.floatingActionButton));
         game.setInventoryButton((DropDownMenu) findViewById(R.id.gooey_menu));
         Log.d("IndGame", "onCreate");
-
     }
 
     @Override
@@ -40,15 +40,16 @@ public class InGame extends AppCompatActivity {
         game.gamePause();
         super.onPause();
         Log.d("IndGame", "onPause");
-
     }
 
     @Override
     protected void onPostResume() {
         game.gameStart();
-       super.onPostResume();
-        Log.d("IndGame", "onPostResume");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.edit().putInt("window", R.raw.challenge_mode).apply();
 
+        super.onPostResume();
+        Log.d("IndGame", "onPostResume");
     }
 
     @Override

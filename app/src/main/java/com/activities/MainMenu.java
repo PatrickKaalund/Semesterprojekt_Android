@@ -1,13 +1,10 @@
 package com.activities;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.os.IBinder;
-import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,20 +15,14 @@ import com.network.Firebase.FirebaseActivity;
 import com.network.MQTT.MQTTActivity;
 import com.teststuff.MapTestActivity;
 
+public class MainMenu extends BaseActivity implements View.OnClickListener {
 
-import com.services.MusicService;
-
-public class MainMenu extends AppCompatActivity implements View.OnClickListener {
-    boolean musicIsBound = false;
-    MusicService musicService;
     Button play, settings, mapTest, mqttTest, firebaseTest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
-        doBindService();
 
         play = (Button) findViewById(R.id.buttonPlay);
         settings = (Button) findViewById(R.id.buttonSettings);
@@ -44,6 +35,14 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         mapTest.setOnClickListener(this);
         mqttTest.setOnClickListener(this);
         firebaseTest.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onPostResume() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences.edit().putInt("window", R.raw.menu_music).apply();
+
+        super.onPostResume();
     }
 
     @Override
@@ -63,60 +62,10 @@ public class MainMenu extends AppCompatActivity implements View.OnClickListener 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onDestroy() {
-        doUnbindService();
-        super.onDestroy();
-    }
-
-    // Handle lounge_music when Home is pressed
-    @Override
-    protected void onPause() {
-        if (musicIsBound) {
-            musicService.pauseMusic();
-            musicIsBound = false;
-        }
-        super.onPause();
-    }
-
-    // Handle lounge_music when app is resumed
-    @Override
-    protected void onPostResume() {
-        // Check if lounge_music is enabled in preferences (default false)
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (!musicIsBound && preferences.getBoolean("lounge_music", false)) {
-            musicService.resumeMusic();
-            musicIsBound = true;
-        }
-        super.onPostResume();
-    }
-
-    ServiceConnection serviceConnection = new ServiceConnection() {
-
-        public void onServiceConnected(ComponentName name, IBinder binder) {
-            musicService = ((MusicService.ServiceBinder) binder).getService();
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            musicService = null;
-        }
-    };
-
-    void doBindService() {
-//        bindService(new Intent(this, MusicService.class),
-//                serviceConnection, Context.BIND_AUTO_CREATE);
-//        musicIsBound = true;
-    }
-
-    void doUnbindService() {
-//        if (musicIsBound) {
-//            unbindService(serviceConnection);
-//            musicIsBound = false;
-//        }
-    }
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.buttonPlay:
                 Intent play = new Intent(this, InGame.class);

@@ -8,17 +8,14 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.services.MusicService;
 
-public class OptionsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class OptionsActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
     private Switch soundSwitch, musicSwitch, onlineSwitch;
     private boolean musicIsBound = false;
     private MusicService musicService;
@@ -52,12 +49,12 @@ public class OptionsActivity extends AppCompatActivity implements CompoundButton
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         soundSwitch = (Switch) findViewById(R.id.switchSound);
         musicSwitch = (Switch) findViewById(R.id.switchMusic);
         onlineSwitch = (Switch) findViewById(R.id.switchOnline);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         musicSwitch.setChecked(preferences.getBoolean("music", false));
         soundSwitch.setChecked(preferences.getBoolean("sound", false));
         onlineSwitch.setChecked(preferences.getBoolean("online", false));
@@ -65,7 +62,6 @@ public class OptionsActivity extends AppCompatActivity implements CompoundButton
         soundSwitch.setOnCheckedChangeListener(this);
         musicSwitch.setOnCheckedChangeListener(this);
         onlineSwitch.setOnCheckedChangeListener(this);
-
         doBindService();
     }
 
@@ -73,6 +69,12 @@ public class OptionsActivity extends AppCompatActivity implements CompoundButton
     protected void onDestroy() {
         doUnbindService();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onPostResume() {
+        preferences.edit().putInt("window", R.raw.dark_music).apply();
+        super.onPostResume();
     }
 
     @Override
