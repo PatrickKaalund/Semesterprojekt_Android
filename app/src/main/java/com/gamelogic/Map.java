@@ -151,19 +151,20 @@ public class Map extends GUpdateable {
 
 
             direction.lockInside(boarderInder, player.getRect().centerX(), player.getRect().centerY());
-            mapDirektion.tranfareWithRatio(player.move(direction));
+//            mapDirektion.tranfareWithRatio(player.move(direction));
+            mapDirektion.tranfareWithRatio(direction);
             mapDirektion.lockInside(outerBorader, player.getPosition().x, player.getPosition().y);
 
 
             switch (mapDirektion.lock) {
                 case X:
 //                    Log.d("Map", "X");
-                    player.getPosition().y += direction.velocity_Y;
+//                    player.getPosition().y += direction.velocity_Y;
 //                    this.playerStill.placeAt(this.playerStill.getPosition().x, this.playerStill.getPosition().y-direction.velocity_Y);
                     break;
                 case Y:
 //                    Log.d("Map", "Y");
-                    player.getPosition().x += direction.velocity_X;
+//                    player.getPosition().x += direction.velocity_X;
 //                    this.playerStill.placeAt(this.playerStill.getPosition().x-direction.velocity_X, this.playerStill.getPosition().y);
                     break;
                 case UNLOCK:
@@ -172,8 +173,8 @@ public class Map extends GUpdateable {
                     break;
                 case ALL:
 //                    Log.d("Map", "ALL");
-                    player.getPosition().x += direction.velocity_X;
-                    player.getPosition().y += direction.velocity_Y;
+//                    player.getPosition().x += direction.velocity_X;
+//                    player.getPosition().y += direction.velocity_Y;
                     break;
             }
 //            Direction mapd = mapBackground.moveFrame(mapDirektion);

@@ -56,7 +56,7 @@ public class Game implements Runnable {
         networkHandler = new NetworkHandler();
 //        networkHandler.addPlayerListener(this);
 
-        player = new Player(networkHandler);
+        player = new Player(context, networkHandler);
         control = new Control(context, this);
         map = new Map(context, networkHandler);
 

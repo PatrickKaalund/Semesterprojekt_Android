@@ -142,8 +142,9 @@ public class Direction {
         velocity_Y = d.velocity_Y;// * d.divider;
         velocity_X = d.velocity_X;// * d.divider;
         angle = d.angle;
+//        LL(this, "tranfareWithRatio lock before : " + lock);
         lock = ~(d.lock | 0xFFFFFFFC);
-//        LL(this, "tranfareWithRatio lock : " + lock);
+//        LL(this, "tranfareWithRatio lock after: " + lock);
 
     }
 

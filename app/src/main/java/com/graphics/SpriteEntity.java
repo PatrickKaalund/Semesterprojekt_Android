@@ -85,15 +85,19 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
         switch (direction.lock) {
             case Direction.X:
+//                Log.d("Direction", "Lock: X");
                 transformationMatrix.setTranslate(0, direction.calcVelocity_Y());
                 break;
             case Direction.Y:
+//                Log.d("Direction", "Lock: Y");
                 transformationMatrix.setTranslate(direction.calcVelocity_X(), 0);
                 break;
             case Direction.UNLOCK:
+//                Log.d("Direction", "Lock: UNLOCK");
                 transformationMatrix.setTranslate(direction.calcVelocity_X(), direction.calcVelocity_Y());
                 break;
             case Direction.ALL:
+//                Log.d("Direction", "Lock: ALL");
                 break;
         }
 //        Log.w("SpriteEntety", "baseRact before: " + rectToString(baseRact));
@@ -111,11 +115,19 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //    }
 
 
-    public void moveBy(float deltaX, float deltaY) {
+    public void moveBy(float deltaX, float deltaY, float angle) {
+        Matrix transformationMatrix = new Matrix();
+        transformationMatrix.setTranslate(deltaX, deltaY);
+        transformationMatrix.mapRect(baseRact);
+//        Log.w("SpriteEntety", "baseRact after: " + rectToString(baseRact));
+        Matrix rotationMatrix = new Matrix();
+        rotationMatrix.setRotate(angle + angleOffSet, baseRact.centerX(), baseRact.centerY());
+        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
+        rotationMatrix.mapPoints(modelPoints);
 
 //        Log.d("SpriteEntity", "Rectangle before: " + baseRact.toString());
 
-        baseRact.set(baseRact.left + deltaX, baseRact.top + deltaY, baseRact.right + deltaX, baseRact.bottom + deltaY);
+//        baseRact.set(baseRact.left + deltaX, baseRact.top + deltaY, baseRact.right + deltaX, baseRact.bottom + deltaY);
 
 //        Log.d("SpriteEntity", "Rectangle after: " + baseRact.toString());
     }
