@@ -67,7 +67,7 @@ public class Direction {
             return 1;
         } else if (x >= r.right) {
             this.EGDE_X = Edge.RIGHT;
-            LL(this, "lock X " + x + " r.l " + r.left + " r.r " + r.right);
+//            LL(this, "lock X " + x + " r.l " + r.left + " r.r " + r.right);
             return 1;
         }
         return 0;
@@ -80,7 +80,7 @@ public class Direction {
             return 1;
         } else if (y <= r.top) {
             this.EGDE_Y = Edge.TOP;
-            LL(this, "lock Y " + y + " r.bot " + r.bottom + " r.top " + r.top);
+//            LL(this, "lock Y " + y + " r.bot " + r.bottom + " r.top " + r.top);
             return 1;
         }
         return 0;
@@ -88,15 +88,15 @@ public class Direction {
 
 
     public void lockInside(RectF r, float x, float y) {
-        LL(this, "lockInside x " + x + " y " + y);
-        LL(this, "lockInside RectF " + " r.bot " + r.bottom + " r.top " + r.top + " r.l " + r.left + " r.r " + r.right);
+//        LL(this, "lockInside x " + x + " y " + y);
+//        LL(this, "lockInside RectF " + " r.bot " + r.bottom + " r.top " + r.top + " r.l " + r.left + " r.r " + r.right);
 
 //        LL(this, "lockInside Angle: " + angle + " edge x " + EGDE_X);
 //        LL(this, "lockInside eval1: " + (EGDE_X == Edge.RIGHT && angle > 90 && angle < 270));
 //        LL(this, "lockInside eval2: " + ((EGDE_X == Edge.LEFT && angle < 90 && angle > 270)));
         lock |= (checkX(r, x) << SETX);
         lock |= (checkY(r, y) << SETY);
-        LL(this, "lockInside lock1 : " + lock);
+//        LL(this, "lockInside lock1 : " + lock);
 
 
         switch (lock) {
@@ -133,7 +133,7 @@ public class Direction {
 //                LL(this, "lockInside ALL");
                 break;
         }
-        LL(this, "lockInside lock2 : " + lock);
+//        LL(this, "lockInside lock2 : " + lock);
 
 
     }
@@ -143,7 +143,7 @@ public class Direction {
         velocity_X = d.velocity_X;// * d.divider;
         angle = d.angle;
         lock = ~(d.lock | 0xFFFFFFFC);
-        LL(this, "tranfareWithRatio lock : " + lock);
+//        LL(this, "tranfareWithRatio lock : " + lock);
 
     }
 

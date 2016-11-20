@@ -30,7 +30,7 @@ public class NetworkHandler {
         game = "Game";
 
         // Create game on firebase, or empties an existing game for testing :-)
-        mFirebaseDatabaseReference.child(game).setValue("");
+        mFirebaseDatabaseReference.child(game).removeValue();
 
         startListenOnFirebase();
     }

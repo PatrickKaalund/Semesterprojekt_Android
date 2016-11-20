@@ -22,7 +22,7 @@ public class FPSDrawer {
         fpsFactory = new SpriteEntityFactory(R.drawable.fps, 70, 200, 73, 1, new PointF(0, 0));
 
         fpsDrawer = fpsFactory.createEntity();
-        fpsDrawer.placeAt(150, displayMetrics.heightPixels - 150);
+        fpsDrawer.placeAt(200, displayMetrics.heightPixels - 200);
 //        fpsDrawer.setCurrentSprite(72);
     }
 
