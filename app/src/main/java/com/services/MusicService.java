@@ -72,7 +72,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(0.4f, 0.4f);
         }
-        if (preferences.getBoolean("music", false))
+        if (preferences.getBoolean("music", true))
             mediaPlayer.start();
 
         mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
