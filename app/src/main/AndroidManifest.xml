@@ -22,7 +22,8 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name="com.activities.MainMenu">
+        <activity android:name="com.activities.MainMenu"
+                  android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,7 +41,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="com.activities.OptionsActivity"
-            android:label="Options" />
+            android:label="Settings"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
         <activity android:name="com.network.Firebase.FirebaseActivity" />
         <activity android:name="com.network.ZeroMQ.ZeroMQActivity" />
         <activity android:name="com.network.MQTT.MQTTActivity"></activity>
