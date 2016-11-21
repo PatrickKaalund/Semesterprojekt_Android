@@ -52,7 +52,8 @@ public class Map extends GUpdateable {
         Log.d("Map", "boarderInder: " + GraphicsTools.rectToString(boarderInder));
 
         itemSpawner = new ItemSpawner(c);
-        itemSpawner.spawnItemsRandom(50);
+        itemSpawner.spawnItemsRandom(10);
+
         enemySpawner = new EnemySpawner(c);
         enemySpawner.spawnEnemies(100, 1, 3);
 
