@@ -9,14 +9,17 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.services.MusicService;
 
-public class OptionsActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class OptionsActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     private Switch soundSwitch, musicSwitch, onlineSwitch;
+    private TextView back, quit;
     private boolean musicIsBound = false;
     private MusicService musicService;
     private SharedPreferences preferences;
@@ -49,11 +52,15 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         soundSwitch = (Switch) findViewById(R.id.switchSound);
         musicSwitch = (Switch) findViewById(R.id.switchMusic);
         onlineSwitch = (Switch) findViewById(R.id.switchOnline);
+
+        back = (TextView) findViewById(R.id.back_button);
+        quit = (TextView) findViewById(R.id.quit_button);
 
         musicSwitch.setChecked(preferences.getBoolean("music", false));
         soundSwitch.setChecked(preferences.getBoolean("sound", false));
@@ -62,6 +69,10 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
         soundSwitch.setOnCheckedChangeListener(this);
         musicSwitch.setOnCheckedChangeListener(this);
         onlineSwitch.setOnCheckedChangeListener(this);
+
+        back.setOnClickListener(this);
+        quit.setOnClickListener(this);
+
         doBindService();
     }
 
@@ -105,6 +116,18 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
                 preferences.edit().putBoolean("online", true).apply();
             else
                 preferences.edit().putBoolean("online", false).apply();
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.quit_button) {
+            Intent startMain = new Intent(Intent.ACTION_MAIN);
+            startMain.addCategory(Intent.CATEGORY_HOME);
+            startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(startMain);
+        } else if (view.getId() == R.id.back_button) {
+            finish();
         }
     }
 }

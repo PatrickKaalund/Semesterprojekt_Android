@@ -8,62 +8,89 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.activities.MainMenu">
+    tools:context="com.activities.MainMenu"
+    android:background="@color/common_google_signin_btn_text_dark_focused">
 
-    <Button
-        android:text="MapTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonMapTest"
-        android:layout_marginBottom="46dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/buttonSettings" />
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/master_tank"
+        android:layout_marginTop="118dp"
+        android:layout_alignTop="@+id/relativeLayout"
+        android:layout_alignParentStart="true"
+        android:id="@+id/MasterTank">
 
-    <Button
-        android:text="Play!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="102dp"
-        android:id="@+id/buttonPlay" />
+    </GridLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Welcome"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="10sp"
+        android:background="@drawable/logo"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="429dp"
+        android:id="@+id/MasterTankLogo" />
 
-    <Button
-        android:text="Settings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonSettings"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/buttonPlay"
-        android:layout_centerHorizontal="true" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:id="@+id/RLayout"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
-    <Button
-        android:text="MQTT"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonMQTTTest"
-        android:layout_marginStart="65dp"
-        android:layout_marginBottom="18dp"
-        android:layout_above="@+id/buttonMapTest"
-        android:layout_alignStart="@+id/buttonPlay" />
+        <Button
+            android:text="MQTT"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonMQTTTest"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true" />
 
-    <Button
-        android:text="Firebase"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/buttonFirebaseTest"
-        android:layout_alignBaseline="@+id/buttonMQTTTest"
-        android:layout_alignBottom="@+id/buttonMQTTTest"
-        android:layout_toStartOf="@+id/buttonMapTest" />
+        <Button
+            android:text="MapTest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonMapTest"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonSettings"
+            android:background="@drawable/settings_small"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonPlay"
+            android:background="@drawable/play"
+            android:layout_marginBottom="68dp"
+            android:layout_alignBottom="@+id/buttonSettings"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonQuit"
+            android:background="@drawable/quit"
+            android:layout_marginBottom="42dp"
+            android:layout_above="@+id/buttonFirebaseTest"
+            android:layout_centerHorizontal="true" />
+
+        <Button
+            android:text="Firebase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonFirebaseTest"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
 </RelativeLayout>
