@@ -38,7 +38,7 @@
         android:layout_height="match_parent"
         android:visibility="invisible"
         android:id="@+id/RLayout"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true">
 
         <Button
@@ -47,7 +47,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonMQTTTest"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:visibility="invisible" />
 
         <Button
             android:text="MapTest"
@@ -55,7 +56,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonMapTest"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:visibility="invisible" />
+
+        <Button
+            android:text="Firebase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/buttonFirebaseTest"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:visibility="invisible" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,8 +81,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonPlay"
             android:background="@drawable/play"
-            android:layout_marginBottom="68dp"
-            android:layout_alignBottom="@+id/buttonSettings"
+            android:layout_marginBottom="25dp"
+            android:layout_above="@+id/buttonSettings"
             android:layout_centerHorizontal="true" />
 
         <TextView
@@ -79,16 +90,17 @@
             android:layout_height="wrap_content"
             android:id="@+id/buttonQuit"
             android:background="@drawable/quit"
-            android:layout_marginBottom="42dp"
+            android:layout_marginBottom="12dp"
             android:layout_above="@+id/buttonFirebaseTest"
             android:layout_centerHorizontal="true" />
 
-        <Button
-            android:text="Firebase"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/buttonFirebaseTest"
-            android:layout_alignParentBottom="true"
+            android:id="@+id/buttonDebug"
+            android:background="@drawable/debug"
+            android:layout_marginTop="41dp"
+            android:layout_below="@+id/buttonSettings"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>

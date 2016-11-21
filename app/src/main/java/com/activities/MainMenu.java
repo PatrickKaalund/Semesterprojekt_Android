@@ -21,7 +21,7 @@ import com.teststuff.MapTestActivity;
 public class MainMenu extends BaseActivity implements View.OnClickListener {
 
     Button mapTest, mqttTest, firebaseTest;
-    TextView play, settings, quit;
+    TextView play, settings, quit, debug;
     GridLayout gridLayout;
     boolean firstRun = true;
 
@@ -33,6 +33,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         play = (TextView) findViewById(R.id.buttonPlay);
         settings = (TextView) findViewById(R.id.buttonSettings);
         quit = (TextView) findViewById(R.id.buttonQuit);
+        debug = (TextView) findViewById(R.id.buttonDebug);
         mapTest = (Button) findViewById(R.id.buttonMapTest);
         mqttTest = (Button) findViewById(R.id.buttonMQTTTest);
         firebaseTest = (Button) findViewById(R.id.buttonFirebaseTest);
@@ -41,6 +42,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         play.setOnClickListener(this);
         settings.setOnClickListener(this);
         quit.setOnClickListener(this);
+        debug.setOnClickListener(this);
         mapTest.setOnClickListener(this);
         mqttTest.setOnClickListener(this);
         firebaseTest.setOnClickListener(this);
@@ -95,6 +97,11 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
                     startMain.addCategory(Intent.CATEGORY_HOME);
                     startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(startMain);
+                    break;
+                case R.id.buttonDebug:
+                    findViewById(R.id.buttonMapTest).setVisibility(View.VISIBLE);
+                    findViewById(R.id.buttonFirebaseTest).setVisibility(View.VISIBLE);
+                    findViewById(R.id.buttonMQTTTest).setVisibility(View.VISIBLE);
                     break;
                 case R.id.buttonMapTest:
                     Intent mapTest = new Intent(this, MapTestActivity.class);
