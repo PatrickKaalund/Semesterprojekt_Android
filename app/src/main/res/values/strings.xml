@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Semesterprojekt_Android</string>
+    <string name="app_name">Master Tank</string>
 
     <string name="title_activity_map_test">MapTestActivity</string>
     <string name="dummy_button">Dummy Button</string>
