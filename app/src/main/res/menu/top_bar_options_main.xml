@@ -3,9 +3,9 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/options"
+        android:id="@+id/back"
         app:showAsAction="never"
-        android:title="Options"/>
+        android:title="Back"/>
     <item
         android:id="@+id/quit"
         app:showAsAction="never"
