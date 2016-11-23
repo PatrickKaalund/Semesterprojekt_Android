@@ -94,7 +94,7 @@ public class Game implements Runnable {
             if (!isPaused) {
 //                handler.postDelayed(this, 33);
                 update();
-//                glSurfaceView.requestRender();
+                glSurfaceView.requestRender();
 
             } else {
                 try {

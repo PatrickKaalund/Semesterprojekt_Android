@@ -27,6 +27,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
     private int animationCounter = 0;
     float[] modelPoints;
 
+    private float lastAngle;
+
 
     private PointF position;
 
@@ -116,6 +118,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     public void moveBy(float deltaX, float deltaY, float angle) {
+        this.lastAngle = angle;
+
         Matrix transformationMatrix = new Matrix();
         transformationMatrix.setTranslate(deltaX, deltaY);
         transformationMatrix.mapRect(baseRact);
@@ -131,6 +135,20 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 //        Log.d("SpriteEntity", "Rectangle after: " + baseRact.toString());
     }
+
+//    public void moveBy(float deltaX, float deltaY){
+////        Log.d("SpriteEntity", "Moving object: " + deltaX + ", " + deltaY);
+////        moveBy(deltaX, deltaY, this.lastAngle);
+//
+//        Matrix transformationMatrix = new Matrix();
+//        transformationMatrix.setTranslate(deltaX, deltaY);
+//        transformationMatrix.mapRect(baseRact);
+////        Log.w("SpriteEntety", "baseRact after: " + rectToString(baseRact));
+//        Matrix rotationMatrix = new Matrix();
+//        rotationMatrix.setRotate(this.lastAngle + angleOffSet, baseRact.centerX(), baseRact.centerY());
+//        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
+//        rotationMatrix.mapPoints(modelPoints);
+//    }
 
     public void placeAt(float x, float y) {
 

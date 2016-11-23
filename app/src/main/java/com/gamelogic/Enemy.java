@@ -22,7 +22,6 @@ public class Enemy extends Creature {
     private ArrayList<Integer> joystickValues;
 
     Direction direction;
-    private DataContainer dataContainer;
 
     public Enemy(SpriteEntityFactory enemyFactory, int health, int speed, PointF startLocation, DataContainer dataContainer) {
 
@@ -40,13 +39,12 @@ public class Enemy extends Creature {
 
         joystickValues = new ArrayList<>();
 
-        this.dataContainer = dataContainer;
     }
 
     @Override
     public void update() {
 
-        PointF playerPos = dataContainer.getPlayerPos();
+        PointF playerPos = DataContainer.player.getPos();
 //        Log.d("Enemy", "PlayerPos: " + playerPos.toString() + " enemyPos: " + enemy.getPosition().toString());
 
         // calculate angle between player and enemy
@@ -58,6 +56,9 @@ public class Enemy extends Creature {
 //        Log.d("Enemy", "Angle: " + angle);
 //
         direction.set(angle, this.speed);
+
+        // Adjust for map movement
+        enemy.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y, 0);
 
         enemy.move(direction);
         enemy.setPosition(new PointF(enemy.getPosition().x + direction.velocity_X, enemy.getPosition().y + direction.velocity_Y));

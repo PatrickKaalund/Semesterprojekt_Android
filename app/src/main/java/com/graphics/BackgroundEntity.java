@@ -6,6 +6,8 @@ import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.gamelogic.DataContainer;
+
 import static com.graphics.Direction.ALL;
 import static com.graphics.Direction.UNLOCK;
 import static com.graphics.Direction.X;
@@ -72,7 +74,7 @@ public class BackgroundEntity extends GraphicEntity {
 //        this.lockDirection = lockDirection;
 //    }
 
-    public Direction moveFrame(float deltaX, float deltaY) {
+    public Direction moveFrame(float deltaX, float deltaY, Entity entity) {
         Matrix transformationMatrix = new Matrix();
 
         // Sanity checks :-)
@@ -86,13 +88,19 @@ public class BackgroundEntity extends GraphicEntity {
                     transformationMatrix.setTranslate(-deltaX, -deltaY);
                     mapCenter.y += deltaY;
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = -deltaY;
                 }
                 else if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2){
                     transformationMatrix.setTranslate(0, -deltaY);
                     mapCenter.y += deltaY;
+                    DataContainer.mapMovement.x = 0;
+                    DataContainer.mapMovement.y = -deltaY;
                 }else if(mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
                     transformationMatrix.setTranslate(-deltaX, 0);
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = 0;
                 }
             }
             // TR
@@ -101,13 +109,19 @@ public class BackgroundEntity extends GraphicEntity {
                     transformationMatrix.setTranslate(-deltaX, -deltaY);
                     mapCenter.y += deltaY;
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = -deltaY;
                 }
                 else if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2){
                     transformationMatrix.setTranslate(0, -deltaY);
                     mapCenter.y += deltaY;
+                    DataContainer.mapMovement.x = 0;
+                    DataContainer.mapMovement.y = -deltaY;
                 }else if(mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
                     transformationMatrix.setTranslate(-deltaX, 0);
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = 0;
                 }
             }
             // BR
@@ -116,13 +130,19 @@ public class BackgroundEntity extends GraphicEntity {
                     transformationMatrix.setTranslate(-deltaX, -deltaY);
                     mapCenter.y += deltaY;
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = -deltaY;
                 }
                 else if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0){
                     transformationMatrix.setTranslate(0, -deltaY);
                     mapCenter.y += deltaY;
+                    DataContainer.mapMovement.x = 0;
+                    DataContainer.mapMovement.y = -deltaY;
                 }else if(mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
                     transformationMatrix.setTranslate(-deltaX, 0);
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = 0;
                 }
             }
             // BL
@@ -131,46 +151,70 @@ public class BackgroundEntity extends GraphicEntity {
                     transformationMatrix.setTranslate(-deltaX, -deltaY);
                     mapCenter.y += deltaY;
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = -deltaY;
                 }
                 else if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0){
                     transformationMatrix.setTranslate(0, -deltaY);
                     mapCenter.y += deltaY;
+                    DataContainer.mapMovement.x = 0;
+                    DataContainer.mapMovement.y = -deltaY;
                 }else if(mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
                     transformationMatrix.setTranslate(-deltaX, 0);
                     mapCenter.x += deltaX;
+                    DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = 0;
                 }
             }
         }
         // top
         else if(mapCenter.y - deltaY < maxMapValue - metrics.heightPixels / 2 && deltaY > 0){
-//            Log.d("BackgroundEntity", "Condition 1");
             transformationMatrix.setTranslate(-deltaX, -deltaY);
             mapCenter.y += deltaY;
+            DataContainer.mapMovement.x = 0;
+            DataContainer.mapMovement.y = -deltaY;
+//            Log.d("BackGroundEntity", "Condition 1. Map center: " + mapCenter.x + ", " + mapCenter.y + ". Moving with: " + deltaX + ", " + deltaY + ". MapMovement: " + DataContainer.mapMovement.x + ", " + DataContainer.mapMovement.y);
         }
         // bottom
         else if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0){
-//            Log.d("BackgroundEntity", "Condition 2");
             transformationMatrix.setTranslate(-deltaX, -deltaY);
             mapCenter.y += deltaY;
+            DataContainer.mapMovement.x = 0;
+            DataContainer.mapMovement.y = -deltaY;
+//            Log.d("BackGroundEntity", "Condition 2. Map center: " + mapCenter.x + ", " + mapCenter.y + ". Moving with: " + deltaX + ", " + deltaY + ". MapMovement: " + DataContainer.mapMovement.x + ", " + DataContainer.mapMovement.y);
         }
         // left
         else if(mapCenter.x + deltaX > metrics.widthPixels / 2 && deltaX < 0){
-//            Log.d("BackgroundEntity", "Condition 3");
             transformationMatrix.setTranslate(-deltaX, -deltaY);
             mapCenter.x += deltaX;
+            DataContainer.mapMovement.x = -deltaX;
+            DataContainer.mapMovement.y = 0;
+//            Log.d("BackGroundEntity", "Condition 3. Map center: " + mapCenter.x + ", " + mapCenter.y + ". Moving with: " + deltaX + ", " + deltaY + ". MapMovement: " + DataContainer.mapMovement.x + ", " + DataContainer.mapMovement.y);
         }
         // right
         else if(mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2 && deltaX > 0){
-//            Log.d("BackgroundEntity", "Condition 4");
             transformationMatrix.setTranslate(-deltaX, -deltaY);
             mapCenter.x += deltaX;
+            DataContainer.mapMovement.x = -deltaX;
+            DataContainer.mapMovement.y = 0;
+//            Log.d("BackGroundEntity", "Condition 4. Map center: " + mapCenter.x + ", " + mapCenter.y + ". Moving with: " + deltaX + ", " + deltaY + ". MapMovement: " + DataContainer.mapMovement.x + ", " + DataContainer.mapMovement.y);
+        } else{
+            // No movement
+            DataContainer.mapMovement.x = 0;
+            DataContainer.mapMovement.y = 0;
+//            Log.d("BackGroundEntity", "Condition 5. Map center: " + mapCenter.x + ", " + mapCenter.y + ". Moving with: " + deltaX + ", " + deltaY + ". MapMovement: " + DataContainer.mapMovement.x + ", " + DataContainer.mapMovement.y);
         }
+
+
+
+//        entity.moveBy(-deltaX, -deltaY, 0);
 
 //        if (direction.lock == UNLOCK) {
 //            return direction;
 //        } else {
 //            transformationMatrix.setTranslate(direction.velocity_X, -direction.velocity_Y);
 //        }
+
 
 
 

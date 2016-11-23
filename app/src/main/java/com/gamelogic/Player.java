@@ -19,7 +19,6 @@ public class Player extends PlayerCommon {
 
     private Entity player;
     private NetworkHandler networkHandler;
-    private DataContainer dataContainer;
 
     private ArrayList<Integer> joystickValues;
     private DisplayMetrics displayMetrics;
@@ -35,11 +34,9 @@ public class Player extends PlayerCommon {
 
         joystickValues = new ArrayList<>();
 
-        dataContainer = new DataContainer();
-        dataContainer.setPlayer(this);
-
         displayMetrics = context.getResources().getDisplayMetrics();
 
+        DataContainer.player = this;
     }
 
     @Override
@@ -61,6 +58,7 @@ public class Player extends PlayerCommon {
 //            Log.d("Player", "Player pos: " + player.getPosition().toString() + " + joystick angle: " + joystick_angle);
             if(player.getPosition().x > offset && player.getPosition().x < displayMetrics.widthPixels - offset && player.getPosition().y > offset && player.getPosition().y < displayMetrics.heightPixels - offset_top){
 //                Log.d("Player", "Condition 1");
+                game.map.move(0, 0);
 //                 full move
                 move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
             }
@@ -177,6 +175,7 @@ public class Player extends PlayerCommon {
         }
         else{
             player.setCurrentSprite(0);
+            game.map.move(0, 0);
         }
 
 //        Log.d("Player", "Angle: " + joystick_angle);

@@ -24,6 +24,10 @@ public class ItemCommon extends Item{
 
     @Override
     public void update() {
+
+        // Adjust for map movement
+        item.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y, -90);
+
         item.drawNextSprite();
     }
 
