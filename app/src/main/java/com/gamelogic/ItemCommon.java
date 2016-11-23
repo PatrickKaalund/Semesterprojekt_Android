@@ -19,14 +19,14 @@ public class ItemCommon extends Item{
         item = itemFactory.createEntity();
         item.setCurrentSprite(0);
         item.placeAt(startLocation.x, startLocation.y);
-        item.setAngleOffSet(-135);
+        item.setAngleOffSet(180);
     }
 
     @Override
     public void update() {
 
         // Adjust for map movement
-        item.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y, -90);
+        item.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y);
 
         item.drawNextSprite();
     }

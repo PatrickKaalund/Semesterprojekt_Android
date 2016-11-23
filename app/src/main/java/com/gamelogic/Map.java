@@ -126,7 +126,7 @@ public class Map extends GUpdateable {
     }
 
     public void move(float deltaX, float deltaY){
-        mapBackground.moveFrame(deltaX, deltaY, borderEntityLeft);
+        mapBackground.moveFrame(deltaX, deltaY);
     }
 
 

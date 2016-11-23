@@ -136,19 +136,9 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //        Log.d("SpriteEntity", "Rectangle after: " + baseRact.toString());
     }
 
-//    public void moveBy(float deltaX, float deltaY){
-////        Log.d("SpriteEntity", "Moving object: " + deltaX + ", " + deltaY);
-////        moveBy(deltaX, deltaY, this.lastAngle);
-//
-//        Matrix transformationMatrix = new Matrix();
-//        transformationMatrix.setTranslate(deltaX, deltaY);
-//        transformationMatrix.mapRect(baseRact);
-////        Log.w("SpriteEntety", "baseRact after: " + rectToString(baseRact));
-//        Matrix rotationMatrix = new Matrix();
-//        rotationMatrix.setRotate(this.lastAngle + angleOffSet, baseRact.centerX(), baseRact.centerY());
-//        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
-//        rotationMatrix.mapPoints(modelPoints);
-//    }
+    public void moveBy(float deltaX, float deltaY){
+        moveBy(deltaX, deltaY, 0);
+    }
 
     public void placeAt(float x, float y) {
 

@@ -50,28 +50,26 @@ public class Player extends PlayerCommon {
 
         super.direction.set(joystick_angle, joystick_strength);
 
-//        game.map.move(player, super.direction);
-
         if(joystick_strength > 0){
             int offset = 150;
             int offset_top = 250;
 //            Log.d("Player", "Player pos: " + player.getPosition().toString() + " + joystick angle: " + joystick_angle);
-            if(player.getPosition().x > offset && player.getPosition().x < displayMetrics.widthPixels - offset && player.getPosition().y > offset && player.getPosition().y < displayMetrics.heightPixels - offset_top){
+            if(player.getPosition().x >= offset && player.getPosition().x <= displayMetrics.widthPixels - offset && player.getPosition().y >= offset && player.getPosition().y <= displayMetrics.heightPixels - offset_top){
 //                Log.d("Player", "Condition 1");
                 game.map.move(0, 0);
 //                 full move
                 move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
             }
-            else if(player.getPosition().x > offset && player.getPosition().x < displayMetrics.widthPixels - offset){
+            else if(player.getPosition().x >= offset && player.getPosition().x <= displayMetrics.widthPixels - offset){
 //                Log.d("Player", "Condition 2");
                 game.map.move(0, direction.velocity_Y);
                 // unlock bottom Y? - movement 1
-                if (player.getPosition().y < offset && (joystick_angle < 180 && joystick_angle > 0)) {
+                if (player.getPosition().y <= offset && (joystick_angle <= 180 && joystick_angle >= 0)) {
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
                 // unlock top Y? - movement 1
-                else if (player.getPosition().y > displayMetrics.heightPixels - offset_top && (joystick_angle > 180 && joystick_angle < 360)) {
+                else if (player.getPosition().y >= displayMetrics.heightPixels - offset_top && (joystick_angle >= 180 && joystick_angle <= 360)) {
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
@@ -80,16 +78,16 @@ public class Player extends PlayerCommon {
                     moveX(direction.calcVelocity_X(), joystick_angle);
                 }
             }
-            else if(player.getPosition().y > offset && player.getPosition().y < displayMetrics.heightPixels - offset_top) {
+            else if(player.getPosition().y >= offset && player.getPosition().y <= displayMetrics.heightPixels - offset_top) {
 //                Log.d("Player", "In condition 3!");
                 game.map.move(direction.velocity_X, 0);
                 // unlock left X? - movement 1
-                if (player.getPosition().x < offset && (joystick_angle < 90 || joystick_angle > 270)) {
+                if (player.getPosition().x <= offset && (joystick_angle <= 90 || joystick_angle >= 270)) {
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
                 // unlock right X? - movement 1
-                else if (player.getPosition().x > displayMetrics.widthPixels - offset && (joystick_angle > 90 && joystick_angle < 270)) {
+                else if (player.getPosition().x >= displayMetrics.widthPixels - offset && (joystick_angle >= 90 && joystick_angle <= 270)) {
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
@@ -99,76 +97,79 @@ public class Player extends PlayerCommon {
                 }
             }
             // check BL cornor
-            else if(player.getPosition().y < offset && player.getPosition().x < offset){
+            else if(player.getPosition().y <= offset && player.getPosition().x <= offset){
 //                Log.d("Player", "Condition 4");
                 game.map.move(direction.velocity_X, direction.velocity_Y);
 
-                if(joystick_angle < 90 && joystick_angle > 0){
+                if(joystick_angle <= 90 && joystick_angle >= 0){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
                 // only move right
-                else if(joystick_angle > 270 && joystick_angle < 360){
+                else if(joystick_angle >= 270 && joystick_angle <= 360){
                     moveX(direction.calcVelocity_X(), joystick_angle);
                 }
                 // only move up
-                else if(joystick_angle > 90 && joystick_angle < 180){
+                else if(joystick_angle >= 90 && joystick_angle <= 180){
                     moveY(direction.calcVelocity_Y(), joystick_angle);
                 }
             }
             // check TL cornor
-            else if(player.getPosition().y > displayMetrics.heightPixels - offset_top && player.getPosition().x < offset){
+            else if(player.getPosition().y >= displayMetrics.heightPixels - offset_top && player.getPosition().x <= offset){
 //                Log.d("Player", "Condition 5");
                 game.map.move(direction.velocity_X, direction.velocity_Y);
 
-                if(joystick_angle < 360 && joystick_angle > 270){
+                if(joystick_angle <= 360 && joystick_angle >= 270){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
                 // only move right
-                else if(joystick_angle > 0 && joystick_angle < 90){
+                else if(joystick_angle >= 0 && joystick_angle <= 90){
                     moveX(direction.calcVelocity_X(), joystick_angle);
                 }
                 // only move down
-                else if(joystick_angle > 180 && joystick_angle < 270){
+                else if(joystick_angle >= 180 && joystick_angle <= 270){
                     moveY(direction.calcVelocity_Y(), joystick_angle);
                 }
             }
             // check TR cornor
-            else if(player.getPosition().y > displayMetrics.heightPixels - offset_top && player.getPosition().x > offset){
+            else if(player.getPosition().y >= displayMetrics.heightPixels - offset_top && player.getPosition().x >= offset){
 //                Log.d("Player", "Condition 6");
                 game.map.move(direction.velocity_X, direction.velocity_Y);
 
-                if(joystick_angle < 270 && joystick_angle > 180){
+                if(joystick_angle <= 270 && joystick_angle >= 180){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
                 // only move left
-                else if(joystick_angle > 90 && joystick_angle < 180){
+                else if(joystick_angle >= 90 && joystick_angle <= 180){
                     moveX(direction.calcVelocity_X(), joystick_angle);
                 }
                 // only move down
-                else if(joystick_angle > 270 && joystick_angle < 360){
+                else if(joystick_angle >= 270 && joystick_angle <= 360){
                     moveY(direction.calcVelocity_Y(), joystick_angle);
                 }
             }
             // check BR cornor
-            else if(player.getPosition().y < offset && player.getPosition().x > offset){
-//                Log.d("Player", "Condition 7");
+            else if(player.getPosition().y <= offset && player.getPosition().x >= offset){
+//                Log.d("Player", "Condition 7: " + joystick_angle);
                 game.map.move(direction.velocity_X, direction.velocity_Y);
 
-                if(joystick_angle < 180 && joystick_angle > 90){
+                if(joystick_angle <= 180 && joystick_angle >= 90){
                     // full move
                     move(direction.calcVelocity_X(), direction.calcVelocity_Y(), joystick_angle);
                 }
                 // only move left
-                else if(joystick_angle > 180 && joystick_angle < 270){
+                else if(joystick_angle >= 180 && joystick_angle <= 270){
                     moveX(direction.calcVelocity_X(), joystick_angle);
                 }
                 // only move up
-                else if(joystick_angle > 0 && joystick_angle < 90){
+                else if(joystick_angle >= 0 && joystick_angle <= 90){
                     moveY(direction.calcVelocity_Y(), joystick_angle);
                 }
+            }
+            else{
+                Log.d("Player", "NOT GOOD !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             }
             player.drawNextSprite();
            // networkHandler.updatePlayerPosition(playerStill.getRect().centerX(), playerStill.getRect().centerY());

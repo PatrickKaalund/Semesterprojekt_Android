@@ -74,12 +74,14 @@ public class BackgroundEntity extends GraphicEntity {
 //        this.lockDirection = lockDirection;
 //    }
 
-    public Direction moveFrame(float deltaX, float deltaY, Entity entity) {
+    public Direction moveFrame(float deltaX, float deltaY) {
         Matrix transformationMatrix = new Matrix();
 
         // Sanity checks :-)
-
         // Corners
+
+//        LL(this, "Delta x: " + deltaX + ", delta y: " + deltaY);
+
         if(deltaX != 0 && deltaY != 0){
 //            Log.d("BackgroundEntity", "Condition Corners!");
             // TL
@@ -100,6 +102,10 @@ public class BackgroundEntity extends GraphicEntity {
                     transformationMatrix.setTranslate(-deltaX, 0);
                     mapCenter.x += deltaX;
                     DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = 0;
+                }
+                else{
+                    DataContainer.mapMovement.x = 0;
                     DataContainer.mapMovement.y = 0;
                 }
             }
@@ -123,25 +129,32 @@ public class BackgroundEntity extends GraphicEntity {
                     DataContainer.mapMovement.x = -deltaX;
                     DataContainer.mapMovement.y = 0;
                 }
+                else{
+                    DataContainer.mapMovement.x = 0;
+                    DataContainer.mapMovement.y = 0;
+                }
             }
             // BR
             else if(deltaX > 0 && deltaY < 0){
-                if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0 && mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
+                if(mapCenter.y - deltaY >= metrics.heightPixels / 2 + 100 && deltaY <= 0 && mapCenter.x + deltaX <= maxMapValue - metrics.widthPixels / 2){
                     transformationMatrix.setTranslate(-deltaX, -deltaY);
                     mapCenter.y += deltaY;
                     mapCenter.x += deltaX;
                     DataContainer.mapMovement.x = -deltaX;
                     DataContainer.mapMovement.y = -deltaY;
                 }
-                else if(mapCenter.y - deltaY > metrics.heightPixels / 2 + 100 && deltaY < 0){
+                else if(mapCenter.y - deltaY >= metrics.heightPixels / 2 + 100 && deltaY <= 0){
                     transformationMatrix.setTranslate(0, -deltaY);
                     mapCenter.y += deltaY;
                     DataContainer.mapMovement.x = 0;
                     DataContainer.mapMovement.y = -deltaY;
-                }else if(mapCenter.x + deltaX < maxMapValue - metrics.widthPixels / 2){
+                }else if(mapCenter.x + deltaX <= maxMapValue - metrics.widthPixels / 2){
                     transformationMatrix.setTranslate(-deltaX, 0);
                     mapCenter.x += deltaX;
                     DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = 0;
+                }else{
+                    DataContainer.mapMovement.x = 0;
                     DataContainer.mapMovement.y = 0;
                 }
             }
@@ -163,6 +176,9 @@ public class BackgroundEntity extends GraphicEntity {
                     transformationMatrix.setTranslate(-deltaX, 0);
                     mapCenter.x += deltaX;
                     DataContainer.mapMovement.x = -deltaX;
+                    DataContainer.mapMovement.y = 0;
+                }else{
+                    DataContainer.mapMovement.x = 0;
                     DataContainer.mapMovement.y = 0;
                 }
             }
