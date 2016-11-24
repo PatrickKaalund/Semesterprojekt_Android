@@ -19,10 +19,10 @@ public class PlayerCommon extends Creature {
 
     public PlayerCommon(){
         player = playerFactory.createEntity();
-        player.setCurrentSprite(0);
+        player.setCurrentSprite(45);
         player.setAngleOffSet(0);
         player.setAnimationDivider(1);
-        player.setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+        player.setAnimationOrder(new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64});
         super.speed = 5;
         direction = new Direction(super.speed, 200);
 
