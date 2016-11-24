@@ -2,6 +2,7 @@ package com.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -22,10 +23,11 @@ import com.teststuff.MapTestActivity;
 
 public class MainMenu extends BaseActivity implements View.OnClickListener {
 
-    Button mapTest, mqttTest, firebaseTest;
-    TextView play, settings, quit, debug;
-    GridLayout gridLayout;
+    private Button mapTest, mqttTest, firebaseTest;
+    private TextView play, settings, quit, debug;
+    private GridLayout gridLayout;
     boolean firstRun = true;
+    private SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         setContentView(R.layout.activity_main_menu);
 
@@ -83,6 +87,10 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (preferences.getBoolean("sound", true)) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+            mediaPlayer.start();
+        }
         if (firstRun) {
             RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RLayout);
             relativeLayout.setVisibility(View.VISIBLE);
