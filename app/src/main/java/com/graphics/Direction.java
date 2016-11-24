@@ -18,7 +18,6 @@ public class Direction {
     private float divider;
     private float velocity;
     private int angle;
-    private int lastActiveAngle;
     public float velocity_X, velocity_Y;
     public int lock = UNLOCK;
     public int baseSpeed = 1;
@@ -42,11 +41,23 @@ public class Direction {
         this.divider = other.divider;
         this.velocity = other.velocity;
         this.angle = other.angle;
-        this.lastActiveAngle = other.lastActiveAngle;
         this.velocity_X = other.velocity_X;
         this.velocity_Y = other.velocity_Y;
         this.lock = other.lock;
         this.baseSpeed = other.baseSpeed;
+        this.objectSize = other.objectSize;
+        this.EGDE_X = other.EGDE_X;
+        this.EGDE_Y = other.EGDE_Y;
+    }
+
+    public Direction(Direction other, int baseSpeed) {
+        this.divider = other.divider;
+        this.velocity = other.velocity;
+        this.angle = other.angle;
+        this.velocity_X = other.velocity_X;
+        this.velocity_Y = other.velocity_Y;
+        this.lock = other.lock;
+        this.baseSpeed = baseSpeed;
         this.objectSize = other.objectSize;
         this.EGDE_X = other.EGDE_X;
         this.EGDE_Y = other.EGDE_Y;

@@ -24,6 +24,9 @@ public class Control {
     private ArrayList<Integer> joystickValues;
     private Game game;
     private Context context;
+
+
+
     private boolean shooting = false;
 
     public Control(Context context, Game game){
@@ -77,6 +80,9 @@ public class Control {
                 return true;
             }
         });
+    }
+    public boolean isShooting() {
+        return shooting;
     }
 
     public void setInventoryButton(final DropDownMenu dropDownMenu) {
