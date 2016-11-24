@@ -3,10 +3,12 @@ package com.core;
 
 import android.content.Context;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
 import com.gamelogic.Control;
+import com.gamelogic.DataContainer;
 import com.gamelogic.Player;
 import com.gamelogic.Map;
 import com.graphics.FPSDrawer;
@@ -45,6 +47,7 @@ public class Game implements Runnable {
 
     public Game(Context context) {
         Log.d("Game","Game created");
+
         GUpdateable.game = this;
         glSurfaceView = new OurGLSurfaceView(context);
 

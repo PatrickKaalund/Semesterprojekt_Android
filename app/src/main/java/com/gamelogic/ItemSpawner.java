@@ -38,9 +38,9 @@ public class ItemSpawner {
         float minX, minY, maxX, maxY;
 
         minX = 150;
-        maxX = displayMetrics.widthPixels - 150;
+        maxX = DataContainer.mapGlobalSize.x - 150;
         minY = 150;
-        maxY = displayMetrics.heightPixels - 150;
+        maxY = DataContainer.mapGlobalSize.y - 150;
         float randomX = rand.nextFloat() * (maxX - minX) + minX;
         float randomY = rand.nextFloat() * (maxY - minY) + minY;
 

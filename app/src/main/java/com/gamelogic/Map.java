@@ -46,7 +46,7 @@ public class Map extends GUpdateable {
         game.objectsToUpdate.add(this);
         this.metrics = c.getResources().getDisplayMetrics();
         mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed2, metrics);
-        mapBackground = mapFactory.crateEntity();
+        mapBackground = mapFactory.createEntity(4000, 4000);
         float ratio = metrics.widthPixels / metrics.heightPixels;
 //        velMap = new Direction();
         mapDirektion = new Direction();
@@ -58,7 +58,7 @@ public class Map extends GUpdateable {
         itemSpawner.spawnItemsRandom(10);
 
         enemySpawner = new EnemySpawner(c);
-        enemySpawner.spawnEnemies(100, 1, 3);
+        enemySpawner.spawnEnemies(100, 5, 10);
 
         mapBorder = new MapBorder(c);
 

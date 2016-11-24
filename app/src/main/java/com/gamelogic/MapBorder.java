@@ -44,19 +44,21 @@ public class MapBorder {
 //            borderEntityBottom.placeAt(index, offset);
 //        }
         float offset = 0;
-        for(int index = 0; index < 4000; index += 250) {
-            Entity borderEntityLeft = mapBorderFactory.createEntity();
-            Entity borderEntityRight = mapBorderFactory.createEntity();
+        for(int index = 0; index < DataContainer.mapGlobalSize.y; index += 250) {
             Entity borderEntityTop = mapBorderFactory.createEntity();
             Entity borderEntityBottom = mapBorderFactory.createEntity();
-            borderEntityLeft.placeAt(offset, index);
-            borderEntityRight.placeAt(4000 - offset, index);
-            borderEntityTop.placeAt(index, 4000 - 40);
+            borderEntityTop.placeAt(index, DataContainer.mapGlobalSize.y - 40);
             borderEntityBottom.placeAt(index, offset);
-            borderEntities.add(borderEntityLeft);
-            borderEntities.add(borderEntityRight);
             borderEntities.add(borderEntityTop);
             borderEntities.add(borderEntityBottom);
+        }
+        for(int index = 0; index < DataContainer.mapGlobalSize.x; index += 250) {
+            Entity borderEntityLeft = mapBorderFactory.createEntity();
+            Entity borderEntityRight = mapBorderFactory.createEntity();
+            borderEntityLeft.placeAt(offset, index);
+            borderEntityRight.placeAt(DataContainer.mapGlobalSize.x - offset, index);
+            borderEntities.add(borderEntityLeft);
+            borderEntities.add(borderEntityRight);
         }
     }
 

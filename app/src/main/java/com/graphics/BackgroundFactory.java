@@ -4,11 +4,13 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
 
+import com.gamelogic.DataContainer;
+
 /**
  * Created by thor on 10/30/16.
  */
 
-public class BackgroundFactory extends EntityFactory{
+public class BackgroundFactory extends EntityFactory {
     private Context context;
     DisplayMetrics metrics;
 
@@ -21,21 +23,23 @@ public class BackgroundFactory extends EntityFactory{
 
         //If index 0 is a background replace it else
         // make this index 0 so we draw the background first
-        if(GlRendere.drawList.isEmpty()){
+        if (GlRendere.drawList.isEmpty()) {
             GlRendere.drawList.add(this);
-        }else if(GlRendere.drawList.get(0) instanceof BackgroundFactory){
+        } else if (GlRendere.drawList.get(0) instanceof BackgroundFactory) {
             GlRendere.drawList.set(0, this);
-        }else{
+        } else {
             GlRendere.drawList.add(0, this);
         }
 
     }
 
-    public BackgroundEntity crateEntity() {
+    public BackgroundEntity createEntity(float sizeX, float sizeY) {
         entityDrawCount++;
+        DataContainer.mapGlobalSize.x = sizeX;
+        DataContainer.mapGlobalSize.y = sizeY;
         BackgroundEntity newBackground = new BackgroundEntity(
-                4000,
-                4000,
+                DataContainer.mapGlobalSize.x,
+                DataContainer.mapGlobalSize.y,
                 metrics
         );
         productionLine.add(newBackground);
