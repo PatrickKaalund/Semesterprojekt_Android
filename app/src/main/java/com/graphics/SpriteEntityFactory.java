@@ -6,12 +6,13 @@ import android.graphics.RectF;
 import java.util.ArrayList;
 
 import static com.graphics.GlRendere.drawList;
+import static com.graphics.GraphicsTools.LL;
 
 /**
  * Created by thor on 10/27/16.
  */
 
-public class SpriteEntityFactory extends EntityFactory{
+public class SpriteEntityFactory extends EntityFactory {
 
     protected int spriteCount;
     protected ArrayList<RectF> sprites = new ArrayList<>();
@@ -38,19 +39,22 @@ public class SpriteEntityFactory extends EntityFactory{
                 modelBaseHeight,
                 modelBaseWidth,
                 newPoint,
-                this,
-                productionLine.size());
+                this
+//                productionLine.size()
+        );
 
         productionLine.add(newEntity);
         return newEntity;
     }
 
 
-    public void removeEntity(SpriteEntity e) {
-        if (e.mustDrawThis()) {
+    public void removeEntity(Entity e) {
+        SpriteEntity se = (SpriteEntity) e;
+        if (se.mustDrawThis()) {
             entityDrawCount--;
         }
-        productionLine.remove(e.index);
+//        LL(this, "Removing idex: " + se.index + " list has size: " + productionLine.size());
+        productionLine.remove(se);
     }
 
     public void delete() {
@@ -81,6 +85,8 @@ public class SpriteEntityFactory extends EntityFactory{
         return GraphicsTools.allVertecisToString(sprites);
     }
 
-    public PointF getPos(){ return this.pos; }
+    public PointF getPos() {
+        return this.pos;
+    }
 
 }

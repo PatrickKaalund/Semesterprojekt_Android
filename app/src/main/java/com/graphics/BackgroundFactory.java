@@ -42,6 +42,7 @@ public class BackgroundFactory extends EntityFactory {
                 DataContainer.mapGlobalSize.y,
                 metrics
         );
+        DataContainer.mapBaseRect = newBackground.baseRact;
         productionLine.add(newBackground);
         return newBackground;
     }

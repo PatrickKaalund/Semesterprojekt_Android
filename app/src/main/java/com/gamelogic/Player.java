@@ -6,7 +6,10 @@ import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.graphics.Direction;
 import com.graphics.Entity;
+import com.graphics.SpriteEntityFactory;
 import com.network.Firebase.NetworkHandler;
 
 import java.util.ArrayList;
@@ -17,11 +20,16 @@ import java.util.ArrayList;
 
 public class Player extends PlayerCommon {
 
+
     private Entity player;
     private NetworkHandler networkHandler;
 
     private ArrayList<Integer> joystickValues;
     private DisplayMetrics displayMetrics;
+    private SpriteEntityFactory shootFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 50, 3, 1, new PointF(400, 400));
+    private Shooter gun;
+    private int shotSpeedCounter = 0;
+    private int shotSpeed = 10;
 
     public Player(Context context, NetworkHandler networkHandler) {
         game.objectsToUpdate.add(this);
@@ -37,11 +45,23 @@ public class Player extends PlayerCommon {
         displayMetrics = context.getResources().getDisplayMetrics();
 
         DataContainer.player = this;
+
+        gun = new Shooter();
+        shotSpeedCounter = shotSpeed;
+
     }
 
     @Override
     public void update() {
 
+        if (shotSpeedCounter > shotSpeed && game.getControl().isShooting()) {
+            gun.shoot(player.getPosition(), player.getRect(), super.direction);
+            shotSpeedCounter = 0;
+        }else{
+            shotSpeedCounter++;
+        }
+
+        gun.update();
         // read joystick
         joystickValues = game.getControl().getJoystickValues();
 
@@ -136,7 +156,7 @@ public class Player extends PlayerCommon {
                     moveY(direction.velocity_Y, joystick_angle);
                     game.map.move(direction.velocity_X, 0);
 
-                }else{
+                } else {
                     move(0, 0, joystick_angle);
                     game.map.move(direction.velocity_X, direction.velocity_Y);
                 }
@@ -164,7 +184,7 @@ public class Player extends PlayerCommon {
                     moveY(direction.velocity_Y, joystick_angle);
                     game.map.move(direction.velocity_X, 0);
 
-                }else{
+                } else {
                     move(0, 0, joystick_angle);
                     game.map.move(direction.velocity_X, direction.velocity_Y);
                 }
@@ -191,7 +211,7 @@ public class Player extends PlayerCommon {
 //                    Log.d("Player", "Condition 6.3");
                     moveY(direction.velocity_Y, joystick_angle);
                     game.map.move(direction.velocity_X, 0);
-                }else{
+                } else {
                     move(0, 0, joystick_angle);
                     game.map.move(direction.velocity_X, direction.velocity_Y);
                 }
@@ -217,7 +237,7 @@ public class Player extends PlayerCommon {
 //                    Log.d("Player", "Condition 7.3");
                     moveY(direction.velocity_Y, joystick_angle);
                     game.map.move(direction.velocity_X, 0);
-                }else{
+                } else {
                     move(0, 0, joystick_angle);
                     game.map.move(direction.velocity_X, direction.velocity_Y);
                 }
