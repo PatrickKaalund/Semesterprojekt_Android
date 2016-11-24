@@ -128,6 +128,16 @@ public class Control {
                            } else if (menuItem == 4) {
                                Log.d("DropDownPressed", "Sidearm");
                                dropDownMenu.closeMenu();
+                               game.getPlayer().getEntity().setAnimationOrder(new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64});
+                               int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
+                               if (currentSprite > 21 && currentSprite < 44) {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite + 23);
+                               } else if (currentSprite < 21) {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite + 46);
+                               } else {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite - 23);
+                               }
+                               game.map.move(0, 0);
                            }
                        } return true;
                    }
