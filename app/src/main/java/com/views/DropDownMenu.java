@@ -32,8 +32,8 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 public class DropDownMenu extends View {
 
     private static final long ANIMATION_DURATION = 1000;
-    private static final int DEFUALT_MENU_NO = 3;
-    private int mNumberOfMenu;//Todo
+    private static final int DEFUALT_MENU_NO = 4;
+    private int mNumberOfMenu;
     private final float BEZIER_CONSTANT = 0.551915024494f;// pre-calculated value
 
     private int mFabButtonRadius;
@@ -101,7 +101,7 @@ public class DropDownMenu extends View {
                     mDrawableArray = new ArrayList<>(array.length());
                     for (int i = 0; i < array.length(); i++) {
                         TypedValue value = array.peekValue(i);
-                        mDrawableArray.add(getResources().getDrawable(value != null ? value.resourceId : 0));
+                        mDrawableArray.add(getResources().getDrawable(value.resourceId, null));
                     }
                     array.recycle();
                 }
