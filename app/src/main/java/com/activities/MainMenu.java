@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.RelativeLayout;
@@ -28,6 +30,10 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main_menu);
 
         play = (TextView) findViewById(R.id.buttonPlay);
@@ -80,7 +86,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         if (firstRun) {
             RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RLayout);
             relativeLayout.setVisibility(View.VISIBLE);
-            gridLayout.setVisibility(View.GONE);
+            //gridLayout.setVisibility(View.GONE);
             firstRun = false;
         } else {
             switch (v.getId()) {

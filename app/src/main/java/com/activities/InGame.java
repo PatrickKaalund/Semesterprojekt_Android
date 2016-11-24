@@ -20,6 +20,7 @@ public class InGame extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         game = new Game(this);
         setContentView(game.getGameView());
 
