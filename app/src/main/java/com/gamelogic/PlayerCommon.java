@@ -13,7 +13,7 @@ import com.graphics.SpriteEntityFactory;
 
 public class PlayerCommon extends Creature {
 
-    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.player_new, 130, 130, 2, 11, new PointF(400, 400));
+    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.players, 130, 130, 4, 11, new PointF(400, 400));
     protected Entity player;
     protected Direction direction;
 
@@ -22,7 +22,7 @@ public class PlayerCommon extends Creature {
         player.setCurrentSprite(0);
         player.setAngleOffSet(0);
         player.setAnimationDivider(1);
-        player.setAnimationOrder(new int[]{0, 2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+        player.setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
         super.speed = 5;
         direction = new Direction(super.speed, 200);
 

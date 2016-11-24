@@ -245,7 +245,14 @@ public class Player extends PlayerCommon {
             player.drawNextSprite();
             // networkHandler.updatePlayerPosition(playerStill.getRect().centerX(), playerStill.getRect().centerY());
         } else {
-            player.setCurrentSprite(0);
+            int currentSprite = player.getCurrentSprite();
+            if (currentSprite > 22 && currentSprite < 45) {
+                player.setCurrentSprite(23);
+            } else if (currentSprite < 23) {
+                player.setCurrentSprite(0);
+            } else {
+                player.setCurrentSprite(45);
+            }
             game.map.move(0, 0);
         }
 
@@ -275,5 +282,9 @@ public class Player extends PlayerCommon {
 
     public PointF getPos() {
         return this.player.getPosition();
+    }
+
+    public Entity getEntity() {
+        return player;
     }
 }

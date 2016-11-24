@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
 import static com.views.DropDownMenu.STATE_PRESSED;
-import static java.security.AccessController.getContext;
 
 public class Control {
 
@@ -103,9 +102,29 @@ public class Control {
                            } else if (menuItem == 2) {
                                Log.d("DropDownPressed", "Rifle");
                                dropDownMenu.closeMenu();
+                               game.getPlayer().getEntity().setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+                               int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
+                               if (currentSprite > 21 && currentSprite < 44) {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite - 23);
+                               } else if (currentSprite < 21) {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite);
+                               } else {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite - 46);
+                               }
+                               game.map.move(0, 0);
                            } else if (menuItem == 3) {
                                Log.d("DropDownPressed", "Shotgun");
                                dropDownMenu.closeMenu();
+                               game.getPlayer().getEntity().setAnimationOrder(new int[]{23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42});
+                               int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
+                               if (currentSprite > 21 && currentSprite < 44) {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite);
+                               } else if (currentSprite < 21) {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite + 23);
+                               } else {
+                                   game.getPlayer().getEntity().setCurrentSprite(currentSprite - 23);
+                               }
+                               game.map.move(0, 0);
                            } else if (menuItem == 4) {
                                Log.d("DropDownPressed", "Sidearm");
                                dropDownMenu.closeMenu();
