@@ -30,6 +30,7 @@ public class Player extends PlayerCommon {
     private Shooter gun;
     private int shotSpeedCounter = 0;
     private int shotSpeed = 10;
+    private int currentWeapon = 0;
 
     public Player(Context context, NetworkHandler networkHandler) {
         game.objectsToUpdate.add(this);
@@ -245,13 +246,12 @@ public class Player extends PlayerCommon {
             player.drawNextSprite();
             // networkHandler.updatePlayerPosition(playerStill.getRect().centerX(), playerStill.getRect().centerY());
         } else {
-            int currentSprite = player.getCurrentSprite();
-            if (currentSprite > 22 && currentSprite < 45) {
-                player.setCurrentSprite(23);
-            } else if (currentSprite < 23) {
-                player.setCurrentSprite(0);
-            } else {
+            if (currentWeapon == 0) {
                 player.setCurrentSprite(45);
+            } else if (currentWeapon == 1) {
+                player.setCurrentSprite(23);
+            } else if (currentWeapon == 2) {
+                player.setCurrentSprite(0);
             }
             game.map.move(0, 0);
         }
@@ -286,5 +286,13 @@ public class Player extends PlayerCommon {
 
     public Entity getEntity() {
         return player;
+    }
+
+    public int getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public void setCurrentWeapon(int currentWeapon) {
+        this.currentWeapon = currentWeapon;
     }
 }
