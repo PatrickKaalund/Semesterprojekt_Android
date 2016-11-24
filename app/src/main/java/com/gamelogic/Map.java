@@ -31,6 +31,9 @@ public class Map extends GUpdateable {
     RectF boarderInder;
     RectF outerBorader;
     Direction mapDirektion;
+    private MapBorder mapBorder;
+
+    Entity borderEntityLeft;
 
     private SpriteEntityFactory borderFactory;
 
@@ -43,7 +46,7 @@ public class Map extends GUpdateable {
         game.objectsToUpdate.add(this);
         this.metrics = c.getResources().getDisplayMetrics();
         mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed2, metrics);
-        mapBackground = mapFactory.crateEntity();
+        mapBackground = mapFactory.createEntity(4000, 4000);
         float ratio = metrics.widthPixels / metrics.heightPixels;
 //        velMap = new Direction();
         mapDirektion = new Direction();
@@ -55,50 +58,13 @@ public class Map extends GUpdateable {
         itemSpawner.spawnItemsRandom(10);
 
         enemySpawner = new EnemySpawner(c);
-        enemySpawner.spawnEnemies(100, 1, 3);
+        enemySpawner.spawnEnemies(100, 5, 10);
 
+        mapBorder = new MapBorder(c);
 
 //        playerRemote = new PlayerRemote(networkHandler);
 
-        borderFactory = new SpriteEntityFactory(R.drawable.tree, 250, 250, 1, 1, new PointF(0, 0));
-//        borderFactory = new SpriteEntityFactory(R.drawable.zombie_topdown, 250, 250, 8, 36, new PointF(0, 0));
-        initialiseBorder();
-
-        int speed = 0;
-
     }
-//          Tree border
-    private void initialiseBorder() {
-        float offset = -50;
-        for(int index = 0; index < metrics.heightPixels; index += 200) {
-            Entity borderEntityLeft = borderFactory.createEntity();
-            Entity borderEntityRight = borderFactory.createEntity();
-            Entity borderEntityTop = borderFactory.createEntity();
-            Entity borderEntityBottom = borderFactory.createEntity();
-            borderEntityLeft.placeAt(offset, index);
-            borderEntityRight.placeAt(metrics.widthPixels - offset, index);
-            borderEntityTop.placeAt(index, metrics.heightPixels - 40);
-            borderEntityBottom.placeAt(index, offset);
-        }
-    }
-//          Zombie border
-//    private void initialiseBorder() {
-//        float offset = 40;
-//        for(int index = 0; index < metrics.heightPixels; index += 200) {
-//            Entity borderEntityLeft = borderFactory.createEntity();
-//            Entity borderEntityRight = borderFactory.createEntity();
-//            Entity borderEntityTop = borderFactory.createEntity();
-//            Entity borderEntityBottom = borderFactory.createEntity();
-//            borderEntityLeft.setCurrentSprite(4);
-//            borderEntityRight.setCurrentSprite(4);
-//            borderEntityTop.setCurrentSprite(4);
-//            borderEntityBottom.setCurrentSprite(4);
-//            borderEntityLeft.placeAt(offset, index);
-//            borderEntityRight.placeAt(metrics.widthPixels - offset, index);
-//            borderEntityTop.placeAt(index, metrics.heightPixels - 80);
-//            borderEntityBottom.placeAt(index, offset);
-//        }
-//    }
 
 
     int rotation = 0;
@@ -149,6 +115,13 @@ public class Map extends GUpdateable {
 //        }
         itemSpawner.update();
         enemySpawner.update();
+        mapBorder.update();
+
+
+        // Adjust for map movement
+//        borderEntityLeft.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y);
+//        borderEntityLeft.drawNextSprite();
+//        Log.d("Map", "Tree pos: " + borderEntityLeft.getPosition().x + ", " + borderEntityLeft.getPosition().y + ". Status ");
 
     }
 

@@ -8,9 +8,8 @@ import android.graphics.PointF;
 
 public class DataContainer {
 
-    private static Player player;
+    public static Player player;
+    public static PointF mapMovement = new PointF(0, 0);
+    public static PointF mapGlobalSize = new PointF(0, 0);
 
-    public PointF getPlayerPos(){ return this.player.getPos(); }
-    public Player getPlayer(){ return this.player; }
-    public void setPlayer(Player player){ this.player = player; }
 }

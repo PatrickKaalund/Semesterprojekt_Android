@@ -149,23 +149,21 @@ public class Direction {
     }
 
 
-    public float calcVelocity_Y() {
-        velocity_Y = velocity * (float) Math.sin((float) Math.toRadians((double) angle));
 
-        return velocity_Y;
-    }
-
-    public float calcVelocity_X() {
+    private void calcVelocity() {
         velocity_X = velocity * (float) Math.cos((float) Math.toRadians((double) angle));
-        return velocity_X;
+        velocity_Y = velocity * (float) Math.sin((float) Math.toRadians((double) angle));
     }
+
 
     public void set(int angle, float velocity) {
         this.velocity = velocity / baseSpeed;
         if (velocity > 0) {
-            this.lastActiveAngle = this.angle = angle;
-        } else {
-            this.angle = lastActiveAngle;
+            this.angle = angle;
+            calcVelocity();
+        }else{
+            velocity_X = 0;
+            velocity_Y = 0;
         }
     }
 

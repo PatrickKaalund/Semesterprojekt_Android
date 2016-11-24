@@ -22,7 +22,6 @@ public class Enemy extends Creature {
     private ArrayList<Integer> joystickValues;
 
     Direction direction;
-    private DataContainer dataContainer;
 
     public Enemy(SpriteEntityFactory enemyFactory, int health, int speed, PointF startLocation, DataContainer dataContainer) {
 
@@ -40,27 +39,30 @@ public class Enemy extends Creature {
 
         joystickValues = new ArrayList<>();
 
-        this.dataContainer = dataContainer;
     }
 
     @Override
     public void update() {
 
-        PointF playerPos = dataContainer.getPlayerPos();
+        PointF playerPos = DataContainer.player.getPos();
 //        Log.d("Enemy", "PlayerPos: " + playerPos.toString() + " enemyPos: " + enemy.getPosition().toString());
 
         // calculate angle between player and enemy
         int angle = (int) Math.toDegrees(Math.atan2(playerPos.y - enemy.getPosition().y, playerPos.x - enemy.getPosition().x));
-        if (angle < 0) {
-            angle += 360;
-        }
+//        if (angle < 0) {
+//            angle += 360;
+//        }
 
-//        Log.d("Enemy", "Angle: " + angle);
-//
         direction.set(angle, this.speed);
 
-        enemy.move(direction);
-        enemy.setPosition(new PointF(enemy.getPosition().x + direction.velocity_X, enemy.getPosition().y + direction.velocity_Y));
+        // Adjust for map movement
+        enemy.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y, 0);
+
+        enemy.moveBy(direction.velocity_X, direction.velocity_Y, angle);
+
+//        enemy.move(direction);
+        enemy.getPosition().x += direction.velocity_X;
+        enemy.getPosition().y += direction.velocity_Y;
 
         enemy.drawNextSprite();
     }

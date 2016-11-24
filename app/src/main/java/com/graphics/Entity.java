@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public interface Entity {
 
     public void moveBy(float deltaX, float deltaY, float angle);
+    public void moveBy(float deltaX, float deltaY);
 
     public void placeAt(float x, float y);
 

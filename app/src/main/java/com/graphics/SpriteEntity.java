@@ -27,7 +27,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
     private int animationCounter = 0;
     float[] modelPoints;
 
-
     private PointF position;
 
     private SpriteEntityFactory mother;
@@ -86,15 +85,15 @@ class SpriteEntity extends GraphicEntity implements Entity {
         switch (direction.lock) {
             case Direction.X:
 //                Log.d("Direction", "Lock: X");
-                transformationMatrix.setTranslate(0, direction.calcVelocity_Y());
+                transformationMatrix.setTranslate(0, direction.velocity_Y);
                 break;
             case Direction.Y:
 //                Log.d("Direction", "Lock: Y");
-                transformationMatrix.setTranslate(direction.calcVelocity_X(), 0);
+                transformationMatrix.setTranslate(direction.velocity_X, 0);
                 break;
             case Direction.UNLOCK:
 //                Log.d("Direction", "Lock: UNLOCK");
-                transformationMatrix.setTranslate(direction.calcVelocity_X(), direction.calcVelocity_Y());
+                transformationMatrix.setTranslate(direction.velocity_X, direction.velocity_Y);
                 break;
             case Direction.ALL:
 //                Log.d("Direction", "Lock: ALL");
@@ -130,6 +129,10 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //        baseRact.set(baseRact.left + deltaX, baseRact.top + deltaY, baseRact.right + deltaX, baseRact.bottom + deltaY);
 
 //        Log.d("SpriteEntity", "Rectangle after: " + baseRact.toString());
+    }
+
+    public void moveBy(float deltaX, float deltaY){
+        moveBy(deltaX, deltaY, 0);
     }
 
     public void placeAt(float x, float y) {
