@@ -16,7 +16,7 @@
         app:fab_radius="@dimen/big_circle_radius"
         app:gap_between_menu_fab="@dimen/min_gap"
         app:menu_radius="@dimen/small_circle_radius"
-        app:no_of_menu="3"
+        app:no_of_menu="4"
         app:menu_drawable="@array/drawable_array"
         android:rotation="220"
         android:layout_alignParentTop="true"

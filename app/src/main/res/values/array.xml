@@ -2,6 +2,7 @@
 <resources>
     <array name="drawable_array">
         <item>@drawable/selector_pistol</item>
+        <item>@drawable/selector_shotgun</item>
         <item>@drawable/selector_ak</item>
         <item>@drawable/selector_options</item>
     </array>

@@ -104,6 +104,9 @@ public class Control {
                                Log.d("DropDownPressed", "Rifle");
                                dropDownMenu.closeMenu();
                            } else if (menuItem == 3) {
+                               Log.d("DropDownPressed", "Shotgun");
+                               dropDownMenu.closeMenu();
+                           } else if (menuItem == 4) {
                                Log.d("DropDownPressed", "Sidearm");
                                dropDownMenu.closeMenu();
                            }
