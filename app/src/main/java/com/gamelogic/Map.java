@@ -58,7 +58,7 @@ public class Map extends GUpdateable {
         itemSpawner.spawnItemsRandom(10);
 
         enemySpawner = new EnemySpawner(c);
-        enemySpawner.spawnEnemies(100, 5, 10);
+        enemySpawner.spawnEnemies(100, 5, 1);
 
         mapBorder = new MapBorder(c);
 
