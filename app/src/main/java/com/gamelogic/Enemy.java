@@ -11,6 +11,8 @@ import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
 
+import static com.graphics.GraphicsTools.LL;
+
 /**
  * Created by PatrickKaalund on 13/10/2016.
  */
@@ -22,6 +24,8 @@ public class Enemy extends Creature {
     private ArrayList<Integer> joystickValues;
 
     Direction direction;
+
+    private int counter = 0;
 
     public Enemy(SpriteEntityFactory enemyFactory, int health, int speed, PointF startLocation, DataContainer dataContainer) {
 
@@ -46,7 +50,7 @@ public class Enemy extends Creature {
 
         PointF playerPos = DataContainer.player.getPos();
 //        Log.d("Enemy", "PlayerPos: " + playerPos.toString() + " enemyPos: " + enemy.getPosition().toString());
-
+//
         // calculate angle between player and enemy
         int angle = (int) Math.toDegrees(Math.atan2(playerPos.y - enemy.getPosition().y, playerPos.x - enemy.getPosition().x));
 //        if (angle < 0) {
@@ -65,6 +69,12 @@ public class Enemy extends Creature {
         enemy.getPosition().y += direction.velocity_Y;
 
         enemy.drawNextSprite();
+
+//        Log.d("Enemy", "Enemy rect: " + enemy.getRect().toString() + ". Player rect: " + DataContainer.player.getRect().toString());
+//        if(enemy.getRect().contains(DataContainer.player.getRect()) || enemy.getRect().intersect(DataContainer.player.getRect())){
+//            LL(this, "Enemy contains player!!" + counter++);
+//
+//        }
     }
 
     public RectF getRect(){ return this.enemy.getRect(); }
