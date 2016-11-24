@@ -108,9 +108,14 @@ public class Control {
                             if (menuItem == 1) {
                                 Log.d("DropDownPressed", "Options");
                                 dropDownMenu.closeMenu();
+                                if (preferences.getBoolean("sound", true)) {
+                                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.click);
+                                    mediaPlayer.start();
+                                }
                                 Intent settings = new Intent(context, OptionsActivity.class);
                                 context.startActivity(settings);
-                            } else if (menuItem == 2) {
+                            }
+                            else if (menuItem == 2) {
                                 Log.d("DropDownPressed", "Rifle");
                                 dropDownMenu.closeMenu();
 
