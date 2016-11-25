@@ -30,6 +30,7 @@ public class Player extends PlayerCommon {
     private Shooter gun;
     private int shotSpeedCounter = 0;
     private int shotSpeed = 10;
+    private int currentWeapon = 0;
 
     public Player(Context context, NetworkHandler networkHandler) {
 
@@ -45,7 +46,7 @@ public class Player extends PlayerCommon {
 
         DataContainer.player = this;
 
-        gun = new Shooter();
+        gun = new Shooter(this, context);
         shotSpeedCounter = shotSpeed;
 
     }
@@ -247,6 +248,14 @@ public class Player extends PlayerCommon {
         } else {
             player.setCurrentSprite(0);
             map.moveFrame(0, 0);
+            if (currentWeapon == 0) {
+                player.setCurrentSprite(45);
+            } else if (currentWeapon == 1) {
+                player.setCurrentSprite(23);
+            } else if (currentWeapon == 2) {
+                player.setCurrentSprite(0);
+            }
+            game.map.move(0, 0);
         }
 
 //        Log.d("Player", "Angle: " + joystick_angle);
@@ -288,5 +297,17 @@ public class Player extends PlayerCommon {
             Log.e("PLAYER IS DEAD","+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
         }
 
+    }
+
+    public Entity getEntity() {
+        return player;
+    }
+
+    public int getCurrentWeapon() {
+        return currentWeapon;
+    }
+
+    public void setCurrentWeapon(int currentWeapon) {
+        this.currentWeapon = currentWeapon;
     }
 }

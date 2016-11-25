@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -95,7 +96,10 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-
+        if (preferences.getBoolean("sound", true)) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+            mediaPlayer.start();
+        }
         if (compoundButton == musicSwitch) {
             Log.d("Switch", "music " + musicSwitch.isChecked());
             if (isChecked) {
@@ -127,11 +131,19 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.quit_button) {
+            if (preferences.getBoolean("sound", true)) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+                mediaPlayer.start();
+            }
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
         } else if (view.getId() == R.id.back_button) {
+            if (preferences.getBoolean("sound", true)) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+                mediaPlayer.start();
+            }
             finish();
         }
     }

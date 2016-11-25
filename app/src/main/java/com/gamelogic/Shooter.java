@@ -1,7 +1,11 @@
 package com.gamelogic;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Direction;
@@ -19,6 +23,10 @@ import java.util.Iterator;
 public class Shooter {
     private static final int BASE_SPEED = 20;
     int damage = 10;
+    private final Player player;
+    private SharedPreferences preferences;
+    private Context context;
+
     class Shot {
         public Direction direction;
         public Entity shot;
@@ -40,12 +48,31 @@ public class Shooter {
 
     public Shooter() {
         shotFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 60, 3, 1, new PointF(400, 400));
+    public Shooter(Player player, Context context) {
+        this.player = player;
+        this.context = context;
+        shootFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 60, 3, 1, new PointF(400, 400));
         shots = new ArrayList<>();
-
-
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection) {
+        if (player.getCurrentWeapon() == 0) {
+            if (preferences.getBoolean("sound", true)) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.gun);
+                mediaPlayer.start();
+            }
+        } else if (player.getCurrentWeapon() == 1) {
+            if (preferences.getBoolean("sound", true)) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.shotgun);
+                mediaPlayer.start();
+            }
+        } else if (player.getCurrentWeapon() == 2) {
+            if (preferences.getBoolean("sound", true)) {
+                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.ak);
+                mediaPlayer.start();
+            }
+        }
         Shot s = new Shot();
         s.shot = shotFactory.createEntity();
         s.shot.placeAt(shooterBaseRect.centerX(), shooterBaseRect.centerY());

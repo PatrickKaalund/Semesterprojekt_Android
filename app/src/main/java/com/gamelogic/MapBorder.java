@@ -24,7 +24,7 @@ public class MapBorder {
     public MapBorder(Context context){
         this.displayMetrics = context.getResources().getDisplayMetrics();
         sizeOfBorderEntity = new PointF(450, 450);
-        mapBorderFactory = new SpriteEntityFactory(R.drawable.tree2, sizeOfBorderEntity.x, sizeOfBorderEntity.y, 1, 1, new PointF(0, 0));
+        mapBorderFactory = new SpriteEntityFactory(R.drawable.tree, sizeOfBorderEntity.x, sizeOfBorderEntity.y, 1, 1, new PointF(0, 0));
         borderEntities = new ArrayList<>();
 
         initialiseBorder();

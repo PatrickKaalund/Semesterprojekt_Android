@@ -7,6 +7,8 @@ import android.util.Log;
 import com.graphics.Direction;
 import com.graphics.Entity;
 
+import static com.graphics.GraphicsTools.LL;
+
 /**
  * Created by PatrickKaalund on 13/10/2016.
  */
