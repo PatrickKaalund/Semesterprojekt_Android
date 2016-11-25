@@ -51,7 +51,8 @@ public class Shooter {
     public Shooter(Player player, Context context) {
         this.player = player;
         this.context = context;
-        shootFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 60, 3, 1, new PointF(400, 400));
+        shootFactory = new SpriteEntityFactory(R.drawable.bullets, 30, 40, 1, 2, new PointF(400, 400));
+
         shots = new ArrayList<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -79,7 +80,8 @@ public class Shooter {
         s.shot.setPosition(shooterGlobalPos);
         s.direction = new Direction(shooterDirection, 1);
         s.shot.setCurrentSprite(0);
-        s.shot.setAngleOffSet(90);
+        s.shot.setAngleOffSet(0);
+        s.shot.setAnimationDivider(100);
         shots.add(s);
     }
 
