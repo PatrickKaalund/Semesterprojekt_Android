@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -87,10 +84,6 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (preferences.getBoolean("sound", true)) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
-            mediaPlayer.start();
-        }
         if (firstRun) {
             RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RLayout);
             relativeLayout.setVisibility(View.VISIBLE);
@@ -99,37 +92,51 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         } else {
             switch (v.getId()) {
                 case R.id.buttonPlay:
+                    playClick();
                     Intent play = new Intent(this, InGame.class);
                     startActivity(play);
                     break;
                 case R.id.buttonSettings:
+                    playClick();
                     Intent settings = new Intent(this, OptionsActivity.class);
                     startActivity(settings);
                     break;
                 case R.id.buttonQuit:
+                    playClick();
                     Intent startMain = new Intent(Intent.ACTION_MAIN);
                     startMain.addCategory(Intent.CATEGORY_HOME);
                     startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(startMain);
                     break;
                 case R.id.buttonDebug:
+                    playClick();
                     findViewById(R.id.buttonMapTest).setVisibility(View.VISIBLE);
                     findViewById(R.id.buttonFirebaseTest).setVisibility(View.VISIBLE);
                     findViewById(R.id.buttonMQTTTest).setVisibility(View.VISIBLE);
                     break;
                 case R.id.buttonMapTest:
+                    playClick();
                     Intent mapTest = new Intent(this, MapTestActivity.class);
                     startActivity(mapTest);
                     break;
                 case R.id.buttonMQTTTest:
+                    playClick();
                     Intent mqttTest = new Intent(this, MQTTActivity.class);
                     startActivity(mqttTest);
                     break;
                 case R.id.buttonFirebaseTest:
+                    playClick();
                     Intent firebaseTest = new Intent(this, FirebaseActivity.class);
                     startActivity(firebaseTest);
                     break;
             }
+        }
+    }
+
+    private void playClick() {
+        if (preferences.getBoolean("sound", true)) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
+            mediaPlayer.start();
         }
     }
 }
