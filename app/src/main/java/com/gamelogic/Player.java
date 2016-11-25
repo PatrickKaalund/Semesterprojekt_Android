@@ -47,7 +47,7 @@ public class Player extends PlayerCommon {
 
         DataContainer.player = this;
 
-        gun = new Shooter();
+        gun = new Shooter(this, context);
         shotSpeedCounter = shotSpeed;
 
     }
