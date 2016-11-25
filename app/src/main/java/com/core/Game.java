@@ -66,6 +66,7 @@ public class Game implements Runnable {
     public Game(Context context) {
         Log.d("Game", "Game created");
         this.context = context;
+        gameContext = context;
         glSurfaceView = new OurGLSurfaceView(context);
         networkHandler = new NetworkHandler();
         fpsMeasuring = new FPSMeasuring(context);
@@ -74,7 +75,6 @@ public class Game implements Runnable {
         initGameComponents();
         fpsMeasuring.start();
         gameStart();
-        gameContext = context;
 
         thread = new Thread(this);
         thread.start();
@@ -182,6 +182,10 @@ public class Game implements Runnable {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public BackgroundEntity getMap() {
+        return map;
     }
 }
 

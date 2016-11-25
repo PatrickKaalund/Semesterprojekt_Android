@@ -1,11 +1,11 @@
 package com.gamelogic;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Direction;
@@ -15,6 +15,8 @@ import com.graphics.SpriteEntityFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static com.gamelogic.DataContainer.gameContext;
+
 /**
  * Created by thor on 11/24/16.
  */
@@ -23,9 +25,7 @@ import java.util.Iterator;
 public class Shooter {
     private static final int BASE_SPEED = 20;
     int damage = 10;
-    private final Player player;
     private SharedPreferences preferences;
-    private Context context;
 
     class Shot {
         public Direction direction;
@@ -48,31 +48,40 @@ public class Shooter {
 
     public Shooter() {
         shotFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 60, 3, 1, new PointF(400, 400));
-    public Shooter(Player player, Context context) {
-        this.player = player;
-        this.context = context;
-        shootFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 60, 3, 1, new PointF(400, 400));
         shots = new ArrayList<>();
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
     }
 
-    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection) {
-        if (player.getCurrentWeapon() == 0) {
-            if (preferences.getBoolean("sound", true)) {
-                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.gun);
-                mediaPlayer.start();
-            }
-        } else if (player.getCurrentWeapon() == 1) {
-            if (preferences.getBoolean("sound", true)) {
-                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.shotgun);
-                mediaPlayer.start();
-            }
-        } else if (player.getCurrentWeapon() == 2) {
-            if (preferences.getBoolean("sound", true)) {
-                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.ak);
-                mediaPlayer.start();
-            }
+    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, Player.weaponSelection_e currentWeapon) {
+
+        switch (currentWeapon){
+
+            case GUN:
+                if (preferences.getBoolean("sound", true)) {
+                    MediaPlayer mediaPlayer = MediaPlayer.create(gameContext, R.raw.gun);
+                    mediaPlayer.start();
+                }
+
+                break;
+            case SHOTGUN:
+                if (preferences.getBoolean("sound", true)) {
+                    MediaPlayer mediaPlayer = MediaPlayer.create(gameContext, R.raw.shotgun);
+                    mediaPlayer.start();
+                }
+
+                break;
+            case AK47:
+                if (preferences.getBoolean("sound", true)) {
+                    MediaPlayer mediaPlayer = MediaPlayer.create(gameContext, R.raw.ak);
+                    mediaPlayer.start();
+                }
+
+                break;
+            default:
+                Log.e("SHOOTER", "DEFULTED IN SHOOTER::shoot: switch (currentWeapon)");
+                break;
         }
+
         Shot s = new Shot();
         s.shot = shotFactory.createEntity();
         s.shot.placeAt(shooterBaseRect.centerX(), shooterBaseRect.centerY());

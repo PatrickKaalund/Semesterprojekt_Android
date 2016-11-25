@@ -114,8 +114,7 @@ public class Control {
                                 }
                                 Intent settings = new Intent(context, OptionsActivity.class);
                                 context.startActivity(settings);
-                            }
-                            else if (menuItem == 2) {
+                            } else if (menuItem == 2) {
                                 Log.d("DropDownPressed", "Rifle");
                                 dropDownMenu.closeMenu();
 
@@ -128,15 +127,24 @@ public class Control {
                                 game.getPlayer().setCurrentWeapon(2);
 
                                 int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
-                                if (game.getPlayer().getCurrentWeapon() == 0) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite - 46);
-                                } else if (game.getPlayer().getCurrentWeapon() == 1) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite - 23);
-                                } else if (game.getPlayer().getCurrentWeapon() == 2) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite);
+                                switch (game.getPlayer().getCurrentWeapon()) {
+
+                                    case GUN:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite - 46);
+
+
+                                        break;
+                                    case SHOTGUN:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite - 23);
+
+                                        break;
+                                    case AK47:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite);
+
+                                        break;
                                 }
 
-                                game.map.move(0, 0);
+//                                game.getMap().moveFrame(0, 0);
                             } else if (menuItem == 3) {
                                 Log.d("DropDownPressed", "Shotgun");
                                 dropDownMenu.closeMenu();
@@ -150,46 +158,67 @@ public class Control {
                                 game.getPlayer().setCurrentWeapon(1);
 
                                 int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
-                                if (game.getPlayer().getCurrentWeapon() == 0) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite - 23);
-                                } else if (game.getPlayer().getCurrentWeapon() == 1) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite);
-                                } else if (game.getPlayer().getCurrentWeapon() == 2) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite + 23);
+
+
+                                switch (game.getPlayer().getCurrentWeapon()) {
+
+                                    case GUN:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite - 23);
+                                        break;
+                                    case SHOTGUN:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite);
+                                        break;
+                                    case AK47:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite + 23);
+                                        break;
+
                                 }
 
-                                game.map.move(0, 0);
-                            } else if (menuItem == 4) {
-                                Log.d("DropDownPressed", "Sidearm");
-                                dropDownMenu.closeMenu();
 
-                                if (preferences.getBoolean("sound", true)) {
-                                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.reload);
-                                    mediaPlayer.start();
-                                }
+//                            game.map.move(0, 0);
+                        } else if (menuItem == 4) {
+                            Log.d("DropDownPressed", "Sidearm");
+                            dropDownMenu.closeMenu();
 
-                                game.getPlayer().getEntity().setAnimationOrder(new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64});
-                                game.getPlayer().setCurrentWeapon(0);
-
-                                int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
-                                if (game.getPlayer().getCurrentWeapon() == 0) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite);
-                                } else if (game.getPlayer().getCurrentWeapon() == 1) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite + 23);
-                                } else if (game.getPlayer().getCurrentWeapon() == 2) {
-                                    game.getPlayer().getEntity().setCurrentSprite(currentSprite + 46);
-                                }
-
-                                game.map.move(0, 0);
+                            if (preferences.getBoolean("sound", true)) {
+                                MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.reload);
+                                mediaPlayer.start();
                             }
+
+                            game.getPlayer().getEntity().setAnimationOrder(new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64});
+                            game.getPlayer().setCurrentWeapon(0);
+
+                            int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
+
+                                switch (game.getPlayer().getCurrentWeapon()) {
+
+                                    case GUN:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite);
+                                        break;
+                                    case SHOTGUN:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite + 23);
+                                        break;
+                                    case AK47:
+                                        game.getPlayer().getEntity().setCurrentSprite(currentSprite + 46);
+                                        break;
+
+                                }
+
+
+
+//                            game.map.move(0, 0);
                         }
-                        return true;
                     }
+                    return true;
                 }
-                return false;
             }
-        });
+
+            return false;
+        }
     }
+
+    );
+}
 
     public void gameStart() {
         game.gameStart();

@@ -20,6 +20,13 @@ import java.util.ArrayList;
 
 public class Player extends PlayerCommon {
 
+    public enum weaponSelection_e {
+        GUN,
+        SHOTGUN,
+        AK47,
+        ALL_GUNS,
+
+    }
 
     private Entity player;
     private NetworkHandler networkHandler;
@@ -30,7 +37,9 @@ public class Player extends PlayerCommon {
     private Shooter gun;
     private int shotSpeedCounter = 0;
     private int shotSpeed = 10;
-    private int currentWeapon = 0;
+    private weaponSelection_e currentWeapon = weaponSelection_e.GUN;
+
+
 
     public Player(Context context, NetworkHandler networkHandler) {
 
@@ -46,14 +55,14 @@ public class Player extends PlayerCommon {
 
         DataContainer.player = this;
 
-        gun = new Shooter(this, context);
+        gun = new Shooter();
         shotSpeedCounter = shotSpeed;
 
     }
 
     public void update(Control control, EnemySpawner enemys){
         if (shotSpeedCounter > shotSpeed && control.isShooting()) {
-            gun.shoot(player.getPosition(), player.getRect(), super.direction);
+            gun.shoot(player.getPosition(), player.getRect(), super.direction, currentWeapon);
             shotSpeedCounter = 0;
         }else{
             shotSpeedCounter++;
@@ -248,14 +257,25 @@ public class Player extends PlayerCommon {
         } else {
             player.setCurrentSprite(0);
             map.moveFrame(0, 0);
-            if (currentWeapon == 0) {
-                player.setCurrentSprite(45);
-            } else if (currentWeapon == 1) {
-                player.setCurrentSprite(23);
-            } else if (currentWeapon == 2) {
-                player.setCurrentSprite(0);
+            switch (currentWeapon){
+
+                case GUN:
+                    player.setCurrentSprite(45);
+
+                    break;
+                case SHOTGUN:
+                    player.setCurrentSprite(23);
+
+                    break;
+                case AK47:
+                    player.setCurrentSprite(0);
+
+                    break;
+                default:
+                    Log.e("PLAYER", "DEFULTED IN PLAYE::move: switch (currentWeapon)");
+                    break;
             }
-            game.map.move(0, 0);
+            map.moveFrame(0, 0);
         }
 
 //        Log.d("Player", "Angle: " + joystick_angle);
@@ -303,11 +323,11 @@ public class Player extends PlayerCommon {
         return player;
     }
 
-    public int getCurrentWeapon() {
+    public weaponSelection_e getCurrentWeapon() {
         return currentWeapon;
     }
 
-    public void setCurrentWeapon(int currentWeapon) {
+    public void setCurrentWeapon(int weponSelection_e) {
         this.currentWeapon = currentWeapon;
     }
 }
