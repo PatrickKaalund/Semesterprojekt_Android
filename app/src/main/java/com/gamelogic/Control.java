@@ -97,7 +97,7 @@ public class Control {
             public boolean onTouch(View v, MotionEvent event) {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
+Log.d("hmmm", game.getPlayer().getCurrentWeapon().toString());
                     int menuItem = dropDownMenu.isMenuItemTouched(event);
                     if (dropDownMenu.isMenuVisible && menuItem > 0) {
 
@@ -124,7 +124,7 @@ public class Control {
                                 }
 
                                 game.getPlayer().getEntity().setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
-                                game.getPlayer().setCurrentWeapon(2);
+                                game.getPlayer().setCurrentWeapon(weaponSelection_e.AK47);
 
                                 int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
                                 switch (game.getPlayer().getCurrentWeapon()) {
@@ -144,7 +144,7 @@ public class Control {
                                         break;
                                 }
 
-//                                game.getMap().moveFrame(0, 0);
+                               game.getMap().moveFrame(0, 0);
                             } else if (menuItem == 3) {
                                 Log.d("DropDownPressed", "Shotgun");
                                 dropDownMenu.closeMenu();
@@ -155,7 +155,7 @@ public class Control {
                                 }
 
                                 game.getPlayer().getEntity().setAnimationOrder(new int[]{23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42});
-                                game.getPlayer().setCurrentWeapon(1);
+                                game.getPlayer().setCurrentWeapon(weaponSelection_e.SHOTGUN);
 
                                 int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
 
@@ -171,11 +171,9 @@ public class Control {
                                     case AK47:
                                         game.getPlayer().getEntity().setCurrentSprite(currentSprite + 23);
                                         break;
-
                                 }
 
-
-//                            game.map.move(0, 0);
+                                game.getMap().moveFrame(0, 0);
                         } else if (menuItem == 4) {
                             Log.d("DropDownPressed", "Sidearm");
                             dropDownMenu.closeMenu();
@@ -186,7 +184,7 @@ public class Control {
                             }
 
                             game.getPlayer().getEntity().setAnimationOrder(new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64});
-                            game.getPlayer().setCurrentWeapon(0);
+                            game.getPlayer().setCurrentWeapon(weaponSelection_e.GUN);
 
                             int currentSprite = game.getPlayer().getEntity().getCurrentSprite();
 
@@ -201,12 +199,9 @@ public class Control {
                                     case AK47:
                                         game.getPlayer().getEntity().setCurrentSprite(currentSprite + 46);
                                         break;
-
                                 }
 
-
-
-//                            game.map.move(0, 0);
+                                game.getMap().moveFrame(0, 0);
                         }
                     }
                     return true;

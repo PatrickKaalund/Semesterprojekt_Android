@@ -47,12 +47,12 @@ public class Shooter {
     private Direction baseDirection;
 
     public Shooter() {
-        shotFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 60, 3, 1, new PointF(400, 400));
+        shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 2, new PointF(400, 400));
         shots = new ArrayList<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
     }
 
-    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, Player.weaponSelection_e currentWeapon) {
+    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, weaponSelection_e currentWeapon) {
 
         switch (currentWeapon){
 
@@ -88,7 +88,7 @@ public class Shooter {
         s.shot.setPosition(shooterGlobalPos);
         s.direction = new Direction(shooterDirection, 1);
         s.shot.setCurrentSprite(0);
-        s.shot.setAngleOffSet(90);
+        s.shot.setAngleOffSet(0);
         shots.add(s);
     }
 

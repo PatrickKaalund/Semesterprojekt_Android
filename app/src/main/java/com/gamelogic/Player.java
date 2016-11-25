@@ -20,20 +20,13 @@ import java.util.ArrayList;
 
 public class Player extends PlayerCommon {
 
-    public enum weaponSelection_e {
-        GUN,
-        SHOTGUN,
-        AK47,
-        ALL_GUNS,
-
-    }
 
     private Entity player;
     private NetworkHandler networkHandler;
 
     private ArrayList<Integer> joystickValues;
     private DisplayMetrics displayMetrics;
-    private SpriteEntityFactory shootFactory = new SpriteEntityFactory(R.drawable.beam_green, 100, 50, 3, 1, new PointF(400, 400));
+    private SpriteEntityFactory shootFactory = new SpriteEntityFactory(R.drawable.bullets, 100, 50, 3, 1, new PointF(400, 400));
     private Shooter gun;
     private int shotSpeedCounter = 0;
     private int shotSpeed = 10;
@@ -255,12 +248,11 @@ public class Player extends PlayerCommon {
             player.drawNextSprite();
             // networkHandler.updatePlayerPosition(playerStill.getRect().centerX(), playerStill.getRect().centerY());
         } else {
-            player.setCurrentSprite(0);
-            map.moveFrame(0, 0);
+
             switch (currentWeapon){
 
                 case GUN:
-                    player.setCurrentSprite(45);
+                    player.setCurrentSprite(23);
 
                     break;
                 case SHOTGUN:
@@ -327,7 +319,7 @@ public class Player extends PlayerCommon {
         return currentWeapon;
     }
 
-    public void setCurrentWeapon(int weponSelection_e) {
+    public void setCurrentWeapon(weaponSelection_e currentWeapon) {
         this.currentWeapon = currentWeapon;
     }
 }
