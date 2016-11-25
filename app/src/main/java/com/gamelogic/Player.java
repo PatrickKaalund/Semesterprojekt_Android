@@ -252,7 +252,7 @@ public class Player extends PlayerCommon {
             switch (currentWeapon){
 
                 case GUN:
-                    player.setCurrentSprite(23);
+                    player.setCurrentSprite(45);
 
                     break;
                 case SHOTGUN:
