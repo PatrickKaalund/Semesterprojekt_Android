@@ -2,80 +2,96 @@ package com.core;
 
 
 import android.content.Context;
-import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
+import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.Control;
-import com.gamelogic.DataContainer;
+import com.gamelogic.EnemySpawner;
+import com.gamelogic.ItemSpawner;
+import com.gamelogic.MapBorder;
 import com.gamelogic.Player;
-import com.gamelogic.Map;
-import com.graphics.FPSDrawer;
+import com.graphics.BackgroundEntity;
+import com.graphics.BackgroundFactory;
 import com.graphics.FPSMeasuring;
 import com.graphics.OurGLSurfaceView;
 import com.network.Firebase.NetworkHandler;
 import com.views.DropDownMenu;
 
-import java.util.ArrayList;
-
 import io.github.controlwear.virtual.joystick.android.JoystickView;
+
+import static com.gamelogic.DataContainer.gameContext;
 
 public class Game implements Runnable {
 
+    //=============== Threads =================
     private Thread thread;
-    public Map map;
-    private Player player;
-    private NetworkHandler networkHandler;
+    private FPSMeasuring fpsMeasuring;
+    private int latestFPS = 0;
 
-    //    private Enemy enemy;
+    //================= Misc ==================
+    private Context context;
     private OurGLSurfaceView glSurfaceView;
-    //    private ScreenDrawer screenDrawer;
-    private boolean isRunning;
-    private Handler handler;
-    private boolean isPaused;
     private Control control;
 
-    private int latestFPS = 0;
-//    private Collision collision;
+    //============= Network stuff =============
+    private NetworkHandler networkHandler;
+    //~~~~~~~~ Remote game components ~~~~~~~~
+    //private PlayerRemote playerRemote;
 
-    public ArrayList<GUpdateable> objectsToUpdate;
-    private Context context;
+    //============ Game components ============
+    private Player player;
+    private EnemySpawner enemySpawner;
+    private ItemSpawner itemSpawner;
+    private MapBorder mapBorder;
+    private BackgroundEntity map;
+    private BackgroundFactory mapFactory;
 
-    private FPSMeasuring fpsMeasuring;
+    //============== Game states ==============
+    private static final int ENEMY_BASE_HELTH = 100;
+    private static final int ENEMY_BASE_SPEED = 5;
+    private static final int DIFFICULTY_MULTIPLIER = 10;
+
+    private int currentDifficulty = 0;
+    private boolean isRunning;
+    private boolean isPaused;
+    private int enemySpawnInterval = 500;
+    private int enemySpawmCounter = 0;
+
+    enum GameStates_e {
+
+    }
 
 
     public Game(Context context) {
-        Log.d("Game","Game created");
-
-        GUpdateable.game = this;
-        glSurfaceView = new OurGLSurfaceView(context);
-
+        Log.d("Game", "Game created");
         this.context = context;
-
-        objectsToUpdate = new ArrayList<>();
-//        fpsDrawer = new FPSDrawer(context, screenDrawer);
-
+        glSurfaceView = new OurGLSurfaceView(context);
         networkHandler = new NetworkHandler();
-//        networkHandler.addPlayerListener(this);
-
-        player = new Player(context, networkHandler);
-        control = new Control(context, this);
-        map = new Map(context, networkHandler);
-
         fpsMeasuring = new FPSMeasuring(context);
 
+
+        initGameComponents();
+        fpsMeasuring.start();
         gameStart();
+        gameContext = context;
+
         thread = new Thread(this);
         thread.start();
 
-//        Thread thread2 = new Thread(renderThread);
-//        thread2.start();
-
-        fpsMeasuring.start();
-
-        update();
     }
+
+    private void initGameComponents() {
+        player = new Player(context, networkHandler);
+        control = new Control(context, this);
+        mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed2, context.getResources().getDisplayMetrics());
+        map = mapFactory.createEntity(4000, 4000); //Make background
+        itemSpawner = new ItemSpawner(context);
+        enemySpawner = new EnemySpawner(context);
+        mapBorder = new MapBorder(context);
+        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
+    }
+
 
     public void setJoystick(JoystickView joystickView) {
         control.setJoystick(joystickView);
@@ -96,7 +112,7 @@ public class Game implements Runnable {
         while (isRunning) {
             if (!isPaused) {
 //                handler.postDelayed(this, 33);
-                update();
+                updateGame();
                 glSurfaceView.requestRender();
 
             } else {
@@ -121,6 +137,7 @@ public class Game implements Runnable {
         isRunning = true;
         isPaused = false;
         fpsMeasuring.startFPS();
+        updateGame();
     }
 
     public void gamePause() {
@@ -133,23 +150,39 @@ public class Game implements Runnable {
         fpsMeasuring.stopFPS();
     }
 
-    public void update() {
-        for (GUpdateable updateable : objectsToUpdate) {
-            updateable.update();
-        }
+    public void updateGame() {
+
+        player.move(control, map);
+        player.update(control, enemySpawner);
+        enemySpawner.update(player);
+        mapBorder.update();
+        itemSpawner.update();
+//
+//        if (enemySpawmCounter++ >= enemySpawnInterval) {
+//            enemySpawmCounter = 0;
+//            enemySpawnInterval -= currentDifficulty;
+//            enemySpawner.spawn(100 + currentDifficulty, ENEMY_BASE_SPEED + (currentDifficulty / 3));
+//            currentDifficulty += DIFFICULTY_MULTIPLIER;
+//            Log.w("Game", "!!! Spawning enemy !!! watch out :-)");
+//        }
+
     }
 
     // Getters
     public OurGLSurfaceView getGameView() {
         return glSurfaceView;
     }
-    public Control getControl() {
-        return this.control;
-    }
+
+    //    public Control getControl() {
+//        return this.control;
+//    }
     public int getFPS() {
         return fpsMeasuring.latestFPS;
     }
-    public Player getPlayer(){ return this.player; }
+
+    public Player getPlayer() {
+        return this.player;
+    }
 }
 
 

@@ -15,7 +15,7 @@ public class PlayerRemote extends PlayerCommon implements RemotePlayer {
     private float xOld, yOld, xNew, yNew, angle;
 
     public PlayerRemote(NetworkHandler networkHandler) {
-        game.objectsToUpdate.add(this);
+//        game.objectsToUpdate.add(this);
 
         networkHandler.addPlayerListener(this);
 
@@ -24,11 +24,10 @@ public class PlayerRemote extends PlayerCommon implements RemotePlayer {
         xOld = yOld = xNew = yNew = 0;
     }
 
-    @Override
     public void update() {
 
         // Should not be here :-)
-        game.map.move(remotePlayer, direction);
+//        game.map.move(remotePlayer, direction);
 
         if (xNew != xOld || yNew != yOld) {
             remotePlayer.drawNextSprite();
@@ -58,6 +57,11 @@ public class PlayerRemote extends PlayerCommon implements RemotePlayer {
 
     public RectF getRect() {
         return this.remotePlayer.getRect();
+    }
+
+    @Override
+    public void doDamge(int damge) {
+        super.health -= damge;
     }
 }
 

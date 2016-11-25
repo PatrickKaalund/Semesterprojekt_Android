@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public interface Entity {
 
     public void moveBy(float deltaX, float deltaY, float angle);
+
     public void moveBy(float deltaX, float deltaY);
 
     public void placeAt(float x, float y);
@@ -40,5 +41,17 @@ public interface Entity {
     public void setAnimationOrder(int[] animationOrder);
 
     public PointF getPosition();
+
     public void setPosition(PointF position);
+
+    public boolean collision(float x, float y);
+
+    public boolean collision(PointF pos);
+
+    public boolean isHit();
+
+    public void setHit(boolean hit);
+
+    public void delete();
+    public boolean collisionBoarder(Entity in);
 }

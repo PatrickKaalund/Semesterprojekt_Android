@@ -24,7 +24,7 @@ public class RectMaster extends RectF {
         super(r);
     }
 
-//    public Direction contains(float x, float y) {
+//    public Direction collision(float x, float y) {
 //        return left < right && top < bottom  // check for empty first
 //                && x >= left && x < right && y >= top && y < bottom;
 //    }

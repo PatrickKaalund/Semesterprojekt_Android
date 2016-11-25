@@ -26,6 +26,9 @@ class SpriteEntity extends GraphicEntity implements Entity {
     private int animationDivider = 1;
     private int animationCounter = 0;
     float[] modelPoints;
+    protected float width;
+    protected float height;
+    boolean isHit = false;
 
     private PointF position;
 
@@ -35,8 +38,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     public SpriteEntity(float modelBaseHeight, float modelBaseWidth,
                         PointF pos, SpriteEntityFactory mother) {
-        float width = modelBaseWidth / 2;
-        float height = modelBaseHeight / 2;
+        width = modelBaseWidth / 2;
+        height = modelBaseHeight / 2;
         PointF motherPos = mother.getPos();
         this.baseRact = new RectF(motherPos.x - width, motherPos.y + height, motherPos.x + width, motherPos.y - height);
         Log.d("SpriteEntity", "BaseRect: " + rectToString(baseRact));
@@ -82,23 +85,25 @@ class SpriteEntity extends GraphicEntity implements Entity {
     public Direction move(Direction direction) {
         Matrix transformationMatrix = new Matrix();
 
-        switch (direction.lock) {
-            case Direction.X:
-//                Log.d("Direction", "Lock: X");
-                transformationMatrix.setTranslate(0, direction.velocity_Y);
-                break;
-            case Direction.Y:
-//                Log.d("Direction", "Lock: Y");
-                transformationMatrix.setTranslate(direction.velocity_X, 0);
-                break;
-            case Direction.UNLOCK:
-//                Log.d("Direction", "Lock: UNLOCK");
-                transformationMatrix.setTranslate(direction.velocity_X, direction.velocity_Y);
-                break;
-            case Direction.ALL:
-//                Log.d("Direction", "Lock: ALL");
-                break;
-        }
+//        switch (direction.lock) {
+//            case Direction.X:
+////                Log.d("Direction", "Lock: X");
+//                transformationMatrix.setTranslate(0, direction.velocity_Y);
+//                break;
+//            case Direction.Y:
+////                Log.d("Direction", "Lock: Y");
+//                transformationMatrix.setTranslate(direction.velocity_X, 0);
+//                break;
+//            case Direction.UNLOCK:
+////                Log.d("Direction", "Lock: UNLOCK");
+//                transformationMatrix.setTranslate(direction.velocity_X, direction.velocity_Y);
+//                break;
+//            case Direction.ALL:
+////                Log.d("Direction", "Lock: ALL");
+//                break;
+//        }
+        transformationMatrix.setTranslate(direction.velocity_X, direction.velocity_Y);
+
 //        Log.w("SpriteEntety", "baseRact before: " + rectToString(baseRact));
         transformationMatrix.mapRect(baseRact);
 //        Log.w("SpriteEntety", "baseRact after: " + rectToString(baseRact));
@@ -107,6 +112,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
         rotationMatrix.mapPoints(modelPoints);
         return direction;
+
     }
 
 //    public void setLock(LockDirection lockDirection) {
@@ -131,19 +137,19 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //        Log.d("SpriteEntity", "Rectangle after: " + baseRact.toString());
     }
 
-    public void moveBy(float deltaX, float deltaY){
+    public void moveBy(float deltaX, float deltaY) {
         moveBy(deltaX, deltaY, 0);
     }
 
     public void placeAt(float x, float y) {
 
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
-        LL(this,"place at: "+ Arrays.toString(modelPoints));
+        LL(this, "place at: " + Arrays.toString(modelPoints));
         // Update our location.
         baseRact.set(x - baseRact.width() / 2, y - baseRact.height() / 2, x + baseRact.width() / 2, y + baseRact.height() / 2);
-        position.set(x,y);
+        position.set(x, y);
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
-        LL(this,"place at: "+ Arrays.toString(modelPoints));
+        LL(this, "place at: " + Arrays.toString(modelPoints));
 
 
     }
@@ -187,7 +193,9 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void setAnimationOrder(int[] animationOrder) {
+        animationCounter = 0;
         this.animationOrder = animationOrder;
+        setCurrentSprite(animationOrder[0]);
     }
 
     public void setAnimationDivider(int animationDivider) {
@@ -197,7 +205,10 @@ class SpriteEntity extends GraphicEntity implements Entity {
     public PointF getPosition() {
         return position;
     }
-    public void setPosition(PointF newPos) {this.position.set(newPos.x, newPos.y);}
+
+    public void setPosition(PointF newPos) {
+        this.position.set(newPos.x, newPos.y);
+    }
 
 //    public int getIndex() {
 //        return index;
@@ -208,6 +219,70 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //        Log.d("sprite", "" + GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite)).length);
 //        Log.d("sprite", Arrays.toString(GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite))));
         return GraphicsTools.getCornersFromRect(mother.sprites.get(currentSprite));
+    }
+
+
+    public boolean collision(float x, float y) {
+        if (isHit) {
+            return false;
+        }
+//        LL(this, "in x "+x+" in y "+y + " ---->"+ '\n'+
+//                " baseRact.left+position.x "+ (position.x-width) +'\n'+
+//                " baseRact.right+position.x "+(position.x+width)+'\n'+
+//                " baseRact.top+position.y "+(position.y-height) +'\n'+
+//                " baseRact.bottom+position.y " +(position.y+height)+'\n'
+//        );
+//
+//        LL(this, "---->"+'\n'+
+//                " baseRact.left "+ baseRact.left+'\n'+
+//                " baseRact.right "+baseRact.right+'\n'+
+//                " baseRact.top "+ baseRact.top +'\n'+
+//                " baseRact.bottom " +baseRact.bottom+'\n'
+//        );
+//
+//        LL(this, "----> positionx "+position.x+"positiony "+position.y
+//        );
+
+
+        return (x >= (position.x - width) && x < (position.x + width)
+                && y >= (position.y - height) && y < (position.y + height));
+//
+//        return left < right && top < bottom  // check for empty first
+//                && x >= left && x < right && y >= top && y < bottom;
+
+    }
+
+    public boolean collision(PointF pos) {
+        return collision(pos.x, pos.y);
+    }
+
+    public boolean collisionBoarder(Entity entity) {
+        SpriteEntity in =  (SpriteEntity) entity;
+        return false;// (baseRact.contains(in.getRect()));
+//        // check for empty first
+//        return // now check for containment
+//                ((position.x - width) <= (in.position.x - in.width) &&
+//                        (position.y - height) <= (in.position.y - in.height) &&
+//                        (position.x + width) >= (in.position.x + in.width) &&
+//                        (position.y + height) >= (in.position.y + in.height));
+//
+//        return this.left < this.right && this.top < this.bottom
+//                // now check for containment
+//                && left <= r.left && top <= r.top
+//                && right >= r.right && bottom >= r.bottom;
+    }
+
+
+    public boolean isHit() {
+        return isHit;
+    }
+
+    public void setHit(boolean hit) {
+        isHit = hit;
+    }
+
+    public void delete() {
+        mother.removeEntity(this);
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.gamelogic;
 
+import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -13,5 +14,6 @@ public class DataContainer {
     public static PointF mapMovement = new PointF(0, 0);
     public static PointF mapGlobalSize = new PointF(0, 0);
     public static RectF mapBaseRect;
+    public static Context gameContext;
 
 }

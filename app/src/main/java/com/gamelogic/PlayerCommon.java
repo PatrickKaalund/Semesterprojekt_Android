@@ -11,7 +11,7 @@ import com.graphics.SpriteEntityFactory;
  * Created by PatrickKaalund on 13/11/2016.
  */
 
-public class PlayerCommon extends Creature {
+public abstract class PlayerCommon extends Creature {
 
     private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.soldier_topdown_adjusted, 200, 200, 4, 2, new PointF(400, 400));
     protected Entity player;
@@ -29,8 +29,12 @@ public class PlayerCommon extends Creature {
         super.health = 100;
     }
 
-    @Override
-    public void update() {
+//    @Override
+//    public abstract boolean doDamge(int damge);
 
-    }
+
+//    @Override
+//    public void update() {
+//
+//    }
 }

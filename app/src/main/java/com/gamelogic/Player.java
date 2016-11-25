@@ -7,7 +7,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import com.graphics.Direction;
+import com.graphics.BackgroundEntity;
 import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
 import com.network.Firebase.NetworkHandler;
@@ -32,7 +32,6 @@ public class Player extends PlayerCommon {
     private int shotSpeed = 10;
 
     public Player(Context context, NetworkHandler networkHandler) {
-        game.objectsToUpdate.add(this);
 
         this.networkHandler = networkHandler;
 
@@ -51,19 +50,20 @@ public class Player extends PlayerCommon {
 
     }
 
-    @Override
-    public void update() {
-
-        if (shotSpeedCounter > shotSpeed && game.getControl().isShooting()) {
+    public void update(Control control, EnemySpawner enemys){
+        if (shotSpeedCounter > shotSpeed && control.isShooting()) {
             gun.shoot(player.getPosition(), player.getRect(), super.direction);
             shotSpeedCounter = 0;
         }else{
             shotSpeedCounter++;
         }
+        gun.update(enemys);
+    }
 
-        gun.update();
+    public void move(Control control, BackgroundEntity map) {
+
         // read joystick
-        joystickValues = game.getControl().getJoystickValues();
+        joystickValues = control.getJoystickValues();
 
         int joystick_angle = joystickValues.get(0);
         int joystick_strength = (joystickValues.get(1));
@@ -82,7 +82,7 @@ public class Player extends PlayerCommon {
 //            Log.d("Player", "Player pos: " + player.getPosition().toString() + " + joystick angle: " + joystick_angle);
             if (playerX >= offset && playerX <= displayMetrics.widthPixels - offset && playerY >= offset && playerY <= displayMetrics.heightPixels - offset_top) {
 //                Log.d("Player", "Condition 1");
-                game.map.move(0, 0);
+                map.moveFrame(0, 0);
 //                 full move
                 move(direction.velocity_X, direction.velocity_Y, joystick_angle);
             }
@@ -106,7 +106,7 @@ public class Player extends PlayerCommon {
                 else {
 //                    Log.d("Player", "Condition 2.3");
                     moveX(direction.velocity_X, joystick_angle);
-                    game.map.move(0, direction.velocity_Y);
+                    map.moveFrame(0, direction.velocity_Y);
                     player.getPosition().x += direction.velocity_X;
                 }
 
@@ -131,7 +131,7 @@ public class Player extends PlayerCommon {
                 else {
 //                    Log.d("Player", "In condition 3.3!");
                     moveY(direction.velocity_Y, joystick_angle);
-                    game.map.move(direction.velocity_X, 0);
+                    map.moveFrame(direction.velocity_X, 0);
                     player.getPosition().y += direction.velocity_Y;
                 }
             }
@@ -148,17 +148,17 @@ public class Player extends PlayerCommon {
                 else if (joystick_angle >= 270 && joystick_angle <= 360) {
 //                    Log.d("Player", "Condition 4.2");
                     moveX(direction.velocity_X, joystick_angle);
-                    game.map.move(0, direction.velocity_Y);
+                    map.moveFrame(0, direction.velocity_Y);
                 }
                 // only move up
                 else if (joystick_angle >= 90 && joystick_angle <= 180) {
 //                    Log.d("Player", "Condition 4.3");
                     moveY(direction.velocity_Y, joystick_angle);
-                    game.map.move(direction.velocity_X, 0);
+                    map.moveFrame(direction.velocity_X, 0);
 
                 } else {
                     move(0, 0, joystick_angle);
-                    game.map.move(direction.velocity_X, direction.velocity_Y);
+                    map.moveFrame(direction.velocity_X, direction.velocity_Y);
                 }
 
             }
@@ -175,18 +175,18 @@ public class Player extends PlayerCommon {
                 else if (joystick_angle >= 0 && joystick_angle <= 90) {
 //                    Log.d("Player", "Condition 5.2");
                     moveX(direction.velocity_X, joystick_angle);
-                    game.map.move(0, direction.velocity_Y);
+                    map.moveFrame(0, direction.velocity_Y);
 
                 }
                 // only move down
                 else if (joystick_angle >= 180 && joystick_angle <= 270) {
 //                    Log.d("Player", "Condition 5.3");
                     moveY(direction.velocity_Y, joystick_angle);
-                    game.map.move(direction.velocity_X, 0);
+                    map.moveFrame(direction.velocity_X, 0);
 
                 } else {
                     move(0, 0, joystick_angle);
-                    game.map.move(direction.velocity_X, direction.velocity_Y);
+                    map.moveFrame(direction.velocity_X, direction.velocity_Y);
                 }
 
             }
@@ -204,16 +204,16 @@ public class Player extends PlayerCommon {
                 else if (joystick_angle > 90 && joystick_angle <= 180) {
 //                    Log.d("Player", "Condition 6.2");
                     moveX(direction.velocity_X, joystick_angle);
-                    game.map.move(0, direction.velocity_Y);
+                    map.moveFrame(0, direction.velocity_Y);
                 }
                 // only move down
                 else if (joystick_angle >= 270 && joystick_angle < 360) {
 //                    Log.d("Player", "Condition 6.3");
                     moveY(direction.velocity_Y, joystick_angle);
-                    game.map.move(direction.velocity_X, 0);
+                    map.moveFrame(direction.velocity_X, 0);
                 } else {
                     move(0, 0, joystick_angle);
-                    game.map.move(direction.velocity_X, direction.velocity_Y);
+                    map.moveFrame(direction.velocity_X, direction.velocity_Y);
                 }
             }
             // check BR cornor
@@ -229,24 +229,24 @@ public class Player extends PlayerCommon {
                 else if (joystick_angle >= 180 && joystick_angle <= 270) {
 //                    Log.d("Player", "Condition 7.2");
                     moveX(direction.velocity_X, joystick_angle);
-                    game.map.move(0, direction.velocity_Y);
+                    map.moveFrame(0, direction.velocity_Y);
 
                 }
                 // only move up
                 else if (joystick_angle >= 0 && joystick_angle <= 90) {
 //                    Log.d("Player", "Condition 7.3");
                     moveY(direction.velocity_Y, joystick_angle);
-                    game.map.move(direction.velocity_X, 0);
+                    map.moveFrame(direction.velocity_X, 0);
                 } else {
                     move(0, 0, joystick_angle);
-                    game.map.move(direction.velocity_X, direction.velocity_Y);
+                    map.moveFrame(direction.velocity_X, direction.velocity_Y);
                 }
             }
             player.drawNextSprite();
             // networkHandler.updatePlayerPosition(playerStill.getRect().centerX(), playerStill.getRect().centerY());
         } else {
             player.setCurrentSprite(0);
-            game.map.move(0, 0);
+            map.moveFrame(0, 0);
         }
 
 //        Log.d("Player", "Angle: " + joystick_angle);
@@ -275,5 +275,18 @@ public class Player extends PlayerCommon {
 
     public PointF getPos() {
         return this.player.getPosition();
+    }
+
+    public Entity getPlayer(){
+        return player;
+    }
+
+    @Override
+    public void doDamge(int damge) {
+        super.health -= damge;
+        if(super.health <= 0){
+            Log.e("PLAYER IS DEAD","+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
+        }
+
     }
 }
