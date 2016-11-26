@@ -2,9 +2,6 @@ package com.gamelogic;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.media.MediaPlayer;
-import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -27,7 +24,6 @@ public class Control {
     private ArrayList<Integer> joystickValues;
     private Game game;
     private Context context;
-    private SharedPreferences preferences;
     private AudioPlayer audioPlayer;
 
     private boolean shooting = false;
@@ -35,7 +31,6 @@ public class Control {
     public Control(Context context, Game game) {
         this.context = context;
         this.game = game;
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
         audioPlayer = new AudioPlayer(context);
         Log.d("Joystick", "started");
 
@@ -51,8 +46,6 @@ public class Control {
             public void onMove(int angle, int strength) {
                 joystickValues.set(0, angle);
                 joystickValues.set(1, strength);
-//                Log.d("Joystick_angle", Integer.toString(angle));
-//                Log.d("Joystick_strength", Integer.toString(strength));
             }
         });
     }
@@ -111,6 +104,7 @@ public class Control {
                                 dropDownMenu.closeMenu();
 
                                 audioPlayer.playAudioFromRaw(R.raw.click);
+
                                 Intent settings = new Intent(context, OptionsActivity.class);
                                 context.startActivity(settings);
 
@@ -138,10 +132,6 @@ public class Control {
         }
     );
 }
-    public void gameStart() {
-        game.gameStart();
-    }
-
     public ArrayList<Integer> getJoystickValues() {
         return this.joystickValues;
     }

@@ -48,6 +48,7 @@ public class Player extends PlayerCommon {
     private DirectionLock directionLock;
     private Direction mapDirection;
     private SharedPreferences preferences;
+    private AudioPlayer audioPlayer;
     int playerLock;
 
     /**
@@ -57,9 +58,7 @@ public class Player extends PlayerCommon {
      */
     public Player(Context context, NetworkHandler networkHandler,PointF startPos) {
         // ----- Misc -----
-    AudioPlayer audioPlayer;
 
-    public Player(Context context, NetworkHandler networkHandler) {
         this.context = context;
         this.networkHandler = networkHandler;
 
