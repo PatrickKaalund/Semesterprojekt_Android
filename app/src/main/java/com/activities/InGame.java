@@ -32,7 +32,7 @@ public class InGame extends BaseActivity {
 
         game.setJoystick((JoystickView) findViewById(R.id.joystickView));
         game.setShootButton((FloatingActionButton) findViewById(R.id.floatingActionButton));
-        game.setInventoryButton((DropDownMenu) findViewById(R.id.gooey_menu));
+        game.setInventoryButton((DropDownMenu) findViewById(R.id.dropdown_menu));
         Log.d("IndGame", "onCreate");
     }
 
