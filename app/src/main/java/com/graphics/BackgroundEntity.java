@@ -41,10 +41,11 @@ public class BackgroundEntity extends GraphicEntity {
         this.metrics = metrics;
 //        this.baseHeight = baseHeight;
 //        this.baseWidth = baseWidth;
-        baseRact = new RectF(-2000, - 2000, 2000, 2000);
+        baseRact = new RectF(-2000 + metrics.widthPixels/2, - 2000 + metrics.heightPixels/2, 2000 + metrics.widthPixels/2, 2000 + metrics.heightPixels/2);
 //        baseRact = new RectF(0, baseHeight, baseWidth, 0);
-//        outerBoarder = new RectF(metrics.widthPixels/2, baseHeight - metrics.heightPixels/2, baseWidth - metrics.widthPixels/2, metrics.heightPixels/2);
-        outerBoarder = new RectF(metrics.widthPixels / 2, baseHeight - metrics.heightPixels / 2, baseWidth - metrics.widthPixels / 2, metrics.heightPixels / 2);
+        outerBoarder = new RectF(metrics.widthPixels/2, baseHeight - metrics.heightPixels / 2, baseWidth - metrics.widthPixels/2, metrics.heightPixels / 2);
+        // test
+//        outerBoarder = new RectF(metrics.widthPixels/2 - 200, baseHeight - metrics.heightPixels / 2 + 200, baseWidth - metrics.widthPixels/2 + 200, metrics.heightPixels / 2 - 200);
         ratio = (float) metrics.heightPixels / (float) metrics.widthPixels;
 
         int innerBoarderOffset = 150;
