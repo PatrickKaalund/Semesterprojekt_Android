@@ -14,5 +14,5 @@ public abstract class Creature extends GUpdateable {
     public Creature() {
 
     }
-    public abstract void doDamge(int damge);
+    public abstract void doDamage(int damage);
 }

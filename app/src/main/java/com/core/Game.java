@@ -2,6 +2,7 @@ package com.core;
 
 
 import android.content.Context;
+import android.graphics.PointF;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
@@ -31,8 +32,15 @@ public class Game implements Runnable {
 
     //================= Misc ==================
     private Context context;
-    private OurGLSurfaceView glSurfaceView;
     private Control control;
+
+    //============= Screen Stuff ==============
+    private OurGLSurfaceView glSurfaceView;
+    private static final int MAP_OUTER_BOARDER_SIZE = 4000;
+    private static final int SCREEN_CONTAINMENT_OFFSET = 150;
+    private static final int GLOBAL_START_POS = 2000;
+
+
 
     //============= Network stuff =============
     private NetworkHandler networkHandler;
@@ -82,14 +90,22 @@ public class Game implements Runnable {
     }
 
     private void initGameComponents() {
-        player = new Player(context, networkHandler);
-        control = new Control(context, this);
-        mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed_resized, context.getResources().getDisplayMetrics());
-        map = mapFactory.createEntity(4000, 4000); //Make background
+        //Make a map
+        mapFactory = new BackgroundFactory(
+                R.drawable.backgrounddetailed_resized,
+                context.getResources().getDisplayMetrics());
+        map = mapFactory.createEntity(//Make background
+                MAP_OUTER_BOARDER_SIZE,
+                MAP_OUTER_BOARDER_SIZE,
+                new PointF(GLOBAL_START_POS,GLOBAL_START_POS),
+                SCREEN_CONTAINMENT_OFFSET);
+//        mapBorder = new MapBorder(context);
+        //Make game assets
+        player = new Player(context, networkHandler,new PointF(GLOBAL_START_POS,GLOBAL_START_POS));
         itemSpawner = new ItemSpawner(context);
         enemySpawner = new EnemySpawner(context);
-        mapBorder = new MapBorder(context);
-//        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
+        control = new Control(context, this);
+        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
     }
 
 
@@ -156,7 +172,7 @@ public class Game implements Runnable {
         player.move(control, map);
         player.update(control, enemySpawner);
         enemySpawner.update(player);
-        mapBorder.update();
+//        mapBorder.update();
         itemSpawner.update();
 //
 //        if (enemySpawmCounter++ >= enemySpawnInterval) {

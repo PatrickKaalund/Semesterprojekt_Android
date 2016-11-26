@@ -65,7 +65,7 @@ public class MapBorder {
     public void update() {
         // Adjust for map
         for(Entity entity : borderEntities){
-            entity.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y, 0);
+            entity.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y, 0);
         }
     }
 

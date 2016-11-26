@@ -34,7 +34,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     private PointF position;
 
     private SpriteEntityFactory mother;
-//    protected int index;
+    protected int index;
 
 
     public SpriteEntity(float modelBaseHeight, float modelBaseWidth,
@@ -43,7 +43,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
         height = modelBaseHeight / 2;
         PointF motherPos = mother.getPos();
         this.baseRact = new RectF(motherPos.x - width, motherPos.y + height, motherPos.x + width, motherPos.y - height);
-        Log.d("SpriteEntity", "BaseRect: " + rectToString(baseRact));
+//        Log.d("SpriteEntity", "BaseRect: " + rectToString(baseRact));
         this.mother = mother;
 //        this.index = index;
         position = pos;
@@ -72,6 +72,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     protected float[] getModel() {
+//        LL(this, "getModel at: " + Arrays.toString(modelPoints));
 //        drawNextSprite();
         float[] modelPointWithz = {
                 modelPoints[0], modelPoints[1], 0f,
@@ -108,6 +109,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     public void moveBy(float deltaX, float deltaY, float angle) {
+
         Matrix transformationMatrix = new Matrix();
         transformationMatrix.setTranslate(deltaX, deltaY);
         transformationMatrix.mapRect(baseRact);
@@ -130,11 +132,10 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     public void placeAt(float x, float y) {
 
-        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
-        LL(this, "place at: " + Arrays.toString(modelPoints));
+//        LL(this, "place at: " + Arrays.toString(modelPoints));
         // Update our location.
         baseRact.set(x - baseRact.width() / 2, y - baseRact.height() / 2, x + baseRact.width() / 2, y + baseRact.height() / 2);
-        position.set(x, y);
+       position.set(x, y);
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
         LL(this, "place at: " + Arrays.toString(modelPoints));
 
@@ -233,9 +234,6 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
         return (x >= (position.x - width) && x < (position.x + width)
                 && y >= (position.y - height) && y < (position.y + height));
-//
-//        return left < right && top < bottom  // check for empty first
-//                && x >= left && x < right && y >= top && y < bottom;
 
     }
 
@@ -271,64 +269,5 @@ class SpriteEntity extends GraphicEntity implements Entity {
     public void delete() {
         mother.removeEntity(this);
     }
-
-    /**
-     * Keep this!! we may change the transformation method in the future
-     *
-     * @return
-     */
-//    protected float[] getModel() {
-//
-//        return getTransformedVertices();
-//    }
-//    private float[] getTransformedVertices() {
-//        // Start with scaling
-//        float x1 = baseRact.left * scale;
-//        float x2 = baseRact.right * scale;
-//        float y1 = baseRact.bottom * scale;
-//        float y2 = baseRact.top * scale;
-//
-//        // We now detach from our Rect because when rotating,
-//        // we need the seperate points, so we do so in opengl order
-//        PointF one = new PointF(x1, y2);
-//        PointF two = new PointF(x1, y1);
-//        PointF three = new PointF(x2, y1);
-//        PointF four = new PointF(x2, y2);
-//
-//        // We create the sin and cos function once,
-//        // so we do not have calculate them each time.
-//        float s = (float) Math.sin(angleOffSet);
-//        float c = (float) Math.cos(angleOffSet);
-//
-//        // Then we rotate each point
-//        one.x = x1 * c - y2 * s;
-//        one.y = x1 * s + y2 * c;
-//        two.x = x1 * c - y1 * s;
-//        two.y = x1 * s + y1 * c;
-//        three.x = x2 * c - y1 * s;
-//        three.y = x2 * s + y1 * c;
-//        four.x = x2 * c - y2 * s;
-//        four.y = x2 * s + y2 * c;
-//
-//        // Finally we translate the sprite to its correct position.
-//        one.x += currentPos.x;
-//        one.y += currentPos.y;
-//        two.x += currentPos.x;
-//        two.y += currentPos.y;
-//        three.x += currentPos.x;
-//        three.y += currentPos.y;
-//        four.x += currentPos.x;
-//        four.y += currentPos.y;
-//
-//        // We now return our float array of vertices.
-//        return new float[]
-//                {
-//                        one.x, one.y, 0.0f,
-//                        two.x, two.y, 0.0f,
-//                        three.x, three.y, 0.0f,
-//                        four.x, four.y, 0.0f,
-//                };
-//    }
-
 
 }

@@ -18,6 +18,8 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import static com.graphics.GraphicsTools.LL;
+
 /**
  * Created by thor on 10/16/16.
  */
@@ -128,6 +130,8 @@ public class GlRendere implements Renderer {
         GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         for (EntityFactory ef : drawList) {
+//            if (ef.index == 0) continue;
+//            LL(this,"EntityFactory drawing: " + ef.index);
             if (!ef.textureLoaded)
                 loadTextrue(ef);//Check if the texture is loaded (only once per factory)
             if (ef.entityDrawCount == 0) continue; //Continue if there is nothing to draw
@@ -157,7 +161,7 @@ public class GlRendere implements Renderer {
 
             //========== Do the rendering ============
             GLES20.glEnable(GLES20.GL_BLEND);
-            GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+//            GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
             // get handle to vertex shader's vPosition member
             int mPositionHandle =
                     GLES20.glGetAttribLocation(shaderHandler.getShaderProgramID(), "vPosition");

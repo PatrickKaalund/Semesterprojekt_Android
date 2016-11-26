@@ -23,14 +23,14 @@ public class EnemySpawner {
     private ArrayList<Enemy> enemies;
     private PointF sizeOfEnemy;
     private DisplayMetrics displayMetrics;
-    private DataContainer dataContainer;
+
 
     public EnemySpawner(Context c) {
         this.displayMetrics = c.getResources().getDisplayMetrics();
         sizeOfEnemy = new PointF(250, 250);
         enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown, sizeOfEnemy.x, sizeOfEnemy.y, 1, 36, new PointF(0, 0));
         enemies = new ArrayList<>();
-        dataContainer = new DataContainer();
+
     }
 
     public void spawn(int health, int speed) {

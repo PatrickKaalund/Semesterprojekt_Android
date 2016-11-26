@@ -33,14 +33,25 @@ public class BackgroundFactory extends EntityFactory {
 
     }
 
-    public BackgroundEntity createEntity(float sizeX, float sizeY) {
+    /**
+     * Create a background object with size x,y outer boarder and a inner boarder with
+     * screenBoarderOffset pxl distance from the screen edge
+     * @param sizeX
+     * @param sizeY
+     * @param screenBoarderOffset
+     * @return
+     */
+    public BackgroundEntity createEntity(float sizeX, float sizeY, PointF screenStartPos ,int screenBoarderOffset) {
         entityDrawCount++;
         DataContainer.mapGlobalSize.x = sizeX;//Save the size for other to use
         DataContainer.mapGlobalSize.y = sizeY;
+//        DataContainer.mapMovement = screenStartPos;
         BackgroundEntity newBackground = new BackgroundEntity(
-                DataContainer.mapGlobalSize.x,
-                DataContainer.mapGlobalSize.y,
-                metrics
+                sizeX,
+                sizeY,
+                screenStartPos,
+                metrics,
+                screenBoarderOffset
         );
         DataContainer.mapBaseRect = newBackground.getOuterBoarder();
         productionLine.add(newBackground);

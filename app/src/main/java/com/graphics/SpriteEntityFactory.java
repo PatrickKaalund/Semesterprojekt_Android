@@ -42,7 +42,7 @@ public class SpriteEntityFactory extends EntityFactory {
                 this
 //                productionLine.size()
         );
-
+        newEntity.index = productionLine.size();
         productionLine.add(newEntity);
         return newEntity;
     }

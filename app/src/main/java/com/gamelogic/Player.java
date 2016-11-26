@@ -18,12 +18,16 @@ import com.network.Firebase.NetworkHandler;
 
 import java.util.ArrayList;
 
+import static com.graphics.GraphicsTools.LL;
+
 /**
  * Created by PatrickKaalund on 13/10/2016.
  */
 
 public class Player extends PlayerCommon {
-
+    /**
+     * Player weapons
+     */
     public enum weaponSelection_e {
         GUN,
         SHOTGUN,
@@ -33,6 +37,7 @@ public class Player extends PlayerCommon {
 
 
     private Entity player;
+    private Context context;
     private NetworkHandler networkHandler;
     private ArrayList<Integer> joystickValues;
     private Shooter gun;
@@ -42,37 +47,45 @@ public class Player extends PlayerCommon {
     private DirectionLock directionLock;
     private Direction mapDirection;
     private SharedPreferences preferences;
-    private final Context context;
     int playerLock;
 
-
-    public Player(Context context, NetworkHandler networkHandler) {
+    /**
+     * A playable character on the screen
+     * @param context
+     * @param networkHandler
+     */
+    public Player(Context context, NetworkHandler networkHandler,PointF startPos) {
+        // ----- Misc -----
         this.context = context;
         this.networkHandler = networkHandler;
-
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        player = super.player;
-        player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
-        player.setPosition(new PointF(2000, 2000));
-        super.direction.lock = 0;
-
         joystickValues = new ArrayList<>();
-
-//        displayMetrics = context.getResources().getDisplayMetrics();
-
         DataContainer.player = this;
 
+        // ----- Player stuff -----
+        player = super.player;
+        player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
+        player.setPosition(startPos);
+
+        // ----- Gun -----
         gun = new Shooter();
         shotSpeedCounter = shotSpeed;
+
+        // ---- Map ----
         directionLock = new DirectionLock();
-        super.direction.tag = 1;
         mapDirection = new Direction(super.direction);
         mapDirection.tag = 2;
 
     }
 
+
+    /**
+     * Update player state. Checks if player is shooting and if enemy is hit by a shot
+     * @param control
+     * @param enemys
+     */
     public void update(Control control, EnemySpawner enemys) {
+//        LL(this,"update player");
         if (shotSpeedCounter > shotSpeed && control.isShooting()) {
             gun.shoot(player.getPosition(), player.getRect(), super.direction, currentWeapon);
             shotSpeedCounter = 0;
@@ -81,6 +94,8 @@ public class Player extends PlayerCommon {
         }
         gun.update(enemys);
     }
+
+
 
     /**
      * Move player with control input on a background
@@ -92,26 +107,26 @@ public class Player extends PlayerCommon {
         // read joystick
         joystickValues = control.getJoystickValues();
         int joystick_strength = (joystickValues.get(1));
+        int joystick_angle = joystickValues.get(0);
 
-        if (joystick_strength > 0) {
+        if (joystick_strength > 0) { //Do only if valid input
 
-            int joystick_angle = joystickValues.get(0);
-            super.direction.set(joystick_angle, joystick_strength);
-            mapDirection.set(joystick_angle, joystick_strength);
+            super.direction.set(joystick_angle, joystick_strength);//Set velocity and angle for player
+            mapDirection.set(joystick_angle, joystick_strength);//Set velocity and angle for map background
 
-            playerLock = directionLock.check(
+            playerLock = directionLock.check( // Check if player is colliding with screen boarder
                     super.direction,
                     map.getInnerBoarder(),
                     player.getRect().centerX(),
                     player.getRect().centerY()
             );
-            player.move(super.direction);
-            map.move(mapDirection, playerLock, directionLock.getTblr());
-            player.drawNextSprite();
+            player.move(super.direction);//Move the player and update player global and local position
+            map.move(mapDirection, playerLock, directionLock.getTblr());//Move player on background
+            player.drawNextSprite();//Animate
 
         } else {
 
-            switch (currentWeapon) {
+            switch (currentWeapon) { //Set weapon sprite
 
                 case GUN:
                     player.setCurrentSprite(45);
@@ -135,51 +150,55 @@ public class Player extends PlayerCommon {
 //        Log.d("Player", "Strength: " + joystick_strength);
     }
 
-    private void move(float deltaX, float deltaY, int angle) {
-        player.getPosition().x += deltaX;
-        player.getPosition().y += deltaY;
-        player.moveBy(deltaX, deltaY, angle);
-    }
-
-    private void moveX(float deltaX, int angle) {
-        player.moveBy(deltaX, 0, angle);
-//        player.getPosition().x += deltaX;
-    }
-
-    private void moveY(float deltaY, int angle) {
-        player.moveBy(0, deltaY, angle);
-//        player.getPosition().y += deltaY;
-    }
-
+    /**
+     *  Players base resct. Rect that is drawn on the screen
+     * @return RectF
+     */
     public RectF getRect() {
         return this.player.getRect();
     }
 
+    /**
+     * Players current pos
+     * @return PointF
+     */
     public PointF getPos() {
         return this.player.getPosition();
     }
 
-    public Entity getPlayer() {
+    /**
+     * The player Entity
+     * @return Entity
+     */
+    public Entity getPlayerEntity() {
         return player;
     }
 
+    /**
+     * Damege the player. Changes state for the player
+     * @param damage
+     */
     @Override
-    public void doDamge(int damge) {
-        super.health -= damge;
+    public void doDamage(int damage) {
+        super.health -= damage;
         if (super.health <= 0) {
             Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
         }
 
     }
 
-    public Entity getEntity() {
-        return player;
-    }
-
+    /**
+     *
+     * @return
+     */
     public weaponSelection_e getCurrentWeapon() {
         return currentWeapon;
     }
 
+    /**
+     *
+     * @param currentWeapon
+     */
     public void setCurrentWeapon(weaponSelection_e currentWeapon) {
 
         if (preferences.getBoolean("sound", true)) {

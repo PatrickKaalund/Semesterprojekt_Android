@@ -10,12 +10,15 @@ import android.util.Log;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Direction;
 import com.graphics.Entity;
+import com.graphics.GraphicsTools;
 import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import static com.gamelogic.DataContainer.gameContext;
+import static com.graphics.GraphicsTools.LL;
 
 /**
  * Created by thor on 11/24/16.
@@ -35,6 +38,7 @@ public class Shooter {
 
         public void move() {
             direction.set(direction.getAngle(), BASE_SPEED);
+            shot.placeAt(500, 500);
             shot.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y, 0);
             shot.move(direction);
             shot.getPosition().x += direction.velocity_X;
@@ -47,14 +51,22 @@ public class Shooter {
     private Direction baseDirection;
 
     public Shooter() {
-        shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 2, new PointF(400, 400));
+        shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 1, new PointF(400, 400));
         shots = new ArrayList<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
     }
 
     public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, Player.weaponSelection_e currentWeapon) {
+        LL(this, "crating a shot " +
 
-        switch (currentWeapon){
+                " shooterGlobalPos " + shooterGlobalPos +
+                " shooterBaseRect " + shooterBaseRect.toString() +
+                " shooterDirection " + shooterDirection.toString()
+
+
+        );
+
+        switch (currentWeapon) {
 
             case GUN:
                 if (preferences.getBoolean("sound", true)) {
@@ -99,9 +111,11 @@ public class Shooter {
 
         for (Iterator<Shot> it = shots.iterator(); it.hasNext(); ) {
             Shot s = it.next();
-            if(s.animationCounter < 5){
+            LL(this, "Shoter update at: " + Arrays.toString(GraphicsTools.getCornersFromRect(s.shot.getRect())));
+
+            if (s.animationCounter < 5) {
                 s.animationCounter++;
-            }else{
+            } else {
                 s.shot.setCurrentSprite(1);
             }
             s.move();
@@ -119,7 +133,7 @@ public class Shooter {
 //                LL(this,"ECheking enemy");
 
                 if (enemy.getEnemyEntity().collision(s.shot.getPosition())) {
-                    enemy.doDamge(damage);
+                    enemy.doDamage(damage);
                     s.shot.delete();
                     it.remove();
                     break;
