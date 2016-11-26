@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
@@ -56,8 +57,14 @@ public class Player extends PlayerCommon {
      */
     public Player(Context context, NetworkHandler networkHandler,PointF startPos) {
         // ----- Misc -----
+    AudioPlayer audioPlayer;
+
+    public Player(Context context, NetworkHandler networkHandler) {
         this.context = context;
         this.networkHandler = networkHandler;
+
+        audioPlayer = new AudioPlayer(context);
+
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         joystickValues = new ArrayList<>();
         DataContainer.player = this;
@@ -201,10 +208,7 @@ public class Player extends PlayerCommon {
      */
     public void setCurrentWeapon(weaponSelection_e currentWeapon) {
 
-        if (preferences.getBoolean("sound", true)) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.reload);
-            mediaPlayer.start();
-        }
+        audioPlayer.playAudioFromRaw(R.raw.reload);
 
         int currentSprite = player.getCurrentSprite();
         switch (currentWeapon) {

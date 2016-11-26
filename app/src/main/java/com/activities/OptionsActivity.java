@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.services.MusicService;
 
@@ -25,6 +26,7 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
     private boolean musicIsBound = false;
     private MusicService musicService;
     private SharedPreferences preferences;
+    private AudioPlayer audioPlayer;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
@@ -56,6 +58,8 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        audioPlayer = new AudioPlayer(this);
 
         setContentView(R.layout.activity_options);
 
@@ -96,10 +100,9 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-        if (preferences.getBoolean("sound", true)) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
-            mediaPlayer.start();
-        }
+
+        audioPlayer.playAudioFromRaw(R.raw.click);
+
         if (compoundButton == musicSwitch) {
             Log.d("Switch", "music " + musicSwitch.isChecked());
             if (isChecked) {
@@ -131,19 +134,17 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.quit_button) {
-            if (preferences.getBoolean("sound", true)) {
-                MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
-                mediaPlayer.start();
-            }
+
+            audioPlayer.playAudioFromRaw(R.raw.click);
+
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
         } else if (view.getId() == R.id.back_button) {
-            if (preferences.getBoolean("sound", true)) {
-                MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
-                mediaPlayer.start();
-            }
+
+            audioPlayer.playAudioFromRaw(R.raw.click);
+
             finish();
         }
     }
