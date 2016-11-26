@@ -1,8 +1,11 @@
 package com.gamelogic;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.media.MediaPlayer;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -21,6 +24,13 @@ import java.util.ArrayList;
 
 public class Player extends PlayerCommon {
 
+    public enum weaponSelection_e {
+        GUN,
+        SHOTGUN,
+        AK47,
+        ALL_GUNS,
+    }
+
 
     private Entity player;
     private NetworkHandler networkHandler;
@@ -34,11 +44,14 @@ public class Player extends PlayerCommon {
     private weaponSelection_e currentWeapon = weaponSelection_e.GUN;
     private DirectionLock directionLock;
     private Direction mapDirection;
-
+    private SharedPreferences preferences;
+    private final Context context;
 
     public Player(Context context, NetworkHandler networkHandler) {
-
+    this.context = context;
         this.networkHandler = networkHandler;
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         player = super.player;
         player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
@@ -361,6 +374,63 @@ public class Player extends PlayerCommon {
     }
 
     public void setCurrentWeapon(weaponSelection_e currentWeapon) {
+
+        if (preferences.getBoolean("sound", true)) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.reload);
+            mediaPlayer.start();
+        }
+
+        int currentSprite = player.getCurrentSprite();
+        switch (getCurrentWeapon()) {
+
+            case GUN:
+                player.setAnimationOrder(new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64});
+                
+                switch (getCurrentWeapon()) {
+                    case GUN:
+                        player.setCurrentSprite(currentSprite);
+                        break;
+                    case SHOTGUN:
+                        player.setCurrentSprite(currentSprite + 23);
+                        break;
+                    case AK47:
+                        player.setCurrentSprite(currentSprite + 46);
+                        break;
+                }
+                break;
+
+            case SHOTGUN:
+                player.setAnimationOrder(new int[]{23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42});
+
+                switch (getCurrentWeapon()) {
+                    case GUN:
+                        player.setCurrentSprite(currentSprite - 23);
+                        break;
+                    case SHOTGUN:
+                        player.setCurrentSprite(currentSprite);
+                        break;
+                    case AK47:
+                        player.setCurrentSprite(currentSprite + 23);
+                        break;
+                }
+                break;
+
+            case AK47:
+                player.setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
+
+                switch (getCurrentWeapon()) {
+                    case GUN:
+                        player.setCurrentSprite(currentSprite - 46);
+                        break;
+                    case SHOTGUN:
+                        player.setCurrentSprite(currentSprite - 23);
+                        break;
+                    case AK47:
+                        player.setCurrentSprite(currentSprite);
+                        break;
+                }
+                break;
+        }
         this.currentWeapon = currentWeapon;
     }
 }

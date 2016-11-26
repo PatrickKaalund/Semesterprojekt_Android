@@ -52,7 +52,7 @@ public class Shooter {
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
     }
 
-    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, weaponSelection_e currentWeapon) {
+    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, Player.weaponSelection_e currentWeapon) {
 
         switch (currentWeapon){
 
@@ -112,14 +112,13 @@ public class Shooter {
                 continue;
 //                LL(this, "Deleting shot");
             }
-            for (Iterator<Enemy> enemyIterator = enemies.getEnemies().iterator(); enemyIterator.hasNext(); ){
-                Enemy enemy = enemyIterator.next();
-                if(enemy.state.getCurrentState() == enemy.DIYNG){
+            for (Enemy enemy : enemies.getEnemies()) {
+                if (enemy.state.getCurrentState() == Enemy.DIYNG) {
                     continue;
                 }
 //                LL(this,"ECheking enemy");
 
-                if (enemy.getEnemyEntity().collision(s.shot.getPosition())){
+                if (enemy.getEnemyEntity().collision(s.shot.getPosition())) {
                     enemy.doDamge(damage);
                     s.shot.delete();
                     it.remove();
