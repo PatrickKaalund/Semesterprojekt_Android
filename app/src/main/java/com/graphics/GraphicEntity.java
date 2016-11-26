@@ -8,7 +8,7 @@ import android.graphics.RectF;
  */
 
 abstract class GraphicEntity {
-    protected RectF baseRact;
+//    protected RectF baseRact;
     protected boolean drawThis;
 //    protected LockDirection lockDirection = LockDirection.UNLOCK;
 

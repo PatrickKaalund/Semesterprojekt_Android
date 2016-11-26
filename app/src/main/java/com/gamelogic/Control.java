@@ -144,7 +144,7 @@ Log.d("hmmm", game.getPlayer().getCurrentWeapon().toString());
                                         break;
                                 }
 
-                               game.getMap().moveFrame(0, 0);
+//                               game.getMap().moveFrame(0, 0);
                             } else if (menuItem == 3) {
                                 Log.d("DropDownPressed", "Shotgun");
                                 dropDownMenu.closeMenu();
@@ -173,7 +173,7 @@ Log.d("hmmm", game.getPlayer().getCurrentWeapon().toString());
                                         break;
                                 }
 
-                                game.getMap().moveFrame(0, 0);
+//                                game.getMap().moveFrame(0, 0);
                         } else if (menuItem == 4) {
                             Log.d("DropDownPressed", "Sidearm");
                             dropDownMenu.closeMenu();
@@ -201,7 +201,7 @@ Log.d("hmmm", game.getPlayer().getCurrentWeapon().toString());
                                         break;
                                 }
 
-                                game.getMap().moveFrame(0, 0);
+//                                game.getMap().moveFrame(0, 0);
                         }
                     }
                     return true;

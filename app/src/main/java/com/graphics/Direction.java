@@ -15,7 +15,8 @@ public class Direction {
     public static final int ALL = 3;
     public static final int SETY = 1;
     public static final int SETX = 0;
-    private float divider;
+    public float divider;
+    public int tag;
     private float velocity;
     private int angle;
     public float velocity_X, velocity_Y;

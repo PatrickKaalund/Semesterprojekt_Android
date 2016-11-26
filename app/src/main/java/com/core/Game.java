@@ -84,12 +84,12 @@ public class Game implements Runnable {
     private void initGameComponents() {
         player = new Player(context, networkHandler);
         control = new Control(context, this);
-        mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed4, context.getResources().getDisplayMetrics());
+        mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed_resized_grid, context.getResources().getDisplayMetrics());
         map = mapFactory.createEntity(4000, 4000); //Make background
         itemSpawner = new ItemSpawner(context);
         enemySpawner = new EnemySpawner(context);
         mapBorder = new MapBorder(context);
-        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
+//        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
     }
 
 
@@ -127,6 +127,7 @@ public class Game implements Runnable {
 
             try {
                 Thread.sleep(33);
+//                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

@@ -68,7 +68,7 @@ public class Enemy extends Creature {
     Direction direction;
     int angle;
 
-    public Enemy(EnemySpawner mother, Entity enemy, int health, int speed, PointF startLocation) {
+    public Enemy(Entity enemy, int health, int speed, PointF startLocation) {
         this.mother = mother;
 
         super.speed = speed;
@@ -148,7 +148,7 @@ public class Enemy extends Creature {
                 Log.e(this.getClass().getCanonicalName(), "Got hit angle: "+ angle);
                 direction.set(angle, 0);
                 enemy.move(direction);
-                enemy.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y, 0);
+                enemy.moveBy(DataContainer.mapMovement.x, DataContainer.mapMovement.y);
                 enemy.drawNextSprite();
                 if(state.stateCounter++ == GOT_HIT_STATE_COUNTER){
                     state.setState(NORMAL);

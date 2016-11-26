@@ -2,6 +2,7 @@ package com.graphics;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.util.DisplayMetrics;
 
 import com.gamelogic.DataContainer;
@@ -42,7 +43,7 @@ public class BackgroundFactory extends EntityFactory {
                 DataContainer.mapGlobalSize.y,
                 metrics
         );
-        DataContainer.mapBaseRect = newBackground.baseRact;
+        DataContainer.mapBaseRect = newBackground.getOuterBoarder();
         productionLine.add(newBackground);
         return newBackground;
     }

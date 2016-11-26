@@ -29,6 +29,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     protected float width;
     protected float height;
     boolean isHit = false;
+    private RectF baseRact;
 
     private PointF position;
 
@@ -83,25 +84,11 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     public Direction move(Direction direction) {
-        Matrix transformationMatrix = new Matrix();
 
-//        switch (direction.lock) {
-//            case Direction.X:
-////                Log.d("Direction", "Lock: X");
-//                transformationMatrix.setTranslate(0, direction.velocity_Y);
-//                break;
-//            case Direction.Y:
-////                Log.d("Direction", "Lock: Y");
-//                transformationMatrix.setTranslate(direction.velocity_X, 0);
-//                break;
-//            case Direction.UNLOCK:
-////                Log.d("Direction", "Lock: UNLOCK");
-//                transformationMatrix.setTranslate(direction.velocity_X, direction.velocity_Y);
-//                break;
-//            case Direction.ALL:
-////                Log.d("Direction", "Lock: ALL");
-//                break;
-//        }
+        this.position.x += direction.velocity_X;
+        this.position.y += direction.velocity_Y;
+
+        Matrix transformationMatrix = new Matrix();
         transformationMatrix.setTranslate(direction.velocity_X, direction.velocity_Y);
 
 //        Log.w("SpriteEntety", "baseRact before: " + rectToString(baseRact));
