@@ -27,8 +27,15 @@ public class AudioPlayer {
                 Uri rawPath = Uri.parse("android.resource://" + context.getPackageName() + "/" + raw);
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource(context, rawPath);
-                mediaPlayer.prepare();
-                mediaPlayer.start();
+                mediaPlayer.prepareAsync();
+
+                mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                    @Override
+                    public void onPrepared(MediaPlayer mediaPlayer) {
+                        mediaPlayer.start();
+                    }
+                });
 
             } catch (IOException e) {
                 Log.e("SHOOTER", "FAILED IN AUDIOPLAYER " + context.getResources().getResourceName(raw));
