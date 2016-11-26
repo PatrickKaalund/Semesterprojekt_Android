@@ -4,14 +4,17 @@ import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Direction;
 import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -26,6 +29,7 @@ public class Shooter {
     private static final int BASE_SPEED = 20;
     int damage = 10;
     private SharedPreferences preferences;
+    private AudioPlayer audioPlayer;
 
     class Shot {
         public Direction direction;
@@ -50,38 +54,26 @@ public class Shooter {
         shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 2, new PointF(400, 400));
         shots = new ArrayList<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
+        audioPlayer = new AudioPlayer(gameContext);
     }
 
     public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, Player.weaponSelection_e currentWeapon) {
-
-        switch (currentWeapon){
-
-            case GUN:
-                if (preferences.getBoolean("sound", true)) {
-                    MediaPlayer mediaPlayer = MediaPlayer.create(gameContext, R.raw.gun);
-                    mediaPlayer.start();
-                }
-
-                break;
-            case SHOTGUN:
-                if (preferences.getBoolean("sound", true)) {
-                    MediaPlayer mediaPlayer = MediaPlayer.create(gameContext, R.raw.shotgun);
-                    mediaPlayer.start();
-                }
-
-                break;
-            case AK47:
-                if (preferences.getBoolean("sound", true)) {
-                    MediaPlayer mediaPlayer = MediaPlayer.create(gameContext, R.raw.ak);
-                    mediaPlayer.start();
-                }
-
-                break;
-            default:
-                Log.e("SHOOTER", "DEFULTED IN SHOOTER::shoot: switch (currentWeapon)");
-                break;
+        if (preferences.getBoolean("sound", true)) {
+            switch (currentWeapon){
+                case GUN:
+                        audioPlayer.playAudioFromRaw(R.raw.gun);
+                        break;
+                case SHOTGUN:
+                        audioPlayer.playAudioFromRaw(R.raw.shotgun);
+                        break;
+                case AK47:
+                        audioPlayer.playAudioFromRaw(R.raw.ak);
+                        break;
+                default:
+                        Log.e("SHOOTER", "DEFAULTED IN SHOOTER::shoot: switch (currentWeapon)");
+                        break;
+            }
         }
-
         Shot s = new Shot();
         s.shot = shotFactory.createEntity();
         s.shot.placeAt(shooterBaseRect.centerX(), shooterBaseRect.centerY());

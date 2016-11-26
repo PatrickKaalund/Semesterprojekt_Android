@@ -13,6 +13,7 @@ import android.widget.GridLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.network.Firebase.FirebaseActivity;
 import com.network.MQTT.MQTTActivity;
@@ -25,6 +26,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
     private GridLayout gridLayout;
     boolean firstRun = true;
     private SharedPreferences preferences;
+    private AudioPlayer audioPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,8 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        audioPlayer = new AudioPlayer(this);
 
         setContentView(R.layout.activity_main_menu);
 
@@ -64,79 +68,53 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         super.onPostResume();
     }
 
-/*    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        getMenuInflater().inflate(R.menu.top_bar_options_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.options) {
-            Intent settings = new Intent(this, OptionsActivity.class);
-            startActivity(settings);
-        } else if (item.getItemId() == R.id.quit)
-            finish();
-        return super.onOptionsItemSelected(item);
-    }*/
-
-
     @Override
     public void onClick(View v) {
         if (firstRun) {
             RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RLayout);
             relativeLayout.setVisibility(View.VISIBLE);
-            //gridLayout.setVisibility(View.GONE);
             firstRun = false;
         } else {
             switch (v.getId()) {
                 case R.id.buttonPlay:
-                    playClick();
+                    audioPlayer.playAudioFromRaw(R.raw.click);
                     Intent play = new Intent(this, InGame.class);
                     startActivity(play);
                     break;
                 case R.id.buttonSettings:
-                    playClick();
+                    audioPlayer.playAudioFromRaw(R.raw.click);
                     Intent settings = new Intent(this, OptionsActivity.class);
                     startActivity(settings);
                     break;
                 case R.id.buttonQuit:
-                    playClick();
+                    audioPlayer.playAudioFromRaw(R.raw.click);
                     Intent startMain = new Intent(Intent.ACTION_MAIN);
                     startMain.addCategory(Intent.CATEGORY_HOME);
                     startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(startMain);
                     break;
                 case R.id.buttonDebug:
-                    playClick();
+                    audioPlayer.playAudioFromRaw(R.raw.click);
                     findViewById(R.id.buttonMapTest).setVisibility(View.VISIBLE);
                     findViewById(R.id.buttonFirebaseTest).setVisibility(View.VISIBLE);
                     findViewById(R.id.buttonMQTTTest).setVisibility(View.VISIBLE);
                     break;
                 case R.id.buttonMapTest:
-                    playClick();
+                    audioPlayer.playAudioFromRaw(R.raw.click);
                     Intent mapTest = new Intent(this, MapTestActivity.class);
                     startActivity(mapTest);
                     break;
                 case R.id.buttonMQTTTest:
-                    playClick();
+                    audioPlayer.playAudioFromRaw(R.raw.click);
                     Intent mqttTest = new Intent(this, MQTTActivity.class);
                     startActivity(mqttTest);
                     break;
                 case R.id.buttonFirebaseTest:
-                    playClick();
+                    audioPlayer.playAudioFromRaw(R.raw.click);
                     Intent firebaseTest = new Intent(this, FirebaseActivity.class);
                     startActivity(firebaseTest);
                     break;
             }
-        }
-    }
-
-    private void playClick() {
-        if (preferences.getBoolean("sound", true)) {
-            MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.click);
-            mediaPlayer.start();
         }
     }
 }

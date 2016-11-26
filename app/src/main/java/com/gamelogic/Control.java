@@ -11,6 +11,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import com.activities.OptionsActivity;
+import com.audio.AudioPlayer;
 import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.views.DropDownMenu;
@@ -27,6 +28,7 @@ public class Control {
     private Game game;
     private Context context;
     private SharedPreferences preferences;
+    private AudioPlayer audioPlayer;
 
     private boolean shooting = false;
 
@@ -34,6 +36,7 @@ public class Control {
         this.context = context;
         this.game = game;
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        audioPlayer = new AudioPlayer(context);
         Log.d("Joystick", "started");
 
         joystickValues = new ArrayList<>();
@@ -107,11 +110,7 @@ public class Control {
                                 Log.d("DropDownPressed", "Options");
                                 dropDownMenu.closeMenu();
 
-                                if (preferences.getBoolean("sound", true)) {
-                                    MediaPlayer mediaPlayer = MediaPlayer.create(context, R.raw.click);
-                                    mediaPlayer.start();
-                                }
-
+                                audioPlayer.playAudioFromRaw(R.raw.click);
                                 Intent settings = new Intent(context, OptionsActivity.class);
                                 context.startActivity(settings);
 
