@@ -31,8 +31,8 @@ public class DirectionLock {
     private static final int TR = 9;
     private static final int TL = 10;
 
-    public int tblr = 0;
-    public int lockXY = 0;
+    private int tblr = 0;
+    private int lockXY = 0;
 
     public DirectionLock() {
 
@@ -44,29 +44,29 @@ public class DirectionLock {
     //v3 (v >= 270)
     int old_tblr;
 
-    private void checkTBLR(Direction direction, RectF ref, PointF pos, int tblrIn) {
-        if (direction.tag == 2) {
-            LL(this, "::::MAP::::Boarder: " + ref.toString() + '\n' +
-                    ". Position: " + pos.toString() + '\n' +
-                    ". Velocity: " + direction.velocity_X + '\n' +
-                    ", " + direction.velocity_Y + '\n' +
-                    ".Angle " + direction.getAngle() + '\n' +   " old_tblr "+old_tblr+ '\n');
-        }
-        if (direction.tag == 1) {
-            LL(this, "::::PLY::::Boarder: " + ref.toString() + '\n' +
-                    ". Position: " + pos.toString() + '\n' +
-                    ". Velocity: " + direction.velocity_X +
-                    ", " + direction.velocity_Y + '\n' +
-                    ".Angle " + direction.getAngle() + '\n' + '\n'
+    private void checkTBLR(Direction direction, RectF ref, float posX, float posY, int tblrIn) {
+//        if (direction.tag == 2) {
+//            LL(this, "::::MAP::::Boarder: " + ref.toString() + '\n' +
+//                    ". Position: " + pos.toString() + '\n' +
+//                    ". Velocity: " + direction.velocity_X + '\n' +
+//                    ", " + direction.velocity_Y + '\n' +
+//                    ".Angle " + direction.getAngle() + '\n' +   " old_tblr "+old_tblr+ '\n');
+//        }
+//        if (direction.tag == 1) {
+//            LL(this, "::::PLY::::Boarder: " + ref.toString() + '\n' +
+//                    ". Position: " + pos.toString() + '\n' +
+//                    ". Velocity: " + direction.velocity_X +
+//                    ", " + direction.velocity_Y + '\n' +
+//                    ".Angle " + direction.getAngle() + '\n' + '\n'
+//
+//            );
+//        }
 
-            );
-        }
 
-
-        float deltaT = ref.top - pos.y;
-        float deltaB = ref.bottom - pos.y;
-        float deltaR = ref.right - pos.x;
-        float deltaL = ref.left - pos.x;
+        float deltaT = ref.top - posY;
+        float deltaB = ref.bottom - posY;
+        float deltaR = ref.right - posX;
+        float deltaL = ref.left - posX;
 
         //BL
         if ((old_tblr == BL) && ((tblrIn == BL) || (tblrIn == L) || (tblrIn == B))) {
@@ -98,7 +98,7 @@ public class DirectionLock {
         }
 
 
-        if ((deltaT < direction.velocity_Y) ) {
+        if ((deltaT < direction.velocity_Y)) {
             tblr |= (1 << T_BITPOS);
             direction.velocity_Y = deltaT;
         }
@@ -114,30 +114,30 @@ public class DirectionLock {
             tblr |= (1 << L_BITPOS);
             direction.velocity_X = deltaL;
         }
-        if (direction.tag == 2) {
-
-            LL(this, "::::MAP::::Adjusted velocity: " + direction.velocity_X +
-                    ", " + direction.velocity_Y);
-
-            LL(this, "::::MAP::::tblr: " + tblr);
-
-        }
-        if (direction.tag == 1) {
-
-            LL(this, "::::PLY::::Adjusted velocity: " + direction.velocity_X +
-                    ", " + direction.velocity_Y);
-
-            LL(this, "::::PLY::::tblr: " + tblr);
-        }
+//        if (direction.tag == 2) {
+//
+//            LL(this, "::::MAP::::Adjusted velocity: " + direction.velocity_X +
+//                    ", " + direction.velocity_Y);
+//
+//            LL(this, "::::MAP::::tblr: " + tblr);
+//
+//        }
+//        if (direction.tag == 1) {
+//
+//            LL(this, "::::PLY::::Adjusted velocity: " + direction.velocity_X +
+//                    ", " + direction.velocity_Y);
+//
+//            LL(this, "::::PLY::::tblr: " + tblr);
+//        }
 
 
     }
 
-    public int check(Direction direction, RectF ref, PointF pos, int tblrIn) {
+    public int check(Direction direction, RectF ref, float posX, float posY, int tblrIn) {
         tblr = 0;
         lockXY = 0;
         int angle = direction.getAngle();
-        checkTBLR(direction, ref, pos, tblrIn);
+        checkTBLR(direction, ref, posX, posY, tblrIn);
 
         old_tblr = tblr;
         switch (tblr) {
@@ -197,6 +197,21 @@ public class DirectionLock {
         return lockXY;
     }
 
+    public int check(Direction direction, RectF ref, float posX, float posY) {
+        return check(direction, ref, posX, posY, 0);
+    }
+
+    public int check(Direction direction, RectF ref, PointF pos, int tblrIn) {
+        return check(direction, ref, pos.x, pos.y, tblrIn);
+    }
+
+//    public int check(Direction direction, RectF ref, float posX, float posY){
+//        return check(direction, ref, posX, posY, 0);
+//
+//    }
+
+//    public int check(Direction direction, RectF ref, float posX, float posY, int tblrIn)
+
 
     public boolean isLockedX() {
         if (lockXY == 0b10) return true;
@@ -206,5 +221,13 @@ public class DirectionLock {
     public boolean isLockedY() {
         if (lockXY == 0b01) return true;
         else return false;
+    }
+
+    public int getLockXY() {
+        return lockXY;
+    }
+
+    public int getTblr() {
+        return tblr;
     }
 }

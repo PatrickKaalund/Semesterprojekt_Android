@@ -12,18 +12,17 @@ import com.gamelogic.DataContainer;
  */
 
 public class BackgroundFactory extends EntityFactory {
-    private Context context;
     DisplayMetrics metrics;
 
     public BackgroundFactory(int bmpId, DisplayMetrics metrics) {
         super(bmpId, 1, 1);
         this.metrics = metrics;
         index = 0;
-        this.context = context;
-//        metrics.
 
-        //If index 0 is a background replace it else
-        // make this index 0 so we draw the background first
+        /**
+         *   If index 0 is a background replace it else
+         *    make this index 0 so we draw the background first
+         */
         if (GlRendere.drawList.isEmpty()) {
             GlRendere.drawList.add(this);
         } else if (GlRendere.drawList.get(0) instanceof BackgroundFactory) {
@@ -36,7 +35,7 @@ public class BackgroundFactory extends EntityFactory {
 
     public BackgroundEntity createEntity(float sizeX, float sizeY) {
         entityDrawCount++;
-        DataContainer.mapGlobalSize.x = sizeX;
+        DataContainer.mapGlobalSize.x = sizeX;//Save the size for other to use
         DataContainer.mapGlobalSize.y = sizeY;
         BackgroundEntity newBackground = new BackgroundEntity(
                 DataContainer.mapGlobalSize.x,
@@ -48,24 +47,5 @@ public class BackgroundFactory extends EntityFactory {
         return newBackground;
     }
 
-
-//        protected void makeSprites() {
-//        spriteCount = textureAtlasColumns * textureAtlasRows;
-//        float xOffset = 1 / (float) textureAtlasColumns;
-//        float yOffset = 1 / (float) textureAtlasRows;
-//        RectF subTexture = new RectF();
-//        subTexture.right = xOffset;
-//        subTexture.bottom = yOffset;
-//        for (int i = 0; i < textureAtlasRows; i++) {
-//            for (int j = 0; j < textureAtlasColumns; j++) {
-//                sprites.add(new RectF(subTexture));
-//                subTexture.left = subTexture.right;
-//                subTexture.right += xOffset;
-//            }
-//            subTexture.top = subTexture.bottom;
-//            subTexture.bottom += yOffset;
-//            subTexture.left = 0;
-//            subTexture.right = xOffset;
-//        }
 
 }
