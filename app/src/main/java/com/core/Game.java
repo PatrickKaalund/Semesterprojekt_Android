@@ -84,7 +84,7 @@ public class Game implements Runnable {
     private void initGameComponents() {
         player = new Player(context, networkHandler);
         control = new Control(context, this);
-        mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed_resized_grid, context.getResources().getDisplayMetrics());
+        mapFactory = new BackgroundFactory(R.drawable.backgrounddetailed_resized, context.getResources().getDisplayMetrics());
         map = mapFactory.createEntity(4000, 4000); //Make background
         itemSpawner = new ItemSpawner(context);
         enemySpawner = new EnemySpawner(context);
