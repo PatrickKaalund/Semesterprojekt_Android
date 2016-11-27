@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_menu"
     android:layout_width="match_parent"
@@ -10,6 +11,15 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.activities.MainMenu"
     android:background="@drawable/explosion">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@color/black_overlay"
+        android:id="@+id/overlay"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
     <ProgressBar
         android:layout_width="wrap_content"
@@ -115,7 +125,7 @@
             android:background="@drawable/logo"
             android:id="@+id/MasterTankLogo"
             android:foregroundGravity="top"
-            android:maxHeight="1212sp"
+            android:maxHeight="12sp"
             android:textSize="12sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true" />

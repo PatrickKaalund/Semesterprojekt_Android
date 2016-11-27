@@ -1,6 +1,7 @@
 package com.activities;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -69,10 +70,9 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         masterTank.setOnClickListener(this);
     }
 
-    @SuppressLint("NewApi")     // Supressing error.. Bug in Android  Issue 189041: setForeground() incorrectly flagged as requiring API 23 (NewApi) for ViewGroups extending FrameLayout
     protected void onPostResume() {
         // Remove dark overlay from screen
-        findViewById(R.id.OuterRelativeLayout).setForeground(null);
+        findViewById(R.id.overlay).setVisibility(View.INVISIBLE);
 
         // Hide progressBar
         findViewById(R.id.progressBar).setVisibility(View.GONE);
@@ -84,7 +84,6 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         super.onPostResume();
     }
 
-    @SuppressLint("NewApi")     // Supressing error.. Bug in Android  Issue 189041: setForeground() incorrectly flagged as requiring API 23 (NewApi) for ViewGroups extending FrameLayout
     public void onClick(View v) {
         if (firstRun) {
             RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.RLayout);
@@ -95,8 +94,10 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         } else {
             switch (v.getId()) {
                 case R.id.buttonPlay:
-                    // Put dark overlay on screen
-                    findViewById(R.id.OuterRelativeLayout).setForeground(getDrawable(R.color.black_overlay));
+                    // Add dark overlay to screen
+                    findViewById(R.id.overlay).setVisibility(View.VISIBLE);
+
+                    // Bring progressBar to top
                     progressBar.get().setVisibility(View.VISIBLE);
                     progressBar.get().bringToFront();
                     progressBar.get().invalidate();
