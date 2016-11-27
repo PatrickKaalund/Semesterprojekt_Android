@@ -96,6 +96,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
                 case R.id.buttonPlay:
                     // Add dark overlay to screen
                     findViewById(R.id.overlay).setVisibility(View.VISIBLE);
+                    findViewById(R.id.overlay).bringToFront();
 
                     // Bring progressBar to top
                     progressBar.get().setVisibility(View.VISIBLE);
@@ -103,6 +104,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
                     progressBar.get().invalidate();
 
                     v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.view_clicked));
+
                     audioPlayer.playAudioFromRaw(R.raw.click);
                     Intent play = new Intent(this, InGame.class);
                     startActivity(play);
