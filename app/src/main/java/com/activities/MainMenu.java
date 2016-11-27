@@ -1,20 +1,15 @@
 package com.activities;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,13 +22,9 @@ import com.teststuff.MapTestActivity;
 
 public class MainMenu extends BaseActivity implements View.OnClickListener {
 
-    private Button mapTest, mqttTest, firebaseTest;
-    private TextView play, settings, quit, debug, playMulti;
-    private final ThreadLocal<ProgressBar> progressBar = new ThreadLocal<>();
-    private GridLayout masterTank;
     boolean firstRun = true;
-    private SharedPreferences preferences;
     private AudioPlayer audioPlayer;
+    private RelativeLayout masterTank;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,22 +33,19 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         audioPlayer = new AudioPlayer(this);
 
         setContentView(R.layout.activity_main_menu);
 
-        progressBar.set((ProgressBar) findViewById(R.id.progressBar));
-        play = (TextView) findViewById(R.id.buttonPlay);
-        playMulti = (TextView) findViewById(R.id.buttonPlayMulti);
-        settings = (TextView) findViewById(R.id.buttonSettings);
-        quit = (TextView) findViewById(R.id.buttonQuit);
-        debug = (TextView) findViewById(R.id.buttonDebug);
-        mapTest = (Button) findViewById(R.id.buttonMapTest);
-        mqttTest = (Button) findViewById(R.id.buttonMQTTTest);
-        firebaseTest = (Button) findViewById(R.id.buttonFirebaseTest);
-        masterTank = (GridLayout) findViewById(R.id.MasterTank);
+        TextView play = (TextView) findViewById(R.id.buttonPlay);
+        TextView playMulti = (TextView) findViewById(R.id.buttonPlayMulti);
+        TextView settings = (TextView) findViewById(R.id.buttonSettings);
+        TextView quit = (TextView) findViewById(R.id.buttonQuit);
+        TextView debug = (TextView) findViewById(R.id.buttonDebug);
+        Button mapTest = (Button) findViewById(R.id.buttonMapTest);
+        Button mqttTest = (Button) findViewById(R.id.buttonMQTTTest);
+        Button firebaseTest = (Button) findViewById(R.id.buttonFirebaseTest);
+        masterTank = (RelativeLayout) findViewById(R.id.activity_main_menu);
 
         play.setOnClickListener(this);
         playMulti.setOnClickListener(this);
@@ -90,6 +78,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
             relativeLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.startup));
             relativeLayout.setVisibility(View.VISIBLE);
             audioPlayer.playAudioFromRaw(R.raw.baretta);
+            masterTank.setOnClickListener(null);
             firstRun = false;
         } else {
             switch (v.getId()) {
@@ -99,9 +88,9 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
                     findViewById(R.id.overlay).bringToFront();
 
                     // Bring progressBar to top
-                    progressBar.get().setVisibility(View.VISIBLE);
-                    progressBar.get().bringToFront();
-                    progressBar.get().invalidate();
+                    findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+                    findViewById(R.id.progressBar).bringToFront();
+                    findViewById(R.id.progressBar).invalidate();
 
                     v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.view_clicked));
 
