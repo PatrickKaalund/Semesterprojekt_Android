@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.AnimationUtils;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -94,7 +95,7 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
     @Override
     protected void onPostResume() {
-        preferences.edit().putInt("window", R.raw.dark_music).apply();
+        preferences.edit().putInt("track", R.raw.dark_music).apply();
         super.onPostResume();
     }
 
@@ -133,16 +134,18 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.quit_button) {
 
+        if (view.getId() == R.id.quit_button) {
+            view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.view_clicked));
             audioPlayer.playAudioFromRaw(R.raw.click);
 
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startMain);
-        } else if (view.getId() == R.id.back_button) {
 
+        } else if (view.getId() == R.id.back_button) {
+            view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.view_clicked));
             audioPlayer.playAudioFromRaw(R.raw.click);
 
             finish();

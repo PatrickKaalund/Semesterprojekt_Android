@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main_menu"
     android:layout_width="match_parent"
@@ -11,37 +12,41 @@
     tools:context="com.activities.MainMenu"
     android:background="@drawable/explosion">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@color/black_overlay"
+        android:id="@+id/overlay"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.Material.ProgressBar.Large"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/master_tank"
         android:layout_marginTop="118sp"
         android:layout_alignParentStart="true"
-        android:id="@+id/MasterTank">
-
-    </GridLayout>
+        android:id="@+id/MasterTank" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/OuterRelativeLayout">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:textSize="12sp"
-            android:background="@drawable/logo"
-            android:id="@+id/MasterTankLogo"
-            android:foregroundGravity="top"
-            android:maxHeight="15dp" />
-
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:visibility="invisible"
             android:id="@+id/RLayout"
-            android:layout_alignParentTop="true"
             android:layout_alignParentStart="true">
 
             <Button
@@ -74,27 +79,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/buttonDebug"
-                android:background="@drawable/debug"
-                android:layout_above="@+id/buttonFirebaseTest"
-                android:layout_centerHorizontal="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/buttonQuit"
                 android:background="@drawable/quit_main"
                 android:layout_below="@+id/buttonDebug"
                 android:layout_alignEnd="@+id/buttonFirebaseTest" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonSettings"
-                android:background="@drawable/settings_small"
-                android:layout_marginBottom="47dp"
-                android:layout_above="@+id/buttonMQTTTest"
-                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,7 +100,36 @@
                 android:layout_above="@+id/buttonPlayMulti"
                 android:layout_centerHorizontal="true" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonDebug"
+                android:background="@drawable/debug"
+                android:layout_above="@+id/buttonFirebaseTest"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonSettings"
+                android:background="@drawable/settings_small"
+                android:layout_above="@+id/buttonDebug"
+                android:layout_centerHorizontal="true" />
+
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:background="@drawable/logo"
+            android:id="@+id/MasterTankLogo"
+            android:foregroundGravity="top"
+            android:maxHeight="12sp"
+            android:textSize="12sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+
     </RelativeLayout>
 
 </RelativeLayout>

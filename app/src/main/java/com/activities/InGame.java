@@ -32,7 +32,7 @@ public class InGame extends BaseActivity {
 
         game.setJoystick((JoystickView) findViewById(R.id.joystickView));
         game.setShootButton((FloatingActionButton) findViewById(R.id.floatingActionButton));
-        game.setInventoryButton((DropDownMenu) findViewById(R.id.gooey_menu));
+        game.setInventoryButton((DropDownMenu) findViewById(R.id.dropdown_menu));
         Log.d("IndGame", "onCreate");
     }
 
@@ -47,7 +47,7 @@ public class InGame extends BaseActivity {
     protected void onPostResume() {
         game.gameStart();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.edit().putInt("window", R.raw.challenge_mode).apply();
+        preferences.edit().putInt("track", R.raw.challenge_mode).apply();
 
         super.onPostResume();
         Log.d("IndGame", "onPostResume");

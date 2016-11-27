@@ -40,7 +40,8 @@
         app:layout_constraintVertical_bias="0.0"
         android:layout_alignTop="@+id/textView2"
         android:layout_alignStart="@+id/switchSound"
-        android:layout_alignBottom="@+id/textView2" />
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_centerHorizontal="true" />
 
     <Switch
         android:layout_width="wrap_content"
@@ -54,7 +55,8 @@
         tools:layout_editor_absoluteX="0dp"
         android:layout_alignTop="@+id/textView3"
         android:layout_toEndOf="@+id/textView3"
-        android:layout_alignBottom="@+id/textView3" />
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_centerHorizontal="true" />
 
     <Switch
         android:layout_width="wrap_content"
@@ -68,7 +70,8 @@
         tools:layout_editor_absoluteX="0dp"
         android:layout_alignTop="@+id/textView5"
         android:layout_toEndOf="@+id/textView3"
-        android:layout_alignBottom="@+id/textView5" />
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -95,21 +98,11 @@
         tools:layout_editor_absoluteX="0dp"
         android:layout_centerVertical="true"
         android:layout_alignStart="@+id/textView3"
-        android:layout_toStartOf="@+id/switchMusic" />
+        android:layout_toStartOf="@+id/switchMusic"
+        android:layout_centerHorizontal="true" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:background="@drawable/sound"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"
-        android:layout_below="@+id/textView2"
-        android:layout_toEndOf="@+id/back_button"
-        android:layout_marginTop="30dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView5"
         android:background="@drawable/online"
@@ -118,6 +111,18 @@
         android:layout_marginBottom="30dp"
         android:layout_above="@+id/textView2"
         android:layout_alignStart="@+id/textView2"
-        android:layout_toStartOf="@+id/switchOnline" />
+        android:layout_toStartOf="@+id/switchOnline"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:background="@drawable/sound"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        android:layout_below="@+id/switchMusic"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp" />
 
 </RelativeLayout>

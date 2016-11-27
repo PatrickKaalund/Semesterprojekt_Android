@@ -54,6 +54,8 @@ public class Player extends PlayerCommon {
     private SharedPreferences preferences;
     public int playerLock;
     public int playerTLBR;
+    private AudioPlayer audioPlayer;
+
 
     /**
      * A playable character on the screen
@@ -62,7 +64,6 @@ public class Player extends PlayerCommon {
      */
     public Player(Context context, NetworkHandler networkHandler,PointF startPos) {
         // ----- Misc -----
-    AudioPlayer audioPlayer;
 
         this.context = context;
         this.networkHandler = networkHandler;
@@ -246,7 +247,7 @@ public class Player extends PlayerCommon {
      */
     public void setCurrentWeapon(weaponSelection_e currentWeapon) {
 
-//        audioPlayer.playAudioFromRaw(R.raw.reload);
+        audioPlayer.playAudioFromRaw(R.raw.reload);
 
         int currentSprite = player.getCurrentSprite();
         switch (currentWeapon) {
