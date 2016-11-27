@@ -2,6 +2,7 @@ package com.gamelogic;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.graphics.Direction;
@@ -73,26 +74,37 @@ public class Enemy extends Creature {
         super.health = health;
         state = new EnemyStates();
         this.enemy = enemy;
-        this.enemy.placeAt(startLocation.x, startLocation.y);
+
+        placeElementFromGlobalPos(startLocation);
+
         this.enemy.setCurrentSprite(4);
         this.enemy.setAngleOffSet(-135);     // pointing right
         this.enemy.setAnimationDivider(3);
         this.enemy.setAnimationOrder(state.getAnimations());
-
         direction = new Direction();
+    }
 
+    private void placeElementFromGlobalPos(PointF globalPos){
+        PointF initialPosOnScreen = new PointF();
+        initialPosOnScreen.x = globalPos.x - DataContainer.player.getPos().x + DataContainer.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
+        initialPosOnScreen.y = globalPos.y - DataContainer.player.getPos().y + DataContainer.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
+        this.enemy.placeAt(initialPosOnScreen.x, initialPosOnScreen.y);
+        this.enemy.setPosition(new PointF(globalPos.x, globalPos.y));
     }
 
     private void move(Direction direction) {
-        enemy.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y, 0);
+        enemy.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y);
         enemy.move(direction);
     }
 
 
     public boolean update(Player player) {
-        Log.e(this.getClass().getCanonicalName(), "Player pos y: " + player.getPos().y + " x " + player.getPos().x);
-        Log.e(this.getClass().getCanonicalName(), "Enemy pos y: " + enemy.getPosition().y + " x " + enemy.getPosition().x);
-        Log.e(this.getClass().getCanonicalName(), "Enemy rect " + enemy.getRect().toString());
+
+//        Log.e(this.getClass().getCanonicalName(), "Mapmovement: " + DataContainer.mapMovement.x + ", " + DataContainer.mapMovement.y);
+
+//        Log.e(this.getClass().getCanonicalName(), "Player pos x: " + player.getPos().x + " y " + player.getPos().y);
+//        Log.e(this.getClass().getCanonicalName(), "Enemy pos x: " + enemy.getPosition().x + " y " + enemy.getPosition().y);
+//        Log.e(this.getClass().getCanonicalName(), "Enemy rect " + enemy.getRect().toString());
 
         angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
 //                Log.e(this.getClass().getCanonicalName(), "normal angle: "+ angle);

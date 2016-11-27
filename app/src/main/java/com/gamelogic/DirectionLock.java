@@ -47,16 +47,14 @@ public class DirectionLock {
     private void checkTBLR(Direction direction, RectF ref, float posX, float posY, int tblrIn) {
 //        if (direction.tag == 2) {
 //            LL(this, "::::MAP::::Boarder: " + ref.toString() + '\n' +
-//                    ". Position: " + pos.toString() + '\n' +
-//                    ". Velocity: " + direction.velocity_X + '\n' +
-//                    ", " + direction.velocity_Y + '\n' +
+//                    ". Position: " + posX + ", " + posY + '\n' +
+//                    ". Velocity: " + direction.velocity_X + '\n' + ", " + direction.velocity_Y + '\n' +
 //                    ".Angle " + direction.getAngle() + '\n' +   " old_tblr "+old_tblr+ '\n');
 //        }
 //        if (direction.tag == 1) {
 //            LL(this, "::::PLY::::Boarder: " + ref.toString() + '\n' +
-//                    ". Position: " + pos.toString() + '\n' +
-//                    ". Velocity: " + direction.velocity_X +
-//                    ", " + direction.velocity_Y + '\n' +
+//                    ". Position: " + posX + ", " + posY + '\n' +
+//                    ". Velocity: " + direction.velocity_X + ", " + direction.velocity_Y + '\n' +
 //                    ".Angle " + direction.getAngle() + '\n' + '\n'
 //
 //            );
@@ -116,16 +114,14 @@ public class DirectionLock {
         }
 //        if (direction.tag == 2) {
 //
-//            LL(this, "::::MAP::::Adjusted velocity: " + direction.velocity_X +
-//                    ", " + direction.velocity_Y);
+//            LL(this, "::::MAP::::Adjusted velocity: " + direction.velocity_X + ", " + direction.velocity_Y);
 //
 //            LL(this, "::::MAP::::tblr: " + tblr);
 //
 //        }
 //        if (direction.tag == 1) {
 //
-//            LL(this, "::::PLY::::Adjusted velocity: " + direction.velocity_X +
-//                    ", " + direction.velocity_Y);
+//            LL(this, "::::PLY::::Adjusted velocity: " + direction.velocity_X +  ", " + direction.velocity_Y);
 //
 //            LL(this, "::::PLY::::tblr: " + tblr);
 //        }

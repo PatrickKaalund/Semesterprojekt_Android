@@ -6,6 +6,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
@@ -77,10 +78,10 @@ public class Player extends PlayerCommon {
         // ----- Player stuff -----
         player = super.player;
 //        player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
-        player.placeAt(startPos.x,startPos.y);
-
-        player.setPosition(startPos);
-
+//        player.placeAt(startPos.x,startPos.y);
+//        player.setPosition(new PointF(startPos.x /*+ context.getResources().getDisplayMetrics().widthPixels/2*/, startPos.y /*+ context.getResources().getDisplayMetrics().heightPixels/2*/));
+        player.placeAt(startPos.x, startPos.y);
+        player.setPosition(new PointF(2000.0F, 2000.0F));
         // ----- Gun -----
         gun = new Shooter();
         shotSpeedCounter = shotSpeed;
@@ -171,6 +172,8 @@ public class Player extends PlayerCommon {
 
 
         } else {
+            DataContainer.mapMovement.x = 0;
+            DataContainer.mapMovement.y = 0;
 
             switch (currentWeapon) { //Set weapon sprite
 

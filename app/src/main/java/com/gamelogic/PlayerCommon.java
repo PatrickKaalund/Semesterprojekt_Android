@@ -13,7 +13,7 @@ import com.graphics.SpriteEntityFactory;
 
 public abstract class PlayerCommon extends Creature {
 
-    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.players, 120, 120, 6, 11, new PointF(400, 400));
+    private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.players, 120, 120, 6, 11, new PointF(0, 0));
     protected Entity player;
     protected Direction direction;
 

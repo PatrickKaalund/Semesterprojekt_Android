@@ -57,8 +57,8 @@ public class BackgroundEntity extends GraphicEntity {
 
         this.uvs = new RectF(0f, 0f, 1f, 1f);// Texture drawing coord
 
-//        Log.d("BackgroundEntity", "baseHeight: " + baseHeight + " baseWidth: " + baseWidth + " baseRatio: " + ratio);
-//        Log.d("BackgroundEntity", "BaseRect: " + rectToString(baseRact));
+//        Log.d("BackgroundEntity", "baseHeight: " + baseHeight + " baseWidth: " + baseWidth);
+//        Log.d("BackgroundEntity", "BaseRect: " + baseRact.toString());
 //        Log.d("BackgroundEntity", "uvs: " + rectToString(uvs));
 
     }
@@ -114,10 +114,10 @@ public class BackgroundEntity extends GraphicEntity {
                 player.getPlayerEntity().getPosition().y += direction.velocity_Y;
                 DataContainer.mapMovement.y = direction.velocity_Y;
 
-
                 break;
             case Y_LOCKED:
                 // Player is locked in X (inverted)
+
                 transformationMatrix.setTranslate(-direction.velocity_X, 0);
                 screenPos.x += direction.velocity_X;
                 player.getPlayerEntity().getPosition().x += direction.velocity_X;
@@ -132,6 +132,7 @@ public class BackgroundEntity extends GraphicEntity {
                 Log.e(this.getClass().getCanonicalName(), "Defaulted in Player::move()");
                 break;
         }
+
         transformationMatrix.mapRect(baseRact);
     }
 

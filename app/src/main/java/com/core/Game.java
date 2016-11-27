@@ -37,9 +37,10 @@ public class Game implements Runnable {
     //============= Screen Stuff ==============
     private OurGLSurfaceView glSurfaceView;
     private static final int MAP_OUTER_BOARDER_SIZE = 4000;
+    private static final int MAP_GLOBAL_START_POS = MAP_OUTER_BOARDER_SIZE / 2;
     private static final int SCREEN_CONTAINMENT_OFFSET = 150;
-    private  final int GLOBAL_START_POS_X;
-    private  final int GLOBAL_START_POS_Y;
+//    private  final int GLOBAL_START_POS_X;
+//    private  final int GLOBAL_START_POS_Y;
 
 
     //============= Network stuff =============
@@ -75,8 +76,8 @@ public class Game implements Runnable {
         Log.d("Game", "Game created");
         this.context = context;
         gameContext = context;
-        GLOBAL_START_POS_X = context.getResources().getDisplayMetrics().widthPixels / 2;
-        GLOBAL_START_POS_Y =  context.getResources().getDisplayMetrics().heightPixels / 2;
+//        GLOBAL_START_POS_X = context.getResources().getDisplayMetrics().widthPixels / 2;
+//        GLOBAL_START_POS_Y =  context.getResources().getDisplayMetrics().heightPixels / 2;
 
         glSurfaceView = new OurGLSurfaceView(context);
         networkHandler = new NetworkHandler();
@@ -100,15 +101,16 @@ public class Game implements Runnable {
         map = mapFactory.createEntity(//Make background
                 MAP_OUTER_BOARDER_SIZE,
                 MAP_OUTER_BOARDER_SIZE,
-                new PointF(GLOBAL_START_POS_X,GLOBAL_START_POS_Y),
+                new PointF(MAP_GLOBAL_START_POS,MAP_GLOBAL_START_POS),
                 SCREEN_CONTAINMENT_OFFSET);
 //        mapBorder = new MapBorder(context);
         //Make game assets
-        player = new Player(context, networkHandler,new PointF(GLOBAL_START_POS_X,GLOBAL_START_POS_Y));
+        player = new Player(context, networkHandler,new PointF(context.getResources().getDisplayMetrics().widthPixels/2,context.getResources().getDisplayMetrics().heightPixels/2));
         itemSpawner = new ItemSpawner(context);
         enemySpawner = new EnemySpawner(context);
         control = new Control(context, this);
-        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
+        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 10);
+        itemSpawner.spawnItemsRandom(10);
     }
 
 

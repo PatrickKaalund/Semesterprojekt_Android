@@ -126,6 +126,8 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
 
     public void moveBy(float deltaX, float deltaY, float angle) {
+//        this.position.x += deltaX;
+//        this.position.y += deltaY;
 
         Matrix transformationMatrix = new Matrix();
         transformationMatrix.setTranslate(deltaX, deltaY);
