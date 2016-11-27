@@ -5,7 +5,7 @@
 
     <dimen name="min_height">80sp</dimen>
     <dimen name="big_circle_radius">20sp</dimen>
-    <dimen name="small_circle_radius">14sp</dimen>
+    <dimen name="small_circle_radius">16sp</dimen>
 
-    <dimen name="min_gap">40sp</dimen>
+    <dimen name="min_gap">55sp</dimen>
 </resources>

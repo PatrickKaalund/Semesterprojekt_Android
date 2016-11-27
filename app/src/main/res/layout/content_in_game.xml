@@ -11,8 +11,8 @@
 
     <com.views.DropDownMenu
         android:id="@+id/dropdown_menu"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
+        android:layout_width="150sp"
+        android:layout_height="150sp"
         app:fab_radius="@dimen/big_circle_radius"
         app:gap_between_menu_fab="@dimen/min_gap"
         app:menu_radius="@dimen/small_circle_radius"

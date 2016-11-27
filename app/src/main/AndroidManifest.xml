@@ -25,9 +25,6 @@
             android:exported="true" />
 
         <activity android:name="com.activities.MainMenu"
-
-                  android:windowSoftInputMode="adjustResize"
-                  android:screenOrientation="portrait"
                   android:configChanges="keyboardHidden|orientation|screenSize"
                   android:theme="@style/AppTheme.NoActionBar"
                   >
@@ -52,7 +49,7 @@
             android:name="com.activities.OptionsActivity"
             android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"
+
             android:configChanges="keyboardHidden|orientation|screenSize"
         />
         <activity android:name="com.network.Firebase.FirebaseActivity" />
@@ -66,3 +63,7 @@
     </application>
 
 </manifest>
+
+<!--
+
+    android:screenOrientation="portrait"-->
