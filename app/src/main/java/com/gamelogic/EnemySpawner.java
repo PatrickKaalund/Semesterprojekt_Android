@@ -75,7 +75,7 @@ public class EnemySpawner {
         float randomX = rand.nextFloat() * (maxX - minX) + minX;
         float randomY = rand.nextFloat() * (maxY - minY) + minY;
 
-        Enemy enemy = new Enemy(enemyFactory.createEntity(), health, speed, new PointF(randomX, randomY));
+        Enemy enemy = new Enemy(enemyFactory.createEntity(), health, speed, new PointF(0,0));
         enemies.add(enemy);
     }
 

@@ -19,6 +19,10 @@ import com.network.Firebase.NetworkHandler;
 
 import java.util.ArrayList;
 
+import static com.gamelogic.DirectionLock.ALL_LOCKED;
+import static com.gamelogic.DirectionLock.UNLOCKED;
+import static com.gamelogic.DirectionLock.X_LOCKED;
+import static com.gamelogic.DirectionLock.Y_LOCKED;
 import static com.graphics.GraphicsTools.LL;
 
 /**
@@ -48,7 +52,8 @@ public class Player extends PlayerCommon {
     private DirectionLock directionLock;
     private Direction mapDirection;
     private SharedPreferences preferences;
-    int playerLock;
+    public int playerLock;
+    public int playerTLBR;
 
     /**
      * A playable character on the screen
@@ -59,7 +64,6 @@ public class Player extends PlayerCommon {
         // ----- Misc -----
     AudioPlayer audioPlayer;
 
-    public Player(Context context, NetworkHandler networkHandler) {
         this.context = context;
         this.networkHandler = networkHandler;
 
@@ -71,7 +75,9 @@ public class Player extends PlayerCommon {
 
         // ----- Player stuff -----
         player = super.player;
-        player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
+//        player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
+        player.placeAt(startPos.x,startPos.y);
+
         player.setPosition(startPos);
 
         // ----- Gun -----
@@ -127,9 +133,41 @@ public class Player extends PlayerCommon {
                     player.getRect().centerX(),
                     player.getRect().centerY()
             );
-            player.move(super.direction);//Move the player and update player global and local position
-            map.move(mapDirection, playerLock, directionLock.getTblr());//Move player on background
+            playerTLBR = directionLock.getTblr();
+
+
+
+            switch (playerLock) {
+                case UNLOCKED:
+                    map.move(mapDirection,this);//Move player on background
+                    player.move(super.direction);//Move the player and update player global and local position
+                    break;
+                case X_LOCKED:
+                    map.move(mapDirection,this);//Move player on background
+                    player.getPosition().y += super.direction.velocity_Y;
+                    player.moveBy(super.direction);//Move the player and update player global and local position
+
+                    break;
+                case Y_LOCKED:
+                    map.move(mapDirection,this);//Move player on background
+                    player.getPosition().x += super.direction.velocity_X;
+                    player.moveBy(super.direction);//Move the player and update player global and local position
+
+                    break;
+                case ALL_LOCKED:
+                    map.move(mapDirection,this);//Move player on background
+                    player.moveBy(0,0,direction.getAngle());
+                    break;
+                default:
+                    Log.e(this.getClass().getCanonicalName(), "Defaulted in Player::move()");
+                    break;
+            }
+
+
             player.drawNextSprite();//Animate
+
+
+
 
         } else {
 
@@ -188,9 +226,9 @@ public class Player extends PlayerCommon {
     @Override
     public void doDamage(int damage) {
         super.health -= damage;
-        if (super.health <= 0) {
-            Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
-        }
+//        if (super.health <= 0) {
+//            Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
+//        }
 
     }
 
@@ -208,7 +246,7 @@ public class Player extends PlayerCommon {
      */
     public void setCurrentWeapon(weaponSelection_e currentWeapon) {
 
-        audioPlayer.playAudioFromRaw(R.raw.reload);
+//        audioPlayer.playAudioFromRaw(R.raw.reload);
 
         int currentSprite = player.getCurrentSprite();
         switch (currentWeapon) {

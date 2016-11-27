@@ -53,5 +53,8 @@ public interface Entity {
     public void setHit(boolean hit);
 
     public void delete();
+
     public boolean collisionBoarder(Entity in);
+
+    public Direction moveBy(Direction direction);
 }

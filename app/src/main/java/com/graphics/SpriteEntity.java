@@ -103,6 +103,23 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     }
 
+
+    public Direction moveBy(Direction direction) {
+
+        Matrix transformationMatrix = new Matrix();
+        transformationMatrix.setTranslate(direction.velocity_X, direction.velocity_Y);
+
+//        Log.w("SpriteEntety", "baseRact before: " + rectToString(baseRact));
+        transformationMatrix.mapRect(baseRact);
+//        Log.w("SpriteEntety", "baseRact after: " + rectToString(baseRact));
+        Matrix rotationMatrix = new Matrix();
+        rotationMatrix.setRotate(direction.getAngle() + angleOffSet, baseRact.centerX(), baseRact.centerY());
+        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
+        rotationMatrix.mapPoints(modelPoints);
+        return direction;
+
+    }
+
 //    public void setLock(LockDirection lockDirection) {
 //        this.lockDirection = lockDirection;
 //    }
@@ -135,7 +152,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
 //        LL(this, "place at: " + Arrays.toString(modelPoints));
         // Update our location.
         baseRact.set(x - baseRact.width() / 2, y - baseRact.height() / 2, x + baseRact.width() / 2, y + baseRact.height() / 2);
-       position.set(x, y);
+        position.set(x, y);
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
         LL(this, "place at: " + Arrays.toString(modelPoints));
 
@@ -242,7 +259,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public boolean collisionBoarder(Entity entity) {
-        SpriteEntity in =  (SpriteEntity) entity;
+        SpriteEntity in = (SpriteEntity) entity;
         return false;// (baseRact.contains(in.getRect()));
 //        // check for empty first
 //        return // now check for containment

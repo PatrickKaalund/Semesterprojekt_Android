@@ -38,8 +38,8 @@ public class Game implements Runnable {
     private OurGLSurfaceView glSurfaceView;
     private static final int MAP_OUTER_BOARDER_SIZE = 4000;
     private static final int SCREEN_CONTAINMENT_OFFSET = 150;
-    private static final int GLOBAL_START_POS = 2000;
-
+    private  final int GLOBAL_START_POS_X;
+    private  final int GLOBAL_START_POS_Y;
 
 
     //============= Network stuff =============
@@ -75,6 +75,9 @@ public class Game implements Runnable {
         Log.d("Game", "Game created");
         this.context = context;
         gameContext = context;
+        GLOBAL_START_POS_X = context.getResources().getDisplayMetrics().widthPixels / 2;
+        GLOBAL_START_POS_Y =  context.getResources().getDisplayMetrics().heightPixels / 2;
+
         glSurfaceView = new OurGLSurfaceView(context);
         networkHandler = new NetworkHandler();
         fpsMeasuring = new FPSMeasuring(context);
@@ -97,11 +100,11 @@ public class Game implements Runnable {
         map = mapFactory.createEntity(//Make background
                 MAP_OUTER_BOARDER_SIZE,
                 MAP_OUTER_BOARDER_SIZE,
-                new PointF(GLOBAL_START_POS,GLOBAL_START_POS),
+                new PointF(GLOBAL_START_POS_X,GLOBAL_START_POS_Y),
                 SCREEN_CONTAINMENT_OFFSET);
 //        mapBorder = new MapBorder(context);
         //Make game assets
-        player = new Player(context, networkHandler,new PointF(GLOBAL_START_POS,GLOBAL_START_POS));
+        player = new Player(context, networkHandler,new PointF(GLOBAL_START_POS_X,GLOBAL_START_POS_Y));
         itemSpawner = new ItemSpawner(context);
         enemySpawner = new EnemySpawner(context);
         control = new Control(context, this);

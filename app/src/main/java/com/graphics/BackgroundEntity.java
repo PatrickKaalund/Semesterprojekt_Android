@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.gamelogic.DataContainer;
 import com.gamelogic.DirectionLock;
+import com.gamelogic.Player;
 
 import static com.gamelogic.DirectionLock.ALL_LOCKED;
 import static com.gamelogic.DirectionLock.UNLOCKED;
@@ -86,15 +87,14 @@ public class BackgroundEntity extends GraphicEntity {
      * Move the map
      *
      * @param direction
-     * @param playerLock
-     * @param player_tlbr players lock state
+     * @param player
      */
-    public void move(Direction direction, int playerLock, int player_tlbr) {
+    public void move(Direction direction, Player player) {
         Matrix transformationMatrix = new Matrix();
-        directionLock.check(direction, outerBoarder, screenPos, player_tlbr);
+        directionLock.check(direction, outerBoarder, screenPos, player.playerTLBR);
         DataContainer.mapMovement.x = 0;
         DataContainer.mapMovement.y = 0;
-        switch (~(playerLock | 0xFFFFFFFC)) {//Invert player lock
+        switch (~(player.playerLock | 0xFFFFFFFC)) {//Invert player lock
             case UNLOCKED:
                 // Player is locked
                 transformationMatrix.setTranslate(-direction.velocity_X, -direction.velocity_Y);
@@ -103,11 +103,15 @@ public class BackgroundEntity extends GraphicEntity {
 
                 screenPos.x += direction.velocity_X;
                 screenPos.y += direction.velocity_Y;
+                player.getPlayerEntity().getPosition().y += direction.velocity_Y;
+                player.getPlayerEntity().getPosition().x += direction.velocity_X;
+
                 break;
             case X_LOCKED:
                 // Player is locked in Y (inverted)
                 transformationMatrix.setTranslate(0, -direction.velocity_Y);
                 screenPos.y += direction.velocity_Y;
+                player.getPlayerEntity().getPosition().y += direction.velocity_Y;
                 DataContainer.mapMovement.y = direction.velocity_Y;
 
 
@@ -116,6 +120,7 @@ public class BackgroundEntity extends GraphicEntity {
                 // Player is locked in X (inverted)
                 transformationMatrix.setTranslate(-direction.velocity_X, 0);
                 screenPos.x += direction.velocity_X;
+                player.getPlayerEntity().getPosition().x += direction.velocity_X;
                 DataContainer.mapMovement.x = direction.velocity_X;
 
 
