@@ -47,7 +47,7 @@ public class InGame extends BaseActivity {
     protected void onPostResume() {
         game.gameStart();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        preferences.edit().putInt("window", R.raw.challenge_mode).apply();
+        preferences.edit().putInt("track", R.raw.challenge_mode).apply();
 
         super.onPostResume();
         Log.d("IndGame", "onPostResume");
