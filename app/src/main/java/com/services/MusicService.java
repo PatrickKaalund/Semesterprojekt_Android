@@ -65,7 +65,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
     void createMusicPlayer() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        mediaPlayer = MediaPlayer.create(this, preferences.getInt("window", R.raw.menu_music));
+        mediaPlayer = MediaPlayer.create(this, preferences.getInt("track", R.raw.menu_music));
         mediaPlayer.setOnErrorListener(this);
 
         if (mediaPlayer != null) {
@@ -96,7 +96,7 @@ public class MusicService extends Service implements MediaPlayer.OnErrorListener
 
     public boolean onError(MediaPlayer mp, int what, int extra) {
 
-        Log.d("ERROR", "Music playerStill failed");
+        Log.d("ERROR", "Music player failed");
 
         if (mediaPlayer != null) {
             try {

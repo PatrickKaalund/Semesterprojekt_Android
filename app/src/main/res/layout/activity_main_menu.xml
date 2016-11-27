@@ -11,15 +11,21 @@
     tools:context="com.activities.MainMenu"
     android:background="@drawable/explosion">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.Material.ProgressBar.Large"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
+
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/master_tank"
         android:layout_marginTop="118sp"
         android:layout_alignParentStart="true"
-        android:id="@+id/MasterTank">
-
-    </GridLayout>
+        android:id="@+id/MasterTank" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -113,6 +119,7 @@
             android:textSize="12sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true" />
+
     </RelativeLayout>
 
 </RelativeLayout>

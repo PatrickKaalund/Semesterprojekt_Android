@@ -95,7 +95,7 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
     @Override
     protected void onPostResume() {
-        preferences.edit().putInt("window", R.raw.dark_music).apply();
+        preferences.edit().putInt("track", R.raw.dark_music).apply();
         super.onPostResume();
     }
 
