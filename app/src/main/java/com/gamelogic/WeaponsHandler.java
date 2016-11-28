@@ -45,7 +45,7 @@ public class WeaponsHandler {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount, 110, 150, 41, 1, new PointF(950, 250));
+        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount, 110, 150, 41, 1, new PointF(950, 260));
 
         ammoDrawer = ammoFactory.createEntity();
 
