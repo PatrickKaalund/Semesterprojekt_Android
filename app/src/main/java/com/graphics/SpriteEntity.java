@@ -194,7 +194,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void drawNextSprite() {
-        if (++this.animationCounter == this.animationDivider) {
+        if (++this.animationCounter > this.animationDivider) {
             animationCounter = 0;
             if (animationOrder.length == 0) {
                 currentSprite++;
@@ -209,8 +209,9 @@ class SpriteEntity extends GraphicEntity implements Entity {
 
     public void setAnimationOrder(int[] animationOrder) {
         animationCounter = 0;
+        drawOrderIndex = 0;
         this.animationOrder = animationOrder;
-        setCurrentSprite(animationOrder[0]);
+        setCurrentSprite(this.animationOrder[0]);
     }
 
     public void setAnimationDivider(int animationDivider) {
