@@ -19,7 +19,7 @@ public class ItemSpawner {
     public ItemSpawner(Context c){
         DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
         PointF sizeOfItem = new PointF(100, 100);
-        itemFactory = new SpriteEntityFactory(R.drawable.drops, sizeOfItem.x, sizeOfItem.y, 1, 2, new PointF(0, 0));
+        itemFactory = new SpriteEntityFactory(R.drawable.drops, sizeOfItem.x, sizeOfItem.y, 6, 1, new PointF(0, 0));
 
         items = new ArrayList<>();
     }
@@ -32,7 +32,7 @@ public class ItemSpawner {
     public void spawnRandom(){
         Random rand = new Random();
 
-        int randType = rand.nextInt(2);
+        int randType = rand.nextInt(6);
         int randSize = rand.nextInt(4);
 
         float minX, minY, maxX, maxY;

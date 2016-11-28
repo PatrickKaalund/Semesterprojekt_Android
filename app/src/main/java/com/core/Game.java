@@ -102,7 +102,7 @@ public class Game implements Runnable {
     private void initGameComponents() {
         //Make a map
         mapFactory = new BackgroundFactory(
-                R.drawable.backgrounddetailed_resized,
+                R.drawable.lava,
                 context.getResources().getDisplayMetrics());
         map = mapFactory.createEntity(//Make background
                 MAP_OUTER_BOARDER_SIZE,
@@ -111,16 +111,23 @@ public class Game implements Runnable {
                 SCREEN_CONTAINMENT_OFFSET);
 //        mapBorder = new MapBorder(context);
         //Make game assets
+
+        itemSpawner = new ItemSpawner(context);
+
+        enemySpawner = new EnemySpawner(context);
+
         player = new Player(context, networkHandler,new PointF(context.getResources().getDisplayMetrics().widthPixels/2,context.getResources().getDisplayMetrics().heightPixels/2));
 
         if(this.multiplayerGame){
             playerRemote = new PlayerRemote(networkHandler, map);
         }
-        itemSpawner = new ItemSpawner(context);
-        enemySpawner = new EnemySpawner(context);
+
         control = new Control(context, this);
+
+        itemSpawner.spawnItemsRandom(20);
+
         enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
-        itemSpawner.spawnItemsRandom(10);
+
     }
 
 

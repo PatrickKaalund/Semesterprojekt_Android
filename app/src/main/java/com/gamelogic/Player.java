@@ -3,6 +3,7 @@ package com.gamelogic;
 import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
@@ -79,9 +80,10 @@ public class Player extends PlayerCommon {
         mapDirection = new Direction(direction);
         mapDirection.tag = 2;
 
-        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.numbers_red, 160, 160, 1, 11, new PointF(300, 125));
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.numbers_red, 120, 120, 1, 11, new PointF(135, 250));
         healthDrawer = healthFactory.createEntity();
-        healthDrawer.setCurrentSprite(super.health / 10);
+        healthDrawer.setCurrentSprite(super.lives);
     }
 
 
@@ -238,6 +240,7 @@ public class Player extends PlayerCommon {
         Log.d("TAKING DAMAGE", "Damage: " + damage + " Health: " + super.health);
         return true;
 //        if (super.health <= 0) {
+//            weaponsHandler.reset();
 //            Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
 //        }
     }
