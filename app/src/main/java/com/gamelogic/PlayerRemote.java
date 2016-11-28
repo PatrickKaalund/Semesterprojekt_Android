@@ -22,7 +22,7 @@ public class PlayerRemote extends PlayerCommon implements RemotePlayer {
     private Direction direction;
     private BackgroundEntity map;
 
-    private float offset = 250;
+    private float offset = 0;
 
     public PlayerRemote(NetworkHandler networkHandler, BackgroundEntity map) {
 //        game.objectsToUpdate.add(this);
