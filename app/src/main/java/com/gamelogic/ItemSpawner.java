@@ -32,7 +32,7 @@ public class ItemSpawner {
     public void spawnRandom(){
         Random rand = new Random();
 
-        int randType = rand.nextInt(5);
+        int randType = rand.nextInt(6);
         int randSize = rand.nextInt(4);
 
         float minX, minY, maxX, maxY;
