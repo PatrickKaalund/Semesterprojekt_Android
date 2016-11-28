@@ -87,10 +87,10 @@ public class Game implements Runnable {
 
         glSurfaceView = new OurGLSurfaceView(context);
         networkHandler = new NetworkHandler(this.multiplayerGame);
-        fpsMeasuring = new FPSMeasuring(context);
-
 
         initGameComponents();
+
+        fpsMeasuring = new FPSMeasuring(context);
         fpsMeasuring.start();
         gameStart();
 

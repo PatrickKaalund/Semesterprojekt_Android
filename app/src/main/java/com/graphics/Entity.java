@@ -63,4 +63,6 @@ public interface Entity {
     public void setAnimationOffset(int animationOffset);
 
     public void setHitBoxSize(int width, int height);
+
+    public void mustDrawThis(boolean draw);
 }
