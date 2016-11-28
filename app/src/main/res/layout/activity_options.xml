@@ -61,7 +61,7 @@
     <Switch
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/switchOnline"
+        android:id="@+id/switchFps"
         android:checked="false"
         android:textSize="20sp"
         android:textStyle="normal|bold"
@@ -102,19 +102,6 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView5"
-        android:background="@drawable/online"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="0dp"
-        android:layout_marginBottom="30dp"
-        android:layout_above="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_toStartOf="@+id/switchOnline"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
@@ -124,5 +111,17 @@
         android:layout_below="@+id/switchMusic"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="27dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView5"
+        android:background="@drawable/fps_small"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp"
+        android:layout_marginBottom="24dp"
+        android:layout_above="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
+        android:layout_toStartOf="@+id/switchFps" />
 
 </RelativeLayout>

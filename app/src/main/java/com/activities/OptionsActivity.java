@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -23,7 +22,7 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.services.MusicService;
 
 public class OptionsActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
-    private Switch soundSwitch, musicSwitch, onlineSwitch;
+    private Switch soundSwitch, musicSwitch, fpsSwitch;
     private boolean musicIsBound = false;
     private MusicService musicService;
     private SharedPreferences preferences;
@@ -68,18 +67,18 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
         soundSwitch = (Switch) findViewById(R.id.switchSound);
         musicSwitch = (Switch) findViewById(R.id.switchMusic);
-        onlineSwitch = (Switch) findViewById(R.id.switchOnline);
+        fpsSwitch = (Switch) findViewById(R.id.switchFps);
 
         TextView back = (TextView) findViewById(R.id.back_button);
         TextView quit = (TextView) findViewById(R.id.quit_button);
 
         musicSwitch.setChecked(preferences.getBoolean("music", true));
         soundSwitch.setChecked(preferences.getBoolean("sound", true));
-        onlineSwitch.setChecked(preferences.getBoolean("online", false));
+        fpsSwitch.setChecked(preferences.getBoolean("fps", false));
 
         soundSwitch.setOnCheckedChangeListener(this);
         musicSwitch.setOnCheckedChangeListener(this);
-        onlineSwitch.setOnCheckedChangeListener(this);
+        fpsSwitch.setOnCheckedChangeListener(this);
 
         back.setOnClickListener(this);
         quit.setOnClickListener(this);
@@ -123,12 +122,12 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
                 preferences.edit().putBoolean("sound", false).apply();
         }
 
-        else if  (compoundButton == onlineSwitch) {
-            Log.d("Switch", "online " + onlineSwitch.isChecked());
+        else if  (compoundButton == fpsSwitch) {
+            Log.d("Switch", "fps " + fpsSwitch.isChecked());
             if (isChecked)
-                preferences.edit().putBoolean("online", true).apply();
+                preferences.edit().putBoolean("fps", true).apply();
             else
-                preferences.edit().putBoolean("online", false).apply();
+                preferences.edit().putBoolean("fps", false).apply();
         }
     }
 
