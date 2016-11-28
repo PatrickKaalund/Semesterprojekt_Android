@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 
 /**
  * Created by PatrickKaalund on 13/11/2016.
@@ -25,11 +26,15 @@ public class NetworkHandler {
     private DatabaseReference mFirebaseDatabaseReference;
     private ArrayList<RemotePlayer> playerListeners;
     private String game;
+    private String gamePrefix;
     private boolean multiPlayerGame;
     private String mother;
+    private int randomNum;
+    private int minimum = 100000000;
+    private int maximum = 999999999;
+    private String myPlayerID;
 
     public enum gameStatus {
-        CREATE_GAME,
         FILLING_GAME,
         BEGUN
     }
@@ -41,18 +46,26 @@ public class NetworkHandler {
         this.multiPlayerGame = multiPlayerGame;
 
         if (this.multiPlayerGame) {
+
+            randomNum = minimum + (int) (Math.random() * maximum);
+
+            gamePrefix = "Game_";
+            myPlayerID = "Player_";
+
+            this.game = gamePrefix;
+
             // testing - adding games
             mother = "Games";
-            String testGame1 = "Game1";
-            String testGame2 = "Game2";
-            String testGame3 = "Game3";
+            String testGame1 = "TestGame" + randomNumber(minimum, maximum);
+            String testGame2 = "TestGame" + randomNumber(minimum, maximum);
+            String testGame3 = "TestGame" + randomNumber(minimum, maximum);
 
             // Remove old data
-            mFirebaseDatabaseReference.child(mother).removeValue();
-
+//            mFirebaseDatabaseReference.child(mother).removeValue();
+//
             mFirebaseDatabaseReference.child(mother).child(testGame1).child("Status").setValue(gameStatus.BEGUN.ordinal());
-            mFirebaseDatabaseReference.child(mother).child(testGame2).child("Status").setValue(gameStatus.BEGUN.ordinal());
-            mFirebaseDatabaseReference.child(mother).child(testGame3).child("Status").setValue(gameStatus.FILLING_GAME.ordinal());
+//            mFirebaseDatabaseReference.child(mother).child(testGame2).child("Status").setValue(gameStatus.BEGUN.ordinal());
+//            mFirebaseDatabaseReference.child(mother).child(testGame3).child("Status").setValue(gameStatus.BEGUN.ordinal());
 
             Log.d("NetworkHandler", "NetworkHandler started");
 
@@ -73,31 +86,29 @@ public class NetworkHandler {
 
                         Iterator<?> keys = jsonObject.keys();
 
-                        while( keys.hasNext() ) {
-                            String key = (String)keys.next();
-                            if ( jsonObject.get(key) instanceof JSONObject ) {
+                        while (keys.hasNext()) {
+                            String key = (String) keys.next();
+                            if (jsonObject.get(key) instanceof JSONObject) {
                                 Log.d("NetworkHandler", "Key: " + key + " : game status: " + jsonObject.get(key).toString());
                                 Integer gameStatus = ((JSONObject) jsonObject.get(key)).getInt("Status");
-                                if (gameStatus == NetworkHandler.gameStatus.FILLING_GAME.ordinal()){
+                                if (gameStatus == NetworkHandler.gameStatus.FILLING_GAME.ordinal()) {
                                     Log.d("NetworkHandler", "Found game to join: " + key);
-                                    DataContainer.player.setPlayerID(2);
-                                    beginGame(key);
-                                    startListenGame();
+                                    joinGame(key);
                                     return; // stop searching for game to join in iterator
                                 }
                             }
                         }
 
                         // creating new game if all games are filled
-                        /**
-                         *          !!!!!!!!!!!!!!!! TO DO !!!!!!!!!!!!!!!
-                         */
+                        createNewGame();
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.d("NetworkHandler", "Cancel subscriebtion!");
@@ -110,7 +121,14 @@ public class NetworkHandler {
     }
 
     private void startListenGame() {
-        mFirebaseDatabaseReference.child(mother).child(game).addValueEventListener(new ValueEventListener() {
+        String remotePlayerID = "Player_"; // Which player to receive data from
+        if(DataContainer.player.getPlayerID() == 1){
+            remotePlayerID += "2";
+        }
+        else if(DataContainer.player.getPlayerID() == 2){
+            remotePlayerID += "1";
+        }
+        mFirebaseDatabaseReference.child(mother).child(game).child(remotePlayerID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object receivedObject = dataSnapshot.getValue();
@@ -143,16 +161,40 @@ public class NetworkHandler {
     public void updatePlayerPosition(float centerX, float centerY, int angle) {
 //        Log.d("NetworkHandler", "Updating player position on firebase: " + centerX + ", " + centerY + ". Angle: " + angle);
         Long time = System.currentTimeMillis();
-        mFirebaseDatabaseReference.child(mother).child(game).child("Time").setValue(time);
-        mFirebaseDatabaseReference.child(mother).child(game).child("X").setValue(centerX);
-        mFirebaseDatabaseReference.child(mother).child(game).child("Y").setValue(centerY);
-        mFirebaseDatabaseReference.child(mother).child(game).child("Angle").setValue(angle);
+        mFirebaseDatabaseReference.child(mother).child(game).child(myPlayerID).child("Time").setValue(time);
+        mFirebaseDatabaseReference.child(mother).child(game).child(myPlayerID).child("X").setValue(centerX);
+        mFirebaseDatabaseReference.child(mother).child(game).child(myPlayerID).child("Y").setValue(centerY);
+        mFirebaseDatabaseReference.child(mother).child(game).child(myPlayerID).child("Angle").setValue(angle);
+
     }
 
-    public void beginGame(String game) {
-        this.game = game;
+    public void beginGame() {
         updatePlayerPosition(DataContainer.player.getPos().x, DataContainer.player.getPos().y, 0);
-        mFirebaseDatabaseReference.child(mother).child(game).child("Status").setValue(NetworkHandler.gameStatus.BEGUN.ordinal());
+    }
 
+    public void createNewGame() {
+        Log.d("NetworkHandler", "Creating new multiplayer game");
+        DataContainer.player.setPlayerID(1);
+        this.game += String.valueOf(randomNumber(minimum, maximum)); // game subfix
+        myPlayerID += String.valueOf(DataContainer.player.getPlayerID());
+        mFirebaseDatabaseReference.child(mother).child(this.game).child("Status").setValue(gameStatus.FILLING_GAME.ordinal());
+        beginGame();
+        startListenGame();
+    }
+
+    public void joinGame(String game) {
+        Log.d("NetworkHandler", "Joining multiplayer game");
+        this.game = game;
+        DataContainer.player.setPlayerID(2);
+        myPlayerID += String.valueOf(DataContainer.player.getPlayerID());
+        mFirebaseDatabaseReference.child(mother).child(this.game).child("Status").setValue(NetworkHandler.gameStatus.BEGUN.ordinal());
+        beginGame();
+        startListenGame();
+    }
+
+    private int randomNumber(int min, int max) {
+        Random random = new Random();
+        int randomNum = random.nextInt((max - min) + 1) + min;
+        return randomNum;
     }
 }
