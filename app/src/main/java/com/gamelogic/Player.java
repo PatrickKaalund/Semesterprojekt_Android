@@ -1,16 +1,10 @@
 package com.gamelogic;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.media.MediaPlayer;
-import android.preference.PreferenceManager;
-import android.provider.ContactsContract;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
@@ -24,23 +18,13 @@ import static com.gamelogic.DirectionLock.ALL_LOCKED;
 import static com.gamelogic.DirectionLock.UNLOCKED;
 import static com.gamelogic.DirectionLock.X_LOCKED;
 import static com.gamelogic.DirectionLock.Y_LOCKED;
-import static com.graphics.GraphicsTools.LL;
+
 
 /**
  * Created by PatrickKaalund on 13/10/2016.
  */
 
 public class Player extends PlayerCommon {
-    /**
-     * Player weapons
-     */
-    public enum weaponSelection_e {
-        GUN,
-        SHOTGUN,
-        AK47,
-        ALL_GUNS,
-    }
-
 
     private Entity player;
     private Context context;
@@ -49,14 +33,13 @@ public class Player extends PlayerCommon {
     private Shooter gun;
     private int shotSpeedCounter = 0;
     private int shotSpeed = 10;
-    private weaponSelection_e currentWeapon = weaponSelection_e.GUN;
     private DirectionLock directionLock;
     private Direction mapDirection;
-    private SharedPreferences preferences;
     public int playerLock;
     public int playerTLBR;
-    private AudioPlayer audioPlayer;
+    private Entity healthDrawer;
 
+    private WeaponsHandler weaponsHandler;
 
     /**
      * A playable character on the screen
@@ -69,9 +52,6 @@ public class Player extends PlayerCommon {
         this.context = context;
         this.networkHandler = networkHandler;
 
-        audioPlayer = new AudioPlayer(context);
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
         joystickValues = new ArrayList<>();
         DataContainer.player = this;
 
@@ -82,8 +62,11 @@ public class Player extends PlayerCommon {
 //        player.setPosition(new PointF(startPos.x /*+ context.getResources().getDisplayMetrics().widthPixels/2*/, startPos.y /*+ context.getResources().getDisplayMetrics().heightPixels/2*/));
         player.placeAt(startPos.x, startPos.y);
         player.setPosition(new PointF(2000.0F, 2000.0F));
+
+        weaponsHandler = new WeaponsHandler(player, context);
+
         // ----- Gun -----
-        gun = new Shooter();
+        gun = new Shooter(weaponsHandler);
         shotSpeedCounter = shotSpeed;
 
         // ---- Map ----
@@ -91,6 +74,9 @@ public class Player extends PlayerCommon {
         mapDirection = new Direction(super.direction);
         mapDirection.tag = 2;
 
+        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.numbers_red, 160, 160, 1, 11, new PointF(300, 125));
+        healthDrawer = healthFactory.createEntity();
+        healthDrawer.setCurrentSprite(super.health / 10);
     }
 
 
@@ -102,12 +88,12 @@ public class Player extends PlayerCommon {
     public void update(Control control, EnemySpawner enemys) {
 //        LL(this,"update player");
         if (shotSpeedCounter > shotSpeed && control.isShooting()) {
-            gun.shoot(player.getPosition(), player.getRect(), super.direction, currentWeapon);
+            gun.shoot(player.getPosition(), player.getRect(), super.direction, weaponsHandler.getCurrentWeapon());
             shotSpeedCounter = 0;
         } else {
             shotSpeedCounter++;
         }
-        gun.update(enemys);
+        gun.update(enemys, weaponsHandler.getDmgValue());
     }
 
 
@@ -165,17 +151,13 @@ public class Player extends PlayerCommon {
                     break;
             }
 
-
             player.drawNextSprite();//Animate
-
-
-
 
         } else {
             DataContainer.mapMovement.x = 0;
             DataContainer.mapMovement.y = 0;
 
-            switch (currentWeapon) { //Set weapon sprite
+            switch (weaponsHandler.getCurrentWeapon()) { //Set weapon sprite
 
                 case GUN:
                     player.setCurrentSprite(45);
@@ -230,79 +212,21 @@ public class Player extends PlayerCommon {
     @Override
     public void doDamage(int damage) {
         super.health -= damage;
+
+        healthDrawer.setCurrentSprite(super.health / 10);
+
+        Log.d("TAKING DAMAGE", "Damage: " + damage + " Health: " + super.health);
+
 //        if (super.health <= 0) {
 //            Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
 //        }
-
     }
 
     /**
      *
      * @return
      */
-    public weaponSelection_e getCurrentWeapon() {
-        return currentWeapon;
-    }
-
-    /**
-     *
-     * @param currentWeapon
-     */
-    public void setCurrentWeapon(weaponSelection_e currentWeapon) {
-
-        audioPlayer.playAudioFromRaw(R.raw.reload);
-
-        int currentSprite = player.getCurrentSprite();
-        switch (currentWeapon) {
-
-            case GUN:
-                player.setAnimationOrder(new int[]{45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64});
-                
-                switch (this.currentWeapon) {
-                    case GUN:
-                        player.setCurrentSprite(currentSprite);
-                        break;
-                    case SHOTGUN:
-                        player.setCurrentSprite(currentSprite + 23);
-                        break;
-                    case AK47:
-                        player.setCurrentSprite(currentSprite + 46);
-                        break;
-                }
-                break;
-
-            case SHOTGUN:
-                player.setAnimationOrder(new int[]{23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42});
-
-                switch (this.currentWeapon) {
-                    case GUN:
-                        player.setCurrentSprite(currentSprite - 23);
-                        break;
-                    case SHOTGUN:
-                        player.setCurrentSprite(currentSprite);
-                        break;
-                    case AK47:
-                        player.setCurrentSprite(currentSprite + 23);
-                        break;
-                }
-                break;
-
-            case AK47:
-                player.setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
-
-                switch (this.currentWeapon) {
-                    case GUN:
-                        player.setCurrentSprite(currentSprite - 46);
-                        break;
-                    case SHOTGUN:
-                        player.setCurrentSprite(currentSprite - 23);
-                        break;
-                    case AK47:
-                        player.setCurrentSprite(currentSprite);
-                        break;
-                }
-                break;
-        }
-        this.currentWeapon = currentWeapon;
+    public WeaponsHandler getWeaponsHandler() {
+        return weaponsHandler;
     }
 }

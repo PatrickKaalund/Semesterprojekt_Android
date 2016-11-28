@@ -3,8 +3,6 @@ package com.gamelogic;
 import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -15,7 +13,6 @@ import com.graphics.Entity;
 import com.graphics.GraphicsTools;
 import com.graphics.SpriteEntityFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -30,9 +27,9 @@ import static com.graphics.GraphicsTools.LL;
 
 public class Shooter {
     private static final int BASE_SPEED = 20;
-    int damage = 10;
     private SharedPreferences preferences;
     private AudioPlayer audioPlayer;
+    private WeaponsHandler weaponsHandler;
 
     class Shot {
         public Direction direction;
@@ -54,52 +51,61 @@ public class Shooter {
     private ArrayList<Shot> shots;
     private Direction baseDirection;
 
-    public Shooter() {
+    public Shooter(WeaponsHandler weaponsHandler) {
+        this.weaponsHandler =  weaponsHandler;
+
         shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 1, new PointF(400, 400));
         shots = new ArrayList<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
         audioPlayer = new AudioPlayer(gameContext);
     }
 
-    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, Player.weaponSelection_e currentWeapon) {
-        LL(this, "crating a shot " +
+    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, WeaponsHandler.weaponList_e currentWeapon) {
+        if (weaponsHandler.getCurrentAmmoAmount() > 0) {
+            LL(this, "crating a shot " +
 
-                " shooterGlobalPos " + shooterGlobalPos +
-                " shooterBaseRect " + shooterBaseRect.toString() +
-                " shooterDirection " + shooterDirection.toString()
+                    " shooterGlobalPos " + shooterGlobalPos +
+                    " shooterBaseRect " + shooterBaseRect.toString() +
+                    " shooterDirection " + shooterDirection.toString()
+            );
 
-
-        );
-        if (preferences.getBoolean("sound", true)) {
-            switch (currentWeapon){
-                case GUN:
+            if (preferences.getBoolean("sound", true)) {
+                switch (currentWeapon) {
+                    case GUN:
                         audioPlayer.playAudioFromRaw(R.raw.gun);
                         break;
-                case SHOTGUN:
+                    case SHOTGUN:
                         audioPlayer.playAudioFromRaw(R.raw.shotgun);
                         break;
-                case AK47:
+                    case AK47:
                         audioPlayer.playAudioFromRaw(R.raw.ak);
                         break;
-                default:
+                    default:
                         Log.e("SHOOTER", "DEFAULTED IN SHOOTER::shoot: switch (currentWeapon)");
                         break;
+                }
             }
+
+            Shot s = new Shot();
+            s.shot = shotFactory.createEntity();
+            s.shot.placeAt(shooterBaseRect.centerX(), shooterBaseRect.centerY());
+            s.shot.setPosition(shooterGlobalPos);
+            s.direction = new Direction(shooterDirection, 1);
+            s.shot.setCurrentSprite(0);
+            s.shot.setAngleOffSet(0);
+            shots.add(s);
+            weaponsHandler.setCurrentAmmoAmount(weaponsHandler.getCurrentAmmoAmount() - 1);
+            Log.d("SHOOTER", "AMMO LEFT: " + weaponsHandler.getCurrentAmmoAmount());
+        } else {
+            audioPlayer.playAudioFromRaw(R.raw.dry_fire);
+            Log.d("SHOOTER", "OUT OF AMMO");
         }
-        Shot s = new Shot();
-        s.shot = shotFactory.createEntity();
-        s.shot.placeAt(shooterBaseRect.centerX(), shooterBaseRect.centerY());
-        s.shot.setPosition(shooterGlobalPos);
-        s.direction = new Direction(shooterDirection, 1);
-        s.shot.setCurrentSprite(0);
-        s.shot.setAngleOffSet(0);
-        shots.add(s);
     }
 
     /**
      * Kan lave optimering ved at genbruge shots!!
      */
-    public void update(EnemySpawner enemies) {
+    public void update(EnemySpawner enemies, int damage) {
 
         for (Iterator<Shot> it = shots.iterator(); it.hasNext(); ) {
             Shot s = it.next();

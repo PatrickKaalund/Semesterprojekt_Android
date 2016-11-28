@@ -17,8 +17,7 @@ public class ItemCommon extends Item{
         super.size = size;
         super.type = type;
         item = itemFactory.createEntity();
-        item.setCurrentSprite(0);
-//        item.placeAt(startLocation.x, startLocation.y);
+        item.setCurrentSprite(type);
 
         placeElementFromGlobalPos(startLocation);
 
@@ -39,7 +38,6 @@ public class ItemCommon extends Item{
         // Adjust for map movement
         item.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y);
 
-        item.drawNextSprite();
     }
 
     public RectF getRect(){ return this.item.getRect(); }
