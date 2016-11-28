@@ -92,10 +92,10 @@ public class Shooter {
             s.shot.placeAt(shooterBaseRect.centerX(), shooterBaseRect.centerY());
             s.shot.setPosition(shooterGlobalPos);
             s.direction = new Direction(shooterDirection, 1);
-//            s.shot.setCurrentSprite(0);
-//            s.shot.setAngleOffSet(0);
+            s.shot.setCurrentSprite(0);
+            s.shot.setAngleOffSet(0);
             shots.add(s);
-//            weaponsHandler.setCurrentAmmoAmount(weaponsHandler.getCurrentAmmoAmount() - 1);
+            weaponsHandler.setCurrentAmmoAmount(weaponsHandler.getCurrentAmmoAmount() - 1);
             Log.d("SHOOTER", "AMMO LEFT: " + weaponsHandler.getCurrentAmmoAmount());
         } else {
             audioPlayer.playAudioFromRaw(R.raw.dry_fire);
