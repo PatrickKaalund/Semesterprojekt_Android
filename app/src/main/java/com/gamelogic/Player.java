@@ -38,6 +38,7 @@ public class Player extends PlayerCommon {
     public int playerLock;
     public int playerTLBR;
     private Entity healthDrawer;
+    private int playerID;
 
     private WeaponsHandler weaponsHandler;
 
@@ -213,6 +214,16 @@ public class Player extends PlayerCommon {
     public Entity getPlayerEntity() {
         return player;
     }
+
+    /**
+     *  The player ID
+     * @return int
+     */
+    public int getPlayerID() {
+        return this.playerID;
+    }
+
+    public void setPlayerID(int playerID) { this.playerID = playerID; }
 
     /**
      * Damege the player. Changes state for the player
