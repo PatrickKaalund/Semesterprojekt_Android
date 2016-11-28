@@ -41,6 +41,9 @@ public class Player extends PlayerCommon {
 
     private WeaponsHandler weaponsHandler;
 
+    private Direction direction;
+
+
     /**
      * A playable character on the screen
      * @param context
@@ -62,6 +65,7 @@ public class Player extends PlayerCommon {
 //        player.setPosition(new PointF(startPos.x /*+ context.getResources().getDisplayMetrics().widthPixels/2*/, startPos.y /*+ context.getResources().getDisplayMetrics().heightPixels/2*/));
         player.placeAt(startPos.x, startPos.y);
         player.setPosition(new PointF(2000.0F, 2000.0F));
+        direction = new Direction(super.speed);
 
         weaponsHandler = new WeaponsHandler(player, context);
 
@@ -71,7 +75,7 @@ public class Player extends PlayerCommon {
 
         // ---- Map ----
         directionLock = new DirectionLock();
-        mapDirection = new Direction(super.direction);
+        mapDirection = new Direction(direction);
         mapDirection.tag = 2;
 
         SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.numbers_red, 160, 160, 1, 11, new PointF(300, 125));
@@ -88,7 +92,7 @@ public class Player extends PlayerCommon {
     public void update(Control control, EnemySpawner enemys) {
 //        LL(this,"update player");
         if (shotSpeedCounter > shotSpeed && control.isShooting()) {
-            gun.shoot(player.getPosition(), player.getRect(), super.direction, weaponsHandler.getCurrentWeapon());
+            gun.shoot(player.getPosition(), player.getRect(), direction, weaponsHandler.getCurrentWeapon());
             shotSpeedCounter = 0;
         } else {
             shotSpeedCounter++;
@@ -112,11 +116,11 @@ public class Player extends PlayerCommon {
 
         if (joystick_strength > 0) { //Do only if valid input
 
-            super.direction.set(joystick_angle, joystick_strength);//Set velocity and angle for player
+            direction.set(joystick_angle, joystick_strength);//Set velocity and angle for player
             mapDirection.set(joystick_angle, joystick_strength);//Set velocity and angle for map background
 
             playerLock = directionLock.check( // Check if player is colliding with screen boarder
-                    super.direction,
+                    direction,
                     map.getInnerBoarder(),
                     player.getRect().centerX(),
                     player.getRect().centerY()
@@ -128,18 +132,18 @@ public class Player extends PlayerCommon {
             switch (playerLock) {
                 case UNLOCKED:
                     map.move(mapDirection,this);//Move player on background
-                    player.move(super.direction);//Move the player and update player global and local position
+                    player.move(direction);//Move the player and update player global and local position
                     break;
                 case X_LOCKED:
                     map.move(mapDirection,this);//Move player on background
-                    player.getPosition().y += super.direction.velocity_Y;
-                    player.moveBy(super.direction);//Move the player and update player global and local position
+                    player.getPosition().y += direction.velocity_Y;
+                    player.moveBy(direction);//Move the player and update player global and local position
 
                     break;
                 case Y_LOCKED:
                     map.move(mapDirection,this);//Move player on background
-                    player.getPosition().x += super.direction.velocity_X;
-                    player.moveBy(super.direction);//Move the player and update player global and local position
+                    player.getPosition().x += direction.velocity_X;
+                    player.moveBy(direction);//Move the player and update player global and local position
 
                     break;
                 case ALL_LOCKED:
@@ -153,6 +157,9 @@ public class Player extends PlayerCommon {
 
             player.drawNextSprite();//Animate
 
+            if(DataContainer.multiplayerGame){
+                networkHandler.updatePlayerPosition(player.getPosition().x, player.getPosition().y, joystick_angle); // Update player pos on firebase
+            }
         } else {
             DataContainer.mapMovement.x = 0;
             DataContainer.mapMovement.y = 0;
@@ -176,6 +183,8 @@ public class Player extends PlayerCommon {
                     break;
             }
         }
+
+
 
 //        Log.d("Player", "Angle: " + joystick_angle);
 //        Log.d("Player", "Strength: " + joystick_strength);

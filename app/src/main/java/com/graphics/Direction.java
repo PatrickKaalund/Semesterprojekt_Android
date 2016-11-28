@@ -80,6 +80,11 @@ public class Direction {
         }
     }
 
+    public void set(float velocityX, float velocityY){
+        this.velocity_X = velocityX;
+        this.velocity_Y = velocityY;
+    }
+
     public int getAngle() {
         return angle;
     }

@@ -32,6 +32,8 @@ public class NetworkHandler {
         // Create game on firebase, or empties an existing game for testing :-)
         mFirebaseDatabaseReference.child(game).removeValue();
 
+        Log.d("NetworkHandler", "NetworkHandler started");
+
         startListenOnFirebase();
     }
 
@@ -51,12 +53,13 @@ public class NetworkHandler {
                         Long receivedTime = jsonObject.getLong("Time");
                         Long xPos = jsonObject.getLong("X");
                         Long yPos = jsonObject.getLong("Y");
+                        int angle = jsonObject.getInt("Angle");
                         long time = System.currentTimeMillis() - receivedTime;
 //                        mMessageReceivedText.setText("Time delay: " + time + " millis");
 //                        Log.d("NetworkHandler", "Time delay: " + time + " millis");
 
                         for(RemotePlayer playerListener : playerListeners){
-                            playerListener.updatePlayerPosition(xPos, yPos);
+                            playerListener.updatePlayerPosition(xPos, yPos, angle);
                         }
 
                     } catch (JSONException e) {
@@ -72,10 +75,12 @@ public class NetworkHandler {
         });
     }
 
-    public void updatePlayerPosition(float centerX, float centerY) {
+    public void updatePlayerPosition(float centerX, float centerY, int angle) {
+//        Log.d("NetworkHandler", "Updating player position on firebase: " + centerX + ", " + centerY + ". Angle: " + angle);
         Long time = System.currentTimeMillis();
         mFirebaseDatabaseReference.child(game).child("Time").setValue(time);
         mFirebaseDatabaseReference.child(game).child("X").setValue(centerX);
         mFirebaseDatabaseReference.child(game).child("Y").setValue(centerY);
+        mFirebaseDatabaseReference.child(game).child("Angle").setValue(angle);
     }
 }

@@ -15,5 +15,6 @@ public class DataContainer {
     public static PointF mapGlobalSize = new PointF(0, 0);
     public static RectF mapBaseRect;
     public static Context gameContext;
+    public static boolean multiplayerGame = false;
 
 }

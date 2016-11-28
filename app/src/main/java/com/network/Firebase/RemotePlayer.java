@@ -9,5 +9,5 @@ public interface RemotePlayer {
     //    public abstract void addPlayerListener();
 //    public abstract void receiveMessage(String received);
 
-    public abstract void updatePlayerPosition(float centerX, float centerY);
+    public abstract void updatePlayerPosition(float centerX, float centerY, int angle);
 }

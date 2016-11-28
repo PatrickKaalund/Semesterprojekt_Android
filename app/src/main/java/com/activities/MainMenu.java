@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.gamelogic.DataContainer;
 import com.network.Firebase.FirebaseActivity;
 import com.network.MQTT.MQTTActivity;
 import com.teststuff.MapTestActivity;
@@ -83,24 +85,12 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
         } else {
             switch (v.getId()) {
                 case R.id.buttonPlay:
-                    // Add dark overlay to screen
-                    findViewById(R.id.overlay).setVisibility(View.VISIBLE);
-                    findViewById(R.id.overlay).bringToFront();
-
-                    // Bring progressBar to top
-                    findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
-                    findViewById(R.id.progressBar).bringToFront();
-                    findViewById(R.id.progressBar).invalidate();
-
-                    v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.view_clicked));
-
-                    audioPlayer.playAudioFromRaw(R.raw.click);
-                    Intent play = new Intent(this, InGame.class);
-                    startActivity(play);
+                    play(v);
                     break;
 
                 case R.id.buttonPlayMulti:
-                    Toast.makeText(this, "Not implemented", Toast.LENGTH_SHORT).show();
+                    play(v);
+                    DataContainer.multiplayerGame = true;
                     break;
 
                 case R.id.buttonSettings:
@@ -149,5 +139,22 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
                     break;
             }
         }
+    }
+
+    public void play(View v){
+        // Add dark overlay to screen
+        findViewById(R.id.overlay).setVisibility(View.VISIBLE);
+        findViewById(R.id.overlay).bringToFront();
+
+        // Bring progressBar to top
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        findViewById(R.id.progressBar).bringToFront();
+        findViewById(R.id.progressBar).invalidate();
+
+        v.startAnimation(AnimationUtils.loadAnimation(this, R.anim.view_clicked));
+
+        audioPlayer.playAudioFromRaw(R.raw.click);
+        Intent play = new Intent(this, InGame.class);
+        startActivity(play);
     }
 }

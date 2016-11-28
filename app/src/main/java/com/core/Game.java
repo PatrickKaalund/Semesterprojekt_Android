@@ -3,15 +3,18 @@ package com.core;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.Control;
+import com.gamelogic.DataContainer;
 import com.gamelogic.EnemySpawner;
 import com.gamelogic.ItemSpawner;
 import com.gamelogic.MapBorder;
 import com.gamelogic.Player;
+import com.gamelogic.PlayerRemote;
 import com.graphics.BackgroundEntity;
 import com.graphics.BackgroundFactory;
 import com.graphics.FPSMeasuring;
@@ -46,7 +49,7 @@ public class Game implements Runnable {
     //============= Network stuff =============
     private NetworkHandler networkHandler;
     //~~~~~~~~ Remote game components ~~~~~~~~
-    //private PlayerRemote playerRemote;
+    private PlayerRemote playerRemote;
 
     //============ Game components ============
     private Player player;
@@ -67,6 +70,8 @@ public class Game implements Runnable {
     private int enemySpawnInterval = 500;
     private int enemySpawmCounter = 0;
 
+    private boolean multiplayerGame;
+
     enum GameStates_e {
 
     }
@@ -76,6 +81,7 @@ public class Game implements Runnable {
         Log.d("Game", "Game created");
         this.context = context;
         gameContext = context;
+        this.multiplayerGame = DataContainer.multiplayerGame;
 //        GLOBAL_START_POS_X = context.getResources().getDisplayMetrics().widthPixels / 2;
 //        GLOBAL_START_POS_Y =  context.getResources().getDisplayMetrics().heightPixels / 2;
 
@@ -106,10 +112,14 @@ public class Game implements Runnable {
 //        mapBorder = new MapBorder(context);
         //Make game assets
         player = new Player(context, networkHandler,new PointF(context.getResources().getDisplayMetrics().widthPixels/2,context.getResources().getDisplayMetrics().heightPixels/2));
+
+        if(this.multiplayerGame){
+            playerRemote = new PlayerRemote(networkHandler, map);
+        }
         itemSpawner = new ItemSpawner(context);
         enemySpawner = new EnemySpawner(context);
         control = new Control(context, this);
-        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 10);
+        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
         itemSpawner.spawnItemsRandom(10);
     }
 
@@ -179,6 +189,10 @@ public class Game implements Runnable {
         enemySpawner.update(player);
 //        mapBorder.update();
         itemSpawner.update();
+
+        if(this.multiplayerGame){
+            playerRemote.update();
+        }
 //
 //        if (enemySpawmCounter++ >= enemySpawnInterval) {
 //            enemySpawmCounter = 0;

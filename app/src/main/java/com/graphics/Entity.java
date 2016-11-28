@@ -30,6 +30,8 @@ public interface Entity {
 
     public void setAngleOffSet(float angleOffSet);
 
+    public void setAngle(float angle);
+
     public RectF getRect();
 
     public Direction move(Direction direction);

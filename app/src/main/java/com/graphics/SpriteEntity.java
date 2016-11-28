@@ -149,6 +149,13 @@ class SpriteEntity extends GraphicEntity implements Entity {
         moveBy(deltaX, deltaY, 0);
     }
 
+    public void setAngle(float angle){
+        Matrix rotationMatrix = new Matrix();
+        rotationMatrix.setRotate(angle, baseRact.centerX(), baseRact.centerY());
+        modelPoints = GraphicsTools.getCornersFromRect(baseRact);
+        rotationMatrix.mapPoints(modelPoints);
+    }
+
     public void placeAt(float x, float y) {
 
 //        LL(this, "place at: " + Arrays.toString(modelPoints));
@@ -156,7 +163,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
         baseRact.set(x - baseRact.width() / 2, y - baseRact.height() / 2, x + baseRact.width() / 2, y + baseRact.height() / 2);
         position.set(x, y);
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
-        LL(this, "place at: " + Arrays.toString(modelPoints));
+//        LL(this, "place at: " + Arrays.toString(modelPoints));
 
 
     }
