@@ -23,8 +23,8 @@ public class Enemy extends Creature {
 
     public static final int NORMAL_ANIMATION_DIV = 3;
     public static final int GOT_HIT_ANIMATION_DIV = 6;
-    public static final int DIYNG_ANIMATION_DIV = 5;
-    public static final int ATACKING_ANIMATION_DIV = 20;
+    public static final int DIYNG_ANIMATION_DIV = 4;
+    public static final int ATACKING_ANIMATION_DIV = 3;
     private boolean gotHit = false;
     private int gotHitCounter = 0;
     private EnemySpawner mother;
@@ -38,7 +38,7 @@ public class Enemy extends Creature {
         public EnemyStates() {
             animations[NORMAL] = new int[]{4, 5, 6, 7, 8, 9, 10, 11};
             animations[DIYNG] = new int[]{28, 29, 30, 31, 32, 33, 34, 35};
-            animations[ATACKING] = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
+            animations[ATACKING] = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
         }
 
         public int[] getAnimations() {
@@ -82,6 +82,7 @@ public class Enemy extends Creature {
         this.enemy.setAnimationDivider(3);
         this.enemy.setAnimationOrder(state.getAnimations());
         direction = new Direction();
+        this.enemy.setHitBoxSize(50,50);
     }
 
     private void placeElementFromGlobalPos(PointF globalPos) {
@@ -139,15 +140,19 @@ public class Enemy extends Creature {
                 enemy.drawNextSprite();
                 break;
             case ATACKING:
-
                 move(player, 0);
                 enemy.drawNextSprite();
                 if (state.stateCounter++ == ATACKING_STATE_COUNTER / 2) {
                     player.doDamage(damege);
                 } else if (state.stateCounter == ATACKING_STATE_COUNTER) {
-                    state.setState(NORMAL);
-                    enemy.setAnimationOrder(state.getAnimations());
-                    enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
+                    if (player.getPlayerEntity().collision(enemy.getPosition())) {
+                        state.setState(ATACKING);
+                    } else {
+                        state.setState(NORMAL);
+                        enemy.setAnimationOrder(state.getAnimations());
+                        enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
+                    }
+
                 }
 
                 break;
@@ -175,6 +180,7 @@ public class Enemy extends Creature {
     }
 
     public boolean doDamage(int damege) {
+
         if (!gotHit) {
             super.health -= damege;
             if (super.health < 0) {
@@ -185,7 +191,9 @@ public class Enemy extends Creature {
                 gotHitCounter = 0;
                 enemy.setAnimationOffset(36);
                 enemy.setAnimationDivider(GOT_HIT_ANIMATION_DIV);
-                this.direction.baseSpeed = 3;
+                if (state.currentState != ATACKING) {
+                    this.direction.baseSpeed = 3;
+                }
                 return gotHit = true;
             }
         }

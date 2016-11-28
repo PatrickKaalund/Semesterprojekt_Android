@@ -17,8 +17,9 @@ public abstract class PlayerCommon extends Creature {
     protected Entity player;
     public int lives;
 
-    public PlayerCommon(){
+    public PlayerCommon() {
         player = playerFactory.createEntity();
+        player.setHitBoxSize(120, 120);
         player.setCurrentSprite(45);
         player.setAngleOffSet(0);
         player.setAnimationDivider(1);
@@ -28,7 +29,6 @@ public abstract class PlayerCommon extends Creature {
         super.health = 100;
         lives = 3;
     }
-
 
 
 }

@@ -85,6 +85,12 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
 
+    public void setHitBoxSize(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+
     public Direction move(Direction direction) {
 
         this.position.x += direction.velocity_X;
@@ -150,7 +156,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
         moveBy(deltaX, deltaY, 0);
     }
 
-    public void setAngle(float angle){
+    public void setAngle(float angle) {
         Matrix rotationMatrix = new Matrix();
         rotationMatrix.setRotate(angle, baseRact.centerX(), baseRact.centerY());
         modelPoints = GraphicsTools.getCornersFromRect(baseRact);
@@ -194,7 +200,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void drawNextSprite() {
-        if (++this.animationCounter == this.animationDivider) {
+        if (++this.animationCounter > this.animationDivider) {
             animationCounter = 0;
             if (animationOrder.length == 0) {
                 currentSprite++;
@@ -202,15 +208,16 @@ class SpriteEntity extends GraphicEntity implements Entity {
             } else {
                 drawOrderIndex++;
                 drawOrderIndex = drawOrderIndex % animationOrder.length;
-                currentSprite = animationOrder[drawOrderIndex]+animationOffset;
+                currentSprite = animationOrder[drawOrderIndex] + animationOffset;
             }
         }
     }
 
     public void setAnimationOrder(int[] animationOrder) {
         animationCounter = 0;
+        drawOrderIndex = 0;
         this.animationOrder = animationOrder;
-        setCurrentSprite(animationOrder[0]);
+        setCurrentSprite(this.animationOrder[0]);
     }
 
     public void setAnimationDivider(int animationDivider) {

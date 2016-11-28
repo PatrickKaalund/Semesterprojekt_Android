@@ -53,7 +53,7 @@ public class Shooter {
     public Shooter(WeaponsHandler weaponsHandler) {
         this.weaponsHandler = weaponsHandler;
 
-        shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 1, new PointF(400, 400));
+        shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 2, new PointF(400, 400));
         shots = new ArrayList<>();
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
         audioPlayer = new AudioPlayer(gameContext);
@@ -70,32 +70,32 @@ public class Shooter {
                     " shooterDirection " + shooterDirection.toString()
             );
 
-//            if (preferences.getBoolean("sound", true)) {
-//                switch (currentWeapon) {
-//                    case GUN:
-//                        audioPlayer.playAudioFromRaw(R.raw.gun);
-//                        break;
-//                    case SHOTGUN:
-//                        audioPlayer.playAudioFromRaw(R.raw.shotgun);
-//                        break;
-//                    case AK47:
-//                        audioPlayer.playAudioFromRaw(R.raw.ak);
-//                        break;
-//                    default:
-//                        Log.e("SHOOTER", "DEFAULTED IN SHOOTER::shoot: switch (currentWeapon)");
-//                        break;
-//                }
-//            }
+            if (preferences.getBoolean("sound", true)) {
+                switch (currentWeapon) {
+                    case GUN:
+                        audioPlayer.playAudioFromRaw(R.raw.gun);
+                        break;
+                    case SHOTGUN:
+                        audioPlayer.playAudioFromRaw(R.raw.shotgun);
+                        break;
+                    case AK47:
+                        audioPlayer.playAudioFromRaw(R.raw.ak);
+                        break;
+                    default:
+                        Log.e("SHOOTER", "DEFAULTED IN SHOOTER::shoot: switch (currentWeapon)");
+                        break;
+                }
+            }
 
             Shot s = new Shot();
             s.shot = shotFactory.createEntity();
             s.shot.placeAt(shooterBaseRect.centerX(), shooterBaseRect.centerY());
             s.shot.setPosition(shooterGlobalPos);
             s.direction = new Direction(shooterDirection, 1);
-//            s.shot.setCurrentSprite(0);
-//            s.shot.setAngleOffSet(0);
+            s.shot.setCurrentSprite(0);
+            s.shot.setAngleOffSet(0);
             shots.add(s);
-//            weaponsHandler.setCurrentAmmoAmount(weaponsHandler.getCurrentAmmoAmount() - 1);
+            weaponsHandler.setCurrentAmmoAmount(weaponsHandler.getCurrentAmmoAmount() - 1);
             Log.d("SHOOTER", "AMMO LEFT: " + weaponsHandler.getCurrentAmmoAmount());
         } else {
             audioPlayer.playAudioFromRaw(R.raw.dry_fire);
@@ -115,7 +115,7 @@ public class Shooter {
             if (s.animationCounter < 5) {
                 s.animationCounter++;
             } else {
-//                s.shot.setCurrentSprite(1);
+                s.shot.setCurrentSprite(1);
             }
             s.move();
 

@@ -187,6 +187,8 @@ public class Game implements Runnable {
     public void gameStop() {
         isRunning = false;
         fpsMeasuring.stopFPS();
+        glSurfaceView = null;
+        thread = null;
     }
 
     public void updateGame() {

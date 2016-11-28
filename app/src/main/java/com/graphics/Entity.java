@@ -61,4 +61,6 @@ public interface Entity {
     public Direction moveBy(Direction direction);
 
     public void setAnimationOffset(int animationOffset);
+
+    public void setHitBoxSize(int width, int height);
 }
