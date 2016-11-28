@@ -86,6 +86,7 @@ public class MainMenu extends BaseActivity implements View.OnClickListener {
             switch (v.getId()) {
                 case R.id.buttonPlay:
                     play(v);
+                    DataContainer.multiplayerGame = false;
                     break;
 
                 case R.id.buttonPlayMulti:

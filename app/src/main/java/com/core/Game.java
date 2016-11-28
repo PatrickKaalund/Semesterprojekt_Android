@@ -86,7 +86,7 @@ public class Game implements Runnable {
 //        GLOBAL_START_POS_Y =  context.getResources().getDisplayMetrics().heightPixels / 2;
 
         glSurfaceView = new OurGLSurfaceView(context);
-        networkHandler = new NetworkHandler();
+        networkHandler = new NetworkHandler(this.multiplayerGame);
         fpsMeasuring = new FPSMeasuring(context);
 
 
