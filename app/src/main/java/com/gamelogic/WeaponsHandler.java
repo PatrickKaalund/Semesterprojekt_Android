@@ -45,7 +45,7 @@ public class WeaponsHandler {
 
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
-        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.numbers_black, 155, 155, 1, 11, new PointF(800, 130));
+        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount, 110, 150, 41, 1, new PointF(950, 250));
 
         ammoDrawer = ammoFactory.createEntity();
 
@@ -64,9 +64,9 @@ public class WeaponsHandler {
         ammoDmgValues.put(weaponList_e.SHOTGUN, 6);
         ammoDmgValues.put(weaponList_e.AK47, 8);
 
-        ammoAmounts.put(weaponList_e.GUN, 10);
-        ammoAmounts.put(weaponList_e.SHOTGUN, 10);
-        ammoAmounts.put(weaponList_e.AK47, 10);
+        ammoAmounts.put(weaponList_e.GUN, 40);
+        ammoAmounts.put(weaponList_e.SHOTGUN, 40);
+        ammoAmounts.put(weaponList_e.AK47, 40);
 
         currentWeapon = weaponList_e.GUN;
 

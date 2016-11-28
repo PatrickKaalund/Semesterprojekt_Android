@@ -227,6 +227,7 @@ public class Player extends PlayerCommon {
         Log.d("TAKING DAMAGE", "Damage: " + damage + " Health: " + super.health);
 
 //        if (super.health <= 0) {
+//            weaponsHandler.reset();
 //            Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
 //        }
     }
