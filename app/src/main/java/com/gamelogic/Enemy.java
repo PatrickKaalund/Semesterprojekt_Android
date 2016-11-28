@@ -23,7 +23,7 @@ public class Enemy extends Creature {
 
     public static final int NORMAL_ANIMATION_DIV = 3;
     public static final int GOT_HIT_ANIMATION_DIV = 6;
-    public static final int DIYNG_ANIMATION_DIV = 5;
+    public static final int DIYNG_ANIMATION_DIV = 4;
     public static final int ATACKING_ANIMATION_DIV = 3;
     private boolean gotHit = false;
     private int gotHitCounter = 0;
@@ -82,6 +82,7 @@ public class Enemy extends Creature {
         this.enemy.setAnimationDivider(3);
         this.enemy.setAnimationOrder(state.getAnimations());
         direction = new Direction();
+        this.enemy.setHitBoxSize(50,50);
     }
 
     private void placeElementFromGlobalPos(PointF globalPos) {
