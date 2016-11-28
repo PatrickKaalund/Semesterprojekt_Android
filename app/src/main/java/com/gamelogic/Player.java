@@ -230,13 +230,13 @@ public class Player extends PlayerCommon {
      * @param damage
      */
     @Override
-    public void doDamage(int damage) {
+    public boolean doDamage(int damage) {
         super.health -= damage;
 
-        healthDrawer.setCurrentSprite(super.health / 10);
+    //    healthDrawer.setCurrentSprite(super.health / 10);
 
         Log.d("TAKING DAMAGE", "Damage: " + damage + " Health: " + super.health);
-
+        return true;
 //        if (super.health <= 0) {
 //            Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
 //        }

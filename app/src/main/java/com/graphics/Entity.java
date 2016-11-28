@@ -59,4 +59,6 @@ public interface Entity {
     public boolean collisionBoarder(Entity in);
 
     public Direction moveBy(Direction direction);
+
+    public void setAnimationOffset(int animationOffset);
 }

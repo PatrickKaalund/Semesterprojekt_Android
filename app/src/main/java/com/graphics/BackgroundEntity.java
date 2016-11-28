@@ -134,6 +134,7 @@ public class BackgroundEntity extends GraphicEntity {
         }
 
         transformationMatrix.mapRect(baseRact);
+        DataContainer.mapBaseRect = baseRact;
     }
 
 

@@ -93,8 +93,9 @@ public class PlayerRemote extends PlayerCommon implements RemotePlayer {
     }
 
     @Override
-    public void doDamage(int damge) {
+    public boolean doDamage(int damge) {
         super.health -= damge;
+        return true;
     }
 }
 

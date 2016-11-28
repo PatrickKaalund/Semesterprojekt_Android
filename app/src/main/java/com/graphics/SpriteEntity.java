@@ -25,6 +25,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     private int drawOrderIndex = 0;
     private int animationDivider = 1;
     private int animationCounter = 0;
+    private int animationOffset = 0;
     float[] modelPoints;
     protected float width;
     protected float height;
@@ -201,7 +202,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
             } else {
                 drawOrderIndex++;
                 drawOrderIndex = drawOrderIndex % animationOrder.length;
-                currentSprite = animationOrder[drawOrderIndex];
+                currentSprite = animationOrder[drawOrderIndex]+animationOffset;
             }
         }
     }
@@ -296,4 +297,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
         mother.removeEntity(this);
     }
 
+    public void setAnimationOffset(int animationOffset) {
+        this.animationOffset = animationOffset;
+    }
 }

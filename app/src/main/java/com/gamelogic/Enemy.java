@@ -14,7 +14,6 @@ import com.graphics.Entity;
 
 public class Enemy extends Creature {
     public static final int NORMAL = 0;
-    public static final int GOT_HIT = 1;
     public static final int DIYNG = 2;
     public static final int ATACKING = 3;
 
@@ -23,9 +22,11 @@ public class Enemy extends Creature {
     public static final int ATACKING_STATE_COUNTER = 20;
 
     public static final int NORMAL_ANIMATION_DIV = 3;
-    public static final int GOT_HIT_ANIMATION_DIV = 200;
+    public static final int GOT_HIT_ANIMATION_DIV = 6;
     public static final int DIYNG_ANIMATION_DIV = 5;
     public static final int ATACKING_ANIMATION_DIV = 20;
+    private boolean gotHit = false;
+    private int gotHitCounter = 0;
     private EnemySpawner mother;
 
 
@@ -36,7 +37,6 @@ public class Enemy extends Creature {
 
         public EnemyStates() {
             animations[NORMAL] = new int[]{4, 5, 6, 7, 8, 9, 10, 11};
-            animations[GOT_HIT] = new int[]{0, 1, 2, 3};
             animations[DIYNG] = new int[]{28, 29, 30, 31, 32, 33, 34, 35};
             animations[ATACKING] = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
         }
@@ -84,7 +84,7 @@ public class Enemy extends Creature {
         direction = new Direction();
     }
 
-    private void placeElementFromGlobalPos(PointF globalPos){
+    private void placeElementFromGlobalPos(PointF globalPos) {
         PointF initialPosOnScreen = new PointF();
         initialPosOnScreen.x = globalPos.x - DataContainer.player.getPos().x + DataContainer.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
         initialPosOnScreen.y = globalPos.y - DataContainer.player.getPos().y + DataContainer.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
@@ -92,7 +92,9 @@ public class Enemy extends Creature {
         this.enemy.setPosition(new PointF(globalPos.x, globalPos.y));
     }
 
-    private void move(Direction direction) {
+    private void move(Player player, int speed) {
+        angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
+        direction.set(angle, speed);
         enemy.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y);
         enemy.move(direction);
     }
@@ -105,101 +107,89 @@ public class Enemy extends Creature {
 //        Log.e(this.getClass().getCanonicalName(), "Player pos x: " + player.getPos().x + " y " + player.getPos().y);
 //        Log.e(this.getClass().getCanonicalName(), "Enemy pos x: " + enemy.getPosition().x + " y " + enemy.getPosition().y);
 //        Log.e(this.getClass().getCanonicalName(), "Enemy rect " + enemy.getRect().toString());
-
-        angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
-//                Log.e(this.getClass().getCanonicalName(), "normal angle: "+ angle);
-
-        direction.set(angle, this.speed);
-        // Adjust for map movement
-        move(direction);
-        enemy.drawNextSprite();
-
 //
-//        if (state.getCurrentState() == NORMAL && player.getPlayerEntity().collision(enemy.getPosition())) {
-//            state.setState(ATACKING);
-//            enemy.setAnimationOrder(state.getAnimations());
-//        }
-//
-//
-//        switch (state.getCurrentState()) {
-//            case NORMAL:
-//                angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
+//        angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
 ////                Log.e(this.getClass().getCanonicalName(), "normal angle: "+ angle);
 //
-//                direction.set(angle, this.speed);
-//                // Adjust for map movement
-//                move(direction);
-//                enemy.drawNextSprite();
-//                break;
-//            case ATACKING:
-//                angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
-//
-//                direction.set(angle, 0);
-//                move(direction);
-//
-//                enemy.drawNextSprite();
-//                if (state.stateCounter++ == ATACKING_STATE_COUNTER / 2) {
-//                    player.doDamage(damege);
-//                } else if (state.stateCounter == ATACKING_STATE_COUNTER) {
-//                    state.setState(NORMAL);
-//                    enemy.setAnimationOrder(state.getAnimations());
-//                    enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
-//                }
-//
-//                break;
-//            case DIYNG:
-//                angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
-//
-//                direction.set(angle, 0);
-//                move(direction);
-//
-//                if (enemy.getCurrentSprite() == 35) {
-//                    enemy.setCurrentSprite(35);
-//                } else {
-//                    enemy.drawNextSprite();
-//                }
-//                if (state.stateCounter++ == DIYNG_STATE_COUNTER) {
-//                    enemy.delete();
-//                    return false;
-//                }
-//
-//                break;
-//            case GOT_HIT:
-//                angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
-//
-////                Log.e(this.getClass().getCanonicalName(), "Got hit angle: "+ angle);
-//                direction.set(angle, 0);
-//                move(direction);
-//
-//                enemy.drawNextSprite();
-//                if (state.stateCounter++ == GOT_HIT_STATE_COUNTER) {
-//                    state.setState(NORMAL);
-//                    enemy.setAnimationOrder(state.getAnimations());
-//                }
-////                Log.e(this.getClass().getCanonicalName(), "got hit current sprite: "+ enemy.getCurrentSprite() );
-//
-//
-//                break;
-//            default:
-//                Log.e(this.getClass().getCanonicalName(), "DEFAULTED IN UPDATE");
-//                break;
-//        }
+//        direction.set(angle, this.speed);
+//        // Adjust for map movement
+//        move(direction);
+//        enemy.drawNextSprite();
+
+
+        if (state.getCurrentState() == NORMAL && player.getPlayerEntity().collision(enemy.getPosition())) {
+            state.setState(ATACKING);
+            enemy.setAnimationOrder(state.getAnimations());
+            enemy.setAnimationDivider(ATACKING_ANIMATION_DIV);
+        }
+
+        if (gotHit) {
+            if (gotHitCounter++ > GOT_HIT_STATE_COUNTER) {
+                enemy.setAnimationOffset(0);
+                this.direction.baseSpeed = 1;
+                enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
+                gotHit = false;
+            }
+        }
+
+        switch (state.getCurrentState()) {
+            case NORMAL:
+
+                move(player, this.speed);
+                enemy.drawNextSprite();
+                break;
+            case ATACKING:
+
+                move(player, 0);
+                enemy.drawNextSprite();
+                if (state.stateCounter++ == ATACKING_STATE_COUNTER / 2) {
+                    player.doDamage(damege);
+                } else if (state.stateCounter == ATACKING_STATE_COUNTER) {
+                    state.setState(NORMAL);
+                    enemy.setAnimationOrder(state.getAnimations());
+                    enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
+                }
+
+                break;
+            case DIYNG:
+
+                move(player, 0);
+
+                if (enemy.getCurrentSprite() == 35) {
+                    enemy.setCurrentSprite(35);
+                } else {
+                    enemy.drawNextSprite();
+                }
+                if (state.stateCounter++ == DIYNG_STATE_COUNTER) {
+                    enemy.delete();
+                    return false;
+                }
+
+                break;
+            default:
+                Log.e(this.getClass().getCanonicalName(), "DEFAULTED IN UPDATE");
+                break;
+        }
 
         return true;
     }
 
-    public void doDamage(int damege) {
-        super.health -= damege;
-        if (super.health < 0) {
-            state.currentState = DIYNG;
-            enemy.setAnimationDivider(DIYNG_ANIMATION_DIV);
-            enemy.setAnimationOrder(state.getAnimations());
-        } else {
-            state.currentState = GOT_HIT;
-            enemy.setAnimationDivider(GOT_HIT_STATE_COUNTER);
-            enemy.setAnimationOrder(state.getAnimations());
+    public boolean doDamage(int damege) {
+        if (!gotHit) {
+            super.health -= damege;
+            if (super.health < 0) {
+                state.setState(DIYNG);
+                enemy.setAnimationDivider(DIYNG_ANIMATION_DIV);
+                enemy.setAnimationOrder(state.getAnimations());
+            } else {
+                gotHitCounter = 0;
+                enemy.setAnimationOffset(36);
+                enemy.setAnimationDivider(GOT_HIT_ANIMATION_DIV);
+                this.direction.baseSpeed = 3;
+                return gotHit = true;
+            }
         }
-
+        return false;
     }
 
     public RectF getRect() {

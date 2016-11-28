@@ -26,4 +26,6 @@ public abstract class PlayerCommon extends Creature {
         super.health = 100;
     }
 
+
+
 }
