@@ -13,8 +13,6 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class FPSDrawer {
     private SpriteEntityFactory fpsFactory;
-    private SpriteEntityFactory numberFactory;
-    private Entity fpsDrawer;
     private Entity numberDrawer;
     private Entity numberDrawer2;
 
@@ -22,19 +20,18 @@ public class FPSDrawer {
         Log.d("FPSDrawer", "Creating FPSDrawer");
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        fpsFactory = new SpriteEntityFactory(R.drawable.fps_small, 180, 180, 1, 1, new PointF(0, 0));
-        numberFactory = new SpriteEntityFactory(R.drawable.numbers_red, 155, 120, 1, 10, new PointF(0, 0));
+        fpsFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 155, 120, 11, 1, new PointF(0, 0));
 
-        fpsDrawer = fpsFactory.createEntity();
-        fpsDrawer.placeAt(200, displayMetrics.heightPixels - 200);
-        fpsDrawer.setCurrentSprite(0);
+        Entity fpsDrawer = fpsFactory.createEntity();
+        fpsDrawer.placeAt(125, displayMetrics.heightPixels - 180);
+        fpsDrawer.setCurrentSprite(10);
 
-        numberDrawer = numberFactory.createEntity();
-        numberDrawer.placeAt(290, displayMetrics.heightPixels - 200);
+        numberDrawer = fpsFactory.createEntity();
+        numberDrawer.placeAt(240, displayMetrics.heightPixels - 180);
         numberDrawer.setCurrentSprite(0);
 
-        numberDrawer2 = numberFactory.createEntity();
-        numberDrawer2.placeAt(340, displayMetrics.heightPixels - 200);
+        numberDrawer2 = fpsFactory.createEntity();
+        numberDrawer2.placeAt(290, displayMetrics.heightPixels - 180);
         numberDrawer2.setCurrentSprite(0);
     }
 
