@@ -58,13 +58,19 @@ public class ItemSpawner {
                 itemList_e = ItemCommon.ItemList_e.MEDIC;
                 break;
             case 1 :
-                itemList_e = ItemCommon.ItemList_e.AMMO_GUN_DEFAULT;
+                itemList_e = ItemCommon.ItemList_e.AMMO_YELLOW;
                 break;
             case 2 :
                 itemList_e = ItemCommon.ItemList_e.AMMO_SHOTGUN_DEFAULT;
                 break;
             case 3 :
                 itemList_e = ItemCommon.ItemList_e.AMMO_AK47_DEFAULT;
+                break;
+            case 4 :
+                itemList_e = ItemCommon.ItemList_e.AMMO_BLUE;
+                break;
+            case 5 :
+                itemList_e = ItemCommon.ItemList_e.AMMO_GUN_DEFAULT;
                 break;
         }
 
