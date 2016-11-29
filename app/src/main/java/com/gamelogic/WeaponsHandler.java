@@ -1,9 +1,7 @@
 package com.gamelogic;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.PointF;
-import android.preference.PreferenceManager;
 
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
@@ -18,8 +16,6 @@ public class WeaponsHandler {
     private Entity player;
     private AudioPlayer audioPlayer;
 
-    private SharedPreferences preferences;
-
     private Entity ammoDrawer;
 
     private weaponList_e currentWeapon;
@@ -28,6 +24,9 @@ public class WeaponsHandler {
     private final EnumMap<weaponList_e, Integer> ammoDmgValues = new EnumMap<>(weaponList_e.class);
     private EnumMap<weaponList_e, Integer> ammoAmounts = new EnumMap<>(weaponList_e.class);
 
+    private final int GUN_CAP = 40;
+    private final int SHOTGUN_CAP = 25;
+    private final int AK47_CAP = 30;
 
     /**
      * Player weapons
@@ -42,8 +41,6 @@ public class WeaponsHandler {
         this.player = player;
 
         audioPlayer = new AudioPlayer(context);
-
-        preferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount, 110, 150, 41, 1, new PointF(950, 260));
 
@@ -64,9 +61,9 @@ public class WeaponsHandler {
         ammoDmgValues.put(weaponList_e.SHOTGUN, 6);
         ammoDmgValues.put(weaponList_e.AK47, 8);
 
-        ammoAmounts.put(weaponList_e.GUN, 40);
-        ammoAmounts.put(weaponList_e.SHOTGUN, 40);
-        ammoAmounts.put(weaponList_e.AK47, 40);
+        ammoAmounts.put(weaponList_e.GUN, GUN_CAP);
+        ammoAmounts.put(weaponList_e.SHOTGUN, SHOTGUN_CAP);
+        ammoAmounts.put(weaponList_e.AK47, AK47_CAP);
 
         currentWeapon = weaponList_e.GUN;
 
@@ -74,8 +71,45 @@ public class WeaponsHandler {
     }
 
 
-    public void registerDrop(ItemCommon drop) {
-        // ToDO ...
+    public void registerWeaponsDrop(ItemCommon drop) {
+
+        switch (drop.getType()) {
+
+            case AMMO_GUN_DEFAULT :
+                if (ammoAmounts.get(weaponList_e.GUN) + drop.size < GUN_CAP)
+                    ammoAmounts.put(weaponList_e.GUN, ammoAmounts.get(weaponList_e.GUN) + drop.size);
+                else
+                    ammoAmounts.put(weaponList_e.GUN, GUN_CAP);
+                break;
+
+            case AMMO_SHOTGUN_DEFAULT :
+                if (ammoAmounts.get(weaponList_e.SHOTGUN) + drop.size < SHOTGUN_CAP)
+                    ammoAmounts.put(weaponList_e.SHOTGUN, ammoAmounts.get(weaponList_e.SHOTGUN) + drop.size);
+                else
+                    ammoAmounts.put(weaponList_e.SHOTGUN, SHOTGUN_CAP);
+                break;
+
+            case AMMO_AK47_DEFAULT:
+                if (ammoAmounts.get(weaponList_e.AK47) + drop.size < AK47_CAP)
+                    ammoAmounts.put(weaponList_e.AK47, ammoAmounts.get(weaponList_e.AK47) + drop.size);
+                else
+                    ammoAmounts.put(weaponList_e.AK47, AK47_CAP);
+                break;
+
+            case AMMO_BLUE :
+                ammoAmounts.put(weaponList_e.GUN, GUN_CAP);
+                ammoAmounts.put(weaponList_e.SHOTGUN, SHOTGUN_CAP);
+                ammoAmounts.put(weaponList_e.AK47, AK47_CAP);
+                break;
+
+            case AMMO_YELLOW :
+                ammoAmounts.put(weaponList_e.GUN, 6);
+                ammoAmounts.put(weaponList_e.SHOTGUN, 0);
+                ammoAmounts.put(weaponList_e.AK47, 0);
+                break;
+        }
+
+        ammoDrawer.setCurrentSprite(getCurrentAmmoAmount());
     }
 
 

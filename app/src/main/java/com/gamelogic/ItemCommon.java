@@ -2,22 +2,36 @@ package com.gamelogic;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
-import com.graphics.Direction;
 import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
 
-import java.util.ArrayList;
 
 public class ItemCommon extends Item{
     private Entity item;
+    private Player player;
+    private SpriteEntityFactory itemFactory;
+    private boolean hasCollided = false;
+    private ItemCommon.ItemList_e type;
 
-    public ItemCommon(SpriteEntityFactory itemFactory, int size, int type, PointF startLocation) {
+    public enum ItemList_e {
+        MEDIC,
+        AMMO_YELLOW,
+        AMMO_SHOTGUN_DEFAULT,
+        AMMO_AK47_DEFAULT,
+        AMMO_BLUE,
+        AMMO_GUN_DEFAULT,
+    }
 
+    public ItemCommon(SpriteEntityFactory itemFactory, int size, ItemList_e item_type, PointF startLocation, Player player) {
+        this.player = player;
+        this.type = item_type;
         super.size = size;
-        super.type = type;
+        this.itemFactory = itemFactory;
+
         item = itemFactory.createEntity();
-        item.setCurrentSprite(type);
+        item.setCurrentSprite(type.ordinal());
 
         placeElementFromGlobalPos(startLocation);
 
@@ -32,13 +46,25 @@ public class ItemCommon extends Item{
         this.item.setPosition(new PointF(globalPos.x, globalPos.y));
     }
 
-
     public void update() {
 
         // Adjust for map movement
         item.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y);
 
+        // Check for collision with Player and pass item to Player
+        if (!hasCollided && item.collision(player.getPlayerEntity().getPosition())) {
+            hasCollided = true;
+            handlePickup();
+            item.delete();
+        }
+    }
+
+    private void handlePickup() {
+        Log.d("ItemCommon", type.toString() + " SIZE: " + size + " GOT PICKED UP!");
+        player.registerPickup(this);
     }
 
     public RectF getRect(){ return this.item.getRect(); }
+
+    public ItemList_e getType() { return this.type; }
 }

@@ -6,6 +6,7 @@ import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
@@ -40,7 +41,7 @@ public class Player extends PlayerCommon {
     public int playerTLBR;
     private Entity healthDrawer;
     private int playerID;
-
+    private AudioPlayer audioPlayer;
     private WeaponsHandler weaponsHandler;
 
     private Direction direction;
@@ -81,9 +82,11 @@ public class Player extends PlayerCommon {
         mapDirection.tag = 2;
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.numbers_red, 120, 120, 1, 11, new PointF(135, 250));
+        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 120, 120, 11, 1, new PointF(135, 250));
         healthDrawer = healthFactory.createEntity();
         healthDrawer.setCurrentSprite(super.lives);
+
+        audioPlayer = new AudioPlayer(context);
     }
 
 
@@ -246,10 +249,29 @@ public class Player extends PlayerCommon {
     }
 
     /**
-     *
+     * Return WeaponsHandler
      * @return
      */
     public WeaponsHandler getWeaponsHandler() {
         return weaponsHandler;
     }
+
+    public void registerPickup(ItemCommon item) {
+
+        if (item.getType().ordinal() > 0) {
+            audioPlayer.playAudioFromRaw(R.raw.reload);
+
+            weaponsHandler.registerWeaponsDrop(item);
+        }
+        else if (item.getType() == ItemCommon.ItemList_e.MEDIC) {
+            audioPlayer.playAudioFromRaw(R.raw.medic);
+
+            super.health += item.size;
+            if (super.health > 100)
+                super.health = 100;
+
+            Log.d("PLAYER", "RECIEVED HEALTH: " + item.size + " HEALTH IS: " + super.health);
+        }
+    }
+
 }

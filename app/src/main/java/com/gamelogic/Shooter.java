@@ -10,11 +10,9 @@ import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Direction;
 import com.graphics.Entity;
-import com.graphics.GraphicsTools;
 import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
 import static com.gamelogic.DataContainer.gameContext;
@@ -55,7 +53,9 @@ public class Shooter {
 
         shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 2, new PointF(400, 400));
         shots = new ArrayList<>();
+
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
+
         audioPlayer = new AudioPlayer(gameContext);
     }
 
@@ -112,6 +112,7 @@ public class Shooter {
             Shot s = it.next();
 //            LL(this, "Shoter update at: " + Arrays.toString(GraphicsTools.getCornersFromRect(s.shot.getRect())));
 //
+
             if (s.animationCounter < 5) {
                 s.animationCounter++;
             } else {
@@ -145,8 +146,5 @@ public class Shooter {
             }
 //            LL(this, "updating  shot list");
         }
-
     }
-
-
 }
