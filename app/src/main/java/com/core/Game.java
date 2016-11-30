@@ -102,7 +102,7 @@ public class Game implements Runnable {
     private void initGameComponents() {
         //Make a map
         mapFactory = new BackgroundFactory(
-                R.drawable.lava,
+                R.drawable.lava_scaled,
                 context.getResources().getDisplayMetrics());
         map = mapFactory.createEntity(//Make background
                 MAP_OUTER_BOARDER_SIZE,
