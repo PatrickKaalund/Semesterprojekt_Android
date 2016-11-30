@@ -42,7 +42,7 @@ class WeaponsHandler {
 
         audioPlayer = new AudioPlayer(context);
 
-        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount_full_scaled, 140, 180, 20, 5, new PointF(950, 260));
+        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount_full_scaled_small, 140, 180, 20, 5, new PointF(950, 260));
         ammoDrawer = ammoFactory.createEntity();
 
         ammoDrawer.setCurrentSprite(0);

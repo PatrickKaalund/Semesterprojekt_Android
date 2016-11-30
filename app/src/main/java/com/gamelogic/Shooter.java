@@ -51,7 +51,7 @@ public class Shooter {
     public Shooter(WeaponsHandler weaponsHandler) {
         this.weaponsHandler = weaponsHandler;
 
-        shotFactory = new SpriteEntityFactory(R.drawable.bullets, 20, 30, 1, 2, new PointF(400, 400));
+        shotFactory = new SpriteEntityFactory(R.drawable.bullets_scaled, 20, 30, 1, 2, new PointF(400, 400));
         shots = new ArrayList<>();
 
         preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
