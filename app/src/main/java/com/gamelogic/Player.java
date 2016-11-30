@@ -40,6 +40,7 @@ public class Player extends PlayerCommon {
     public int playerLock;
     public int playerTLBR;
     private Entity healthDrawer;
+    private Entity livesDrawer;
     private int playerID;
     private AudioPlayer audioPlayer;
     private WeaponsHandler weaponsHandler;
@@ -82,9 +83,14 @@ public class Player extends PlayerCommon {
         mapDirection.tag = 2;
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 120, 120, 11, 1, new PointF(135, 250));
+        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.health, 80, 220, 21, 1, new PointF(125, 260));
+        SpriteEntityFactory livesFactory = new SpriteEntityFactory(R.drawable.lives, 25, 170, 4, 1, new PointF(130, 205));
+
         healthDrawer = healthFactory.createEntity();
-        healthDrawer.setCurrentSprite(super.lives);
+        healthDrawer.setCurrentSprite(super.health / 5);
+
+        livesDrawer = livesFactory.createEntity();
+        livesDrawer.setCurrentSprite(super.lives);
 
         audioPlayer = new AudioPlayer(context);
     }
@@ -238,12 +244,14 @@ public class Player extends PlayerCommon {
     public boolean doDamage(int damage) {
         super.health -= damage;
 
-    //    healthDrawer.setCurrentSprite(super.health / 10);
+        if (super.health >= 0)
+            healthDrawer.setCurrentSprite(super.health / 5);
 
         Log.d("TAKING DAMAGE", "Damage: " + damage + " Health: " + super.health);
         return true;
 //        if (super.health <= 0) {
 //            weaponsHandler.reset();
+//            livesDrawer.setCurrentSprite(super.lives);
 //            Log.e("PLAYER IS DEAD", "+++++++++++++++++++++++++  PLAYER IS DEAD ++++++++++++++++++++");
 //        }
     }
@@ -269,6 +277,8 @@ public class Player extends PlayerCommon {
             super.health += item.size;
             if (super.health > 100)
                 super.health = 100;
+
+            healthDrawer.setCurrentSprite(super.health / 5);
 
             Log.d("PLAYER", "RECIEVED HEALTH: " + item.size + " HEALTH IS: " + super.health);
         }
