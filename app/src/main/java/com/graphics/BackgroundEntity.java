@@ -55,7 +55,7 @@ public class BackgroundEntity extends GraphicEntity {
                 metrics.widthPixels - innerBoarderOffset,
                 innerBoarderOffset);
 
-        this.uvs = new RectF(0f, 0f, 1f, 1f);// Texture drawing coord
+        this.uvs = new RectF(0f, 0f, 4f, 4f);// Texture drawing coord
 
 //        Log.d("BackgroundEntity", "baseHeight: " + baseHeight + " baseWidth: " + baseWidth);
 //        Log.d("BackgroundEntity", "BaseRect: " + baseRact.toString());
