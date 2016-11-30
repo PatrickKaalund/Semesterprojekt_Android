@@ -69,6 +69,7 @@ public class Player extends PlayerCommon {
 //        player.setPosition(new PointF(startPos.x /*+ context.getResources().getDisplayMetrics().widthPixels/2*/, startPos.y /*+ context.getResources().getDisplayMetrics().heightPixels/2*/));
         player.placeAt(startPos.x, startPos.y);
         player.setPosition(new PointF(2000.0F, 2000.0F));
+
         direction = new Direction(super.speed);
 
         weaponsHandler = new WeaponsHandler(player, context);
@@ -93,6 +94,12 @@ public class Player extends PlayerCommon {
         livesDrawer.setCurrentSprite(super.lives);
 
         audioPlayer = new AudioPlayer(context);
+
+        player.setAnimationOffset(46);
+
+        weaponsHandler.setCurrentWeapon(WeaponsHandler.weaponList_e.GUN);
+
+        player.drawNextSprite();
     }
 
 
@@ -175,25 +182,6 @@ public class Player extends PlayerCommon {
         } else {
             DataContainer.mapMovement.x = 0;
             DataContainer.mapMovement.y = 0;
-
-            switch (weaponsHandler.getCurrentWeapon()) { //Set weapon sprite
-
-                case GUN:
-                    player.setCurrentSprite(45);
-
-                    break;
-                case SHOTGUN:
-                    player.setCurrentSprite(23);
-
-                    break;
-                case AK47:
-                    player.setCurrentSprite(0);
-
-                    break;
-                default:
-                    Log.e("PLAYER", "DEFULTED IN PLAYE::move: switch (currentWeapon)");
-                    break;
-            }
         }
 
 

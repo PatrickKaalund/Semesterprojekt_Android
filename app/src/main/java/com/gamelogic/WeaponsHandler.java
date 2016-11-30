@@ -42,18 +42,17 @@ class WeaponsHandler {
 
         audioPlayer = new AudioPlayer(context);
 
-       // SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount33, 110, 150, 24, 3, new PointF(950, 260));
         SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount_full_scaled, 140, 180, 20, 5, new PointF(950, 260));
         ammoDrawer = ammoFactory.createEntity();
 
         ammoDrawer.setCurrentSprite(0);
 
         reset();
+
     }
 
 
     private void reset() {
-        player.setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19});
 
         weaponsAvailable.put(weaponList_e.GUN, true);
         weaponsAvailable.put(weaponList_e.SHOTGUN, false);
@@ -128,7 +127,7 @@ class WeaponsHandler {
 
             case SHOTGUN:
                 ammoAnimationOffset = 0;
-                player.setAnimationOffset(0);
+                player.setAnimationOffset(23);
                 break;
 
             case AK47:
@@ -138,6 +137,8 @@ class WeaponsHandler {
         }
 
         this.currentWeapon = currentWeapon;
+
+        player.drawNextSprite();
 
         update();
     }
@@ -155,6 +156,7 @@ class WeaponsHandler {
 
     private void update() {
         ammoDrawer.setCurrentSprite(ammoAmounts.get(currentWeapon) + ammoAnimationOffset);
+        player.drawNextSprite();
     }
 
 
