@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,10 +23,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
 
     View view;
 
-    boolean firstRun = true;
     private AudioPlayer audioPlayer;
-    private LinearLayout masterTank;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +100,6 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                     audioPlayer.playAudioFromRaw(R.raw.click);
                     break;
             }
-
     }
 
     public void play(View v){

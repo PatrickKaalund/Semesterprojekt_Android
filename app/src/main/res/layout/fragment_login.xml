@@ -13,22 +13,6 @@
     android:background="@color/black_overlay_darker"
     >
 
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="305dp"
-            android:layout_height="40dp"
-            app:srcCompat="@drawable/line"
-            android:id="@+id/imageView3"
-            tools:layout_editor_absoluteY="454dp"
-            tools:layout_editor_absoluteX="24dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:adjustViewBounds="true" />
-    </android.support.constraint.ConstraintLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,5 +29,16 @@
 
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="305dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/line"
+        android:id="@+id/imageView3"
+        tools:layout_editor_absoluteY="312dp"
+        tools:layout_editor_absoluteX="31dp"
+        android:adjustViewBounds="true"
+        android:layout_above="@+id/buttonNext"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
