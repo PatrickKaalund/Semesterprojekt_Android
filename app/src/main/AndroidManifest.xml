@@ -24,7 +24,7 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity android:name="com.activities.MainMenu"
+        <activity android:name="com.activities.Main"
                   android:configChanges="keyboardHidden|orientation|screenSize"
                   android:theme="@style/AppTheme.NoActionBar"
                   >
@@ -34,6 +34,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name="com.teststuff.MapTestActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -52,13 +53,6 @@
 
             android:configChanges="keyboardHidden|orientation|screenSize"
         />
-        <activity android:name="com.network.Firebase.FirebaseActivity" />
-        <activity android:name="com.network.ZeroMQ.ZeroMQActivity" />
-        <activity android:name="com.network.MQTT.MQTTActivity"></activity>
-
-        <!-- Mqtt Service -->
-        <service android:name="org.eclipse.paho.android.service.MqttService">
-        </service>
 
     </application>
 

@@ -44,7 +44,7 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'io.github.controlwear:virtualjoystick:0.9.9'
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
 
     // Firebase
     compile 'com.google.firebase:firebase-database:9.2.1'

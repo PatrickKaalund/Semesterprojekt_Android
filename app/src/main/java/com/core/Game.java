@@ -3,7 +3,6 @@ package com.core;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -24,6 +23,8 @@ import com.network.Firebase.NetworkHandler;
 import com.views.DropDownMenu;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
+
+import static com.gamelogic.DataContainer.gameContext;
 
 public class Game implements Runnable {
 
@@ -87,7 +88,6 @@ public class Game implements Runnable {
         glSurfaceView = new OurGLSurfaceView(context);
         networkHandler = new NetworkHandler(this.multiplayerGame);
 
-
         fpsMeasuring = new FPSMeasuring(context);
         fpsMeasuring.start();
 
@@ -97,19 +97,20 @@ public class Game implements Runnable {
 
         thread = new Thread(this);
         thread.start();
+
     }
 
     private void initGameComponents() {
 
-        Log.e("Game", "Waiting...");
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        Log.e("Game", "Finished...");
+//        Log.e("Game", "Waiting...");
+//
+//        try {
+//            Thread.sleep(5000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Log.e("Game", "Finished...");
 
         //Make a map
         mapFactory = new BackgroundFactory(
@@ -159,8 +160,6 @@ public class Game implements Runnable {
     // Running gui thread
     @Override
     public void run() {
-
-
 
         while (isRunning) {
             if (!isPaused) {

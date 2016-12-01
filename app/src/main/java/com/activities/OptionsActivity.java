@@ -19,14 +19,17 @@ import android.widget.TextView;
 
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.graphics.FPSDrawer;
+import com.graphics.FPSMeasuring;
 import com.services.MusicService;
 
-public class OptionsActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public class  OptionsActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     private Switch soundSwitch, musicSwitch, fpsSwitch;
     private boolean musicIsBound = false;
     private MusicService musicService;
     private SharedPreferences preferences;
     private AudioPlayer audioPlayer;
+    FPSMeasuring fpsMeasuring;
 
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
@@ -124,8 +127,11 @@ public class OptionsActivity extends BaseActivity implements CompoundButton.OnCh
 
         else if  (compoundButton == fpsSwitch) {
             Log.d("Switch", "fps " + fpsSwitch.isChecked());
-            if (isChecked)
+            if (isChecked) {
                 preferences.edit().putBoolean("fps", true).apply();
+                fpsMeasuring = new FPSMeasuring(this);
+                fpsMeasuring.start();
+            }
             else
                 preferences.edit().putBoolean("fps", false).apply();
         }

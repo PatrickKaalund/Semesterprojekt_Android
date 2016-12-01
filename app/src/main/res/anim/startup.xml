@@ -5,17 +5,17 @@
     <alpha
         android:fromAlpha = "0.0"
         android:toAlpha = "1.0"
-        android:duration = "300">
+        android:duration = "600">
     </alpha>
 
     <!--Set size change when view is clicked-->
     <scale
-        android:fromXScale = "0.7"
+        android:fromXScale = "0.3"
         android:toXScale = "1.0"
-        android:fromYScale = "0.7"
+        android:fromYScale = "0.3"
         android:toYScale = "1.0"
         android:pivotX="50%"
         android:pivotY="50%"
-        android:duration = "200">
+        android:duration = "400">
     </scale>
 </set>
