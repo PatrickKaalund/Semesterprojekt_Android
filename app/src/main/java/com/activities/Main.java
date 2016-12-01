@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.fragments.LoginFragment;
+import com.graphics.FPSMeasuring;
 
 public class Main extends BaseActivity {
 
@@ -23,7 +24,7 @@ public class Main extends BaseActivity {
 
         if (savedInstanceState == null) {
             findViewById(R.id.overlay).setVisibility(View.VISIBLE);
-            findViewById(R.id.overlay).bringToFront();
+
             Fragment fragment = new LoginFragment();
 
             getSupportFragmentManager().beginTransaction()

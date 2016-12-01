@@ -12,9 +12,10 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
  */
 
 public class FPSDrawer {
-    private SpriteEntityFactory fpsFactory;
-    private Entity numberDrawer;
-    private Entity numberDrawer2;
+    Entity numberDrawer;
+    Entity numberDrawer2;
+    Entity fpsDrawer;
+    SpriteEntityFactory fpsFactory;
 
     public FPSDrawer(Context context){
         Log.d("FPSDrawer", "Creating FPSDrawer");
@@ -22,7 +23,7 @@ public class FPSDrawer {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         fpsFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 155, 120, 11, 1, new PointF(0, 0));
 
-        Entity fpsDrawer = fpsFactory.createEntity();
+        fpsDrawer = fpsFactory.createEntity();
         fpsDrawer.placeAt(125, displayMetrics.heightPixels - 180);
         fpsDrawer.setCurrentSprite(10);
 

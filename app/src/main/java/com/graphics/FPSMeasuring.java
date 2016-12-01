@@ -1,6 +1,8 @@
 package com.graphics;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 
@@ -14,14 +16,16 @@ public class FPSMeasuring extends Thread {
     public static int counter = 0;
     public int latestFPS = 0;
     private boolean isRunning = true;
+    private SharedPreferences preferences;
 
     public FPSMeasuring(Context context){
         fpsDrawer = new FPSDrawer(context);
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     // one time every second
     public void run() {
-        while (isRunning) {
+        while (isRunning && preferences.getBoolean("fps", false)) {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -32,6 +36,8 @@ public class FPSMeasuring extends Thread {
             fpsDrawer.update(counter);
             counter = 0;
         }
+
+        fpsDrawer.fpsFactory.delete();
     }
 
     public void startFPS(){
@@ -41,4 +47,5 @@ public class FPSMeasuring extends Thread {
     public void stopFPS(){
         isRunning = false;
     }
+
 }
