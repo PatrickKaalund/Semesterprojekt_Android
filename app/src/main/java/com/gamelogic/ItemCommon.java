@@ -40,8 +40,8 @@ public class ItemCommon extends Item{
 
     private void placeElementFromGlobalPos(PointF globalPos){
         PointF initialPosOnScreen = new PointF();
-        initialPosOnScreen.x = globalPos.x - DataContainer.player.getPos().x + DataContainer.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
-        initialPosOnScreen.y = globalPos.y - DataContainer.player.getPos().y + DataContainer.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
+        initialPosOnScreen.x = globalPos.x - DataContainer.instance.player.getPos().x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
+        initialPosOnScreen.y = globalPos.y - DataContainer.instance.player.getPos().y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
         this.item.placeAt(initialPosOnScreen.x, initialPosOnScreen.y);
         this.item.setPosition(new PointF(globalPos.x, globalPos.y));
     }
@@ -49,7 +49,7 @@ public class ItemCommon extends Item{
     public void update() {
 
         // Adjust for map movement
-        item.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y);
+        item.moveBy(-DataContainer.instance.mapMovement.x, -DataContainer.instance.mapMovement.y);
 
         // Check for collision with Player and pass item to Player
         if (!hasCollided && item.collision(player.getPlayerEntity().getPosition())) {

@@ -3,6 +3,7 @@ package com.core;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.os.AsyncTask;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -23,8 +24,6 @@ import com.network.Firebase.NetworkHandler;
 import com.views.DropDownMenu;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
-
-import static com.gamelogic.DataContainer.gameContext;
 
 public class Game implements Runnable {
 
@@ -80,26 +79,38 @@ public class Game implements Runnable {
     public Game(Context context) {
         Log.d("Game", "Game created");
         this.context = context;
-        gameContext = context;
-        this.multiplayerGame = DataContainer.multiplayerGame;
+        DataContainer.instance.gameContext = context;
+        this.multiplayerGame = DataContainer.instance.multiplayerGame;
 //        GLOBAL_START_POS_X = context.getResources().getDisplayMetrics().widthPixels / 2;
 //        GLOBAL_START_POS_Y =  context.getResources().getDisplayMetrics().heightPixels / 2;
 
         glSurfaceView = new OurGLSurfaceView(context);
         networkHandler = new NetworkHandler(this.multiplayerGame);
 
-        initGameComponents();
 
         fpsMeasuring = new FPSMeasuring(context);
         fpsMeasuring.start();
+
+        // Must be moved to background thread
+        initGameComponents();
         gameStart();
 
         thread = new Thread(this);
         thread.start();
-
     }
 
     private void initGameComponents() {
+
+        Log.e("Game", "Waiting...");
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Log.e("Game", "Finished...");
+
         //Make a map
         mapFactory = new BackgroundFactory(
                 R.drawable.backgrounddetailed3,
@@ -148,6 +159,8 @@ public class Game implements Runnable {
     // Running gui thread
     @Override
     public void run() {
+
+
 
         while (isRunning) {
             if (!isPaused) {

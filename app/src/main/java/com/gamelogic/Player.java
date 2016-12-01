@@ -60,7 +60,7 @@ public class Player extends PlayerCommon {
         this.networkHandler = networkHandler;
 
         joystickValues = new ArrayList<>();
-        DataContainer.player = this;
+        DataContainer.instance.player = this;
 
         // ----- Player stuff -----
         player = super.player;
@@ -176,12 +176,12 @@ public class Player extends PlayerCommon {
 
             player.drawNextSprite();//Animate
 
-            if(DataContainer.multiplayerGame){
+            if(DataContainer.instance.multiplayerGame){
                 networkHandler.updatePlayerPosition(player.getPosition().x, player.getPosition().y, joystick_angle); // Update player pos on firebase
             }
         } else {
-            DataContainer.mapMovement.x = 0;
-            DataContainer.mapMovement.y = 0;
+            DataContainer.instance.mapMovement.x = 0;
+            DataContainer.instance.mapMovement.y = 0;
         }
 
 

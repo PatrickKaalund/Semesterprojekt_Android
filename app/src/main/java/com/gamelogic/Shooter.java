@@ -15,7 +15,6 @@ import com.graphics.SpriteEntityFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import static com.gamelogic.DataContainer.gameContext;
 import static com.graphics.GraphicsTools.LL;
 
 /**
@@ -37,7 +36,7 @@ public class Shooter {
 
         public void move() {
             direction.set(direction.getAngle(), BASE_SPEED);
-            shot.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y, 0);
+            shot.moveBy(-DataContainer.instance.mapMovement.x, -DataContainer.instance.mapMovement.y, 0);
             shot.move(direction);
 //            shot.getPosition().x += direction.velocity_X;
 //            shot.getPosition().y += direction.velocity_Y;
@@ -54,9 +53,9 @@ public class Shooter {
         shotFactory = new SpriteEntityFactory(R.drawable.bullets_scaled, 20, 30, 1, 2, new PointF(400, 400));
         shots = new ArrayList<>();
 
-        preferences = PreferenceManager.getDefaultSharedPreferences(gameContext);
+        preferences = PreferenceManager.getDefaultSharedPreferences(DataContainer.instance.gameContext);
 
-        audioPlayer = new AudioPlayer(gameContext);
+        audioPlayer = new AudioPlayer(DataContainer.instance.gameContext);
     }
 
     public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, WeaponsHandler.weaponList_e currentWeapon) {
@@ -121,9 +120,9 @@ public class Shooter {
             s.move();
 
             if (s.shot.getPosition().x < 0 ||
-                    s.shot.getPosition().x > DataContainer.mapGlobalSize.x ||
+                    s.shot.getPosition().x > DataContainer.instance.mapGlobalSize.x ||
                     s.shot.getPosition().y < 0 ||
-                    s.shot.getPosition().x > DataContainer.mapGlobalSize.y) {
+                    s.shot.getPosition().x > DataContainer.instance.mapGlobalSize.y) {
                 s.shot.delete();
                 it.remove();
                 LL(this, "Deleting shot");

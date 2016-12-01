@@ -122,10 +122,10 @@ public class NetworkHandler {
 
     private void startListenGame() {
         String remotePlayerID = "Player_"; // Which player to receive data from
-        if(DataContainer.player.getPlayerID() == 1){
+        if(DataContainer.instance.player.getPlayerID() == 1){
             remotePlayerID += "2";
         }
-        else if(DataContainer.player.getPlayerID() == 2){
+        else if(DataContainer.instance.player.getPlayerID() == 2){
             remotePlayerID += "1";
         }
         mFirebaseDatabaseReference.child(mother).child(game).child(remotePlayerID).addValueEventListener(new ValueEventListener() {
@@ -169,14 +169,14 @@ public class NetworkHandler {
     }
 
     public void beginGame() {
-        updatePlayerPosition(DataContainer.player.getPos().x, DataContainer.player.getPos().y, 0);
+        updatePlayerPosition(DataContainer.instance.player.getPos().x, DataContainer.instance.player.getPos().y, 0);
     }
 
     public void createNewGame() {
         Log.d("NetworkHandler", "Creating new multiplayer game");
-        DataContainer.player.setPlayerID(1);
+        DataContainer.instance.player.setPlayerID(1);
         this.game += String.valueOf(randomNumber(minimum, maximum)); // game subfix
-        myPlayerID += String.valueOf(DataContainer.player.getPlayerID());
+        myPlayerID += String.valueOf(DataContainer.instance.player.getPlayerID());
         mFirebaseDatabaseReference.child(mother).child(this.game).child("Status").setValue(gameStatus.FILLING_GAME.ordinal());
         beginGame();
         startListenGame();
@@ -185,8 +185,8 @@ public class NetworkHandler {
     public void joinGame(String game) {
         Log.d("NetworkHandler", "Joining multiplayer game");
         this.game = game;
-        DataContainer.player.setPlayerID(2);
-        myPlayerID += String.valueOf(DataContainer.player.getPlayerID());
+        DataContainer.instance.player.setPlayerID(2);
+        myPlayerID += String.valueOf(DataContainer.instance.player.getPlayerID());
         mFirebaseDatabaseReference.child(mother).child(this.game).child("Status").setValue(NetworkHandler.gameStatus.BEGUN.ordinal());
         beginGame();
         startListenGame();

@@ -45,26 +45,26 @@ public class EnemySpawner {
                 minX = 0;
                 maxX = 0;
                 minY = 0;
-                maxY = DataContainer.mapGlobalSize.y;
+                maxY = DataContainer.instance.mapGlobalSize.y;
                 break;
             // top
             case 1:
                 minX = 0;
-                maxX = DataContainer.mapGlobalSize.x;
-                minY = DataContainer.mapGlobalSize.y;
-                maxY = DataContainer.mapGlobalSize.y;
+                maxX = DataContainer.instance.mapGlobalSize.x;
+                minY = DataContainer.instance.mapGlobalSize.y;
+                maxY = DataContainer.instance.mapGlobalSize.y;
                 break;
             // right
             case 2:
-                minX = DataContainer.mapGlobalSize.x;
-                maxX = DataContainer.mapGlobalSize.x;
+                minX = DataContainer.instance.mapGlobalSize.x;
+                maxX = DataContainer.instance.mapGlobalSize.x;
                 minY = 0;
-                maxY = DataContainer.mapGlobalSize.y;
+                maxY = DataContainer.instance.mapGlobalSize.y;
                 break;
             // bottom
             case 3:
                 minX = 0;
-                maxX = DataContainer.mapGlobalSize.x;
+                maxX = DataContainer.instance.mapGlobalSize.x;
                 minY = 0;
                 maxY = 0;
                 break;

@@ -87,8 +87,8 @@ public class Enemy extends Creature {
 
     private void placeElementFromGlobalPos(PointF globalPos) {
         PointF initialPosOnScreen = new PointF();
-        initialPosOnScreen.x = globalPos.x - DataContainer.player.getPos().x + DataContainer.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
-        initialPosOnScreen.y = globalPos.y - DataContainer.player.getPos().y + DataContainer.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
+        initialPosOnScreen.x = globalPos.x - DataContainer.instance.player.getPos().x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
+        initialPosOnScreen.y = globalPos.y - DataContainer.instance.player.getPos().y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
         this.enemy.placeAt(initialPosOnScreen.x, initialPosOnScreen.y);
         this.enemy.setPosition(new PointF(globalPos.x, globalPos.y));
     }
@@ -96,7 +96,7 @@ public class Enemy extends Creature {
     private void move(Player player, int speed) {
         angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
         direction.set(angle, speed);
-        enemy.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y);
+        enemy.moveBy(-DataContainer.instance.mapMovement.x, -DataContainer.instance.mapMovement.y);
         enemy.move(direction);
     }
 

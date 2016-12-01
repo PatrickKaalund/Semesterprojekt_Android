@@ -33,18 +33,18 @@ public class PlayerRemote extends PlayerCommon implements RemotePlayer {
         remotePlayer = super.player;
 
         // Place remotePlayer 250 right from local player
-        placeElementFromGlobalPos(new PointF(DataContainer.player.getPos().x + offset, DataContainer.player.getPos().y));
+        placeElementFromGlobalPos(new PointF(DataContainer.instance.player.getPos().x + offset, DataContainer.instance.player.getPos().y));
 
-        xNew = xOld = DataContainer.player.getPos().x;
-        yNew = yOld = DataContainer.player.getPos().y;
+        xNew = xOld = DataContainer.instance.player.getPos().x;
+        yNew = yOld = DataContainer.instance.player.getPos().y;
 
         direction = new Direction();
     }
 
     private void placeElementFromGlobalPos(PointF globalPos) {
         PointF posOnScreen = new PointF();
-        posOnScreen.x = globalPos.x - map.screenPos.x + DataContainer.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
-        posOnScreen.y = globalPos.y - map.screenPos.y + DataContainer.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
+        posOnScreen.x = globalPos.x - map.screenPos.x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
+        posOnScreen.y = globalPos.y - map.screenPos.y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
         this.remotePlayer.placeAt(posOnScreen.x, posOnScreen.y);
         this.remotePlayer.setPosition(new PointF(globalPos.x, globalPos.y));
         this.remotePlayer.setAngle(angle);

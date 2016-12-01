@@ -92,14 +92,14 @@ public class BackgroundEntity extends GraphicEntity {
     public void move(Direction direction, Player player) {
         Matrix transformationMatrix = new Matrix();
         directionLock.check(direction, outerBoarder, screenPos, player.playerTLBR);
-        DataContainer.mapMovement.x = 0;
-        DataContainer.mapMovement.y = 0;
+        DataContainer.instance.mapMovement.x = 0;
+        DataContainer.instance.mapMovement.y = 0;
         switch (~(player.playerLock | 0xFFFFFFFC)) {//Invert player lock
             case UNLOCKED:
                 // Player is locked
                 transformationMatrix.setTranslate(-direction.velocity_X, -direction.velocity_Y);
-                DataContainer.mapMovement.x = direction.velocity_X;
-                DataContainer.mapMovement.y = direction.velocity_Y;
+                DataContainer.instance.mapMovement.x = direction.velocity_X;
+                DataContainer.instance.mapMovement.y = direction.velocity_Y;
 
                 screenPos.x += direction.velocity_X;
                 screenPos.y += direction.velocity_Y;
@@ -112,7 +112,7 @@ public class BackgroundEntity extends GraphicEntity {
                 transformationMatrix.setTranslate(0, -direction.velocity_Y);
                 screenPos.y += direction.velocity_Y;
                 player.getPlayerEntity().getPosition().y += direction.velocity_Y;
-                DataContainer.mapMovement.y = direction.velocity_Y;
+                DataContainer.instance.mapMovement.y = direction.velocity_Y;
 
                 break;
             case Y_LOCKED:
@@ -121,7 +121,7 @@ public class BackgroundEntity extends GraphicEntity {
                 transformationMatrix.setTranslate(-direction.velocity_X, 0);
                 screenPos.x += direction.velocity_X;
                 player.getPlayerEntity().getPosition().x += direction.velocity_X;
-                DataContainer.mapMovement.x = direction.velocity_X;
+                DataContainer.instance.mapMovement.x = direction.velocity_X;
 
 
                 break;
@@ -134,7 +134,7 @@ public class BackgroundEntity extends GraphicEntity {
         }
 
         transformationMatrix.mapRect(baseRact);
-        DataContainer.mapBaseRect = baseRact;
+        DataContainer.instance.mapBaseRect = baseRact;
     }
 
 

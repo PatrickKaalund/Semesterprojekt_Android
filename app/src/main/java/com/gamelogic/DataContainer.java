@@ -10,11 +10,12 @@ import android.graphics.RectF;
 
 public class DataContainer {
 
-    public static Player player;
-    public static PointF mapMovement = new PointF(0, 0);
-    public static PointF mapGlobalSize = new PointF(0, 0);
-    public static RectF mapBaseRect;
-    public static Context gameContext;
-    public static boolean multiplayerGame = false;
+    public static DataContainer instance = new DataContainer();
+    public Player player;
+    public PointF mapMovement = new PointF(0, 0);
+    public PointF mapGlobalSize = new PointF(0, 0);
+    public RectF mapBaseRect;
+    public Context gameContext;
+    public boolean multiplayerGame = false;
 
 }

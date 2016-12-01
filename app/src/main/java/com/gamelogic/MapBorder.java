@@ -44,19 +44,19 @@ public class MapBorder {
 //            borderEntityBottom.placeAt(index, offset);
 //        }
         float offset = 0;
-        for(int index = 0; index < DataContainer.mapGlobalSize.y; index += 250) {
+        for(int index = 0; index < DataContainer.instance.mapGlobalSize.y; index += 250) {
             Entity borderEntityTop = mapBorderFactory.createEntity();
             Entity borderEntityBottom = mapBorderFactory.createEntity();
-            borderEntityTop.placeAt(index, DataContainer.mapGlobalSize.y - 40);
+            borderEntityTop.placeAt(index, DataContainer.instance.mapGlobalSize.y - 40);
             borderEntityBottom.placeAt(index, offset);
             borderEntities.add(borderEntityTop);
             borderEntities.add(borderEntityBottom);
         }
-        for(int index = 0; index < DataContainer.mapGlobalSize.x; index += 250) {
+        for(int index = 0; index < DataContainer.instance.mapGlobalSize.x; index += 250) {
             Entity borderEntityLeft = mapBorderFactory.createEntity();
             Entity borderEntityRight = mapBorderFactory.createEntity();
             borderEntityLeft.placeAt(offset, index);
-            borderEntityRight.placeAt(DataContainer.mapGlobalSize.x - offset, index);
+            borderEntityRight.placeAt(DataContainer.instance.mapGlobalSize.x - offset, index);
             borderEntities.add(borderEntityLeft);
             borderEntities.add(borderEntityRight);
         }
@@ -65,7 +65,7 @@ public class MapBorder {
     public void update() {
         // Adjust for map
         for(Entity entity : borderEntities){
-            entity.moveBy(-DataContainer.mapMovement.x, -DataContainer.mapMovement.y, 0);
+            entity.moveBy(-DataContainer.instance.mapMovement.x, -DataContainer.instance.mapMovement.y, 0);
         }
     }
 
