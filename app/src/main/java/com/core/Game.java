@@ -137,7 +137,6 @@ public class Game implements Runnable {
 
     }
 
-
     public void setJoystick(JoystickView joystickView) {
         control.setJoystick(joystickView);
     }
