@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         this.view = view;
 
-        TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);
+        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlay);
 
         nextButton.setOnClickListener(this);
 
@@ -51,7 +52,6 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
         settings.setOnClickListener(this);
         quit.setOnClickListener(this);
         debug.setOnClickListener(this);
-
 
         view.bringToFront();
 
@@ -75,9 +75,20 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                     break;
 
                 case R.id.buttonPlayMulti:
-                    play(v);
+                    Log.d("ButtonMainFragment", "Multiplayer game!");
                     DataContainer.instance.multiplayerGame = true;
-                    break;
+
+                    v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
+                    audioPlayer.playAudioFromRaw(R.raw.click);
+
+//                    getChildFragmentManager().beginTransaction()
+//                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+//                            .remove(this)
+//                            .add(R.id.fragment_multiplayer, new MultiplayerFragment())
+//                            .commit();
+                    play(v);
+
+                break;
 
                 case R.id.buttonSettings:
                     v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.view_clicked));

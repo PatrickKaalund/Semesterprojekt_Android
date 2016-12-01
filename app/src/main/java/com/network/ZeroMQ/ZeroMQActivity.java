@@ -18,7 +18,7 @@ public class ZeroMQActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_zero_mq);
+        setContentView(R.fragment_multiplayer.activity_zero_mq);
 
         textView = (TextView)findViewById(R.id.text_console);
         editText = (EditText)findViewById(R.id.text_message);

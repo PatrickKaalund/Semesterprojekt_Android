@@ -24,7 +24,7 @@ public class Spillet_frag extends Fragment implements View.OnClickListener {
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     Log.d("Velkomst_frag", "fragmentet blev vist!");
 
-    // Programmatisk layout
+    // Programmatisk fragment_multiplayer
     TableLayout tl = new TableLayout(getActivity());
 
     info = new TextView(getActivity());

@@ -28,7 +28,7 @@ public class Main extends BaseActivity {
             Fragment fragment = new LoginFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_login, fragment)  // tom container i layout
+                    .add(R.id.fragment_login, fragment)  // tom container i fragment_multiplayer
                     .commit();
         }
     }
