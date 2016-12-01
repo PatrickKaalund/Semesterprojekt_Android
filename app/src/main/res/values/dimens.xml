@@ -8,4 +8,5 @@
     <dimen name="small_circle_radius">16sp</dimen>
 
     <dimen name="min_gap">55sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>

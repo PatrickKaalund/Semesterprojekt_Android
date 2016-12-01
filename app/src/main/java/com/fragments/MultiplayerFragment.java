@@ -24,10 +24,10 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
 
         View view = inflater.inflate(R.layout.fragment_multiplayer, container, false);
         this.view = view;
-
-        TextView playButton = (TextView) view.findViewById(R.id.buttonPlay);
-
-        playButton.setOnClickListener(this);
+//
+//        TextView playButton = (TextView) view.findViewById(R.id.buttonPlay);
+//
+//        playButton.setOnClickListener(this);
 
         audioPlayer = new AudioPlayer(view.getContext());
 
