@@ -28,7 +28,7 @@ public class EnemySpawner {
     public EnemySpawner(Context c) {
         this.displayMetrics = c.getResources().getDisplayMetrics();
         sizeOfEnemy = new PointF(200, 200);
-        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol, sizeOfEnemy.x, sizeOfEnemy.y, 2, 36, new PointF(0, 0));
+        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol_reshaped, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
         enemies = new ArrayList<>();
 
     }

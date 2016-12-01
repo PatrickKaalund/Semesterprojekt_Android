@@ -64,6 +64,10 @@ public class Player extends PlayerCommon {
 
         // ----- Player stuff -----
         player = super.player;
+        player.setAngleOffSet(0);
+        player.setAnimationDivider(1);
+        player.setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
+
 //        player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
 //        player.placeAt(startPos.x,startPos.y);
 //        player.setPosition(new PointF(startPos.x /*+ context.getResources().getDisplayMetrics().widthPixels/2*/, startPos.y /*+ context.getResources().getDisplayMetrics().heightPixels/2*/));
@@ -95,11 +99,11 @@ public class Player extends PlayerCommon {
 
         audioPlayer = new AudioPlayer(context);
 
-        player.setAnimationOffset(46);
+
 
         weaponsHandler.setCurrentWeapon(WeaponsHandler.weaponList_e.GUN);
 
-        player.drawNextSprite();
+
     }
 
 
