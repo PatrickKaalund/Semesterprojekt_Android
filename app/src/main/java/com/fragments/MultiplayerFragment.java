@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,6 +31,18 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
         TextView playButton = (TextView) view.findViewById(R.id.buttonPlayM);
 
         playButton.setOnClickListener(this);
+
+        NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.numberPickerMultiplayer);
+
+        numberPicker.setMinValue(0);
+        numberPicker.setMaxValue(10);
+
+        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                Log.e("MultiplayerFragment", "Selected Number : " + newVal);
+            }
+        });
 
         audioPlayer = new AudioPlayer(view.getContext());
 
