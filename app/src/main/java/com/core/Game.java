@@ -2,7 +2,9 @@ package com.core;
 
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.PointF;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
@@ -19,6 +21,7 @@ import com.graphics.BackgroundEntity;
 import com.graphics.BackgroundFactory;
 import com.graphics.FPSMeasuring;
 import com.graphics.OurGLSurfaceView;
+import com.graphics.ShaderHandler;
 import com.network.Firebase.NetworkHandler;
 import com.views.DropDownMenu;
 
@@ -91,7 +94,9 @@ public class Game implements Runnable {
         initGameComponents();
 
         fpsMeasuring = new FPSMeasuring(context);
+
         fpsMeasuring.start();
+
         gameStart();
 
         thread = new Thread(this);
@@ -166,8 +171,8 @@ public class Game implements Runnable {
             }
 
             try {
-                Thread.sleep(33);
-//                Thread.sleep(100);
+ //               Thread.sleep(33);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

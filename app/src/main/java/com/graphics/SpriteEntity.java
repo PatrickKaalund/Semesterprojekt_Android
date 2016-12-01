@@ -200,7 +200,7 @@ class SpriteEntity extends GraphicEntity implements Entity {
     }
 
     public void drawNextSprite() {
-        if (++this.animationCounter > this.animationDivider) {
+        if (++this.animationCounter >= this.animationDivider) {
             animationCounter = 0;
             if (animationOrder.length == 0) {
                 currentSprite++;

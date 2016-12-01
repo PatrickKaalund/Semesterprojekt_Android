@@ -122,12 +122,12 @@ class WeaponsHandler {
 
             case GUN:
                 ammoAnimationOffset = 25;
-                player.setAnimationOffset(46);
+                player.setAnimationOffset(44);
                 break;
 
             case SHOTGUN:
                 ammoAnimationOffset = 0;
-                player.setAnimationOffset(23);
+                player.setAnimationOffset(22);
                 break;
 
             case AK47:
