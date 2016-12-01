@@ -16,6 +16,7 @@ public abstract class PlayerCommon extends Creature {
     private SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.players_red_small, 120, 120, 12, 11, new PointF(0, 0));
     protected Entity player;
     public int lives;
+    public String name;
 
     public PlayerCommon() {
         player = playerFactory.createEntity();

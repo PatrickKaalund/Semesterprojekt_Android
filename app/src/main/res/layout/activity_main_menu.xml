@@ -12,124 +12,124 @@
     tools:context="com.activities.MainMenu"
     android:background="@drawable/explosion">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@color/black_overlay"
-        android:id="@+id/overlay"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:visibility="gone" />
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:srcCompat="@color/black_overlay"-->
+        <!--android:id="@+id/overlay"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true"-->
+        <!--android:visibility="gone" />-->
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        style="@android:style/Widget.Material.ProgressBar.Large"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true" />
+    <!--<ProgressBar-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/progressBar"-->
+        <!--style="@android:style/Widget.Material.ProgressBar.Large"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_centerVertical="true" />-->
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/master_tank"
-        android:layout_marginTop="118sp"
-        android:layout_alignParentStart="true"
-        android:id="@+id/MasterTank" />
+    <!--<GridLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:background="@drawable/master_tank"-->
+        <!--android:layout_marginTop="118sp"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:id="@+id/MasterTank" />-->
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/OuterRelativeLayout">
+    <!--<RelativeLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/OuterRelativeLayout">-->
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:id="@+id/RLayout"
-            android:layout_alignParentStart="true">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:visibility="invisible"-->
+            <!--android:id="@+id/RLayout"-->
+            <!--android:layout_alignParentStart="true">-->
 
-            <Button
-                android:text="MQTT"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonMQTTTest"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentStart="true"
-                android:visibility="invisible" />
+            <!--<Button-->
+                <!--android:text="MQTT"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonMQTTTest"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentStart="true"-->
+                <!--android:visibility="invisible" />-->
 
-            <Button
-                android:text="MapTest"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonMapTest"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:visibility="invisible" />
+            <!--<Button-->
+                <!--android:text="MapTest"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonMapTest"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_alignParentEnd="true"-->
+                <!--android:visibility="invisible" />-->
 
-            <Button
-                android:text="Firebase"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonFirebaseTest"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:visibility="invisible" />
+            <!--<Button-->
+                <!--android:text="Firebase"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonFirebaseTest"-->
+                <!--android:layout_alignParentBottom="true"-->
+                <!--android:layout_centerHorizontal="true"-->
+                <!--android:visibility="invisible" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonQuit"
-                android:background="@drawable/quit_main"
-                android:layout_below="@+id/buttonDebug"
-                android:layout_alignEnd="@+id/buttonFirebaseTest" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonQuit"-->
+                <!--android:background="@drawable/quit_main"-->
+                <!--android:layout_below="@+id/buttonDebug"-->
+                <!--android:layout_alignEnd="@+id/buttonFirebaseTest" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonPlayMulti"
-                android:background="@drawable/multiplayer"
-                android:layout_above="@+id/buttonSettings"
-                android:layout_centerHorizontal="true" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonPlayMulti"-->
+                <!--android:background="@drawable/multiplayer"-->
+                <!--android:layout_above="@+id/buttonSettings"-->
+                <!--android:layout_centerHorizontal="true" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonPlay"
-                android:background="@drawable/singleplayer"
-                android:layout_above="@+id/buttonPlayMulti"
-                android:layout_centerHorizontal="true" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonPlay"-->
+                <!--android:background="@drawable/singleplayer"-->
+                <!--android:layout_above="@+id/buttonPlayMulti"-->
+                <!--android:layout_centerHorizontal="true" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonDebug"
-                android:background="@drawable/debug"
-                android:layout_above="@+id/buttonFirebaseTest"
-                android:layout_centerHorizontal="true" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonDebug"-->
+                <!--android:background="@drawable/debug"-->
+                <!--android:layout_above="@+id/buttonFirebaseTest"-->
+                <!--android:layout_centerHorizontal="true" />-->
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/buttonSettings"
-                android:background="@drawable/settings_small"
-                android:layout_above="@+id/buttonDebug"
-                android:layout_centerHorizontal="true" />
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/buttonSettings"-->
+                <!--android:background="@drawable/settings_small"-->
+                <!--android:layout_above="@+id/buttonDebug"-->
+                <!--android:layout_centerHorizontal="true" />-->
 
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:background="@drawable/logo"
-            android:id="@+id/MasterTankLogo"
-            android:foregroundGravity="top"
-            android:maxHeight="12sp"
-            android:textSize="12sp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAlignment="center"-->
+            <!--android:background="@drawable/logo"-->
+            <!--android:id="@+id/MasterTankLogo"-->
+            <!--android:foregroundGravity="top"-->
+            <!--android:maxHeight="12sp"-->
+            <!--android:textSize="12sp"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_alignParentStart="true" />-->
 
-    </RelativeLayout>
+    <!--</RelativeLayout>-->
 
 </RelativeLayout>
