@@ -24,7 +24,6 @@ import com.views.DropDownMenu;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
-import static com.gamelogic.DataContainer.gameContext;
 
 public class Game implements Runnable {
 
