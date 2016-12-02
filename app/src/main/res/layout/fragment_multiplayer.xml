@@ -39,13 +39,7 @@
             android:id="@+id/numberPicker"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/color_red_overlay_dead"
             />
 
-        <!--<NumberPicker-->
-            <!--android:id="@+id/numberPicker"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/color_red_overlay_dead"/>-->
     </RelativeLayout>
 </RelativeLayout>
