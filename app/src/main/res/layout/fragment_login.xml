@@ -20,13 +20,13 @@
         tools:layout_editor_absoluteY="312dp"
         tools:layout_editor_absoluteX="31dp"
         android:adjustViewBounds="true"
-        android:layout_above="@+id/buttonPlayM"
+        android:layout_above="@+id/buttonPlay"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonPlayM"
+        android:id="@+id/buttonPlay"
         android:background="@drawable/next"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />

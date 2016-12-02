@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.activities.InGame;
@@ -28,7 +27,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
         View view = inflater.inflate(R.layout.fragment_multiplayer, container, false);
         this.view = view;
 
-        TextView playButton = (TextView) view.findViewById(R.id.buttonPlayM);
+        TextView playButton = (TextView) view.findViewById(R.id.buttonPlay);
 
         playButton.setOnClickListener(this);
 
@@ -59,7 +58,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.buttonPlayM:
+            case R.id.buttonPlay:
                 Log.d("MultiplayerFragment", "Start multiplayer clicked!");
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 audioPlayer.playAudioFromRaw(R.raw.click);

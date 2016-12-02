@@ -69,7 +69,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.buttonPlayM:
+                case R.id.buttonPlay:
                     play(v);
                     DataContainer.instance.multiplayerGame = false;
                     break;
@@ -86,7 +86,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                     getFragmentManager().beginTransaction()
                             .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                             .remove(this)
-                            .add(R.id.fragment_login, new MultiplayerFragment())
+                            .add(R.id.fragment_login_holder, new MultiplayerFragment())
                             .addToBackStack(null)
                             .commit();
 

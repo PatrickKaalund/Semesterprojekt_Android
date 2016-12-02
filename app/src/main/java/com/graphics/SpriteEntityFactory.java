@@ -58,7 +58,7 @@ public class SpriteEntityFactory extends EntityFactory {
     }
 
     public void delete() {
-        drawList.remove(this.index);
+        drawList.remove(this);
     }
 
     private void makeSprites() {
