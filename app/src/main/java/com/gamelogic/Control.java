@@ -110,17 +110,17 @@ public class Control {
 
                             } else if (menuItem == 2) {
                                 Log.d("DropDownPressed", "Rifle");
-                                game.getPlayer().getWeaponsHandler().setCurrentWeapon(WeaponsHandler.weaponList_e.AK47);
+                                game.getPlayer().getWeaponsHandler().setCurrentWeapon(WeaponsHandler.WeaponList_e.AK47);
                                 dropDownMenu.closeMenu();
 
                             } else if (menuItem == 3) {
                                 Log.d("DropDownPressed", "Shotgun");
-                                game.getPlayer().getWeaponsHandler().setCurrentWeapon(WeaponsHandler.weaponList_e.SHOTGUN);
+                                game.getPlayer().getWeaponsHandler().setCurrentWeapon(WeaponsHandler.WeaponList_e.SHOTGUN);
                                 dropDownMenu.closeMenu();
 
                             } else if (menuItem == 4) {
                                 Log.d("DropDownPressed", "Sidearm");
-                                game.getPlayer().getWeaponsHandler().setCurrentWeapon(WeaponsHandler.weaponList_e.GUN);
+                                game.getPlayer().getWeaponsHandler().setCurrentWeapon(WeaponsHandler.WeaponList_e.GUN);
                                 dropDownMenu.closeMenu();
                             }
                     }

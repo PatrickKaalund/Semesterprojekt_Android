@@ -67,8 +67,8 @@ public class Enemy extends Creature {
     Direction direction;
     int angle;
 
-    public Enemy(Entity enemy, int health, int speed, PointF startLocation) {
-
+    public Enemy(EnemySpawner mother, Entity enemy, int health, int speed, PointF startLocation) {
+        this.mother = mother;
 
         super.speed = speed;
         super.health = health;
@@ -80,9 +80,10 @@ public class Enemy extends Creature {
         this.enemy.setCurrentSprite(4);
         this.enemy.setAngleOffSet(-225);     // pointing right
         this.enemy.setAnimationDivider(3);
+
         this.enemy.setAnimationOrder(state.getAnimations());
         direction = new Direction();
-        this.enemy.setHitBoxSize(50,50);
+        this.enemy.setHitBoxSize(50, 50);
     }
 
     private void placeElementFromGlobalPos(PointF globalPos) {
@@ -142,9 +143,10 @@ public class Enemy extends Creature {
             case ATACKING:
                 move(player, 0);
                 enemy.drawNextSprite();
-                if (state.stateCounter++ == ATACKING_STATE_COUNTER / 2) {
+                if (enemy.getCurrentSprite() == 14 && player.getPlayerEntity().collision(enemy.getPosition())) {
                     player.doDamage(damege);
-                } else if (state.stateCounter == ATACKING_STATE_COUNTER) {
+                }
+                if (enemy.getCurrentSprite() == 21) {
                     if (player.getPlayerEntity().collision(enemy.getPosition())) {
                         state.setState(ATACKING);
                     } else {
@@ -152,8 +154,8 @@ public class Enemy extends Creature {
                         enemy.setAnimationOrder(state.getAnimations());
                         enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
                     }
-
                 }
+
 
                 break;
             case DIYNG:
