@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.activities.InGame;
-import com.activities.OptionsActivity;
+import com.activities.Options;
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.DataContainer;
@@ -34,15 +34,13 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         this.view = view;
 
-        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlayM);
+        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlay);
 
         nextButton.setOnClickListener(this);
 
-        audioPlayer = new AudioPlayer(view.getContext());
-
         audioPlayer = new AudioPlayer(getContext());
 
-        TextView play = (TextView) getActivity().findViewById(R.id.buttonPlayM);
+        TextView play = (TextView) getActivity().findViewById(R.id.buttonPlay);
         TextView playMulti = (TextView) getActivity().findViewById(R.id.buttonPlayMulti);
         TextView settings = (TextView) getActivity().findViewById(R.id.buttonSettings);
         TextView quit = (TextView) getActivity().findViewById(R.id.buttonQuit);
@@ -71,7 +69,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.buttonPlayM:
+                case R.id.buttonPlay:
                     play(v);
                     DataContainer.instance.multiplayerGame = false;
                     break;
@@ -88,7 +86,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                     getFragmentManager().beginTransaction()
                             .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                             .remove(this)
-                            .add(R.id.fragment_login, new MultiplayerFragment())
+                            .add(R.id.fragment_login_holder, new MultiplayerFragment())
                             .addToBackStack(null)
                             .commit();
 
@@ -99,7 +97,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                 case R.id.buttonSettings:
                     v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.view_clicked));
                     audioPlayer.playAudioFromRaw(R.raw.click);
-                    Intent settings = new Intent(getContext(), OptionsActivity.class);
+                    Intent settings = new Intent(getContext(), Options.class);
                     startActivity(settings);
                     break;
 

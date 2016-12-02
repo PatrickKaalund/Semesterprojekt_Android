@@ -3,14 +3,9 @@ package com.graphics;
 import android.graphics.RectF;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
-/**
- * Created by thor on 10/22/16.
- */
 
 public class GraphicsTools {
 
@@ -28,7 +23,7 @@ public class GraphicsTools {
      * @param r the rectangle to get the corners of
      * @return the float array of corners (8 floats)
      */
-    public static float[] getCornersFromRect(RectF r) {
+    static float[] getCornersFromRect(RectF r) {
         float[] corners = new float[]{
                 r.left, r.top,
                 r.left, r.bottom,
@@ -141,7 +136,7 @@ public class GraphicsTools {
 //        return r;
 //    }
 
-    public static float[] getCornersFromRectWithZ(RectF r) {
+    static float[] getCornersFromRectWithZ(RectF r) {
         float[] p = getCornersFromRect(r);
         float[] px = {p[0], p[1], 0f, p[2], p[3], 0f, p[4], p[5], 0f, p[6], p[7], 0f};
 
@@ -154,7 +149,7 @@ public class GraphicsTools {
         return px;
     }
 
-    public static String rectToString(RectF r) {
+    static String rectToString(RectF r) {
         return Arrays.toString(getCornersFromRect(r));
     }
 
@@ -162,9 +157,8 @@ public class GraphicsTools {
         return Arrays.toString(getCornersFromRectWithZ(r));
     }
 
-    public static String allVertecisToString(ArrayList<RectF> sprites) {
-        String r = new String();
-        r = "Sprites count: " + sprites.size() + '\n';
+    static String allVertecisToString(ArrayList<RectF> sprites) {
+        String r = "Sprites count: " + sprites.size() + '\n';
         for (RectF s : sprites) {
             r += Arrays.toString(getCornersFromRect(s)) + '\n';
         }

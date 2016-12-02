@@ -1,13 +1,5 @@
 package com.graphics;
 
-import android.graphics.RectF;
-
-import static com.graphics.GraphicsTools.LL;
-
-/**
- * Created by thor on 11/4/16.
- */
-
 public class Direction {
 
     public int tag;

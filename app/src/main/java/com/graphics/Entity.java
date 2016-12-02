@@ -12,60 +12,60 @@ import java.util.ArrayList;
 
 public interface Entity {
 
-    public void moveBy(float deltaX, float deltaY, float angle);
+    void moveBy(float deltaX, float deltaY, float angle);
 
-    public void moveBy(float deltaX, float deltaY);
+    void moveBy(float deltaX, float deltaY);
 
-    public void placeAt(float x, float y);
+    void placeAt(float x, float y);
 
-    public void scale(float deltas);
+    void scale(float deltas);
 
-    public void rotate(float deltaa);
+    void rotate(float deltaa);
 
-    public void drawNextSprite();
+    void drawNextSprite();
 
-    public void setCurrentSprite(int currentSprite);
+    void setCurrentSprite(int currentSprite);
 
-    public int getCurrentSprite();
+    int getCurrentSprite();
 
-    public void setAngleOffSet(float angleOffSet);
+    void setAngleOffSet(float angleOffSet);
 
-    public void setAngle(float angle);
+    void setAngle(float angle);
 
-    public RectF getRect();
+    RectF getRect();
 
-    public Direction move(Direction direction);
+    Direction move(Direction direction);
 
 //    public void setLock(LockDirection lockDirection);
 
-    public void setAnimationDivider(int animationSpeed);
+    void setAnimationDivider(int animationSpeed);
 
-    public void setAnimationOrder(int[] animationOrder);
+    void setAnimationOrder(int[] animationOrder);
 
-    public PointF getPosition();
+    PointF getPosition();
 
-    public void setPosition(PointF position);
+    void setPosition(PointF position);
 
-    public boolean collision(float x, float y);
+    boolean collision(float x, float y);
 
-    public boolean collision(PointF pos);
+    boolean collision(PointF pos);
 
-    public boolean isHit();
+    boolean isHit();
 
-    public void setHit(boolean hit);
+    void setHit(boolean hit);
 
-    public void delete();
+    void delete();
 
-    public boolean collisionBoarder(Entity in);
+    boolean collisionBoarder(Entity in);
 
-    public Direction moveBy(Direction direction);
+    Direction moveBy(Direction direction);
 
-    public void setAnimationOffset(int animationOffset);
+    void setAnimationOffset(int animationOffset);
 
-    public void setHitBoxSize(int width, int height);
+    void setHitBoxSize(int width, int height);
 
-    public void mustDrawThis(boolean draw);
+    void mustDrawThis(boolean draw);
 
-    public int getNextSprite();
+    int getNextSprite();
 //    public void updateCurrentSprite();
 }

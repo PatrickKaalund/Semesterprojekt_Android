@@ -5,17 +5,13 @@ import android.graphics.RectF;
 
 import java.util.ArrayList;
 
-import static com.graphics.GlRendere.drawList;
-import static com.graphics.GraphicsTools.LL;
+import static com.graphics.GlRenderer.drawList;
 
-/**
- * Created by thor on 10/27/16.
- */
 
 public class SpriteEntityFactory extends EntityFactory {
 
-    protected int spriteCount;
-    protected ArrayList<RectF> sprites = new ArrayList<>();
+    int spriteCount;
+    ArrayList<RectF> sprites = new ArrayList<>();
     private float modelBaseHeight;
     private float modelBaseWidth;
     private PointF pos;
@@ -28,7 +24,7 @@ public class SpriteEntityFactory extends EntityFactory {
         this.modelBaseWidth = modelBaseWidth;
         this.pos = pos;
         makeSprites();
-        GlRendere.drawList.add(this);
+        GlRenderer.drawList.add(this);
     }
 
     public Entity createEntity() {
@@ -48,7 +44,7 @@ public class SpriteEntityFactory extends EntityFactory {
     }
 
 
-    public void removeEntity(Entity e) {
+    void removeEntity(Entity e) {
         SpriteEntity se = (SpriteEntity) e;
         if (se.mustDrawThis()) {
             entityDrawCount--;
@@ -57,8 +53,8 @@ public class SpriteEntityFactory extends EntityFactory {
         productionLine.remove(se);
     }
 
-    public void delete() {
-        drawList.remove(this.index);
+    void delete() {
+        drawList.remove(this);
     }
 
     private void makeSprites() {
@@ -85,7 +81,7 @@ public class SpriteEntityFactory extends EntityFactory {
         return GraphicsTools.allVertecisToString(sprites);
     }
 
-    public PointF getPos() {
+    PointF getPos() {
         return this.pos;
     }
 

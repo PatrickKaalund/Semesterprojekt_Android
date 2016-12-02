@@ -15,20 +15,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-/**
- * Created by PatrickKaalund on 10/11/2016.
- */
 
 public class EnemySpawner {
     private SpriteEntityFactory enemyFactory;
     private ArrayList<Enemy> enemies;
-    private PointF sizeOfEnemy;
-    private DisplayMetrics displayMetrics;
 
 
     public EnemySpawner(Context c) {
-        this.displayMetrics = c.getResources().getDisplayMetrics();
-        sizeOfEnemy = new PointF(200, 200);
+        DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
+        PointF sizeOfEnemy = new PointF(200, 200);
         enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol_reshaped, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
         enemies = new ArrayList<>();
 
@@ -96,7 +91,7 @@ public class EnemySpawner {
         }
     }
 
-    public ArrayList<Enemy> getEnemies() {
+    ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 

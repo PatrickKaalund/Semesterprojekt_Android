@@ -29,7 +29,7 @@ public class ItemSpawner {
         this.player = player;
     }
 
-    public void spawn(int size, ItemCommon.ItemList_e type, PointF startLocation){
+    private void spawn(int size, ItemCommon.ItemList_e type, PointF startLocation){
         ItemCommon item = new ItemCommon(itemFactory, size, type, startLocation, player);
         items.add(item);
     }

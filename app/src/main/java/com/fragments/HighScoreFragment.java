@@ -1,5 +1,6 @@
 package com.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -13,7 +14,7 @@ import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class HighScoreFragment extends Fragment implements View.OnClickListener {
 
     View view;
     private AudioPlayer audioPlayer;
@@ -21,10 +22,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
+        View view = inflater.inflate(R.layout.fragment_end_game, container, false);
         this.view = view;
 
-        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlay);
+        TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);
 
         nextButton.setOnClickListener(this);
 
@@ -43,17 +44,22 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.buttonPlay:
+            case R.id.buttonNext:
                 Log.d("Main", "Clicked");
+
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
+
                 audioPlayer.playAudioFromRaw(R.raw.click);
+
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .remove(this)
-                        .add(R.id.activity_main_menu, new ButtonMainFragment())
                         .commit();
-                break;
 
+                Activity a = (Activity) view.getContext();
+                a.finish();
+
+                break;
         }
     }
 }

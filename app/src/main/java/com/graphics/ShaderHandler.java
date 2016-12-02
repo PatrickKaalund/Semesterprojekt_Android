@@ -9,17 +9,14 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by thor on 10/16/16.
- */
 
-public class ShaderHandler {
+class ShaderHandler {
 
     //---------------Shader files available------------
     public final static String VERTEX_SHADER_SOLIDCOLOR = "VertexShader_solidColor.glsl";
     public final static String FRAGMENT_SHADER_SOLID_COLOR = "FragmentShader_solidColor.glsl";
-    public final static String VERTEX_SHADER_TEXTURE = "VertShader_texture.glsl";
-    public final static String FRAGMENT_SHADER_TEXTURE = "FragShader_texture.glsl";
+    private final static String VERTEX_SHADER_TEXTURE = "VertShader_texture.glsl";
+    private final static String FRAGMENT_SHADER_TEXTURE = "FragShader_texture.glsl";
     //-------------------------------------------------
 
 
@@ -31,7 +28,7 @@ public class ShaderHandler {
     private Context context;
 
 
-    public ShaderHandler(Context context) {
+    ShaderHandler(Context context) {
         this.context = context;
     }
 
@@ -84,7 +81,7 @@ public class ShaderHandler {
      * @param fragmentShaderFile
      * @return
      */
-    public int installShaderFiles(String vertexShaderFile,String fragmentShaderFile) {
+    private int installShaderFiles(String vertexShaderFile, String fragmentShaderFile) {
         vertexShaderID = loadShader(vertexShaderFile,GLES20.GL_VERTEX_SHADER);
         fragmentShaderID = loadShader(fragmentShaderFile,GLES20.GL_FRAGMENT_SHADER);
 
@@ -109,12 +106,12 @@ public class ShaderHandler {
         return getShaderProgramID();
     }
 
-    public void startProgram(){
+    private void startProgram(){
         GLES20.glUseProgram(getShaderProgramID());
 
     }
 
-    public void stopProgram(){
+    private void stopProgram(){
         GLES20.glUseProgram(0);
     }
 
@@ -128,20 +125,20 @@ public class ShaderHandler {
     }
 
 
-    public int installShaderFiles(){
+    int installShaderFiles(){
         return installShaderFiles(VERTEX_SHADER_TEXTURE, FRAGMENT_SHADER_TEXTURE);
     }
 
 
-    public int getVertexShaderID() {
+    private int getVertexShaderID() {
         return vertexShaderID;
     }
 
-    public int getFragmentShaderID() {
+    private int getFragmentShaderID() {
         return fragmentShaderID;
     }
 
-    public int getShaderProgramID() {
+    int getShaderProgramID() {
         return shaderProgramID;
     }
 

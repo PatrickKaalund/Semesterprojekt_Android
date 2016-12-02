@@ -43,7 +43,7 @@
             android:label="@string/title_activity_in_game"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.activities.OptionsActivity"
+            android:name="com.activities.Options"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="Settings"
             android:theme="@style/AppTheme.NoActionBar" />

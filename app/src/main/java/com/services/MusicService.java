@@ -1,21 +1,15 @@
 package com.services;
 
-import android.app.ActivityManager;
 import android.app.Service;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
-
-import java.util.List;
 
 public class MusicService extends Service implements MediaPlayer.OnErrorListener {
 

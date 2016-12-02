@@ -10,20 +10,15 @@ import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
 
-/**
- * Created by PatrickKaalund on 23/11/2016.
- */
 
 public class MapBorder {
 
-    private DisplayMetrics displayMetrics;
-    private PointF sizeOfBorderEntity;
     private SpriteEntityFactory mapBorderFactory;
     private ArrayList<Entity> borderEntities;
 
     public MapBorder(Context context){
-        this.displayMetrics = context.getResources().getDisplayMetrics();
-        sizeOfBorderEntity = new PointF(450, 450);
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        PointF sizeOfBorderEntity = new PointF(450, 450);
         mapBorderFactory = new SpriteEntityFactory(R.drawable.tree, sizeOfBorderEntity.x, sizeOfBorderEntity.y, 1, 1, new PointF(0, 0));
         borderEntities = new ArrayList<>();
 

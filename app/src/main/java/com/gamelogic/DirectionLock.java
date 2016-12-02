@@ -6,8 +6,6 @@ import android.util.Log;
 
 import com.graphics.Direction;
 
-import static com.graphics.GraphicsTools.LL;
-
 public class DirectionLock {
     public static final int UNLOCKED = 0;
     public static final int X_LOCKED = 2;
@@ -129,7 +127,7 @@ public class DirectionLock {
 
     }
 
-    public int check(Direction direction, RectF ref, float posX, float posY, int tblrIn) {
+    private int check(Direction direction, RectF ref, float posX, float posY, int tblrIn) {
         tblr = 0;
         lockXY = 0;
         int angle = direction.getAngle();
@@ -210,20 +208,18 @@ public class DirectionLock {
 
 
     public boolean isLockedX() {
-        if (lockXY == 0b10) return true;
-        else return false;
+        return lockXY == 0b10;
     }
 
     public boolean isLockedY() {
-        if (lockXY == 0b01) return true;
-        else return false;
+        return lockXY == 0b01;
     }
 
     public int getLockXY() {
         return lockXY;
     }
 
-    public int getTblr() {
+    int getTblr() {
         return tblr;
     }
 }

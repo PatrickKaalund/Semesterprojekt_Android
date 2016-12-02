@@ -8,14 +8,13 @@ import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
 
 
-public class ItemCommon extends Item{
+class ItemCommon extends Item{
     private Entity item;
     private Player player;
-    private SpriteEntityFactory itemFactory;
     private boolean hasCollided = false;
     private ItemCommon.ItemList_e type;
 
-    public enum ItemList_e {
+    enum ItemList_e {
         MEDIC,
         AMMO_YELLOW,
         AMMO_SHOTGUN_DEFAULT,
@@ -24,11 +23,10 @@ public class ItemCommon extends Item{
         AMMO_GUN_DEFAULT,
     }
 
-    public ItemCommon(SpriteEntityFactory itemFactory, int size, ItemList_e item_type, PointF startLocation, Player player) {
+    ItemCommon(SpriteEntityFactory itemFactory, int size, ItemList_e item_type, PointF startLocation, Player player) {
         this.player = player;
         this.type = item_type;
         super.size = size;
-        this.itemFactory = itemFactory;
 
         item = itemFactory.createEntity();
         item.setCurrentSprite(type.ordinal());
@@ -66,5 +64,5 @@ public class ItemCommon extends Item{
 
     public RectF getRect(){ return this.item.getRect(); }
 
-    public ItemList_e getType() { return this.type; }
+    ItemList_e getType() { return this.type; }
 }
