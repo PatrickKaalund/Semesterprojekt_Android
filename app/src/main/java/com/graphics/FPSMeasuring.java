@@ -37,7 +37,7 @@ public class FPSMeasuring extends Thread {
             counter = 0;
         }
 
-        fpsDrawer.fpsFactory.delete();
+      //  fpsDrawer.fpsFactory.delete();
     }
 
     public void startFPS(){

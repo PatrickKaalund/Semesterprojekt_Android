@@ -5,7 +5,7 @@
     android:id="@+id/activity_main_menu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.activities.MainMenu"
+    tools:context="com.activities.Main"
     android:background="@drawable/explosion"
     android:weightSum="100"
     android:orientation="horizontal">
@@ -23,9 +23,9 @@
             />
 
         <RelativeLayout
-            android:id="@+id/fragment_login"
+            android:id="@+id/fragment_login_holder"
             android:layout_width="230dp"
-            android:layout_height="250dp"
+            android:layout_height="270dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true">
         </RelativeLayout>

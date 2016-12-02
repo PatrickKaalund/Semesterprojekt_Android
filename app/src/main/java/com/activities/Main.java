@@ -8,7 +8,6 @@ import android.view.WindowManager;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.fragments.LoginFragment;
-import com.graphics.FPSMeasuring;
 
 public class Main extends BaseActivity {
 
@@ -28,7 +27,8 @@ public class Main extends BaseActivity {
             Fragment fragment = new LoginFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_login, fragment)  // tom container i fragment_multiplayer
+                    .add(R.id.fragment_login_holder, fragment)
+                    .addToBackStack(null)
                     .commit();
         }
     }

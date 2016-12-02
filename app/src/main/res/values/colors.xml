@@ -10,4 +10,5 @@
     <color name="default_color_dark">#52a6b8</color>
     <color name="color_red">#ff0000</color>
     <color name="black_overlay_darker">#ef000000</color>
+    <color name="color_red_overlay_dead">#2cff0000</color>
 </resources>

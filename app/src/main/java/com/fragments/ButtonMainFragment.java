@@ -36,8 +36,6 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
 
         nextButton.setOnClickListener(this);
 
-        audioPlayer = new AudioPlayer(view.getContext());
-
         audioPlayer = new AudioPlayer(getContext());
 
         TextView play = (TextView) getActivity().findViewById(R.id.buttonPlay);
@@ -81,12 +79,13 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                     v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                     audioPlayer.playAudioFromRaw(R.raw.click);
 
-//                    getChildFragmentManager().beginTransaction()
-//                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-//                            .remove(this)
-//                            .add(R.id.fragment_multiplayer, new MultiplayerFragment())
-//                            .commit();
-                    play(v);
+                    this.getFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                            .add(R.id.fragment_login_holder, new MultiplayerFragment())
+                        //    .remove(R.id.b)
+                            .commit();
+
+                    //play(v);
 
                 break;
 
