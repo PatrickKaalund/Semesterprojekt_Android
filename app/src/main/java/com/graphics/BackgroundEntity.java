@@ -29,9 +29,11 @@ public class BackgroundEntity extends GraphicEntity {
     public RectF outerBoarder;
     private DirectionLock directionLock;
     private RectF baseRact;
+    public PointF mapGlobalSize;
 
-    protected BackgroundEntity(float baseHeight, float baseWidth, PointF screenGlobalPos, DisplayMetrics metrics, int innerBoarderOffset) {
+    protected BackgroundEntity(PointF mapGlobalSize, PointF screenGlobalPos, DisplayMetrics metrics, int innerBoarderOffset) {
         this.metrics = metrics;
+        this.mapGlobalSize = mapGlobalSize;
         screenPos = screenGlobalPos;
         directionLock = new DirectionLock();
         mustDrawThis(true);
@@ -45,8 +47,8 @@ public class BackgroundEntity extends GraphicEntity {
 
         outerBoarder = new RectF(//Map confinement boarder
                 metrics.widthPixels / 2,
-                baseHeight - metrics.heightPixels / 2,
-                baseWidth - metrics.widthPixels / 2,
+                mapGlobalSize.y - metrics.heightPixels / 2,
+                mapGlobalSize.x - metrics.widthPixels / 2,
                 metrics.heightPixels / 2);
 
         innerBoarder = new RectF(//Screen confinement boarder

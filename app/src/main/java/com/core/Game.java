@@ -126,8 +126,8 @@ public class Game implements Runnable {
                 R.drawable.backgrounddetailed3,
                 context.getResources().getDisplayMetrics());
         map = mapFactory.createEntity(//Make background
-                MAP_OUTER_BOARDER_SIZE,
-                MAP_OUTER_BOARDER_SIZE,
+                new PointF(MAP_OUTER_BOARDER_SIZE,
+                        MAP_OUTER_BOARDER_SIZE),
                 new PointF(MAP_GLOBAL_START_POS, MAP_GLOBAL_START_POS),
                 SCREEN_CONTAINMENT_OFFSET);
 //        mapBorder = new MapBorder(context);
@@ -149,7 +149,7 @@ public class Game implements Runnable {
 
         itemSpawner.spawnItemsRandom(3);
 
-        enemySpawner.spawnEnemies(enemyHealth, enemySpeed, 3);
+        enemySpawner.spawnEnemies(map, enemyHealth, enemySpeed, 3);
 
     }
 
@@ -231,8 +231,19 @@ public class Game implements Runnable {
             second++;
         }
 
-        if(second == 30){
+        if (second == 30) {
             difficultyLevel++;
+        }
+
+        if (second > 15 - difficultyLevel) {
+
+            shouldSpawnEnemy = rand.nextInt(100 + difficultyLevel);
+
+            if (shouldSpawnEnemy + difficultyLevel < (100 + difficultyLevel) / 2) {
+                Log.w("GAME STATE", "Spawning enemy");
+                enemySpawner.spawn(map, (int) (enemyHealth + difficultyLevel * 1.5), enemySpeed + difficultyLevel / 4);
+            }
+
         }
 
         if (second > 30 - difficultyLevel) {
@@ -243,11 +254,6 @@ public class Game implements Runnable {
             if (shouldSpawnItem < (100 + difficultyLevel) / 2) {
                 Log.w("GAME STATE", "Spawning item");
                 itemSpawner.spawnRandom();
-            }
-
-            if (shouldSpawnEnemy + difficultyLevel < (100 + difficultyLevel) / 2) {
-                Log.w("GAME STATE", "Spawning enemy");
-                enemySpawner.spawn((int) (enemyHealth + difficultyLevel * 1.5), enemySpeed + difficultyLevel / 4);
             }
             second = 0;
         }

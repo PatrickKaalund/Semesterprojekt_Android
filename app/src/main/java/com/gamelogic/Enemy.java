@@ -5,6 +5,7 @@ import android.graphics.RectF;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
 import com.graphics.Entity;
 
@@ -67,7 +68,7 @@ public class Enemy extends Creature {
     Direction direction;
     int angle;
 
-    public Enemy(EnemySpawner mother, Entity enemy, int health, int speed, PointF startLocation) {
+    public Enemy(BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation) {
         this.mother = mother;
 
         super.speed = speed;
@@ -75,7 +76,7 @@ public class Enemy extends Creature {
         state = new EnemyStates();
         this.enemy = enemy;
 
-        placeElementFromGlobalPos(startLocation);
+        placeElementFromGlobalPos(map,startLocation);
 
         this.enemy.setCurrentSprite(4);
         this.enemy.setAngleOffSet(-225);     // pointing right
@@ -86,10 +87,10 @@ public class Enemy extends Creature {
         this.enemy.setHitBoxSize(50, 50);
     }
 
-    private void placeElementFromGlobalPos(PointF globalPos) {
+    private void placeElementFromGlobalPos(BackgroundEntity map,PointF globalPos) {
         PointF initialPosOnScreen = new PointF();
-        initialPosOnScreen.x = globalPos.x - DataContainer.instance.player.getPos().x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
-        initialPosOnScreen.y = globalPos.y - DataContainer.instance.player.getPos().y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
+        initialPosOnScreen.x = globalPos.x - map.screenPos.x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
+        initialPosOnScreen.y = globalPos.y - map.screenPos.y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
         this.enemy.placeAt(initialPosOnScreen.x, initialPosOnScreen.y);
         this.enemy.setPosition(new PointF(globalPos.x, globalPos.y));
     }

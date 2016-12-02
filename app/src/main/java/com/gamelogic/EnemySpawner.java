@@ -8,6 +8,7 @@ import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.Enemy;
+import com.graphics.BackgroundEntity;
 import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class EnemySpawner {
 
     }
 
-    public void spawn(int health, int speed) {
+    public void spawn(BackgroundEntity map, int health, int speed) {
         Random rand = new Random();
         int spawnPlace = rand.nextInt(4); // generate random int value: 0-3
         Log.d("EnemySpawner", "Spawn place: " + spawnPlace);
@@ -45,26 +46,26 @@ public class EnemySpawner {
                 minX = 0;
                 maxX = 0;
                 minY = 0;
-                maxY = DataContainer.instance.mapGlobalSize.y;
+                maxY = map.mapGlobalSize.y;
                 break;
             // top
             case 1:
                 minX = 0;
-                maxX = DataContainer.instance.mapGlobalSize.x;
-                minY = DataContainer.instance.mapGlobalSize.y;
-                maxY = DataContainer.instance.mapGlobalSize.y;
+                maxX =map.mapGlobalSize.x;
+                minY =map.mapGlobalSize.y;
+                maxY =map.mapGlobalSize.y;
                 break;
             // right
             case 2:
-                minX = DataContainer.instance.mapGlobalSize.x;
-                maxX = DataContainer.instance.mapGlobalSize.x;
+                minX = map.mapGlobalSize.x;
+                maxX =map.mapGlobalSize.x;
                 minY = 0;
-                maxY = DataContainer.instance.mapGlobalSize.y;
+                maxY = map.mapGlobalSize.y;
                 break;
             // bottom
             case 3:
                 minX = 0;
-                maxX = DataContainer.instance.mapGlobalSize.x;
+                maxX = map.mapGlobalSize.x;
                 minY = 0;
                 maxY = 0;
                 break;
@@ -76,13 +77,13 @@ public class EnemySpawner {
         float randomX = rand.nextFloat() * (maxX - minX) + minX;
         float randomY = rand.nextFloat() * (maxY - minY) + minY;
 
-        Enemy enemy = new Enemy(this,enemyFactory.createEntity(), health, speed, new PointF(randomX,randomY));
+        Enemy enemy = new Enemy(map,enemyFactory.createEntity(), health, speed, new PointF(randomX,randomY));
         enemies.add(enemy);
     }
 
-    public void spawnEnemies(int health, int speed, int numberOfEnemies) {
+    public void spawnEnemies(BackgroundEntity map,int health, int speed, int numberOfEnemies) {
         for (int counter = 0; counter < numberOfEnemies; counter++) {
-            spawn(health, speed);
+            spawn(map,health, speed);
         }
     }
 
