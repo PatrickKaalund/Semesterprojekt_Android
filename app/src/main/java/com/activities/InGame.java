@@ -12,10 +12,7 @@ import android.view.ViewGroup;
 
 import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import com.fragments.ButtonMainFragment;
 import com.fragments.EndScreenFragment;
-import com.fragments.LoginFragment;
-import com.fragments.MultiplayerFragment;
 import com.views.DropDownMenu;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
@@ -39,7 +36,7 @@ public class InGame extends BaseActivity {
         game.setJoystick((JoystickView) findViewById(R.id.joystickView));
         game.setShootButton((FloatingActionButton) findViewById(R.id.floatingActionButton));
         game.setInventoryButton((DropDownMenu) findViewById(R.id.dropdown_menu));
-        Log.d("IndGame", "onCreate");
+        Log.d("InGame", "onCreate");
 
         //endGame();
     }
@@ -48,7 +45,7 @@ public class InGame extends BaseActivity {
     protected void onPause() {
         game.gamePause();
         super.onPause();
-        Log.d("IndGame", "onPause");
+        Log.d("InGame", "onPause");
     }
 
     @Override
@@ -58,14 +55,14 @@ public class InGame extends BaseActivity {
         preferences.edit().putInt("track", R.raw.challenge_mode).apply();
 
         super.onPostResume();
-        Log.d("IndGame", "onPostResume");
+        Log.d("InGame", "onPostResume");
     }
 
     @Override
     protected void onDestroy() {
         game.gameStop();
         super.onPause();
-        Log.d("IndGame", "onDestroy");
+        Log.d("InGame", "onDestroy");
     }
 
     public void endGame() {

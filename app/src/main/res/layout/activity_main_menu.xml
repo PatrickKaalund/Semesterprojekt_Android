@@ -23,7 +23,7 @@
             />
 
         <RelativeLayout
-            android:id="@+id/fragment_login_holder"
+            android:id="@+id/start_fragment_holder"
             android:layout_width="230dp"
             android:layout_height="270dp"
             android:layout_centerVertical="true"

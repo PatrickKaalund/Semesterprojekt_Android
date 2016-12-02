@@ -3,17 +3,11 @@ package com.graphics;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
-
-
-/**
- * Created by Patrick on 10/27/16.
- */
 
 // for debugging
 public class FPSMeasuring extends Thread {
     private FPSDrawer fpsDrawer;
-    public static int counter = 0;
+    static int counter = 0;
     public int latestFPS = 0;
     private boolean isRunning = true;
     private SharedPreferences preferences;

@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.activities.OptionsActivity;
+import com.activities.Options;
 import com.audio.AudioPlayer;
 import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
@@ -105,7 +105,7 @@ public class Control {
 
                                 audioPlayer.playAudioFromRaw(R.raw.click);
 
-                                Intent settings = new Intent(context, OptionsActivity.class);
+                                Intent settings = new Intent(context, Options.class);
                                 context.startActivity(settings);
 
                             } else if (menuItem == 2) {

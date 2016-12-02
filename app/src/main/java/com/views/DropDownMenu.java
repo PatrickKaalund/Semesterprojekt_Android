@@ -3,9 +3,7 @@ package com.views;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -15,7 +13,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,11 +20,10 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import com.example.patrickkaalund.semesterprojekt_android.R;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.activities.OptionsActivity;
-import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class DropDownMenu extends View {
 
@@ -51,7 +47,7 @@ public class DropDownMenu extends View {
     private Bitmap mPlusBitmap;
     private float mRotationAngle;
     private ValueAnimator mRotationReverseAnimation;
-    private GooeyMenuInterface mGooeyMenuInterface;
+    private DropDownMenuInterface dropDownMenuInterface;
     private Paint mCircleBorder;
     public List<Drawable> mDrawableArray;
 
@@ -308,13 +304,13 @@ public class DropDownMenu extends View {
                     cancelAllAnimation();
                     if (isMenuVisible) {
                         startHideAnimate();
-                        if (mGooeyMenuInterface != null) {
-                            mGooeyMenuInterface.menuClose();
+                        if (dropDownMenuInterface != null) {
+                            dropDownMenuInterface.menuClose();
                         }
                     } else {
                         startShowAnimate();
-                        if (mGooeyMenuInterface != null) {
-                            mGooeyMenuInterface.menuOpen();
+                        if (dropDownMenuInterface != null) {
+                            dropDownMenuInterface.menuOpen();
                         }
                     }
                     isMenuVisible = !isMenuVisible;
@@ -328,8 +324,8 @@ public class DropDownMenu extends View {
                             mDrawableArray.get(mMenuPoints.size() - menuItem).setState(STATE_ACTIVE);
                             postInvalidateDelayed(1000);
                         }
-                        if (mGooeyMenuInterface != null) {
-                            mGooeyMenuInterface.menuItemClicked(menuItem);
+                        if (dropDownMenuInterface != null) {
+                            dropDownMenuInterface.menuItemClicked(menuItem);
                         }
                         return true;
                     }
@@ -354,7 +350,6 @@ public class DropDownMenu extends View {
                 }
             }
         }
-
         return -1;
     }
 
@@ -450,7 +445,7 @@ public class DropDownMenu extends View {
         }
     };
 
-    public interface GooeyMenuInterface {
+    public interface DropDownMenuInterface {
         /**
          * Called when menu opened
          */

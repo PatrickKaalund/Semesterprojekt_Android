@@ -84,7 +84,6 @@ public class Game implements Runnable {
 
     }
 
-
     public Game(Context context) {
         Log.d("Game", "Game created");
         rand = new Random();
@@ -111,16 +110,6 @@ public class Game implements Runnable {
 
     private void initGameComponents() {
 
-//        Log.e("Game", "Waiting...");
-//
-//        try {
-//            Thread.sleep(5000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Log.e("Game", "Finished...");
-
         //Make a map
         mapFactory = new BackgroundFactory(
                 R.drawable.backgrounddetailed3,
@@ -130,7 +119,7 @@ public class Game implements Runnable {
                         MAP_OUTER_BOARDER_SIZE),
                 new PointF(MAP_GLOBAL_START_POS, MAP_GLOBAL_START_POS),
                 SCREEN_CONTAINMENT_OFFSET);
-//        mapBorder = new MapBorder(context);
+
         //Make game assets
 
         itemSpawner = new ItemSpawner(context);
@@ -262,17 +251,6 @@ public class Game implements Runnable {
             Log.e("GAME STATE", "################# GAME OVER ##################");
             isPaused = true;
         }
-
-
-//
-//        if (enemySpawmCounter++ >= enemySpawnInterval) {
-//            enemySpawmCounter = 0;
-//            enemySpawnInterval -= currentDifficulty;
-//            enemySpawner.spawn(100 + currentDifficulty, ENEMY_BASE_SPEED + (currentDifficulty / 3));
-//            currentDifficulty += DIFFICULTY_MULTIPLIER;
-//            Log.w("Game", "!!! Spawning enemy !!! watch out :-)");
-//        }
-
     }
 
     // Getters
@@ -280,9 +258,6 @@ public class Game implements Runnable {
         return glSurfaceView;
     }
 
-    //    public Control getControl() {
-//        return this.control;
-//    }
     public int getFPS() {
         return fpsMeasuring.latestFPS;
     }

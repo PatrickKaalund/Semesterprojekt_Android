@@ -1,6 +1,5 @@
 package com.network.Firebase;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.gamelogic.DataContainer;
@@ -17,10 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 
-/**
- * Created by PatrickKaalund on 13/11/2016.
- */
-
 public class NetworkHandler {
 
     private DatabaseReference mFirebaseDatabaseReference;
@@ -34,7 +29,7 @@ public class NetworkHandler {
     private int maximum = 999999999;
     private String myPlayerID;
 
-    public enum gameStatus {
+    private enum gameStatus {
         FILLING_GAME,
         BEGUN
     }
@@ -168,11 +163,11 @@ public class NetworkHandler {
 
     }
 
-    public void beginGame() {
+    private void beginGame() {
         updatePlayerPosition(DataContainer.instance.player.getPos().x, DataContainer.instance.player.getPos().y, 0);
     }
 
-    public void createNewGame() {
+    private void createNewGame() {
         Log.d("NetworkHandler", "Creating new multiplayer game");
         DataContainer.instance.player.setPlayerID(1);
         this.game += String.valueOf(randomNumber(minimum, maximum)); // game subfix
@@ -182,7 +177,7 @@ public class NetworkHandler {
         startListenGame();
     }
 
-    public void joinGame(String game) {
+    private void joinGame(String game) {
         Log.d("NetworkHandler", "Joining multiplayer game");
         this.game = game;
         DataContainer.instance.player.setPlayerID(2);
@@ -194,7 +189,6 @@ public class NetworkHandler {
 
     private int randomNumber(int min, int max) {
         Random random = new Random();
-        int randomNum = random.nextInt((max - min) + 1) + min;
-        return randomNum;
+        return random.nextInt((max - min) + 1) + min;
     }
 }

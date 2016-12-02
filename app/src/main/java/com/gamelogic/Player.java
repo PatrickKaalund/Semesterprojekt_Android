@@ -23,10 +23,6 @@ import static com.gamelogic.DirectionLock.Y_LOCKED;
 import static com.gamelogic.WeaponsHandler.*;
 
 
-/**
- * Created by PatrickKaalund on 13/10/2016.
- */
-
 public class Player extends PlayerCommon {
 
     private Entity player;
@@ -49,9 +45,9 @@ public class Player extends PlayerCommon {
 
     private Direction direction;
     private int stateCounter = 0;
-    public WeaponList_e currentWeapon;
-    public static final int EMTY_SPRITE = 21;
-    public static final int BLINK_RATE = 8;
+    private WeaponList_e currentWeapon;
+    private static final int EMTY_SPRITE = 21;
+    private static final int BLINK_RATE = 8;
     private boolean moved = false;
     private int lastMoveSprite;
 
@@ -324,11 +320,11 @@ public class Player extends PlayerCommon {
      *
      * @return
      */
-    public WeaponsHandler getWeaponsHandler() {
+    WeaponsHandler getWeaponsHandler() {
         return weaponsHandler;
     }
 
-    public void registerPickup(ItemCommon item) {
+    void registerPickup(ItemCommon item) {
 
         if (item.getType().ordinal() > 0) {
             audioPlayer.playAudioFromRaw(R.raw.reload);
@@ -352,7 +348,7 @@ public class Player extends PlayerCommon {
     }
 
 
-    public void setWeapon(WeaponList_e weapon) {
+    void setWeapon(WeaponList_e weapon) {
         currentWeapon = weapon;
         player.setAnimationOffset(getSpriteOffset());
     }

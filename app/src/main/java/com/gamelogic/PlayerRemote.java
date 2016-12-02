@@ -11,9 +11,6 @@ import android.graphics.RectF;
 import android.provider.ContactsContract;
 import android.util.Log;
 
-/**
- * Created by PatrickKaalund on 13/11/2016.
- */
 
 public class PlayerRemote extends PlayerCommon implements RemotePlayer {
 

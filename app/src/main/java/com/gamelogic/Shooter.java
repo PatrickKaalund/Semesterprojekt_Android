@@ -17,23 +17,19 @@ import java.util.Iterator;
 
 import static com.graphics.GraphicsTools.LL;
 
-/**
- * Created by thor on 11/24/16.
- */
 
-
-public class Shooter {
+class Shooter {
     private SharedPreferences preferences;
     private AudioPlayer audioPlayer;
     private WeaponsHandler weaponsHandler;
 
-    class Shot {
+    private class Shot {
         public Direction direction;
-        public Entity shot;
-        public int animationCounter = 0;
-        public int shotSpeed;
+        Entity shot;
+        int animationCounter = 0;
+        int shotSpeed;
 
-        public void move() {
+        void move() {
             direction.set(direction.getAngle(), shotSpeed);
             shot.moveBy(-DataContainer.instance.mapMovement.x, -DataContainer.instance.mapMovement.y, 0);
             shot.move(direction);
@@ -45,7 +41,7 @@ public class Shooter {
     private SpriteEntityFactory shotFactory;
     private ArrayList<Shot> shots;
 
-    public Shooter(WeaponsHandler weaponsHandler) {
+    Shooter(WeaponsHandler weaponsHandler) {
         this.weaponsHandler = weaponsHandler;
 
         shotFactory = new SpriteEntityFactory(R.drawable.bullets_scaled, 20, 30, 1, 2, new PointF(400, 400));
@@ -56,7 +52,7 @@ public class Shooter {
         audioPlayer = new AudioPlayer(DataContainer.instance.gameContext);
     }
 
-    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, WeaponsHandler.WeaponList_e currentWeapon) {
+    void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, WeaponsHandler.WeaponList_e currentWeapon) {
 
 
         if (weaponsHandler.getCurrentAmmoAmount() > 0) {

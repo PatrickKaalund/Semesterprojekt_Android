@@ -19,11 +19,10 @@ import android.widget.TextView;
 
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import com.graphics.FPSDrawer;
 import com.graphics.FPSMeasuring;
 import com.services.MusicService;
 
-public class  OptionsActivity extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
+public class Options extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     private Switch soundSwitch, musicSwitch, fpsSwitch;
     private boolean musicIsBound = false;
     private MusicService musicService;

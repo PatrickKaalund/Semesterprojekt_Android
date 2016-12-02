@@ -18,41 +18,36 @@ import java.util.ArrayList;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import static com.graphics.GraphicsTools.LL;
-
-/**
- * Created by thor on 10/16/16.
- */
-
-public class GlRendere implements Renderer {
+class GlRenderer implements Renderer {
     // Our matrices
     private final float[] mtrxProjection = new float[16];
     private final float[] mtrxView = new float[16];
     private final float[] mtrxProjectionAndView = new float[16];
 
     // Geometric variables
-    public FloatBuffer vertexBuffer;
-    public ShortBuffer indexBuffer;
-    public FloatBuffer uvBuffer; //for texture
+    private FloatBuffer vertexBuffer;
+    private ShortBuffer indexBuffer;
+    private FloatBuffer uvBuffer; //for texture
 
     // Our screenresolution
-    float mScreenWidth = 1280;
-    float mScreenHeight = 768;
+    private float mScreenWidth = 1280;
+    private float mScreenHeight = 768;
     private int currentTexture = 0;
     private int currentModelBufferSize = 0;
 
     // Misc
-    Context context;
-    long mLastTime;
-    ShaderHandler shaderHandler;
-    //Statics
-    protected static ArrayList<EntityFactory> drawList = new ArrayList<>();
-    protected static int textureSlotCount;
-    protected static int textureSlot;
+    private Context context;
+    private long mLastTime;
+    private ShaderHandler shaderHandler;
 
-    public GlRendere(Context c) {
-        Log.d("GlRendere", "CONSTRUCTER");
-        GlRendere.drawList.clear();
+    //Statics
+    static ArrayList<EntityFactory> drawList = new ArrayList<>();
+    private static int textureSlotCount;
+    private static int textureSlot;
+
+    GlRenderer(Context c) {
+        Log.d("GlRenderer", "CONSTRUCTER");
+        GlRenderer.drawList.clear();
         textureSlotCount = 0;
         textureSlot = 0;
         context = c;
@@ -60,14 +55,14 @@ public class GlRendere implements Renderer {
         mLastTime = System.currentTimeMillis() + 100;
     }
 
-    public void onPause() {
-        Log.d("GlRendere", "onPause");
+    void onPause() {
+        Log.d("GlRenderer", "onPause");
 
         /* Do stuff to pause the renderer */
     }
 
-    public void onResume() {
-        Log.d("GlRendere", "onResume");
+    void onResume() {
+        Log.d("GlRenderer", "onResume");
 
         /* Do stuff to resume the renderer */
         mLastTime = System.currentTimeMillis();
@@ -217,8 +212,8 @@ public class GlRendere implements Renderer {
         IntBuffer i = IntBuffer.allocate(1);
         GLES20.glGetIntegerv(GLES20.GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS, i);
         textureSlotCount = i.get(0);
-        Log.d("GlRendere", "Texture count: " + i.get(0));
-        Log.d("GlRendere", "onSurfaceCreated");
+        Log.d("GlRenderer", "Texture count: " + i.get(0));
+        Log.d("GlRenderer", "onSurfaceCreated");
         // Set the clear color to black
         GLES20.glClearColor(1f, 1f, 1f, 1);
         shaderHandler.installShaderFiles();
@@ -227,7 +222,7 @@ public class GlRendere implements Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
-        Log.d("GlRendere", "onSurfaceChanged");
+        Log.d("GlRenderer", "onSurfaceChanged");
 
         // We need to know the current width and height.
         mScreenWidth = width;
@@ -301,8 +296,6 @@ public class GlRendere implements Renderer {
         textureSlot++;
         ef.textureLoaded = true;
     }
-
-
 }
 
 

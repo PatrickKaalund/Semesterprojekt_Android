@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.activities.InGame;
-import com.activities.OptionsActivity;
+import com.activities.Options;
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.DataContainer;
@@ -97,7 +97,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                 case R.id.buttonSettings:
                     v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.view_clicked));
                     audioPlayer.playAudioFromRaw(R.raw.click);
-                    Intent settings = new Intent(getContext(), OptionsActivity.class);
+                    Intent settings = new Intent(getContext(), Options.class);
                     startActivity(settings);
                     break;
 

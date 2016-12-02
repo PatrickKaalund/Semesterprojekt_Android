@@ -4,9 +4,6 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
-/**
- * Created by PatrickKaalund on 20/11/2016.
- */
 
 public class DataContainer {
 

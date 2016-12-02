@@ -28,9 +28,9 @@ class WeaponsHandler {
     private static final int SHOTGUN_CAP = 24;
     private static final int AK47_CAP = 30;
 
-    public static final int GUN_SPRITE_START = 44;
-    public static final int SHOTGUN_SPRITE_START = 22;
-    public static final int AK47_SPRITE_START = 0;
+    static final int GUN_SPRITE_START = 44;
+    private static final int SHOTGUN_SPRITE_START = 22;
+    private static final int AK47_SPRITE_START = 0;
 
     private static final int GUN_SHOT_SPEED = 30;
     private static final int SHOTGUN_SHOT_SPEED = 20;
@@ -44,7 +44,7 @@ class WeaponsHandler {
     /**
      * Player weapons
      */
-    public enum WeaponList_e {
+    enum WeaponList_e {
         GUN(GUN_SPRITE_START, GUN_SHOT_SPEED,GUN_FIRE_RATE),
         SHOTGUN(SHOTGUN_SPRITE_START, SHOTGUN_SHOT_SPEED, SHOTGUN_FIRE_RATE),
         AK47(AK47_SPRITE_START, AK47_SHOT_SPEED, AK47_FIRE_RATE);
@@ -52,6 +52,7 @@ class WeaponsHandler {
         public final int SPRITE_OFFSET;
         public final int FIRE_RATE;
         public final int SHOT_SPEED;
+
 
         WeaponList_e(final int SPRITE_OFFSET, final int SHOT_SPEED, final int FIRE_RATE) {
             this.SPRITE_OFFSET = SPRITE_OFFSET;
@@ -66,7 +67,7 @@ class WeaponsHandler {
 
         audioPlayer = new AudioPlayer(context);
 
-        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammmo_amount_full_scaled_small, 140, 180, 20, 5, new PointF(950, 260));
+        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammo, 140, 180, 20, 5, new PointF(950, 260));
         ammoDrawer = ammoFactory.createEntity();
 
         ammoDrawer.setCurrentSprite(0);

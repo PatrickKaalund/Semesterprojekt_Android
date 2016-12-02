@@ -7,17 +7,14 @@ import android.util.Log;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
-/**
- * Created by PatrickKaalund on 1/11/2016.
- */
 
-public class FPSDrawer {
-    Entity numberDrawer;
-    Entity numberDrawer2;
-    Entity fpsDrawer;
+class FPSDrawer {
+    private Entity numberDrawer;
+    private Entity numberDrawer2;
+    private Entity fpsDrawer;
     SpriteEntityFactory fpsFactory;
 
-    public FPSDrawer(Context context){
+    FPSDrawer(Context context){
         Log.d("FPSDrawer", "Creating FPSDrawer");
 
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
@@ -38,18 +35,14 @@ public class FPSDrawer {
 
     public void update(int counter){
         if(counter < 100){
-//            Log.e("FPSDrawer", "Counter: " + counter);
 
             if(counter > 10){
-//                numberDrawer2.mustDrawThis(true);
                 numberDrawer.setCurrentSprite(counter / 10);
                 numberDrawer2.setCurrentSprite(counter % 10);
             }else{
-//                numberDrawer2.mustDrawThis(false);
                 numberDrawer.setCurrentSprite(counter);
             }
         }else {
-//            numberDrawer2.mustDrawThis(false);
             numberDrawer.setCurrentSprite(0);
         }
     }

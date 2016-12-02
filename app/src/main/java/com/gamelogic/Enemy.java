@@ -2,30 +2,26 @@ package com.gamelogic;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
 import com.graphics.Entity;
 
-/**
- * Created by PatrickKaalund on 13/10/2016.
- */
 
-public class Enemy extends Creature {
-    public static final int NORMAL = 0;
-    public static final int DIYNG = 2;
-    public static final int ATACKING = 3;
+class Enemy extends Creature {
+    private static final int NORMAL = 0;
+    static final int DIYNG = 2;
+    private static final int ATACKING = 3;
 
-    public static final int DIYNG_STATE_COUNTER = 2000;
-    public static final int GOT_HIT_STATE_COUNTER = 10;
-    public static final int ATACKING_STATE_COUNTER = 20;
+    private static final int DIYNG_STATE_COUNTER = 2000;
+    private static final int GOT_HIT_STATE_COUNTER = 10;
+    private static final int ATACKING_STATE_COUNTER = 20;
 
-    public static final int NORMAL_ANIMATION_DIV = 3;
-    public static final int GOT_HIT_ANIMATION_DIV = 6;
-    public static final int DIYNG_ANIMATION_DIV = 4;
-    public static final int ATACKING_ANIMATION_DIV = 3;
+    private static final int NORMAL_ANIMATION_DIV = 3;
+    private static final int GOT_HIT_ANIMATION_DIV = 6;
+    private static final int DIYNG_ANIMATION_DIV = 4;
+    private static final int ATACKING_ANIMATION_DIV = 3;
     private boolean gotHit = false;
     private int gotHitCounter = 0;
     private EnemySpawner mother;
@@ -36,23 +32,23 @@ public class Enemy extends Creature {
         private int stateCounter = 0;
         private int[][] animations = new int[4][0];
 
-        public EnemyStates() {
+        EnemyStates() {
             animations[NORMAL] = new int[]{4, 5, 6, 7, 8, 9, 10, 11};
             animations[DIYNG] = new int[]{28, 29, 30, 31, 32, 33, 34, 35};
             animations[ATACKING] = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
         }
 
-        public int[] getAnimations() {
+        int[] getAnimations() {
             return animations[currentState];
         }
 
-        public void setState(int state) {
+        void setState(int state) {
             stateCounter = 0;
             currentState = state;
         }
 
 
-        public int getCurrentState() {
+        int getCurrentState() {
             return currentState;
         }
 
@@ -61,14 +57,14 @@ public class Enemy extends Creature {
         }
     }
 
-    public EnemyStates state;
+    EnemyStates state;
     private Entity enemy;
-    private int damege = 5;
+    private int damage = 5;
 
-    Direction direction;
-    int angle;
+    private Direction direction;
+    private int angle;
 
-    public Enemy(BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation) {
+    Enemy(BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation) {
         this.mother = mother;
 
         super.speed = speed;
@@ -145,7 +141,7 @@ public class Enemy extends Creature {
                 move(player, 0);
                 enemy.drawNextSprite();
                 if (enemy.getCurrentSprite() == 14 && player.getPlayerEntity().collision(enemy.getPosition())) {
-                    player.doDamage(damege);
+                    player.doDamage(damage);
                 }
                 if (enemy.getCurrentSprite() == 21) {
                     if (player.getPlayerEntity().collision(enemy.getPosition())) {
@@ -207,7 +203,7 @@ public class Enemy extends Creature {
         return this.enemy.getRect();
     }
 
-    public Entity getEnemyEntity() {
+    Entity getEnemyEntity() {
         return enemy;
     }
 

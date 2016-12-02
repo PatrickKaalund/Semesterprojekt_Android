@@ -17,21 +17,18 @@ import static com.gamelogic.DirectionLock.Y_LOCKED;
 import static com.graphics.GraphicsTools.getCornersFromRect;
 import static com.graphics.GraphicsTools.getCornersFromRectWithZ;
 
-/**
- * Created by thor on 10/30/16.
- */
 
 public class BackgroundEntity extends GraphicEntity {
     public PointF screenPos;
-    protected RectF uvs;
+    private RectF uvs;
     private DisplayMetrics metrics;
-    public RectF innerBoarder;
-    public RectF outerBoarder;
+    private RectF innerBoarder;
+    private RectF outerBoarder;
     private DirectionLock directionLock;
     private RectF baseRact;
     public PointF mapGlobalSize;
 
-    protected BackgroundEntity(PointF mapGlobalSize, PointF screenGlobalPos, DisplayMetrics metrics, int innerBoarderOffset) {
+    BackgroundEntity(PointF mapGlobalSize, PointF screenGlobalPos, DisplayMetrics metrics, int innerBoarderOffset) {
         this.metrics = metrics;
         this.mapGlobalSize = mapGlobalSize;
         screenPos = screenGlobalPos;
@@ -144,7 +141,7 @@ public class BackgroundEntity extends GraphicEntity {
         return innerBoarder;
     }
 
-    public RectF getOuterBoarder() {
+    RectF getOuterBoarder() {
         return outerBoarder;
     }
 }

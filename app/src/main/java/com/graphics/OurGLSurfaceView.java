@@ -1,18 +1,11 @@
 package com.graphics;
 
 import android.content.Context;
-import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
 
-import com.example.patrickkaalund.semesterprojekt_android.R;
-
-/**
- * Created by thor on 10/16/16.
- */
-
 public class OurGLSurfaceView extends GLSurfaceView {
-    private final GlRendere renderer;
+    private final GlRenderer renderer;
     protected Context context;
 
     public OurGLSurfaceView(Context context) {
@@ -23,7 +16,7 @@ public class OurGLSurfaceView extends GLSurfaceView {
         setEGLContextClientVersion(2);
 
         // Set the Renderer for drawing on the OurGLSurfaceView
-        renderer = new GlRendere(context);
+        renderer = new GlRenderer(context);
         Log.d("OurGLSurfaceView", "OurGLSurfaceView constructer: Setting renderer");
         setRenderer(renderer);
         // Render the view only when there is a change in the drawing data

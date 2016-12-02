@@ -16,9 +16,6 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 //import org.eclipse.paho.client.mqttv3.MqttException;
 //import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-/**
- * Created by PatrickKaalund on 13/11/2016.
- */
 
 public class MQTTActivity extends AppCompatActivity implements View.OnClickListener {
 
