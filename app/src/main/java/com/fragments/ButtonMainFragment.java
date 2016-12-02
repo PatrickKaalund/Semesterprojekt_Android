@@ -86,7 +86,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                     getFragmentManager().beginTransaction()
                             .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                             .remove(this)
-                            .add(R.id.fragment_login_holder, new MultiplayerFragment())
+                            .add(R.id.start_fragment_holder, new MultiplayerFragment())
                             .addToBackStack(null)
                             .commit();
 

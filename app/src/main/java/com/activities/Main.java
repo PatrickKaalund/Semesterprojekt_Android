@@ -27,7 +27,7 @@ public class Main extends BaseActivity {
             Fragment fragment = new LoginFragment();
 
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_login_holder, fragment)
+                    .add(R.id.start_fragment_holder, fragment)
                     .addToBackStack(null)
                     .commit();
         }
