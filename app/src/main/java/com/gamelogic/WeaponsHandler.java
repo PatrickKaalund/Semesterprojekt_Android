@@ -13,31 +13,55 @@ import java.util.EnumMap;
 
 class WeaponsHandler {
 
-    private Entity player;
+    private Player player;
     private AudioPlayer audioPlayer;
     private int ammoAnimationOffset = 25;
     private Entity ammoDrawer;
 
-    private weaponList_e currentWeapon;
+    private WeaponList_e currentWeapon;
 
-    private EnumMap<weaponList_e, Boolean> weaponsAvailable = new EnumMap<>(weaponList_e.class);
-    private final EnumMap<weaponList_e, Integer> ammoDmgValues = new EnumMap<>(weaponList_e.class);
-    private EnumMap<weaponList_e, Integer> ammoAmounts = new EnumMap<>(weaponList_e.class);
+    private EnumMap<WeaponList_e, Boolean> weaponsAvailable = new EnumMap<>(WeaponList_e.class);
+    private final EnumMap<WeaponList_e, Integer> ammoDmgValues = new EnumMap<>(WeaponList_e.class);
+    private EnumMap<WeaponList_e, Integer> ammoAmounts = new EnumMap<>(WeaponList_e.class);
 
-    private final int GUN_CAP = 40;
-    private final int SHOTGUN_CAP = 24;
-    private final int AK47_CAP = 30;
+    private static final int GUN_CAP = 40;
+    private static final int SHOTGUN_CAP = 24;
+    private static final int AK47_CAP = 30;
+
+    public static final int GUN_SPRITE_START = 44;
+    public static final int SHOTGUN_SPRITE_START = 22;
+    public static final int AK47_SPRITE_START = 0;
+
+    private static final int GUN_SHOT_SPEED = 30;
+    private static final int SHOTGUN_SHOT_SPEED = 20;
+    private static final int AK47_SHOT_SPEED = 50;
+
+    private static final int GUN_FIRE_RATE = 20;
+    private static final int SHOTGUN_FIRE_RATE = 35;
+    private static final int AK47_FIRE_RATE = 4;
+
 
     /**
      * Player weapons
      */
-    enum weaponList_e {
-        GUN,
-        SHOTGUN,
-        AK47,
+    public enum WeaponList_e {
+        GUN(GUN_SPRITE_START, GUN_SHOT_SPEED,GUN_FIRE_RATE),
+        SHOTGUN(SHOTGUN_SPRITE_START, SHOTGUN_SHOT_SPEED, SHOTGUN_FIRE_RATE),
+        AK47(AK47_SPRITE_START, AK47_SHOT_SPEED, AK47_FIRE_RATE);
+
+        public final int SPRITE_OFFSET;
+        public final int FIRE_RATE;
+        public final int SHOT_SPEED;
+
+        WeaponList_e(final int SPRITE_OFFSET, final int SHOT_SPEED, final int FIRE_RATE) {
+            this.SPRITE_OFFSET = SPRITE_OFFSET;
+            this.FIRE_RATE = FIRE_RATE;
+            this.SHOT_SPEED = SHOT_SPEED;
+        }
+
     }
 
-    WeaponsHandler(Entity player, Context context) {
+    WeaponsHandler(Player player, Context context) {
         this.player = player;
 
         audioPlayer = new AudioPlayer(context);
@@ -54,19 +78,19 @@ class WeaponsHandler {
 
     private void reset() {
 
-        weaponsAvailable.put(weaponList_e.GUN, true);
-        weaponsAvailable.put(weaponList_e.SHOTGUN, false);
-        weaponsAvailable.put(weaponList_e.AK47, false);
+        weaponsAvailable.put(WeaponList_e.GUN, true);
+        weaponsAvailable.put(WeaponList_e.SHOTGUN, false);
+        weaponsAvailable.put(WeaponList_e.AK47, false);
 
-        ammoDmgValues.put(weaponList_e.GUN, 3);
-        ammoDmgValues.put(weaponList_e.SHOTGUN, 6);
-        ammoDmgValues.put(weaponList_e.AK47, 8);
+        ammoDmgValues.put(WeaponList_e.GUN, 3);
+        ammoDmgValues.put(WeaponList_e.SHOTGUN, 6);
+        ammoDmgValues.put(WeaponList_e.AK47, 8);
 
-        ammoAmounts.put(weaponList_e.GUN, GUN_CAP);
-        ammoAmounts.put(weaponList_e.SHOTGUN, SHOTGUN_CAP);
-        ammoAmounts.put(weaponList_e.AK47, AK47_CAP);
+        ammoAmounts.put(WeaponList_e.GUN, GUN_CAP);
+        ammoAmounts.put(WeaponList_e.SHOTGUN, SHOTGUN_CAP);
+        ammoAmounts.put(WeaponList_e.AK47, AK47_CAP);
 
-        currentWeapon = weaponList_e.GUN;
+        currentWeapon = WeaponList_e.GUN;
 
         update();
     }
@@ -77,36 +101,36 @@ class WeaponsHandler {
         switch (drop.getType()) {
 
             case AMMO_GUN_DEFAULT :
-                if (ammoAmounts.get(weaponList_e.GUN) + drop.size < GUN_CAP)
-                    ammoAmounts.put(weaponList_e.GUN, ammoAmounts.get(weaponList_e.GUN) + drop.size);
+                if (ammoAmounts.get(WeaponList_e.GUN) + drop.size < GUN_CAP)
+                    ammoAmounts.put(WeaponList_e.GUN, ammoAmounts.get(WeaponList_e.GUN) + drop.size);
                 else
-                    ammoAmounts.put(weaponList_e.GUN, GUN_CAP);
+                    ammoAmounts.put(WeaponList_e.GUN, GUN_CAP);
                 break;
 
             case AMMO_SHOTGUN_DEFAULT :
-                if (ammoAmounts.get(weaponList_e.SHOTGUN) + drop.size < SHOTGUN_CAP)
-                    ammoAmounts.put(weaponList_e.SHOTGUN, ammoAmounts.get(weaponList_e.SHOTGUN) + drop.size);
+                if (ammoAmounts.get(WeaponList_e.SHOTGUN) + drop.size < SHOTGUN_CAP)
+                    ammoAmounts.put(WeaponList_e.SHOTGUN, ammoAmounts.get(WeaponList_e.SHOTGUN) + drop.size);
                 else
-                    ammoAmounts.put(weaponList_e.SHOTGUN, SHOTGUN_CAP);
+                    ammoAmounts.put(WeaponList_e.SHOTGUN, SHOTGUN_CAP);
                 break;
 
             case AMMO_AK47_DEFAULT:
-                if (ammoAmounts.get(weaponList_e.AK47) + drop.size < AK47_CAP)
-                    ammoAmounts.put(weaponList_e.AK47, ammoAmounts.get(weaponList_e.AK47) + drop.size);
+                if (ammoAmounts.get(WeaponList_e.AK47) + drop.size < AK47_CAP)
+                    ammoAmounts.put(WeaponList_e.AK47, ammoAmounts.get(WeaponList_e.AK47) + drop.size);
                 else
-                    ammoAmounts.put(weaponList_e.AK47, AK47_CAP);
+                    ammoAmounts.put(WeaponList_e.AK47, AK47_CAP);
                 break;
 
             case AMMO_BLUE :
-                ammoAmounts.put(weaponList_e.GUN, GUN_CAP);
-                ammoAmounts.put(weaponList_e.SHOTGUN, SHOTGUN_CAP);
-                ammoAmounts.put(weaponList_e.AK47, AK47_CAP);
+                ammoAmounts.put(WeaponList_e.GUN, GUN_CAP);
+                ammoAmounts.put(WeaponList_e.SHOTGUN, SHOTGUN_CAP);
+                ammoAmounts.put(WeaponList_e.AK47, AK47_CAP);
                 break;
 
             case AMMO_YELLOW :
-                ammoAmounts.put(weaponList_e.GUN, 6);
-                ammoAmounts.put(weaponList_e.SHOTGUN, 0);
-                ammoAmounts.put(weaponList_e.AK47, 0);
+                ammoAmounts.put(WeaponList_e.GUN, 6);
+                ammoAmounts.put(WeaponList_e.SHOTGUN, 0);
+                ammoAmounts.put(WeaponList_e.AK47, 0);
                 break;
         }
 
@@ -114,7 +138,7 @@ class WeaponsHandler {
     }
 
 
-    void setCurrentWeapon(weaponList_e currentWeapon) {
+    void setCurrentWeapon(WeaponList_e currentWeapon) {
 
         audioPlayer.playAudioFromRaw(R.raw.reload);
 
@@ -122,41 +146,38 @@ class WeaponsHandler {
 
             case GUN:
                 ammoAnimationOffset = 25;
-                player.setAnimationOffset(44);
                 break;
 
             case SHOTGUN:
                 ammoAnimationOffset = 0;
-                player.setAnimationOffset(22);
                 break;
 
             case AK47:
                 ammoAnimationOffset = 66;
-                player.setAnimationOffset(0);
                 break;
         }
 
         this.currentWeapon = currentWeapon;
 
-        player.drawNextSprite();
+        player.setWeapon(currentWeapon);
 
         update();
     }
 
 
-    public EnumMap<weaponList_e, Integer> getAmmoAmmountValues() {
+    public EnumMap<WeaponList_e, Integer> getAmmoAmmountValues() {
         return ammoAmounts;
     }
 
 
-    private EnumMap<weaponList_e, Boolean> getWeaponsAvailable() {
+    private EnumMap<WeaponList_e, Boolean> getWeaponsAvailable() {
         return weaponsAvailable;
     }
 
 
     private void update() {
         ammoDrawer.setCurrentSprite(ammoAmounts.get(currentWeapon) + ammoAnimationOffset);
-        player.drawNextSprite();
+        player.getPlayerEntity().drawNextSprite();
     }
 
 
@@ -175,7 +196,7 @@ class WeaponsHandler {
     }
 
 
-    weaponList_e getCurrentWeapon() {
+    WeaponList_e getCurrentWeapon() {
         return currentWeapon;
     }
 }

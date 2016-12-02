@@ -3,7 +3,6 @@ package com.core;
 
 import android.content.Context;
 import android.graphics.PointF;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
 
@@ -21,6 +20,8 @@ import com.graphics.FPSMeasuring;
 import com.graphics.OurGLSurfaceView;
 import com.network.Firebase.NetworkHandler;
 import com.views.DropDownMenu;
+
+import java.util.Random;
 
 import io.github.controlwear.virtual.joystick.android.JoystickView;
 
@@ -59,25 +60,34 @@ public class Game implements Runnable {
     private BackgroundFactory mapFactory;
 
     //============== Game states ==============
-    private static final int ENEMY_BASE_HELTH = 100;
-    private static final int ENEMY_BASE_SPEED = 5;
-    private static final int DIFFICULTY_MULTIPLIER = 10;
+    private static final int ENEMY_MAX_SPEED = 16;
 
-    private int currentDifficulty = 0;
+    private int difficultyLevel = 1;
     private boolean isRunning;
     private boolean isPaused;
     private int enemySpawnInterval = 500;
     private int enemySpawmCounter = 0;
+    private int enemySpeed = 3;
+    private int enemyHealth = 20;
+    private int timer = 0;
+    private int second = 0;
 
     private boolean multiplayerGame;
+    int shouldSpawnItem;
+    int shouldSpawnEnemy;
+
+
+    Random rand;
 
     enum GameStates_e {
+
 
     }
 
 
     public Game(Context context) {
         Log.d("Game", "Game created");
+        rand = new Random();
         this.context = context;
         DataContainer.instance.gameContext = context;
         this.multiplayerGame = DataContainer.instance.multiplayerGame;
@@ -116,9 +126,9 @@ public class Game implements Runnable {
                 R.drawable.backgrounddetailed3,
                 context.getResources().getDisplayMetrics());
         map = mapFactory.createEntity(//Make background
-                MAP_OUTER_BOARDER_SIZE,
-                MAP_OUTER_BOARDER_SIZE,
-                new PointF(MAP_GLOBAL_START_POS,MAP_GLOBAL_START_POS),
+                new PointF(MAP_OUTER_BOARDER_SIZE,
+                        MAP_OUTER_BOARDER_SIZE),
+                new PointF(MAP_GLOBAL_START_POS, MAP_GLOBAL_START_POS),
                 SCREEN_CONTAINMENT_OFFSET);
 //        mapBorder = new MapBorder(context);
         //Make game assets
@@ -127,19 +137,19 @@ public class Game implements Runnable {
 
         enemySpawner = new EnemySpawner(context);
 
-        player = new Player(context, networkHandler,new PointF(context.getResources().getDisplayMetrics().widthPixels/2,context.getResources().getDisplayMetrics().heightPixels/2));
+        player = new Player(context, networkHandler, new PointF(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2));
 
         itemSpawner.setPlayer(player);
 
-        if(this.multiplayerGame){
+        if (this.multiplayerGame) {
             playerRemote = new PlayerRemote(networkHandler, map);
         }
 
         control = new Control(context, this);
 
-        itemSpawner.spawnItemsRandom(20);
+        itemSpawner.spawnItemsRandom(3);
 
-        enemySpawner.spawnEnemies(ENEMY_BASE_HELTH, ENEMY_BASE_SPEED, 1);
+        enemySpawner.spawnEnemies(map, enemyHealth, enemySpeed, 3);
 
     }
 
@@ -212,9 +222,48 @@ public class Game implements Runnable {
 //        mapBorder.update();
         itemSpawner.update();
 
-        if(this.multiplayerGame){
+        if (this.multiplayerGame) {
             playerRemote.update();
         }
+
+        if (timer++ >= 30) {
+            timer = 0;
+            second++;
+        }
+
+        if (second == 30) {
+            difficultyLevel++;
+        }
+
+        if (second > 15 - difficultyLevel) {
+
+            shouldSpawnEnemy = rand.nextInt(100 + difficultyLevel);
+
+            if (shouldSpawnEnemy + difficultyLevel < (100 + difficultyLevel) / 2) {
+                Log.w("GAME STATE", "Spawning enemy");
+                enemySpawner.spawn(map, (int) (enemyHealth + difficultyLevel * 1.5), enemySpeed + difficultyLevel / 4);
+            }
+
+        }
+
+        if (second > 30 - difficultyLevel) {
+
+            shouldSpawnItem = rand.nextInt(100);
+            shouldSpawnEnemy = rand.nextInt(100 + difficultyLevel);
+
+            if (shouldSpawnItem < (100 + difficultyLevel) / 2) {
+                Log.w("GAME STATE", "Spawning item");
+                itemSpawner.spawnRandom();
+            }
+            second = 0;
+        }
+
+        if (player.currentState == Player.PlayerStates_e.GAME_OVER) {
+            Log.e("GAME STATE", "################# GAME OVER ##################");
+            isPaused = true;
+        }
+
+
 //
 //        if (enemySpawmCounter++ >= enemySpawnInterval) {
 //            enemySpawmCounter = 0;

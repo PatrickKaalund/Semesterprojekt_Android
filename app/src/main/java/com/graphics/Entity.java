@@ -65,4 +65,7 @@ public interface Entity {
     public void setHitBoxSize(int width, int height);
 
     public void mustDrawThis(boolean draw);
+
+    public int getNextSprite();
+//    public void updateCurrentSprite();
 }

@@ -191,9 +191,27 @@ class SpriteEntity extends GraphicEntity implements Entity {
         return currentSprite;
     }
 
+    public int getNextSprite() {
+        int ghostDrawOrderIndex = drawOrderIndex;
+        if (animationOrder.length == 0) {
+            return (currentSprite + 1) % mother.spriteCount;
+        } else {
+            ghostDrawOrderIndex++;
+            ghostDrawOrderIndex = ghostDrawOrderIndex % animationOrder.length;
+            return animationOrder[ghostDrawOrderIndex] + animationOffset;
+        }
+    }
+
     public void setCurrentSprite(int currentSprite) {
         this.currentSprite = currentSprite;
     }
+
+    public void setAnimationOffset(int animationOffset) {
+        this.animationOffset = animationOffset;
+        currentSprite = animationOrder[drawOrderIndex] + animationOffset;
+
+    }
+
 
     public RectF getRect() {
         return this.baseRact;
@@ -304,7 +322,4 @@ class SpriteEntity extends GraphicEntity implements Entity {
         mother.removeEntity(this);
     }
 
-    public void setAnimationOffset(int animationOffset) {
-        this.animationOffset = animationOffset;
-    }
 }

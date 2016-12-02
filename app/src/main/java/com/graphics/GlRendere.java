@@ -161,7 +161,7 @@ public class GlRendere implements Renderer {
 
             //========== Do the rendering ============
             GLES20.glEnable(GLES20.GL_BLEND);
-       //     GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+            GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
             // get handle to vertex shader's vPosition member
             int mPositionHandle =
                     GLES20.glGetAttribLocation(shaderHandler.getShaderProgramID(), "vPosition");
@@ -220,7 +220,7 @@ public class GlRendere implements Renderer {
         Log.d("GlRendere", "Texture count: " + i.get(0));
         Log.d("GlRendere", "onSurfaceCreated");
         // Set the clear color to black
-        GLES20.glClearColor(0.1f, 0.1f, 0.1f, 1);
+        GLES20.glClearColor(1f, 1f, 1f, 1);
         shaderHandler.installShaderFiles();
     }
 

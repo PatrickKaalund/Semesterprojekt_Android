@@ -1,10 +1,9 @@
-package com.network.MQTT;
+package com.network.MQTT_notUsed;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
 import com.example.patrickkaalund.semesterprojekt_android.R;
 
 //import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -16,6 +15,10 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 //import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 //import org.eclipse.paho.client.mqttv3.MqttException;
 //import org.eclipse.paho.client.mqttv3.MqttMessage;
+
+/**
+ * Created by PatrickKaalund on 13/11/2016.
+ */
 
 public class MQTTActivity extends AppCompatActivity implements View.OnClickListener {
 

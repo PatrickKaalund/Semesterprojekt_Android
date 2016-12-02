@@ -5,6 +5,7 @@ import android.graphics.RectF;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
 import com.graphics.Entity;
 
@@ -67,28 +68,29 @@ public class Enemy extends Creature {
     Direction direction;
     int angle;
 
-    public Enemy(Entity enemy, int health, int speed, PointF startLocation) {
-
+    public Enemy(BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation) {
+        this.mother = mother;
 
         super.speed = speed;
         super.health = health;
         state = new EnemyStates();
         this.enemy = enemy;
 
-        placeElementFromGlobalPos(startLocation);
+        placeElementFromGlobalPos(map,startLocation);
 
         this.enemy.setCurrentSprite(4);
         this.enemy.setAngleOffSet(-225);     // pointing right
         this.enemy.setAnimationDivider(3);
+
         this.enemy.setAnimationOrder(state.getAnimations());
         direction = new Direction();
-        this.enemy.setHitBoxSize(50,50);
+        this.enemy.setHitBoxSize(50, 50);
     }
 
-    private void placeElementFromGlobalPos(PointF globalPos) {
+    private void placeElementFromGlobalPos(BackgroundEntity map,PointF globalPos) {
         PointF initialPosOnScreen = new PointF();
-        initialPosOnScreen.x = globalPos.x - DataContainer.instance.player.getPos().x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
-        initialPosOnScreen.y = globalPos.y - DataContainer.instance.player.getPos().y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
+        initialPosOnScreen.x = globalPos.x - map.screenPos.x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
+        initialPosOnScreen.y = globalPos.y - map.screenPos.y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
         this.enemy.placeAt(initialPosOnScreen.x, initialPosOnScreen.y);
         this.enemy.setPosition(new PointF(globalPos.x, globalPos.y));
     }
@@ -142,9 +144,10 @@ public class Enemy extends Creature {
             case ATACKING:
                 move(player, 0);
                 enemy.drawNextSprite();
-                if (state.stateCounter++ == ATACKING_STATE_COUNTER / 2) {
+                if (enemy.getCurrentSprite() == 14 && player.getPlayerEntity().collision(enemy.getPosition())) {
                     player.doDamage(damege);
-                } else if (state.stateCounter == ATACKING_STATE_COUNTER) {
+                }
+                if (enemy.getCurrentSprite() == 21) {
                     if (player.getPlayerEntity().collision(enemy.getPosition())) {
                         state.setState(ATACKING);
                     } else {
@@ -152,8 +155,8 @@ public class Enemy extends Creature {
                         enemy.setAnimationOrder(state.getAnimations());
                         enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
                     }
-
                 }
+
 
                 break;
             case DIYNG:

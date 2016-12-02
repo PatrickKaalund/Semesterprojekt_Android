@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.network.MQTT.MQTTActivity">
+    tools:context="com.network.MQTT_notUsed.MQTTActivity">
 
     <Button
         android:text='Publish "Hello World"'

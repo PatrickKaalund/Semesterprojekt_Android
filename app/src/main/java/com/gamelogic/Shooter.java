@@ -23,7 +23,6 @@ import static com.graphics.GraphicsTools.LL;
 
 
 public class Shooter {
-    private static final int BASE_SPEED = 30;
     private SharedPreferences preferences;
     private AudioPlayer audioPlayer;
     private WeaponsHandler weaponsHandler;
@@ -31,11 +30,11 @@ public class Shooter {
     class Shot {
         public Direction direction;
         public Entity shot;
-        public int speed;
         public int animationCounter = 0;
+        public int shotSpeed;
 
         public void move() {
-            direction.set(direction.getAngle(), BASE_SPEED);
+            direction.set(direction.getAngle(), shotSpeed);
             shot.moveBy(-DataContainer.instance.mapMovement.x, -DataContainer.instance.mapMovement.y, 0);
             shot.move(direction);
 //            shot.getPosition().x += direction.velocity_X;
@@ -45,7 +44,6 @@ public class Shooter {
 
     private SpriteEntityFactory shotFactory;
     private ArrayList<Shot> shots;
-    private Direction baseDirection;
 
     public Shooter(WeaponsHandler weaponsHandler) {
         this.weaponsHandler = weaponsHandler;
@@ -58,7 +56,7 @@ public class Shooter {
         audioPlayer = new AudioPlayer(DataContainer.instance.gameContext);
     }
 
-    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, WeaponsHandler.weaponList_e currentWeapon) {
+    public void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, WeaponsHandler.WeaponList_e currentWeapon) {
 
 
         if (weaponsHandler.getCurrentAmmoAmount() > 0) {
@@ -93,6 +91,7 @@ public class Shooter {
             s.direction = new Direction(shooterDirection, 1);
             s.shot.setCurrentSprite(0);
             s.shot.setAngleOffSet(0);
+            s.shotSpeed = weaponsHandler.getCurrentWeapon().SHOT_SPEED;
             shots.add(s);
             weaponsHandler.setCurrentAmmoAmount(weaponsHandler.getCurrentAmmoAmount() - 1);
             Log.d("SHOOTER", "AMMO LEFT: " + weaponsHandler.getCurrentAmmoAmount());
