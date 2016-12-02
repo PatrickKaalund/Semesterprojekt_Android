@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,15 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
 
     private AudioPlayer audioPlayer;
 
+    private RelativeLayout layout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         this.view = view;
 
-        TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);
+        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlayM);
 
         nextButton.setOnClickListener(this);
 
@@ -39,7 +42,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
 
         audioPlayer = new AudioPlayer(getContext());
 
-        TextView play = (TextView) getActivity().findViewById(R.id.buttonPlay);
+        TextView play = (TextView) getActivity().findViewById(R.id.buttonPlayM);
         TextView playMulti = (TextView) getActivity().findViewById(R.id.buttonPlayMulti);
         TextView settings = (TextView) getActivity().findViewById(R.id.buttonSettings);
         TextView quit = (TextView) getActivity().findViewById(R.id.buttonQuit);
@@ -52,11 +55,10 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
         quit.setOnClickListener(this);
         debug.setOnClickListener(this);
 
-
         view.bringToFront();
 
         RelativeLayout relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.RLayout);
-        RelativeLayout layout = (RelativeLayout) getActivity().findViewById(R.id.OuterRelativeLayout);
+        layout = (RelativeLayout) getActivity().findViewById(R.id.OuterRelativeLayout);
         relativeLayout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.startup));
         layout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.startup));
         relativeLayout.setVisibility(View.VISIBLE);
@@ -69,15 +71,30 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
     public void onClick(View v) {
 
             switch (v.getId()) {
-                case R.id.buttonPlay:
+                case R.id.buttonPlayM:
                     play(v);
                     DataContainer.instance.multiplayerGame = false;
                     break;
 
                 case R.id.buttonPlayMulti:
-                    play(v);
+                    Log.d("ButtonMainFragment", "Multiplayer game!");
                     DataContainer.instance.multiplayerGame = true;
-                    break;
+
+                    v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
+                    audioPlayer.playAudioFromRaw(R.raw.click);
+//
+                    layout.setVisibility(View.INVISIBLE);
+
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                            .remove(this)
+                            .add(R.id.fragment_login, new MultiplayerFragment())
+                            .addToBackStack(null)
+                            .commit();
+
+//                    play(v);
+
+                break;
 
                 case R.id.buttonSettings:
                     v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.view_clicked));

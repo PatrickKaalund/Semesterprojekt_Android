@@ -24,7 +24,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         this.view = view;
 
-        TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);
+        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlayM);
 
         nextButton.setOnClickListener(this);
 
@@ -43,7 +43,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.buttonNext:
+            case R.id.buttonPlayM:
                 Log.d("Main", "Clicked");
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 audioPlayer.playAudioFromRaw(R.raw.click);
