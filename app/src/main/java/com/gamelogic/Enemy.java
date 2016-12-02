@@ -2,7 +2,6 @@ package com.gamelogic;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.graphics.BackgroundEntity;
@@ -18,17 +17,41 @@ public class Enemy extends Creature {
     public static final int DIYNG = 2;
     public static final int ATACKING = 3;
 
-    public static final int DIYNG_STATE_COUNTER = 2000;
-    public static final int GOT_HIT_STATE_COUNTER = 10;
-    public static final int ATACKING_STATE_COUNTER = 20;
+    public static final int DYING_STATE_COUNT = 2000;
+    public static final int GOT_HIT_STATE_COUNT = 10;
+    public static final int ATACKING_STATE_COUNT = 20;
 
     public static final int NORMAL_ANIMATION_DIV = 3;
     public static final int GOT_HIT_ANIMATION_DIV = 6;
     public static final int DIYNG_ANIMATION_DIV = 4;
     public static final int ATACKING_ANIMATION_DIV = 3;
+
+    public static final int[] NORMAL_ANIMATIONS =  new int[]{4, 5, 6, 7, 8, 9, 10, 11};
+    public static final int[] DIYNG_ANIMATIONS =  new int[]{28, 29, 30, 31, 32, 33, 34, 35};
+    public static final int[] ATACKING_ANIMATIONS =   new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+    public static final int[] GOT_HIT_ANIMATIONS =   new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+
+
     private boolean gotHit = false;
     private int gotHitCounter = 0;
     private EnemySpawner mother;
+
+    public enum EnemyStates_e {
+        NORMAL(NORMAL_ANIMATIONS, DYING_STATE_COUNT,NORMAL_ANIMATION_DIV),
+        DIYNG(DIYNG_ANIMATIONS, DYING_STATE_COUNT, NORMAL_ANIMATION_DIV),
+        ATACKING(NORMAL_ANIMATIONS, DYING_STATE_COUNT, NORMAL_ANIMATION_DIV),
+        GOT_HIT(ATACKING_ANIMATIONS, DYING_STATE_COUNT, NORMAL_ANIMATION_DIV);
+
+        private final int[] ANIMATIONS;
+        private final int STATE_COUNT;
+        private final int ANIMATIONDIV;
+
+        EnemyStates_e(int[] ANIMATIONS, int STATE_COUNT, int ANIMATIONDIV) {
+            this.ANIMATIONS = ANIMATIONS;
+            this.STATE_COUNT = STATE_COUNT;
+            this.ANIMATIONDIV = ANIMATIONDIV;
+        }
+    }
 
 
     public class EnemyStates {
@@ -76,7 +99,7 @@ public class Enemy extends Creature {
         state = new EnemyStates();
         this.enemy = enemy;
 
-        placeElementFromGlobalPos(map,startLocation);
+        placeElementFromGlobalPos(map, startLocation);
 
         this.enemy.setCurrentSprite(4);
         this.enemy.setAngleOffSet(-225);     // pointing right
@@ -87,7 +110,7 @@ public class Enemy extends Creature {
         this.enemy.setHitBoxSize(50, 50);
     }
 
-    private void placeElementFromGlobalPos(BackgroundEntity map,PointF globalPos) {
+    private void placeElementFromGlobalPos(BackgroundEntity map, PointF globalPos) {
         PointF initialPosOnScreen = new PointF();
         initialPosOnScreen.x = globalPos.x - map.screenPos.x + DataContainer.instance.gameContext.getResources().getDisplayMetrics().widthPixels / 2;
         initialPosOnScreen.y = globalPos.y - map.screenPos.y + DataContainer.instance.gameContext.getResources().getDisplayMetrics().heightPixels / 2;
@@ -127,7 +150,7 @@ public class Enemy extends Creature {
         }
 
         if (gotHit) {
-            if (gotHitCounter++ > GOT_HIT_STATE_COUNTER) {
+            if (gotHitCounter++ > GOT_HIT_STATE_COUNT) {
                 enemy.setAnimationOffset(0);
                 this.direction.baseSpeed = 1;
                 enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
@@ -168,7 +191,7 @@ public class Enemy extends Creature {
                 } else {
                     enemy.drawNextSprite();
                 }
-                if (state.stateCounter++ == DIYNG_STATE_COUNTER) {
+                if (state.stateCounter++ == DYING_STATE_COUNT) {
                     enemy.delete();
                     return false;
                 }

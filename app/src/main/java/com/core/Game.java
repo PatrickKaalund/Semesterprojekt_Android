@@ -235,7 +235,7 @@ public class Game implements Runnable {
             difficultyLevel++;
         }
 
-        if (second > 15 - difficultyLevel) {
+        if (second % (15 - difficultyLevel) == 0) {
 
             shouldSpawnEnemy = rand.nextInt(100 + difficultyLevel);
 
