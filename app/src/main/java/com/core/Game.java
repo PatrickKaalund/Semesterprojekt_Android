@@ -68,9 +68,9 @@ public class Game implements Runnable {
     private int enemySpawnInterval = 500;
     private int enemySpawmCounter = 0;
     private int enemySpeed = 3;
-    private int enemyHealth = 20;
+    private int enemyHealth = 5;
     private int timer = 0;
-    private int second = 0;
+    private int enemySpawnTimer = 0;
 
     private boolean multiplayerGame;
     int shouldSpawnItem;
@@ -78,6 +78,7 @@ public class Game implements Runnable {
 
 
     Random rand;
+    private int itemSpawnTimer = 0;
 
     enum GameStates_e {
 
@@ -217,26 +218,33 @@ public class Game implements Runnable {
 
         if (timer++ >= 30) {
             timer = 0;
-            second++;
+            enemySpawnTimer++;
+            itemSpawnTimer++;
+            Log.w("GAME STATE", "enemySpawnTimer " + enemySpawnTimer);
+
         }
 
-        if (second == 30) {
+        if(enemySpawner.activeEnemys <= 3){
+            enemySpawner.spawn(map, (int) (enemyHealth + difficultyLevel * 1.5), enemySpeed + difficultyLevel / 4);
             difficultyLevel++;
+
         }
 
-        if (second % (15 - difficultyLevel) == 0) {
-
+        if (enemySpawnTimer == 30 - difficultyLevel) {
+            Log.w("GAME STATE", "Maybe enemy");
+            difficultyLevel++;
+            enemySpawnTimer = 0;
             shouldSpawnEnemy = rand.nextInt(100 + difficultyLevel);
 
-            if (shouldSpawnEnemy + difficultyLevel < (100 + difficultyLevel) / 2) {
+            if (shouldSpawnEnemy + difficultyLevel > (100 + difficultyLevel) / 2) {
                 Log.w("GAME STATE", "Spawning enemy");
                 enemySpawner.spawn(map, (int) (enemyHealth + difficultyLevel * 1.5), enemySpeed + difficultyLevel / 4);
             }
 
         }
 
-        if (second > 30 - difficultyLevel) {
-
+        if (itemSpawnTimer == (30 + (difficultyLevel / 2))) {
+            itemSpawnTimer = 0;
             shouldSpawnItem = rand.nextInt(100);
             shouldSpawnEnemy = rand.nextInt(100 + difficultyLevel);
 
@@ -244,7 +252,6 @@ public class Game implements Runnable {
                 Log.w("GAME STATE", "Spawning item");
                 itemSpawner.spawnRandom();
             }
-            second = 0;
         }
 
         if (player.currentState == Player.PlayerStates_e.GAME_OVER) {

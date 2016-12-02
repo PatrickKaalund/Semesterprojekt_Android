@@ -8,14 +8,14 @@ import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
 import com.graphics.Entity;
 
+import java.util.Random;
+
 
 class Enemy extends Creature {
-    private static final int NORMAL = 0;
-    static final int DIYNG = 2;
-    private static final int ATACKING = 3;
+
 
     public static final int DYING_STATE_COUNT = 2000;
-    public static final int GOT_HIT_STATE_COUNT = 10;
+    public static final int GOT_HIT_COUNT = 10;
     public static final int ATACKING_STATE_COUNT = 20;
 
     public static final int NORMAL_ANIMATION_DIV = 3;
@@ -23,21 +23,26 @@ class Enemy extends Creature {
     public static final int DIYNG_ANIMATION_DIV = 4;
     public static final int ATACKING_ANIMATION_DIV = 3;
 
-    public static final int[] NORMAL_ANIMATIONS =  new int[]{4, 5, 6, 7, 8, 9, 10, 11};
-    public static final int[] DIYNG_ANIMATIONS =  new int[]{28, 29, 30, 31, 32, 33, 34, 35};
-    public static final int[] ATACKING_ANIMATIONS =   new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
-    public static final int[] GOT_HIT_ANIMATIONS =   new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+    public static final int[] NORMAL_ANIMATIONS = new int[]{4, 5, 6, 7, 8, 9, 10, 11};
+    public static final int[] DIYNG_ANIMATIONS = new int[]{28, 29, 30, 31, 32, 33, 34, 35};
+    public static final int[] ATACKING_ANIMATIONS = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
+    public static final int GOT_HIT_OFFSET = 36;
+    private boolean randDirection;
+    private int randDirCounter = 0;
+    private int randDirTime = 100;
+    private final EnemySpawner mother;
+    Random rand;
+
 
 
     private boolean gotHit = false;
+    private int stateCounter = 0;
     private int gotHitCounter = 0;
-    private EnemySpawner mother;
 
     public enum EnemyStates_e {
-        NORMAL(NORMAL_ANIMATIONS, DYING_STATE_COUNT,NORMAL_ANIMATION_DIV),
-        DIYNG(DIYNG_ANIMATIONS, DYING_STATE_COUNT, NORMAL_ANIMATION_DIV),
-        ATACKING(NORMAL_ANIMATIONS, DYING_STATE_COUNT, NORMAL_ANIMATION_DIV),
-        GOT_HIT(ATACKING_ANIMATIONS, DYING_STATE_COUNT, NORMAL_ANIMATION_DIV);
+        NORMAL(NORMAL_ANIMATIONS, 0, ATACKING_ANIMATION_DIV),
+        DYING(DIYNG_ANIMATIONS, DYING_STATE_COUNT, DIYNG_ANIMATION_DIV),
+        ATTACKING(ATACKING_ANIMATIONS, ATACKING_STATE_COUNT, NORMAL_ANIMATION_DIV);
 
         private final int[] ANIMATIONS;
         private final int STATE_COUNT;
@@ -51,50 +56,21 @@ class Enemy extends Creature {
     }
 
 
-    public class EnemyStates {
-        private int currentState = NORMAL;
-        private int stateCounter = 0;
-        private int[][] animations = new int[4][0];
-
-        EnemyStates() {
-            animations[NORMAL] = new int[]{4, 5, 6, 7, 8, 9, 10, 11};
-            animations[DIYNG] = new int[]{28, 29, 30, 31, 32, 33, 34, 35};
-            animations[ATACKING] = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
-        }
-
-        int[] getAnimations() {
-            return animations[currentState];
-        }
-
-        void setState(int state) {
-            stateCounter = 0;
-            currentState = state;
-        }
-
-
-        int getCurrentState() {
-            return currentState;
-        }
-
-        public int getStateCounter() {
-            return stateCounter;
-        }
-    }
-
-    EnemyStates state;
+    public EnemyStates_e currentState;
     private Entity enemy;
     private int damage = 5;
 
     private Direction direction;
     private int angle;
 
-    Enemy(BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation) {
-        this.mother = mother;
-
+    Enemy(EnemySpawner enemySpawner, BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation) {
+        mother = enemySpawner;
+        mother.activeEnemys++;
         super.speed = speed;
         super.health = health;
-        state = new EnemyStates();
+        currentState = EnemyStates_e.NORMAL;
         this.enemy = enemy;
+        rand = new Random();
 
         placeElementFromGlobalPos(map, startLocation);
 
@@ -102,9 +78,9 @@ class Enemy extends Creature {
         this.enemy.setAngleOffSet(-225);     // pointing right
         this.enemy.setAnimationDivider(3);
 
-        this.enemy.setAnimationOrder(state.getAnimations());
+        this.enemy.setAnimationOrder(currentState.ANIMATIONS);
         direction = new Direction();
-        this.enemy.setHitBoxSize(50, 50);
+        this.enemy.setHitBoxSize(100, 100);
     }
 
     private void placeElementFromGlobalPos(BackgroundEntity map, PointF globalPos) {
@@ -115,11 +91,48 @@ class Enemy extends Creature {
         this.enemy.setPosition(new PointF(globalPos.x, globalPos.y));
     }
 
+
+//    private void checkInternCol(Enemy e){
+//        float deltaT = .top - enemy.getPosition().y;
+//        float deltaB = ref.bottom - enemy.getPosition().y;
+//        float deltaR = ref.right - enemy.getPosition().x;
+//        float deltaL = ref.left - enemy.getPosition().x;
+//
+//
+//
+//        if ((deltaT < direction.velocity_Y)) {
+//            tblr |= (1 << T_BITPOS);
+//            direction.velocity_Y = deltaT;
+//        }
+//        if ((deltaB > direction.velocity_Y)) {//
+//            tblr |= (1 << B_BITPOS);
+//            direction.velocity_Y = deltaB;
+//        }
+//        if ((deltaR < direction.velocity_X)) {//Rigth
+//            tblr |= (1 << R_BITPOS);
+//            direction.velocity_X = deltaR;
+//        }
+//        if ((deltaL > direction.velocity_X)) {//LEft
+//            tblr |= (1 << L_BITPOS);
+//            direction.velocity_X = deltaL;
+//        }
+//    }
+
     private void move(Player player, int speed) {
+
         angle = (int) Math.toDegrees(Math.atan2(player.getPos().y - enemy.getPosition().y, player.getPos().x - enemy.getPosition().x));
         direction.set(angle, speed);
         enemy.moveBy(-DataContainer.instance.mapMovement.x, -DataContainer.instance.mapMovement.y);
         enemy.move(direction);
+
+//        for (Enemy e : mother.getEnemies()) {
+//            if(e.equals(this)) continue;
+//            if(!enemy.collision(e.getEnemyEntity().getPosition())){
+//                enemy.move(direction);
+//            }
+//        }
+
+
     }
 
 
@@ -140,14 +153,15 @@ class Enemy extends Creature {
 //        enemy.drawNextSprite();
 
 
-        if (state.getCurrentState() == NORMAL && player.getPlayerEntity().collision(enemy.getPosition())) {
-            state.setState(ATACKING);
-            enemy.setAnimationOrder(state.getAnimations());
-            enemy.setAnimationDivider(ATACKING_ANIMATION_DIV);
+        if ((currentState == EnemyStates_e.NORMAL) && player.getPlayerEntity().collision(enemy.getPosition())) {
+            currentState = EnemyStates_e.ATTACKING;
+            stateCounter = 0;
+            enemy.setAnimationOrder(currentState.ANIMATIONS);
+            enemy.setAnimationDivider(currentState.ANIMATIONDIV);
         }
 
         if (gotHit) {
-            if (gotHitCounter++ > GOT_HIT_STATE_COUNT) {
+            if (gotHitCounter++ > GOT_HIT_COUNT) {
                 enemy.setAnimationOffset(0);
                 this.direction.baseSpeed = 1;
                 enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
@@ -155,13 +169,13 @@ class Enemy extends Creature {
             }
         }
 
-        switch (state.getCurrentState()) {
+        switch (currentState) {
             case NORMAL:
 
                 move(player, this.speed);
                 enemy.drawNextSprite();
                 break;
-            case ATACKING:
+            case ATTACKING:
                 move(player, 0);
                 enemy.drawNextSprite();
                 if (enemy.getCurrentSprite() == 14 && player.getPlayerEntity().collision(enemy.getPosition())) {
@@ -169,17 +183,18 @@ class Enemy extends Creature {
                 }
                 if (enemy.getCurrentSprite() == 21) {
                     if (player.getPlayerEntity().collision(enemy.getPosition())) {
-                        state.setState(ATACKING);
+                        currentState = EnemyStates_e.ATTACKING;
+                        stateCounter = 0;
                     } else {
-                        state.setState(NORMAL);
-                        enemy.setAnimationOrder(state.getAnimations());
-                        enemy.setAnimationDivider(NORMAL_ANIMATION_DIV);
+                        currentState = EnemyStates_e.NORMAL;
+                        enemy.setAnimationOrder(currentState.ANIMATIONS);
+                        enemy.setAnimationDivider(currentState.ANIMATIONDIV);
                     }
                 }
 
 
                 break;
-            case DIYNG:
+            case DYING:
 
                 move(player, 0);
 
@@ -188,7 +203,7 @@ class Enemy extends Creature {
                 } else {
                     enemy.drawNextSprite();
                 }
-                if (state.stateCounter++ == DYING_STATE_COUNT) {
+                if (stateCounter++ == currentState.STATE_COUNT) {
                     enemy.delete();
                     return false;
                 }
@@ -207,16 +222,13 @@ class Enemy extends Creature {
         if (!gotHit) {
             super.health -= damege;
             if (super.health < 0) {
-                state.setState(DIYNG);
-                enemy.setAnimationDivider(DIYNG_ANIMATION_DIV);
-                enemy.setAnimationOrder(state.getAnimations());
+                mother.activeEnemys--;
+                currentState = EnemyStates_e.DYING;
+                enemy.setAnimationDivider(currentState.ANIMATIONDIV);
+                enemy.setAnimationOrder(currentState.ANIMATIONS);
             } else {
                 gotHitCounter = 0;
-                enemy.setAnimationOffset(36);
-                enemy.setAnimationDivider(GOT_HIT_ANIMATION_DIV);
-                if (state.currentState != ATACKING) {
-                    this.direction.baseSpeed = 3;
-                }
+                enemy.setAnimationOffset(GOT_HIT_OFFSET);
                 return gotHit = true;
             }
         }

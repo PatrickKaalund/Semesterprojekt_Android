@@ -19,12 +19,13 @@ import java.util.Random;
 public class EnemySpawner {
     private SpriteEntityFactory enemyFactory;
     private ArrayList<Enemy> enemies;
+    public int activeEnemys = 0;
 
 
     public EnemySpawner(Context c) {
         DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
-        PointF sizeOfEnemy = new PointF(200, 200);
-        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol_reshaped, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
+        PointF sizeOfEnemy = new PointF(250, 250);
+        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_new, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
         enemies = new ArrayList<>();
 
     }
@@ -72,7 +73,7 @@ public class EnemySpawner {
         float randomX = rand.nextFloat() * (maxX - minX) + minX;
         float randomY = rand.nextFloat() * (maxY - minY) + minY;
 
-        Enemy enemy = new Enemy(map,enemyFactory.createEntity(), health, speed, new PointF(randomX,randomY));
+        Enemy enemy = new Enemy(this,map,enemyFactory.createEntity(), health, speed, new PointF(randomX,randomY));
         enemies.add(enemy);
     }
 
@@ -91,7 +92,7 @@ public class EnemySpawner {
         }
     }
 
-    ArrayList<Enemy> getEnemies() {
+    public ArrayList<Enemy> getEnemies() {
         return enemies;
     }
 

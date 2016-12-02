@@ -124,7 +124,7 @@ class Shooter {
                 continue;
             }
             for (Enemy enemy : enemies.getEnemies()) {
-                if (enemy.state.getCurrentState() == Enemy.DIYNG) {
+                if (enemy.currentState == Enemy.EnemyStates_e.DYING) {
                     continue;
                 }
 //                LL(this,"ECheking enemy");

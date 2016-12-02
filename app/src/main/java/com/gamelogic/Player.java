@@ -124,7 +124,7 @@ public class Player extends PlayerCommon {
 
 
     /**
-     * Update player state. Checks if player is shooting and if enemy is hit by a shot
+     * Update player currentState. Checks if player is shooting and if enemy is hit by a shot
      *
      * @param control
      * @param enemys
@@ -279,7 +279,7 @@ public class Player extends PlayerCommon {
     }
 
     /**
-     * Damege the player. Changes state for the player
+     * Damege the player. Changes currentState for the player
      *
      * @param damage
      */
