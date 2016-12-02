@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 
@@ -20,6 +21,8 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
 
     View view;
     private AudioPlayer audioPlayer;
+    public int numberOfPlayers = 2;
+    public int scrollYpos = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,17 +34,20 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
 
         playButton.setOnClickListener(this);
 
-        NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.numberPickerMultiplayer);
+        final NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
 
-        numberPicker.setMinValue(0);
-        numberPicker.setMaxValue(10);
+        numberPicker.setMinValue(2);
+        numberPicker.setMaxValue(5);
 
-        numberPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
-                Log.e("MultiplayerFragment", "Selected Number : " + newVal);
-            }
-        });
+//        enableNumberPickerManualEditing(numberPicker, false);
+
+        String[] test = { "2 players", "3 players", "4 players", "5 players" };
+
+        EditText tv1 = (EditText)numberPicker.getChildAt(0);
+        tv1.setTextSize(30);
+
+        numberPicker.setDisplayedValues(test);
+        numberPicker.setSoundEffectsEnabled(true);
 
         audioPlayer = new AudioPlayer(view.getContext());
 
@@ -49,6 +55,24 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
 
         return view;
     }
+//
+//    public void enableNumberPickerManualEditing(NumberPicker numPicker,
+//                                                boolean enable) {
+//        int childCount = numPicker.getChildCount();
+//
+//        for (int i = 0; i < childCount; i++) {
+//            View childView = numPicker.getChildAt(i);
+//
+//            if (childView instanceof EditText) {
+//                EditText et = (EditText) childView;
+//                et.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.multiplayer_2_players));
+//                et.setTextSize(32);
+//                et.setFocusable(enable);
+//                return;
+//            }
+//        }
+//    }
+
 
     @Override
     public void onResume() {
@@ -58,7 +82,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.buttonPlay:
+            case R.id.buttonPlayM:
                 Log.d("MultiplayerFragment", "Start multiplayer clicked!");
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 audioPlayer.playAudioFromRaw(R.raw.click);
@@ -83,3 +107,4 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
         }
     }
 }
+
