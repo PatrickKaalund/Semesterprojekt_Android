@@ -35,6 +35,11 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.fragment_high_score, container, false);
         this.view = view;
 
+        // Bring progressBar to top
+        getActivity().findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        getActivity().findViewById(R.id.progressBar).bringToFront();
+        getActivity().findViewById(R.id.progressBar).invalidate();
+
 //        DisplayMetrics displayMetrics = view.getResources().getDisplayMetrics();
 //        SpriteEntityFactory highScoreFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 120, 120, 11, 1, new PointF(0, 0));
 //        highScoreDrawer = highScoreFactory.createEntity();
@@ -82,6 +87,8 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
     public void fillHighScore(ArrayList<String> info){
         Log.e("HighScoreFragment", "Info: " + info.toString());
+
+        getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
 
         // Draw top 3 on high score list
         for(int i = 0; i < 3; i++){
