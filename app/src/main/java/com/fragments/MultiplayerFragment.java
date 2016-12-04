@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.activities.InGame;
 import com.audio.AudioPlayer;
@@ -21,6 +22,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
 
     View view;
     private AudioPlayer audioPlayer;
+    private int numberOfPlayers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
 
         playButton.setOnClickListener(this);
 
-        final NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
+        NumberPicker numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
 
         numberPicker.setMinValue(2);
         numberPicker.setMaxValue(5);
@@ -66,6 +68,8 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
 
     private void updateView(View view, int newVal){
 //        Log.d("MultiplayerFragment", "Updating! New val: " + newVal);
+
+        this.numberOfPlayers = newVal;
 
         switch (newVal){
             case 2:
@@ -110,7 +114,11 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonPlayM:
-                Log.d("MultiplayerFragment", "Start multiplayer clicked!");
+                Log.d("MultiplayerFragment", "Start multiplayer clicked! Number of players: " + this.numberOfPlayers);
+                if(this.numberOfPlayers > 2){
+                    Toast.makeText(getActivity(), "Max 2 players at the moment", Toast.LENGTH_SHORT).show();
+                    break;
+                }
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 audioPlayer.playAudioFromRaw(R.raw.click);
 

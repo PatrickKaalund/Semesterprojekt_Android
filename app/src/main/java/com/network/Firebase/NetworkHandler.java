@@ -24,7 +24,6 @@ public class NetworkHandler {
     private String gamePrefix;
     private boolean multiPlayerGame;
     private String mother;
-    private int randomNum;
     private int minimum = 100000000;
     private int maximum = 999999999;
     private String myPlayerID;
@@ -42,8 +41,6 @@ public class NetworkHandler {
         this.multiPlayerGame = multiPlayerGame;
 
         if (this.multiPlayerGame) {
-
-            randomNum = minimum + (int) (Math.random() * maximum);
 
             gamePrefix = "Game_";
             myPlayerID = "Player_";
