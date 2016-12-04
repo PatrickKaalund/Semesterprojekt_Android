@@ -2,6 +2,7 @@ package com.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -59,6 +60,15 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
         numberPicker.setSoundEffectsEnabled(true);
 
         audioPlayer = new AudioPlayer(view.getContext());
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getActivity(), "Scroll to change total players", Toast.LENGTH_LONG).show();
+
+            }
+        }, 2000);
 
         view.bringToFront();
 
