@@ -127,7 +127,8 @@ public class Game implements Runnable {
 
         enemySpawner = new EnemySpawner(context);
 
-        player = new Player(context, networkHandler, new PointF(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2));
+        PointF screenMiddle = new PointF(context.getResources().getDisplayMetrics().widthPixels/2, context.getResources().getDisplayMetrics().heightPixels/2);
+        player = new Player(context, networkHandler, screenMiddle, map);
 
         itemSpawner.setPlayer(player);
 
