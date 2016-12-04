@@ -256,7 +256,7 @@ public class Game implements Runnable {
 
         if (player.currentState == Player.PlayerStates_e.GAME_OVER) {
             Log.e("GAME STATE", "################# GAME OVER ##################");
-            isPaused = true;
+           // isPaused = true;  // ToDo Create an END_STATE
         }
     }
 

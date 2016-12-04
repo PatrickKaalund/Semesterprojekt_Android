@@ -129,9 +129,9 @@ class WeaponsHandler {
                 break;
 
             case AMMO_YELLOW :
-                ammoAmounts.put(WeaponList_e.GUN, 6);
-                ammoAmounts.put(WeaponList_e.SHOTGUN, 0);
-                ammoAmounts.put(WeaponList_e.AK47, 0);
+                ammoAmounts.put(WeaponList_e.GUN, GUN_CAP);
+                ammoAmounts.put(WeaponList_e.SHOTGUN, SHOTGUN_CAP);
+                ammoAmounts.put(WeaponList_e.AK47, AK47_CAP);
                 break;
         }
 

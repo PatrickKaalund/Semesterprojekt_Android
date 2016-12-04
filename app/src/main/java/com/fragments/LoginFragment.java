@@ -53,9 +53,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             case R.id.buttonPlay:
                 Log.d("Main", "Clicked");
                 audioPlayer.playAudioFromRaw(R.raw.click);
-                v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 loginHandler.login(this, "TestPerson");
                 break;
+//                v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
 
         }
     }
@@ -70,6 +70,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                     .remove(this)
+                    // Close keyboard fragment
+                    .remove(getFragmentManager().findFragmentById(R.id.start_keyboard_fragment_holder))
                     .add(R.id.activity_main_menu, new ButtonMainFragment())
                     .commit();
         } else {

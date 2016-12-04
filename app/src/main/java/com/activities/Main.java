@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.fragments.KeyboardFragment;
 import com.fragments.ButtonMainFragment;
 import com.fragments.LoginFragment;
 
@@ -34,9 +35,13 @@ public class Main extends BaseActivity {
         if (!logged_in) {
             findViewById(R.id.overlay).setVisibility(View.VISIBLE);
 
+            Fragment fragment = new LoginFragment();
+            Fragment keyboardFragment = new KeyboardFragment();
+
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.start_fragment_holder, new LoginFragment())
                     .addToBackStack(null)
+                    .add(R.id.start_keyboard_fragment_holder, keyboardFragment)
                     .commit();
         }else{
             getSupportFragmentManager().beginTransaction()
