@@ -27,12 +27,12 @@ public class Main extends BaseActivity {
 
         // Check if logged in
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
         boolean logged_in = preferences.getBoolean("logged_in", false);
 
         Log.e("LoginFragment", "Logged in: " + logged_in);
 
-        // if(savedInstanceState == null)
-        if (!logged_in) {
+        if (savedInstanceState == null && !logged_in) {
             findViewById(R.id.overlay).setVisibility(View.VISIBLE);
 
             getSupportFragmentManager().beginTransaction()

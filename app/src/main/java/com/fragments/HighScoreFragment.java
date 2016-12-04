@@ -22,7 +22,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_end_game, container, false);
+        View view = inflater.inflate(R.layout.fragment_high_score, container, false);
         this.view = view;
 
         TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);

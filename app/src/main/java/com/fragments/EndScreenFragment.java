@@ -17,19 +17,23 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
 
+import java.util.ArrayList;
+
 
 public class EndScreenFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private AudioPlayer audioPlayer;
-    private Entity killDrawer;
-    private Entity hitsDrawer;
-    private Entity shotsDrawer;
-    private Entity ratioDrawer;
+
     private int shotsFired;
     private int hits;
     private int kills;
 
+    private ArrayList<Entity> killDrawers;
+    private ArrayList<Entity> hitsDrawers;
+    private ArrayList<Entity> shotsDrawers;
+    private SpriteEntityFactory endScreenFactory;
+    private DisplayMetrics displayMetrics;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,23 +56,8 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
 
         view.bringToFront();
 
-        DisplayMetrics displayMetrics = view.getResources().getDisplayMetrics();
-        SpriteEntityFactory endScreenFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 120, 120, 11, 1, new PointF(0, 0));
-        killDrawer = endScreenFactory.createEntity();
-
-        killDrawer.placeAt(displayMetrics.widthPixels - 300, displayMetrics.heightPixels - 738);
-        killDrawer.setCurrentSprite(0);
-
-        shotsDrawer = endScreenFactory.createEntity();
-        shotsDrawer.placeAt(displayMetrics.widthPixels - 300, displayMetrics.heightPixels - 848);
-
-        hitsDrawer = endScreenFactory.createEntity();
-        hitsDrawer.placeAt(displayMetrics.widthPixels - 300, displayMetrics.heightPixels - 958);
-        hitsDrawer.setCurrentSprite(0);
-
-        ratioDrawer = endScreenFactory.createEntity();
-        ratioDrawer.placeAt(displayMetrics.widthPixels - 300, displayMetrics.heightPixels - 1068);
-        ratioDrawer.setCurrentSprite(0);
+        displayMetrics = view.getResources().getDisplayMetrics();
+        endScreenFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 120, 120, 11, 1, new PointF(0, 0));
 
         return view;
     }
@@ -76,37 +65,58 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        new Thread( background ).start();
+
+        killDrawers = new ArrayList<>();
+        hitsDrawers = new ArrayList<>();
+        shotsDrawers = new ArrayList<>();
+
+        startDrawers(killDrawers, 0);
+        startDrawers(shotsDrawers, 110);
+        startDrawers(hitsDrawers, 220);
+
+        new Thread(background).start();
     }
 
+
+    public void startDrawers(ArrayList<Entity> drawers, int yOffset) {
+
+        for (int i = 0; i < 4; i++) {
+            Entity drawer = endScreenFactory.createEntity();
+            drawer.placeAt(displayMetrics.widthPixels - 300 - (60 * i), displayMetrics.heightPixels - 738 - yOffset);
+            drawer.setCurrentSprite(0);
+            drawers.add(drawer);
+        }
+    }
+
+
     private Runnable background = new Runnable() {
+
+        private void draw(ArrayList<Entity> drawers, int size) throws InterruptedException {
+            String sizeString =  Integer.toString(size);
+            if (size < 9999 && size > 0) {
+
+                for (int i = 0; i < sizeString.length(); i++) {
+                    // get next digit in string  - convert from ASCII char
+                    int sprite = sizeString.charAt(sizeString.length() - (i + 1)) - 48;
+                    Log.d("EndScreen_background", "Read: " + sprite);
+
+                    for (int j = 0; j < sprite; j++) {
+                        drawers.get(i).setCurrentSprite(j + 1);
+
+                        audioPlayer.playAudioFromRaw(R.raw.click);
+
+                        Thread.sleep(350);
+                    }
+                }
+            }
+        }
+
         @Override
         public void run() {
             try {
-                if (kills < 9999) {
-                    for (int i = 0; i < (kills % 10); i++) {
-                        killDrawer.setCurrentSprite(i + 1);
-                        audioPlayer.playAudioFromRaw(R.raw.click);
-                        Thread.sleep(300);
-                    }
-                }
-
-                if (shotsFired < 9999) {
-                    for (int i = 0; i < (shotsFired % 10); i++) {
-                        shotsDrawer.setCurrentSprite(i + 1);
-                        audioPlayer.playAudioFromRaw(R.raw.click);
-                        Thread.sleep(300);
-                    }
-                }
-
-                if (hits < 9999) {
-                    for (int i = 0; i < (hits % 10); i++) {
-                        hitsDrawer.setCurrentSprite(i + 1);
-                        audioPlayer.playAudioFromRaw(R.raw.click);
-                        Thread.sleep(300);
-                    }
-                }
-
+                draw(killDrawers, kills);
+                draw(shotsDrawers, shotsFired);
+                draw(hitsDrawers, hits);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -133,7 +143,6 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
                         .add(R.id.fragment_endgame_holder, new HighScoreFragment())
                         .commit();
                 break;
-
         }
     }
 }

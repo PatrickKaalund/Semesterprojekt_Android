@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/textView"
-        android:background="@drawable/game_over"
+        android:background="@drawable/high_score"
 
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
