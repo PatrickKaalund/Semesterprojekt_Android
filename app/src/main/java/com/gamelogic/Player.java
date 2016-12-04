@@ -77,7 +77,7 @@ public class Player extends PlayerCommon {
      * @param context
      * @param networkHandler
      */
-    public Player(Context context, NetworkHandler networkHandler, PointF startPos) {
+    public Player(Context context, NetworkHandler networkHandler, PointF startPosOnScreen, BackgroundEntity map) {
         // ----- Misc -----
         this.context = context;
         this.networkHandler = networkHandler;
@@ -91,11 +91,12 @@ public class Player extends PlayerCommon {
         player.setAnimationDivider(1);
         player.setAnimationOrder(new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20});
 
-//        player.placeAt(context.getResources().getDisplayMetrics().widthPixels / 2, context.getResources().getDisplayMetrics().heightPixels / 2);
-//        player.placeAt(startPos.x,startPos.y);
-//        player.setPosition(new PointF(startPos.x /*+ context.getResources().getDisplayMetrics().widthPixels/2*/, startPos.y /*+ context.getResources().getDisplayMetrics().heightPixels/2*/));
-        player.placeAt(startPos.x, startPos.y);
-        player.setPosition(new PointF(2000.0F, 2000.0F));
+        float screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        float screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+
+        player.placeAt(startPosOnScreen.x, startPosOnScreen.y);
+        player.setPosition(new PointF(map.screenPos.x - (screenWidth/2 - startPosOnScreen.x), map.screenPos.y - (screenHeight/2 - startPosOnScreen.y)));
+        Log.e("Player", "Player pos " + player.getPosition().x + ", " + player.getPosition().y);
         direction = new Direction(super.speed);
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.health, 80, 220, 21, 1, new PointF(125, 260));
