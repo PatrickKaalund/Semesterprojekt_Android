@@ -27,7 +27,7 @@ public class Main extends BaseActivity {
 
         // Check if logged in
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        boolean logged_in = preferences.getBoolean("logged_in", true);
+        boolean logged_in = preferences.getBoolean("logged_in", false);
 
         Log.e("LoginFragment", "Logged in: " + logged_in);
 
@@ -35,13 +35,9 @@ public class Main extends BaseActivity {
         if (!logged_in) {
             findViewById(R.id.overlay).setVisibility(View.VISIBLE);
 
-            Fragment fragment = new LoginFragment();
-            Fragment keyboardFragment = new KeyboardFragment();
-
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.start_fragment_holder, new LoginFragment())
-                    .addToBackStack(null)
-                    .add(R.id.start_keyboard_fragment_holder, keyboardFragment)
+                    .add(R.id.start_keyboard_fragment_holder, new KeyboardFragment())
                     .commit();
         }else{
             getSupportFragmentManager().beginTransaction()

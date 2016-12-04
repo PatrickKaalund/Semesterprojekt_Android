@@ -19,12 +19,15 @@ import com.network.Firebase.LoginHandler;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    View view;
+    private View view;
     private AudioPlayer audioPlayer;
     private LoginHandler loginHandler;
+    private SharedPreferences preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         this.view = view;
@@ -52,11 +55,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.buttonPlay:
                 Log.d("Main", "Clicked");
+                v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 audioPlayer.playAudioFromRaw(R.raw.click);
-                loginHandler.login(this, "TestPerson");
-                break;
-//                v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
 
+                loginHandler.login(this, preferences.getString("player", "DEFAULT"));
+                break;
         }
     }
 
@@ -64,8 +67,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void loggedIn(boolean succeeded) {
         if (succeeded) {
             // Logged in
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            preferences.edit().putBoolean("logged_in", true);
+            preferences.edit().putBoolean("logged_in", true).apply();
+            Log.d("LoginFragment", "Logged in as: " + preferences.getString("player", "DEFAULT"));
 
             getFragmentManager().beginTransaction()
                     .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)

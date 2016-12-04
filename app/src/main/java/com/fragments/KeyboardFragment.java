@@ -1,6 +1,8 @@
 package com.fragments;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,15 +17,18 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 
 public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
-    View view;
+    private View view;
     private AudioPlayer audioPlayer;
     private String loginString = "";
+    private SharedPreferences preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_keyboard, container, false);
         this.view = view;
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         TextView aButton = (TextView) view.findViewById(R.id.textViewA);
         TextView bButton = (TextView) view.findViewById(R.id.textViewB);
@@ -113,5 +118,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
         audioPlayer.playAudioFromRaw(R.raw.click);
         Log.d("Keyboard", "Login string: " + loginString);
+
+        preferences.edit().putString("player", loginString).apply();
     }
 }
