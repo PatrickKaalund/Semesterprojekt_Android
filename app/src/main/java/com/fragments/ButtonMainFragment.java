@@ -44,14 +44,14 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
         TextView playMulti = (TextView) getActivity().findViewById(R.id.buttonPlayMulti);
         TextView settings = (TextView) getActivity().findViewById(R.id.buttonSettings);
         TextView quit = (TextView) getActivity().findViewById(R.id.buttonQuit);
-        TextView debug = (TextView) getActivity().findViewById(R.id.buttonDebug);
+        TextView highscore = (TextView) getActivity().findViewById(R.id.buttonHighscore);
 
 
         play.setOnClickListener(this);
         playMulti.setOnClickListener(this);
         settings.setOnClickListener(this);
         quit.setOnClickListener(this);
-        debug.setOnClickListener(this);
+        highscore.setOnClickListener(this);
 
         view.bringToFront();
 
@@ -110,9 +110,19 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                     startActivity(startMain);
                     break;
 
-                case R.id.buttonDebug:
+                case R.id.buttonHighscore:
                     v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.view_clicked));
                     audioPlayer.playAudioFromRaw(R.raw.click);
+
+                    layout.setVisibility(View.INVISIBLE);
+
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                            .remove(this)
+                            .add(R.id.start_fragment_holder, new HighScoreFragment())
+                            .addToBackStack(null)
+                            .commit();
+
                     break;
             }
     }

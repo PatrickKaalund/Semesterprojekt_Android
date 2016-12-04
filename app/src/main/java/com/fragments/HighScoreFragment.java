@@ -12,22 +12,29 @@ import android.widget.TextView;
 
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.network.Firebase.NetworkHandler;
+
+import java.util.ArrayList;
 
 
 public class HighScoreFragment extends Fragment implements View.OnClickListener {
 
     View view;
     private AudioPlayer audioPlayer;
+    private NetworkHandler networkHandler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_end_game, container, false);
+        View view = inflater.inflate(R.layout.fragment_high_score, container, false);
         this.view = view;
 
-        TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);
+        networkHandler = new NetworkHandler(false);
+        networkHandler.requestHighScoreList(this);
 
-        nextButton.setOnClickListener(this);
+        TextView mainMenuButton = (TextView) view.findViewById(R.id.buttonMainMenu);
+
+        mainMenuButton.setOnClickListener(this);
 
         audioPlayer = new AudioPlayer(view.getContext());
 
@@ -44,7 +51,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.buttonNext:
+            case R.id.buttonMainMenu:
                 Log.d("Main", "Clicked");
 
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
@@ -54,12 +61,13 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .remove(this)
+                        .add(R.id.activity_main_menu, new ButtonMainFragment())
                         .commit();
-
-                Activity a = (Activity) view.getContext();
-                a.finish();
-
                 break;
         }
+    }
+
+    public void fillHighScore(ArrayList<String> info){
+        Log.e("HighScoreFragment", "Info: " + info.toString());
     }
 }
