@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/buttonMainMenu"
-        android:background="@drawable/main_menu"
+        android:background="@drawable/main_menu_24"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
