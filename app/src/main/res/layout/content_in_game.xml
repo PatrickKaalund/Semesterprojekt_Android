@@ -9,6 +9,15 @@
     tools:context="com.activities.InGame"
     tools:showIn="@layout/activity_in_game">
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        style="@android:style/Widget.Material.ProgressBar.Large"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone"/>
+
     <com.views.DropDownMenu
         android:id="@+id/dropdown_menu"
         android:layout_width="150sp"
