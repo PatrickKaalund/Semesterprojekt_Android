@@ -35,11 +35,20 @@ public class NetworkHandler {
         BEGUN
     }
 
-    public NetworkHandler(boolean multiPlayerGame) {
+    public NetworkHandler() {
+        initialiseNetworkHandler();
+    }
+
+    public void initialiseNetworkHandler() {
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         playerListeners = new ArrayList<>();
 
         this.highScoreLocation = "HighScore";
+    }
+
+    public NetworkHandler(boolean multiPlayerGame) {
+        initialiseNetworkHandler();
+
         this.multiPlayerGame = multiPlayerGame;
 
         if (this.multiPlayerGame) {

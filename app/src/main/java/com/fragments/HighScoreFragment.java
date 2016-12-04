@@ -29,7 +29,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.fragment_high_score, container, false);
         this.view = view;
 
-        networkHandler = new NetworkHandler(false);
+        networkHandler = new NetworkHandler();
         networkHandler.requestHighScoreList(this);
 
         TextView mainMenuButton = (TextView) view.findViewById(R.id.buttonMainMenu);
