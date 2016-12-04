@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import com.activities.InGame;
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Entity;
@@ -77,11 +78,23 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
                 audioPlayer.playAudioFromRaw(R.raw.click);
 
-                getFragmentManager().beginTransaction()
-                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
-                        .remove(this)
-                        .add(R.id.activity_main_menu, new ButtonMainFragment())
-                        .commit();
+                if(getActivity() instanceof InGame){
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                            .remove(this)
+                            .commit();
+
+                    // Change activity to main menu
+                    Activity a = (Activity) view.getContext();
+                    a.finish();
+
+                }else{
+                    getFragmentManager().beginTransaction()
+                            .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+                            .remove(this)
+                            .add(R.id.activity_main_menu, new ButtonMainFragment())
+                            .commit();
+                }
                 break;
         }
     }
