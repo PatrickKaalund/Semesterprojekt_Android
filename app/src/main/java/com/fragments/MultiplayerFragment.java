@@ -29,7 +29,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_multiplayer, container, false);
+        final View view = inflater.inflate(R.layout.fragment_multiplayer, container, false);
         this.view = view;
 
         TextView playButton = (TextView) view.findViewById(R.id.buttonPlayM);
@@ -66,7 +66,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isInMultiplayerFragment){
+                if(view.isShown()){
                     Toast.makeText(getActivity(), "Scroll to change total players", Toast.LENGTH_SHORT).show();
                 }
             }

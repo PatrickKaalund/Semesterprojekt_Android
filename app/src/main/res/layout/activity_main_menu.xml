@@ -76,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonQuit"
                     android:background="@drawable/quit_main"
-                    android:layout_below="@+id/buttonDebug"
+                    android:layout_below="@+id/buttonHighscore"
                     android:layout_alignEnd="@+id/buttonFirebaseTest" />
 
                 <TextView
@@ -98,8 +98,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/buttonDebug"
-                    android:background="@drawable/debug"
+                    android:id="@+id/buttonHighscore"
+                    android:background="@drawable/high_score"
                     android:layout_above="@+id/buttonFirebaseTest"
                     android:layout_centerHorizontal="true" />
 
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonSettings"
                     android:background="@drawable/settings_small"
-                    android:layout_above="@+id/buttonDebug"
+                    android:layout_above="@+id/buttonHighscore"
                     android:layout_centerHorizontal="true" />
 
             </RelativeLayout>

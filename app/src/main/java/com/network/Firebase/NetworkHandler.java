@@ -2,6 +2,7 @@ package com.network.Firebase;
 
 import android.util.Log;
 
+import com.fragments.HighScoreFragment;
 import com.gamelogic.DataContainer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,7 +37,6 @@ public class NetworkHandler {
     public NetworkHandler(boolean multiPlayerGame) {
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         playerListeners = new ArrayList<>();
-
 
         this.multiPlayerGame = multiPlayerGame;
 
