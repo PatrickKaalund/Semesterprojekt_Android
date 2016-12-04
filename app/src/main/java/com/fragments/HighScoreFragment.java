@@ -16,6 +16,7 @@ import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Entity;
 import com.graphics.SpriteEntityFactory;
+import com.network.Firebase.HighScoreHandler;
 import com.network.Firebase.NetworkHandler;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
     View view;
     private AudioPlayer audioPlayer;
-    private NetworkHandler networkHandler;
+    private HighScoreHandler highScoreHandler;
 
     private Entity highScoreDrawer;
 
@@ -47,8 +48,8 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 //        highScoreDrawer.placeAt(displayMetrics.widthPixels, displayMetrics.heightPixels);
 //        highScoreDrawer.setCurrentSprite(0);
 
-        networkHandler = new NetworkHandler();
-        networkHandler.requestHighScoreList(this);
+        highScoreHandler = new HighScoreHandler();
+        highScoreHandler.requestHighScoreList(this);
 
         TextView mainMenuButton = (TextView) view.findViewById(R.id.buttonMainMenu);
 
@@ -90,7 +91,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
         getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
 
-        // Draw top 3 on high score list
+        // Draw top 3 on high score list - MUST BE SORTED!!!
         for(int i = 0; i < 3; i++){
             Log.e("HighScoreFragment", "Draw highscore: " + i + " with value: " + info.get(i));
         }

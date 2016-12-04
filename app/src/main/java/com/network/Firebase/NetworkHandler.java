@@ -28,26 +28,15 @@ public class NetworkHandler {
     private int minimum = 100000000;
     private int maximum = 999999999;
     private String myPlayerID;
-    private String highScoreLocation;
 
     private enum gameStatus {
         FILLING_GAME,
         BEGUN
     }
 
-    public NetworkHandler() {
-        initialiseNetworkHandler();
-    }
-
-    public void initialiseNetworkHandler() {
+    public NetworkHandler(boolean multiPlayerGame) {
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         playerListeners = new ArrayList<>();
-
-        this.highScoreLocation = "HighScore";
-    }
-
-    public NetworkHandler(boolean multiPlayerGame) {
-        initialiseNetworkHandler();
 
         this.multiPlayerGame = multiPlayerGame;
 
@@ -198,43 +187,5 @@ public class NetworkHandler {
     private int randomNumber(int min, int max) {
         Random random = new Random();
         return random.nextInt((max - min) + 1) + min;
-    }
-
-    public void requestHighScoreList(final HighScoreFragment highScoreFragment) {
-        // get high score list from server
-        mFirebaseDatabaseReference.child(highScoreLocation).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object receivedObject = dataSnapshot.getValue();
-
-                ArrayList<String> highScoreObjects = new ArrayList<String>();
-                if (receivedObject != null) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(receivedObject.toString());
-                        Iterator<?> keys = jsonObject.keys();
-
-                        // Add highscore objects
-                        while (keys.hasNext()) {
-                            String key = (String) keys.next();
-//                            Log.d("NetworkHandler", "Key: " + key + ". Value is: " + jsonObject.get(key));
-                            highScoreObjects.add(key + " : " + jsonObject.get(key));
-                        }
-
-                        highScoreFragment.fillHighScore(highScoreObjects);
-                        return;
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                highScoreObjects.add("HighScore not available");
-                highScoreFragment.fillHighScore(highScoreObjects);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("NetworkHandler", "Cancel subscription!");
-            }
-        });
     }
 }
