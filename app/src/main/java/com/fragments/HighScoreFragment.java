@@ -87,11 +87,11 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
     }
 
     public void fillHighScore(ArrayList<String> info){
-        Log.e("HighScoreFragment", "Info: " + info.toString());
+//        Log.e("HighScoreFragment", "Info: " + info.toString());
 
         getActivity().findViewById(R.id.progressBar).setVisibility(View.INVISIBLE);
 
-        // Draw top 3 on high score list - MUST BE SORTED!!!
+        // Draw top 3 on high score list
         for(int i = 0; i < 3; i++){
             Log.e("HighScoreFragment", "Draw highscore: " + i + " with value: " + info.get(i));
         }
