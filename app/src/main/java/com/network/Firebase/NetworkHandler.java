@@ -38,6 +38,7 @@ public class NetworkHandler {
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         playerListeners = new ArrayList<>();
 
+
         this.multiPlayerGame = multiPlayerGame;
 
         if (this.multiPlayerGame) {
@@ -117,10 +118,9 @@ public class NetworkHandler {
 
     private void startListenGame() {
         String remotePlayerID = "Player_"; // Which player to receive data from
-        if(DataContainer.instance.player.getPlayerID() == 1){
+        if (DataContainer.instance.player.getPlayerID() == 1) {
             remotePlayerID += "2";
-        }
-        else if(DataContainer.instance.player.getPlayerID() == 2){
+        } else if (DataContainer.instance.player.getPlayerID() == 2) {
             remotePlayerID += "1";
         }
         mFirebaseDatabaseReference.child(mother).child(game).child(remotePlayerID).addValueEventListener(new ValueEventListener() {
@@ -148,7 +148,7 @@ public class NetworkHandler {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.d("NetworkHandler", "Cancel subscriebtion!");
+                Log.d("NetworkHandler", "Cancel subscription!");
             }
         });
     }

@@ -1,12 +1,16 @@
 package com.activities;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.fragments.ButtonMainFragment;
 import com.fragments.LoginFragment;
 
 public class Main extends BaseActivity {
@@ -20,15 +24,23 @@ public class Main extends BaseActivity {
 
         setContentView(R.layout.activity_main_menu);
 
+        // Check if logged in
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        boolean logged_in = preferences.getBoolean("logged_in", true);
 
-        if (savedInstanceState == null) {
+        Log.e("LoginFragment", "Logged in: " + logged_in);
+
+        // if(savedInstanceState == null)
+        if (!logged_in) {
             findViewById(R.id.overlay).setVisibility(View.VISIBLE);
 
-            Fragment fragment = new LoginFragment();
-
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.start_fragment_holder, fragment)
+                    .add(R.id.start_fragment_holder, new LoginFragment())
                     .addToBackStack(null)
+                    .commit();
+        }else{
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.activity_main_menu, new ButtonMainFragment())
                     .commit();
         }
     }
