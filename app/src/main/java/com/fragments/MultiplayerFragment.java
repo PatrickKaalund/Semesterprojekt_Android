@@ -24,6 +24,7 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
     View view;
     private AudioPlayer audioPlayer;
     private int numberOfPlayers;
+    private boolean isInMultiplayerFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -65,10 +66,13 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                Toast.makeText(getActivity(), "Scroll to change total players", Toast.LENGTH_LONG).show();
-
+                if(isInMultiplayerFragment){
+                    Toast.makeText(getActivity(), "Scroll to change total players", Toast.LENGTH_SHORT).show();
+                }
             }
-        }, 2000);
+        }, 1500);
+
+        isInMultiplayerFragment = true;
 
         view.bringToFront();
 
@@ -129,6 +133,8 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
                     Toast.makeText(getActivity(), "Max 2 players at the moment", Toast.LENGTH_SHORT).show();
                     break;
                 }
+                isInMultiplayerFragment = false;
+
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 audioPlayer.playAudioFromRaw(R.raw.click);
 
