@@ -23,14 +23,6 @@
             />
 
         <RelativeLayout
-            android:id="@+id/start_fragment_holder"
-            android:layout_width="230dp"
-            android:layout_height="270dp"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true">
-        </RelativeLayout>
-
-        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/OuterRelativeLayout"
@@ -143,6 +135,23 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:visibility="gone"/>
+
+        <RelativeLayout
+            android:id="@+id/start_keyboard_fragment_holder"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_height="160dp">
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/start_fragment_holder"
+            android:layout_width="230dp"
+            android:layout_height="270dp"
+            android:layout_above="@+id/start_keyboard_fragment_holder"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="37dp">
+        </RelativeLayout>
 
     </RelativeLayout>
 

@@ -18,13 +18,20 @@ import java.util.Iterator;
 import static com.graphics.GraphicsTools.LL;
 
 
-class Shooter {
+public class Shooter {
     private SharedPreferences preferences;
     private AudioPlayer audioPlayer;
     private WeaponsHandler weaponsHandler;
+    private Stats stats;
+
+    public class Stats {
+        int shotsFired = 0;
+        int hits = 0;
+        int kills = 0; // ToDo Needs to be implemented
+    }
 
     private class Shot {
-        public Direction direction;
+        Direction direction;
         Entity shot;
         int animationCounter = 0;
         int shotSpeed;
@@ -50,6 +57,8 @@ class Shooter {
         preferences = PreferenceManager.getDefaultSharedPreferences(DataContainer.instance.gameContext);
 
         audioPlayer = new AudioPlayer(DataContainer.instance.gameContext);
+
+        stats = new Stats();
     }
 
     void shoot(PointF shooterGlobalPos, RectF shooterBaseRect, Direction shooterDirection, WeaponsHandler.WeaponList_e currentWeapon) {
@@ -90,6 +99,9 @@ class Shooter {
             s.shotSpeed = weaponsHandler.getCurrentWeapon().SHOT_SPEED;
             shots.add(s);
             weaponsHandler.setCurrentAmmoAmount(weaponsHandler.getCurrentAmmoAmount() - 1);
+
+            stats.shotsFired++;
+
             Log.d("SHOOTER", "AMMO LEFT: " + weaponsHandler.getCurrentAmmoAmount());
         } else {
             audioPlayer.playAudioFromRaw(R.raw.dry_fire);
@@ -134,11 +146,16 @@ class Shooter {
                         s.shot.delete();
                         LL(this, "Deleting shot");
                         it.remove();
+                        stats.hits++;
                         break;
                     }
                 }
             }
 //            LL(this, "updating  shot list");
         }
+    }
+
+    public Stats getStats() {
+        return stats;
     }
 }

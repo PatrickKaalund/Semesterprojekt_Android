@@ -1,11 +1,13 @@
 package com.gamelogic;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.activities.InGame;
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
@@ -292,6 +294,9 @@ public class Player extends PlayerCommon {
                 lives--;
                 if (lives <= 0) {
                     currentState = PlayerStates_e.GAME_OVER;
+
+                    // Broadcast stats to UI-thread
+                    broadcastStats();
                 } else {
                     currentState = PlayerStates_e.IMMORTAL;
                     super.health = BASE_HEALTH;
@@ -316,6 +321,20 @@ public class Player extends PlayerCommon {
     }
 
     /**
+     * broadcastStats
+     *
+     */
+    private void broadcastStats() {
+        Intent intent = new Intent();
+        intent.setAction(InGame.InGameBroadcastReceiver.ACTION);
+        intent.putExtra("data", "KILL");
+        intent.putExtra("shots", firearm.getStats().shotsFired);
+        intent.putExtra("hits", firearm.getStats().hits);
+        intent.putExtra("kills", firearm.getStats().kills);
+        context.sendBroadcast(intent);
+    }
+
+    /**
      * Return WeaponsHandler
      *
      * @return
@@ -324,6 +343,10 @@ public class Player extends PlayerCommon {
         return weaponsHandler;
     }
 
+    /**
+     * registerPickup
+     *
+     */
     void registerPickup(ItemCommon item) {
 
         if (item.getType().ordinal() > 0) {
@@ -343,11 +366,19 @@ public class Player extends PlayerCommon {
         }
     }
 
+    /**
+     * Return spriteOffset
+     *
+     * @return
+     */
     private int getSpriteOffset() {
         return currentState.spriteOffset + currentWeapon.SPRITE_OFFSET;
     }
 
-
+    /**
+     * setWeapon
+     *
+     */
     void setWeapon(WeaponList_e weapon) {
         currentWeapon = weapon;
         player.setAnimationOffset(getSpriteOffset());

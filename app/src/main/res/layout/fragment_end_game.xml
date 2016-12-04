@@ -9,8 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.activities.InGame"
-    android:background="@drawable/black_square_rounded" >
+    tools:context="com.activities.InGame">
 
     <TextView
         android:layout_width="wrap_content"
@@ -32,32 +31,12 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/endTank"
-        android:background="@drawable/tank"
-
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/endHits" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/endHits"
-        android:background="@drawable/hits"
-
-        android:gravity="start"
-        android:layout_below="@+id/endTank"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/endKills"
         android:background="@drawable/kills"
 
-        android:layout_below="@+id/endHits"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/endHits" />
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -66,8 +45,18 @@
         android:background="@drawable/shots"
 
         android:layout_below="@+id/endKills"
-        android:layout_alignParentStart="true"
         android:layout_alignEnd="@+id/endKills" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/endHits"
+        android:background="@drawable/hits"
+
+        android:gravity="start"
+        android:layout_below="@+id/endShots"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/endShots" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -75,8 +64,8 @@
         android:id="@+id/endRatio"
         android:background="@drawable/ratio"
 
-        android:layout_below="@+id/endShots"
+        android:layout_below="@+id/endHits"
         android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/endShots" />
+        android:layout_alignEnd="@+id/endHits" />
 
 </RelativeLayout>

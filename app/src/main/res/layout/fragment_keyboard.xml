@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_overlay_darker"
+    tools:context="com.activities.Main">
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textView28"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_width="wrap_content" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewX"
+        android:layout_width="wrap_content"
+        android:background="@drawable/x"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewZ" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewC"
+        android:layout_width="wrap_content"
+        android:background="@drawable/c"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewX" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewV"
+        android:layout_width="wrap_content"
+        android:background="@drawable/v"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewC" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewB"
+        android:layout_width="wrap_content"
+        android:background="@drawable/b"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewV" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewN"
+        android:layout_width="wrap_content"
+        android:background="@drawable/n"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewB" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewA"
+        android:layout_width="wrap_content"
+        android:background="@drawable/a"
+        android:layout_above="@+id/textView28"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewZ"
+        android:layout_width="wrap_content"
+        android:background="@drawable/z"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewA" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewD"
+        android:layout_width="wrap_content"
+        android:background="@drawable/d"
+        android:layout_above="@+id/textViewX"
+        android:layout_toEndOf="@+id/textViewW" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewW"
+        android:layout_width="wrap_content"
+        android:background="@drawable/w"
+        android:layout_above="@+id/textViewS"
+        android:layout_alignEnd="@+id/textViewS"
+        android:layout_toEndOf="@+id/textViewQ" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewS"
+        android:layout_width="wrap_content"
+        android:background="@drawable/s"
+        android:layout_alignBaseline="@+id/textViewD"
+        android:layout_alignBottom="@+id/textViewD"
+        android:layout_toEndOf="@+id/textViewA" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewF"
+        android:layout_width="wrap_content"
+        android:background="@drawable/f"
+        android:layout_alignBaseline="@+id/textViewD"
+        android:layout_alignBottom="@+id/textViewD"
+        android:layout_alignEnd="@+id/textViewR"
+        android:layout_toEndOf="@+id/textViewD" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewG"
+        android:layout_width="42dp"
+        android:background="@drawable/g"
+        android:layout_alignBaseline="@+id/textViewH"
+        android:layout_alignBottom="@+id/textViewH"
+        android:layout_toEndOf="@+id/textViewF" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewJ"
+        android:layout_width="wrap_content"
+        android:background="@drawable/j"
+        android:layout_above="@+id/textViewN"
+        android:layout_toEndOf="@+id/textViewH" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewT"
+        android:layout_width="wrap_content"
+        android:background="@drawable/t"
+        android:layout_above="@+id/textViewG"
+        android:layout_toEndOf="@+id/textViewR" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewH"
+        android:layout_width="wrap_content"
+        android:background="@drawable/h"
+        android:layout_above="@+id/textViewB"
+        android:layout_toEndOf="@+id/textViewG" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewE"
+        android:layout_width="wrap_content"
+        android:background="@drawable/e"
+        android:layout_above="@+id/textViewD"
+        android:layout_toEndOf="@+id/textViewW" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewR"
+        android:layout_width="wrap_content"
+        android:background="@drawable/r"
+        android:layout_above="@+id/textViewD"
+        android:layout_toEndOf="@+id/textViewE" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewY"
+        android:layout_width="wrap_content"
+        android:background="@drawable/y"
+        android:layout_alignBaseline="@+id/textViewT"
+        android:layout_alignBottom="@+id/textViewT"
+        android:layout_toEndOf="@+id/textViewT" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewK"
+        android:layout_width="wrap_content"
+        android:background="@drawable/k"
+        android:layout_alignBaseline="@+id/textViewJ"
+        android:layout_alignBottom="@+id/textViewJ"
+        android:layout_toEndOf="@+id/textViewJ" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewU"
+        android:layout_width="wrap_content"
+        android:background="@drawable/u"
+        android:layout_above="@+id/textViewJ"
+        android:layout_toEndOf="@+id/textViewY" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewL"
+        android:layout_width="wrap_content"
+        android:background="@drawable/l"
+        android:layout_below="@+id/textViewO"
+        android:layout_toEndOf="@+id/textViewK" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewI"
+        android:layout_width="28dp"
+        android:background="@drawable/i"
+        android:layout_above="@+id/textViewJ"
+        android:layout_toEndOf="@+id/textViewU" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewO"
+        android:layout_width="wrap_content"
+        android:background="@drawable/o"
+        android:layout_alignBaseline="@+id/textViewI"
+        android:layout_alignBottom="@+id/textViewI"
+        android:layout_toEndOf="@+id/textViewI" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewP"
+        android:layout_width="42dp"
+        android:background="@drawable/p"
+        android:layout_alignBaseline="@+id/textViewO"
+        android:layout_alignBottom="@+id/textViewO"
+        android:layout_toEndOf="@+id/textViewO" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewBack"
+        android:layout_width="42dp"
+        android:background="@drawable/left"
+        android:layout_toEndOf="@+id/textViewL"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/textViewP" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewQ"
+        android:layout_width="wrap_content"
+        android:background="@drawable/q"
+        android:layout_above="@+id/textViewA"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_height="42dp"
+        tools:layout_editor_absoluteY="469dp"
+        tools:layout_editor_absoluteX="126dp"
+        android:id="@+id/textViewM"
+        android:layout_width="wrap_content"
+        android:background="@drawable/m"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/textViewN" />
+
+</RelativeLayout>

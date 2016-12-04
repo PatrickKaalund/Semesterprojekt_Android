@@ -50,8 +50,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .remove(this)
+                        // Close keyboard fragment
+                        .remove(getFragmentManager().findFragmentById(R.id.start_keyboard_fragment_holder))
                         .add(R.id.activity_main_menu, new ButtonMainFragment())
                         .commit();
+
                 break;
 
         }
