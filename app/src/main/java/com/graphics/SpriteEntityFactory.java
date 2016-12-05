@@ -53,7 +53,7 @@ public class SpriteEntityFactory extends EntityFactory {
         productionLine.remove(se);
     }
 
-    void delete() {
+    public void delete() {
         drawList.remove(this);
     }
 

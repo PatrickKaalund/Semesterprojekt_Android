@@ -6,6 +6,7 @@ import android.provider.ContactsContract;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
+import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.Enemy;
 import com.graphics.BackgroundEntity;
@@ -17,17 +18,19 @@ import java.util.Random;
 
 
 public class EnemySpawner {
+    private final Game game;
     private SpriteEntityFactory enemyFactory;
     private ArrayList<Enemy> enemies;
     public int activeEnemys = 0;
 
 
-    public EnemySpawner(Context c) {
+
+    public EnemySpawner(Context c, Game game) {
         DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
         PointF sizeOfEnemy = new PointF(250, 250);
-        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
+        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol_reshaped, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
         enemies = new ArrayList<>();
-
+        this.game = game;
     }
 
     public void spawn(BackgroundEntity map, int health, int speed) {
@@ -73,7 +76,7 @@ public class EnemySpawner {
         float randomX = rand.nextFloat() * (maxX - minX) + minX;
         float randomY = rand.nextFloat() * (maxY - minY) + minY;
 
-        Enemy enemy = new Enemy(this,map,enemyFactory.createEntity(), health, speed, new PointF(randomX,randomY));
+        Enemy enemy = new Enemy(this,map,enemyFactory.createEntity(), health, speed, new PointF(randomX,randomY), game);
         enemies.add(enemy);
     }
 
@@ -96,9 +99,7 @@ public class EnemySpawner {
         return enemies;
     }
 
-    public void deliteEnemy(Enemy e){
+    public void deleteEnemy(Enemy e){
         enemies.remove(e);
-
     }
-
 }

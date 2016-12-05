@@ -27,7 +27,7 @@ public class Shooter {
     public class Stats {
         int shotsFired = 0;
         int hits = 0;
-        int kills = 0; // ToDo Needs to be implemented
+        int kills = 0;
     }
 
     private class Shot {
@@ -155,7 +155,11 @@ public class Shooter {
         }
     }
 
-    public Stats getStats() {
+    Stats getStats() {
         return stats;
+    }
+
+    void incrementKills(int kills) {
+        stats.kills += kills;
     }
 }

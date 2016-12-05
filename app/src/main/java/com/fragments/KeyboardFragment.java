@@ -1,6 +1,10 @@
 package com.fragments;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
+import android.graphics.PointF;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -13,6 +17,9 @@ import android.widget.TextView;
 
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.graphics.Entity;
+import com.graphics.OurGLSurfaceView;
+import com.graphics.SpriteEntityFactory;
 
 
 public class KeyboardFragment extends Fragment implements View.OnClickListener {
@@ -21,6 +28,9 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
     private AudioPlayer audioPlayer;
     private String loginString = "";
     private SharedPreferences preferences;
+    private GLSurfaceView glSurfaceView;
+    private SpriteEntityFactory spriteEntityFactory;
+    private Entity drawer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,6 +38,17 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_keyboard, container, false);
         this.view = view;
 
+        glSurfaceView = new OurGLSurfaceView(getActivity().getApplicationContext());
+
+        ((Activity) view.getContext()).getWindow().addContentView(glSurfaceView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+
+        glSurfaceView.setZOrderOnTop(true);
+
+
+        spriteEntityFactory = new SpriteEntityFactory(R.drawable.letters_red, 100,100, 16, 2, new PointF(250,250));
+        drawer = spriteEntityFactory.createEntity();
+        drawer.setCurrentSprite(0);
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         TextView aButton = (TextView) view.findViewById(R.id.textViewA);
@@ -100,6 +121,15 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onDestroy() {
+        spriteEntityFactory.delete();
+        glSurfaceView;
+
+        super.onDestroy();
+
+    }
+
+    @Override
     public void onClick(View v) {
         if (loginString.length() > 0 && v.getId() == R.id.textViewBack) {
             loginString = loginString.substring(0, loginString.length() - 1);
@@ -113,7 +143,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
             resourceName = resourceName.substring(resourceName.length() - 1);
 
-            loginString = loginString + resourceName;
+            loginString += resourceName;
         }
 
         audioPlayer.playAudioFromRaw(R.raw.click);

@@ -178,7 +178,7 @@ class WeaponsHandler {
 
     private void update() {
         ammoDrawer.setCurrentSprite(ammoAmounts.get(currentWeapon) + ammoAnimationOffset);
-        player.getPlayerEntity().drawNextSprite();
+      //  player.getPlayerEntity().drawNextSprite();
     }
 
 

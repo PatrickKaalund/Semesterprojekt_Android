@@ -385,4 +385,8 @@ public class Player extends PlayerCommon {
         player.setAnimationOffset(getSpriteOffset());
     }
 
+    Shooter getShooter() {
+        return firearm;
+    }
+
 }

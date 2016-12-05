@@ -4,6 +4,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
 
+import com.core.Game;
 import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
 import com.graphics.Entity;
@@ -27,17 +28,18 @@ class Enemy extends Creature {
     public static final int[] DIYNG_ANIMATIONS = new int[]{28, 29, 30, 31, 32, 33, 34, 35};
     public static final int[] ATACKING_ANIMATIONS = new int[]{12, 13, 14, 15, 16, 17, 18, 19, 20, 21};
     public static final int GOT_HIT_OFFSET = 36;
+
+    private final Game game;
     private boolean randDirection;
     private int randDirCounter = 0;
     private int randDirTime = 100;
     private final EnemySpawner mother;
     Random rand;
 
-
-
     private boolean gotHit = false;
     private int stateCounter = 0;
     private int gotHitCounter = 0;
+    private Shooter shooter;
 
     public enum EnemyStates_e {
         NORMAL(NORMAL_ANIMATIONS, 0, ATACKING_ANIMATION_DIV),
@@ -63,7 +65,7 @@ class Enemy extends Creature {
     private Direction direction;
     private int angle;
 
-    Enemy(EnemySpawner enemySpawner, BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation) {
+    Enemy(EnemySpawner enemySpawner, BackgroundEntity map, Entity enemy, int health, int speed, PointF startLocation, Game game) {
         mother = enemySpawner;
         mother.activeEnemys++;
         super.speed = speed;
@@ -81,6 +83,7 @@ class Enemy extends Creature {
         this.enemy.setAnimationOrder(currentState.ANIMATIONS);
         direction = new Direction();
         this.enemy.setHitBoxSize(100, 100);
+        this.game = game;
     }
 
     private void placeElementFromGlobalPos(BackgroundEntity map, PointF globalPos) {
@@ -217,15 +220,17 @@ class Enemy extends Creature {
         return true;
     }
 
-    public boolean doDamage(int damege) {
+    public boolean doDamage(int damage) {
 
         if (!gotHit) {
-            super.health -= damege;
+            super.health -= damage;
             if (super.health < 0) {
                 mother.activeEnemys--;
                 currentState = EnemyStates_e.DYING;
                 enemy.setAnimationDivider(currentState.ANIMATIONDIV);
                 enemy.setAnimationOrder(currentState.ANIMATIONS);
+                game.getPlayer().getShooter().incrementKills(1);
+                return gotHit = true;
             } else {
                 gotHitCounter = 0;
                 enemy.setAnimationOffset(GOT_HIT_OFFSET);
@@ -242,6 +247,4 @@ class Enemy extends Creature {
     Entity getEnemyEntity() {
         return enemy;
     }
-
-
 }

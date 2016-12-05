@@ -46,7 +46,6 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
         TextView quit = (TextView) getActivity().findViewById(R.id.buttonQuit);
         TextView highscore = (TextView) getActivity().findViewById(R.id.buttonHighscore);
 
-
         play.setOnClickListener(this);
         playMulti.setOnClickListener(this);
         settings.setOnClickListener(this);
@@ -80,7 +79,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
 
                     v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                     audioPlayer.playAudioFromRaw(R.raw.click);
-//
+
                     layout.setVisibility(View.INVISIBLE);
 
                     getFragmentManager().beginTransaction()
@@ -89,10 +88,7 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                             .add(R.id.start_fragment_holder, new MultiplayerFragment())
                             .addToBackStack(null)
                             .commit();
-
-//                    play(v);
-
-                break;
+                    break;
 
                 case R.id.buttonSettings:
                     v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.view_clicked));

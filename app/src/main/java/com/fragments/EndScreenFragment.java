@@ -74,6 +74,12 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
         startDrawers(shotsDrawers, 110);
         startDrawers(hitsDrawers, 220);
 
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         new Thread(background).start();
     }
 
