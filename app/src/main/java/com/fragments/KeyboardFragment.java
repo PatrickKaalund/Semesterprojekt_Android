@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,16 +23,23 @@ import com.graphics.Entity;
 import com.graphics.OurGLSurfaceView;
 import com.graphics.SpriteEntityFactory;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
+
 
 public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
     private View view;
     private AudioPlayer audioPlayer;
-    private String loginString = "";
+    static private String loginString = "";
+    static private String lastString = "";
     private SharedPreferences preferences;
     private GLSurfaceView glSurfaceView;
-    private SpriteEntityFactory spriteEntityFactory;
-    private Entity drawer;
+    static private SpriteEntityFactory spriteEntityFactory;
+    static private ArrayList<Entity> drawers;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,11 +54,14 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
         glSurfaceView.setZOrderOnTop(true);
 
+        spriteEntityFactory = new SpriteEntityFactory(R.drawable.letters_red, 100,100, 16, 2, new PointF(0,0));
 
-        spriteEntityFactory = new SpriteEntityFactory(R.drawable.letters_red, 100,100, 16, 2, new PointF(250,250));
-        drawer = spriteEntityFactory.createEntity();
-        drawer.setCurrentSprite(0);
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+        audioPlayer = new AudioPlayer(view.getContext());
+
+        drawers = new ArrayList<>();
+        startDrawers(drawers, 0, 80);
 
         TextView aButton = (TextView) view.findViewById(R.id.textViewA);
         TextView bButton = (TextView) view.findViewById(R.id.textViewB);
@@ -79,7 +91,6 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         TextView zButton = (TextView) view.findViewById(R.id.textViewZ);
         TextView backButton = (TextView) view.findViewById(R.id.textViewBack);
 
-
         aButton.setOnClickListener(this);
         bButton.setOnClickListener(this);
         cButton.setOnClickListener(this);
@@ -108,33 +119,52 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         zButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
 
-        audioPlayer = new AudioPlayer(view.getContext());
-
-        view.bringToFront();
-
         return view;
     }
 
     @Override
     public void onResume() {
+        loginString = lastString = "";
         super.onResume();
     }
 
     @Override
     public void onDestroy() {
         spriteEntityFactory.delete();
-        glSurfaceView;
-
+        glSurfaceView.setVisibility(View.INVISIBLE);
         super.onDestroy();
-
     }
+
+    Runnable background = new Runnable() {
+
+        @Override
+        public void run() {
+            while (true) {
+                try {
+                    if (!lastString.equals(loginString)) {
+                        Log.e("pee", lastString);
+                        draw(drawers);
+                        lastString = loginString;
+                    }
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private void draw(ArrayList<Entity> drawers) throws InterruptedException {
+            drawers.get(loginString.length() - 1).setCurrentSprite(loginString.charAt(loginString.length() - 1) - 65);
+            glSurfaceView.onResume();
+        }
+    };
 
     @Override
     public void onClick(View v) {
         if (loginString.length() > 0 && v.getId() == R.id.textViewBack) {
             loginString = loginString.substring(0, loginString.length() - 1);
         }
-        else if (v.getId() != R.id.textViewBack){
+        else if (v.getId() != R.id.textViewBack && loginString.length() < 6){
             String resourceName = getResources().getResourceName(v.getId());
 
             Log.d("Keyboard", getResources().getResourceName(v.getId()));
@@ -144,11 +174,25 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
             resourceName = resourceName.substring(resourceName.length() - 1);
 
             loginString += resourceName;
+
+            drawers.get(loginString.length() - 1).setCurrentSprite(loginString.charAt(loginString.length() - 1) - 65);
+            glSurfaceView.onResume();
         }
 
         audioPlayer.playAudioFromRaw(R.raw.click);
         Log.d("Keyboard", "Login string: " + loginString);
 
         preferences.edit().putString("player", loginString).apply();
+    }
+
+    public void startDrawers(ArrayList<Entity> drawers, int xOffset, int yOffset) {
+        DisplayMetrics displayMetrics = this.getResources().getDisplayMetrics();
+
+        for (int i = 0; i < 6; i++) {
+            Entity drawer = spriteEntityFactory.createEntity();
+            drawer.placeAt(displayMetrics.widthPixels / 2 - 185 + (i * yOffset), displayMetrics.heightPixels / 2 + (i * xOffset));
+            drawer.setCurrentSprite(31);
+            drawers.add(drawer);
+        }
     }
 }

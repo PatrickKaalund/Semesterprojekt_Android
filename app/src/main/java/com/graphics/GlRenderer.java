@@ -122,7 +122,7 @@ class GlRenderer implements Renderer {
         FPSMeasuring.counter++;
         // clear Screen and Depth Buffer,
         // we have set the clear color as almost black.
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+       // GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
 
         for (EntityFactory ef : drawList) {
 //            if (ef.index == 0) continue;
@@ -156,7 +156,7 @@ class GlRenderer implements Renderer {
 
             //========== Do the rendering ============
             GLES20.glEnable(GLES20.GL_BLEND);
-            //GLES20.glBlendFunc(GLES20.GL_BLEND_DST_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
+            GLES20.glBlendFunc(GLES20.GL_SRC_ALPHA, GLES20.GL_ONE_MINUS_SRC_ALPHA);
             // get handle to vertex shader's vPosition member
             int mPositionHandle =
                     GLES20.glGetAttribLocation(shaderHandler.getShaderProgramID(), "vPosition");
