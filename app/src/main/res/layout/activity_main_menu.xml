@@ -99,7 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/buttonHighscore"
-                    android:background="@drawable/high_score"
+                    android:background="@drawable/high_score_main"
                     android:layout_above="@+id/buttonFirebaseTest"
                     android:layout_centerHorizontal="true" />
 
