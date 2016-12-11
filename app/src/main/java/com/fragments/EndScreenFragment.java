@@ -143,11 +143,14 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                 audioPlayer.playAudioFromRaw(R.raw.click);
 
+                endScreenFactory.delete();
+
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .remove(this)
                         .add(R.id.fragment_endgame_holder, new HighScoreFragment())
                         .commit();
+
                 break;
         }
     }

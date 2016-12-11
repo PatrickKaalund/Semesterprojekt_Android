@@ -18,7 +18,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.audio.AudioPlayer;
+import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.gamelogic.DataContainer;
 import com.graphics.Entity;
 import com.graphics.OurGLSurfaceView;
 import com.graphics.SpriteEntityFactory;
@@ -40,6 +42,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
     private GLSurfaceView glSurfaceView;
     static private SpriteEntityFactory spriteEntityFactory;
     static private ArrayList<Entity> drawers;
+    private boolean running = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,6 +122,8 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         zButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
 
+        new Thread(background).start();
+
         return view;
     }
 
@@ -132,6 +137,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
     public void onDestroy() {
         spriteEntityFactory.delete();
         glSurfaceView.setVisibility(View.INVISIBLE);
+        running = false;
         super.onDestroy();
     }
 
@@ -139,14 +145,15 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void run() {
-            while (true) {
+            while (running) {
                 try {
                     if (!lastString.equals(loginString)) {
-                        Log.e("pee", lastString);
+                        Log.e("Keyboard Thread: ", lastString);
                         draw(drawers);
                         lastString = loginString;
                     }
-                    Thread.sleep(100);
+                    glSurfaceView.requestRender();
+                    Thread.sleep(33);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -155,13 +162,13 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
         private void draw(ArrayList<Entity> drawers) throws InterruptedException {
             drawers.get(loginString.length() - 1).setCurrentSprite(loginString.charAt(loginString.length() - 1) - 65);
-            glSurfaceView.onResume();
         }
     };
 
     @Override
     public void onClick(View v) {
         if (loginString.length() > 0 && v.getId() == R.id.textViewBack) {
+            drawers.get(loginString.length() - 1).setCurrentSprite(31);
             loginString = loginString.substring(0, loginString.length() - 1);
         }
         else if (v.getId() != R.id.textViewBack && loginString.length() < 6){
@@ -174,9 +181,6 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
             resourceName = resourceName.substring(resourceName.length() - 1);
 
             loginString += resourceName;
-
-            drawers.get(loginString.length() - 1).setCurrentSprite(loginString.charAt(loginString.length() - 1) - 65);
-            glSurfaceView.onResume();
         }
 
         audioPlayer.playAudioFromRaw(R.raw.click);

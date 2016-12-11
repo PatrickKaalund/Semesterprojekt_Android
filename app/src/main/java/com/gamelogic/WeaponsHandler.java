@@ -97,7 +97,7 @@ class WeaponsHandler {
     }
 
 
-    void registerWeaponsDrop(ItemCommon drop) {
+    void registerWeaponsDrop(Item drop) {
 
         switch (drop.getType()) {
 

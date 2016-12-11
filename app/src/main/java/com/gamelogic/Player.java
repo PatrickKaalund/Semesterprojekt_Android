@@ -348,13 +348,13 @@ public class Player extends PlayerCommon {
      * registerPickup
      *
      */
-    void registerPickup(ItemCommon item) {
+    void registerPickup(Item item) {
 
         if (item.getType().ordinal() > 0) {
             audioPlayer.playAudioFromRaw(R.raw.reload);
 
             weaponsHandler.registerWeaponsDrop(item);
-        } else if (item.getType() == ItemCommon.ItemList_e.MEDIC) {
+        } else if (item.getType() == Item.ItemList_e.MEDIC) {
             audioPlayer.playAudioFromRaw(R.raw.medic);
 
             super.health += item.size;

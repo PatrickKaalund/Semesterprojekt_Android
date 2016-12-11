@@ -14,7 +14,7 @@ import java.util.Random;
 public class ItemSpawner {
 
     private SpriteEntityFactory itemFactory;
-    private ArrayList<ItemCommon> items;
+    private ArrayList<Item> items;
     private Player player;
 
     public ItemSpawner(Context c){
@@ -29,8 +29,8 @@ public class ItemSpawner {
         this.player = player;
     }
 
-    private void spawn(int size, ItemCommon.ItemList_e type, PointF startLocation){
-        ItemCommon item = new ItemCommon(itemFactory, size, type, startLocation, player);
+    private void spawn(int size, Item.ItemList_e type, PointF startLocation){
+        Item item = new Item(itemFactory, size, type, startLocation, player);
         items.add(item);
     }
 
@@ -51,34 +51,34 @@ public class ItemSpawner {
 
         Log.d("ItemSpawner", "Spawn place: X=" + randomX + " Y=" + randomY + " Type: " + randType + " Size: " + randSize);
 
-        ItemCommon.ItemList_e itemList_e = ItemCommon.ItemList_e.MEDIC;
+        Item.ItemList_e itemList_e = Item.ItemList_e.MEDIC;
 
         switch (randType) {
             case 0 :
-                itemList_e = ItemCommon.ItemList_e.MEDIC;
+                itemList_e = Item.ItemList_e.MEDIC;
                 break;
             case 1 :
-                itemList_e = ItemCommon.ItemList_e.AMMO_YELLOW;
+                itemList_e = Item.ItemList_e.AMMO_YELLOW;
                 break;
             case 2 :
-                itemList_e = ItemCommon.ItemList_e.AMMO_SHOTGUN_DEFAULT;
+                itemList_e = Item.ItemList_e.AMMO_SHOTGUN_DEFAULT;
                 break;
             case 3 :
-                itemList_e = ItemCommon.ItemList_e.AMMO_AK47_DEFAULT;
+                itemList_e = Item.ItemList_e.AMMO_AK47_DEFAULT;
                 break;
             case 4 :
-                itemList_e = ItemCommon.ItemList_e.AMMO_BLUE;
+                itemList_e = Item.ItemList_e.AMMO_BLUE;
                 break;
             case 5 :
-                itemList_e = ItemCommon.ItemList_e.AMMO_GUN_DEFAULT;
+                itemList_e = Item.ItemList_e.AMMO_GUN_DEFAULT;
                 break;
         }
 
-        ItemCommon item = new ItemCommon(itemFactory, randSize, itemList_e, new PointF(randomX, randomY), player);
+        Item item = new Item(itemFactory, randSize, itemList_e, new PointF(randomX, randomY), player);
         items.add(item);
     }
 
-    public void spawnItems(int size, ItemCommon.ItemList_e type, int numberOfItems, PointF startLocation){
+    public void spawnItems(int size, Item.ItemList_e type, int numberOfItems, PointF startLocation){
         for(int counter = 0; counter < numberOfItems; counter++){
             spawn(size, type, startLocation);
         }
@@ -91,7 +91,7 @@ public class ItemSpawner {
     }
 
     public void update(){
-        for(ItemCommon e: items){
+        for(Item e: items){
             e.update();
         }
     }
