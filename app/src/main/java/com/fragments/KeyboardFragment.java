@@ -2,9 +2,7 @@ package com.fragments;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.graphics.PixelFormat;
 import android.graphics.PointF;
-import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,18 +16,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.audio.AudioPlayer;
-import com.core.Game;
 import com.example.patrickkaalund.semesterprojekt_android.R;
-import com.gamelogic.DataContainer;
 import com.graphics.Entity;
 import com.graphics.OurGLSurfaceView;
 import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
-import java.util.Objects;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
 
 
 public class KeyboardFragment extends Fragment implements View.OnClickListener {
@@ -37,12 +29,10 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
     private View view;
     private AudioPlayer audioPlayer;
     static private String loginString = "";
-    static private String lastString = "";
     private SharedPreferences preferences;
     private GLSurfaceView glSurfaceView;
     static private SpriteEntityFactory spriteEntityFactory;
     static private ArrayList<Entity> drawers;
-    private boolean running = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -122,49 +112,15 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         zButton.setOnClickListener(this);
         backButton.setOnClickListener(this);
 
-        new Thread(background).start();
-
         return view;
-    }
-
-    @Override
-    public void onResume() {
-        loginString = lastString = "";
-        super.onResume();
     }
 
     @Override
     public void onDestroy() {
         spriteEntityFactory.delete();
         glSurfaceView.setVisibility(View.INVISIBLE);
-        running = false;
         super.onDestroy();
     }
-
-
-    Runnable background = new Runnable() {
-
-        @Override
-        public void run() {
-            while (running) {
-                try {
-                    if (!lastString.equals(loginString)) {
-                        Log.e("Keyboard Thread: ", lastString);
-                        draw(drawers);
-                        lastString = loginString;
-                    }
-                    glSurfaceView.requestRender();
-                    Thread.sleep(33);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        private void draw(ArrayList<Entity> drawers) throws InterruptedException {
-            drawers.get(loginString.length() - 1).setCurrentSprite(loginString.charAt(loginString.length() - 1) - 65);
-        }
-    };
 
     @Override
     public void onClick(View v) {
@@ -177,16 +133,15 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
             Log.d("Keyboard", getResources().getResourceName(v.getId()));
 
-            v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
-
             resourceName = resourceName.substring(resourceName.length() - 1);
 
             loginString += resourceName;
+            drawers.get(loginString.length() - 1).setCurrentSprite(loginString.charAt(loginString.length() - 1) - 65);
         }
-
+        v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
         audioPlayer.playAudioFromRaw(R.raw.click);
         Log.d("Keyboard", "Login string: " + loginString);
-
+        glSurfaceView.requestRender();
         preferences.edit().putString("player", loginString).apply();
     }
 

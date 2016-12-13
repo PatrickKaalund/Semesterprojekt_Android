@@ -121,9 +121,8 @@ class GlRenderer implements Renderer {
     public void onDrawFrame(GL10 unused) {
         FPSMeasuring.counter++;
         // clear Screen and Depth Buffer,
-        // we have set the clear color as almost black.
-       // GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
-
+        // we have set the clear color to full alpha.
+        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
         for (EntityFactory ef : drawList) {
 //            if (ef.index == 0) continue;
 //            LL(this,"EntityFactory drawing: " + ef.index);
@@ -203,6 +202,7 @@ class GlRenderer implements Renderer {
             GLES20.glDisableVertexAttribArray(mTexCoordLoc);
 
         }
+
     }
 
     @Override
@@ -214,8 +214,8 @@ class GlRenderer implements Renderer {
         textureSlotCount = i.get(0);
         Log.d("GlRenderer", "Texture count: " + i.get(0));
         Log.d("GlRenderer", "onSurfaceCreated");
-        // Set the clear color to black
-        GLES20.glClearColor(1f, 1f, 1f, 0f);
+        // Set the clear color to full alpha
+        GLES20.glClearColor(0, 0, 0, 0);
         shaderHandler.installShaderFiles();
     }
 
