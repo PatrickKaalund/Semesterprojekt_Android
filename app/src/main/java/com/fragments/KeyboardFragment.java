@@ -141,6 +141,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
         super.onDestroy();
     }
 
+
     Runnable background = new Runnable() {
 
         @Override
