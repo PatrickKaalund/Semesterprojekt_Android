@@ -75,4 +75,22 @@
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="17sp" />
 
+    <RelativeLayout
+        android:id="@+id/relative_layout_endgame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_red_overlay_dead"
+        android:visibility="gone" >
+
+        <RelativeLayout
+            android:layout_width="235dp"
+            android:layout_height="270dp"
+            android:name="com.fragments.EndScreenFragment"
+            android:id="@+id/fragment_endgame_holder"
+            tools:layout="@layout/fragment_end_game"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
 </RelativeLayout>
