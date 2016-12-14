@@ -1,9 +1,11 @@
 package com.fragments;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.PointF;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
@@ -19,6 +21,7 @@ import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Entity;
 import com.graphics.OurGLSurfaceView;
 import com.graphics.SpriteEntityFactory;
+import com.network.Firebase.HighScoreHandler;
 
 import java.util.ArrayList;
 
@@ -38,11 +41,11 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
     private SpriteEntityFactory endScreenFactory;
     private DisplayMetrics displayMetrics;
     private OurGLSurfaceView glSurfaceView;
+    private SharedPreferences preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        // Get bundle args
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             shotsFired = bundle.getInt("shots");
@@ -50,9 +53,18 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
             hits = bundle.getInt("hits");
         }
 
+        // Publish high-score
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        HighScoreHandler highScoreHandler = new HighScoreHandler();
+        // ToDO --> highScoreHandler.publishHighScore(preferences.getString("player", "DEFAULT"), kills);
+
         // Inflate view
         View view = inflater.inflate(R.layout.fragment_end_game, container, false);
         this.view = view;
+
+        // Create audioplayer
+        audioPlayer = new AudioPlayer(view.getContext());
+        audioPlayer.playAudioFromRaw(R.raw.heartbeat);
 
         // Create new glSurfaceView
         glSurfaceView = new OurGLSurfaceView(getActivity().getApplicationContext());
@@ -65,9 +77,6 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
         // Set onClickLIsteners
         TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);
         nextButton.setOnClickListener(this);
-
-        // Create audioplayer
-        audioPlayer = new AudioPlayer(view.getContext());
 
         // Bring view to front
         view.bringToFront();

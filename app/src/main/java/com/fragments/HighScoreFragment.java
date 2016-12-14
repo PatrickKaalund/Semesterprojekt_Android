@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -58,9 +59,6 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
         TextView mainMenuButton = (TextView) view.findViewById(R.id.buttonMainMenu);
 
-//        fragmentMiddle = new Point(0,0);
-//        Log.e("HighScoreFragment", "Center x: " + fragmentMiddle.x + ". Center y: " + fragmentMiddle.y);
-
         mainMenuButton.setOnClickListener(this);
 
         audioPlayer = new AudioPlayer(view.getContext());
@@ -76,12 +74,17 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        highScoreFactory.delete();
         glSurfaceView.setVisibility(View.INVISIBLE);
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        fragmentMiddle = new Point(location[0], location[1]);
+        Log.e("HighScoreFragment", "Center X: " + fragmentMiddle.x + ". Center Y: " + fragmentMiddle.y);
     }
 
     @Override
