@@ -17,16 +17,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
-class HighScoreObject {
-    public int value;
-    public String name;
-
-    public HighScoreObject(String name, int value) {
-        this.value = value;
-        this.name = name;
-    }
-}
-
 public class HighScoreHandler {
 
     private DatabaseReference mFirebaseDatabaseReference;
@@ -43,8 +33,6 @@ public class HighScoreHandler {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Object receivedObject = dataSnapshot.getValue();
-
-                ArrayList<String> highScoreObjects = new ArrayList<String>();
 
                 Comparator<HighScoreObject> comparator = new HighScoreComparator();
                 PriorityQueue<HighScoreObject> queue = new PriorityQueue<>(10, comparator);
@@ -63,22 +51,15 @@ public class HighScoreHandler {
                             queue.offer(new HighScoreObject(key, (int) jsonObject.get(key)));
                         }
 
-                        // Add sorted queue to string array
-                        while (queue.peek() != null){
-                            HighScoreObject highScoreObject = queue.poll();
-//                            Log.e("NetworkHandler", "Sorted: " + highScoreObject.name + " " + highScoreObject.value);
-                            highScoreObjects.add(highScoreObject.name + " : " + highScoreObject.value);
-                        }
-
-                        highScoreFragment.fillHighScore(highScoreObjects);
+                        highScoreFragment.fillHighScore(queue);
                         return;
 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                highScoreObjects.add("HighScore not available");
-                highScoreFragment.fillHighScore(highScoreObjects);
+                queue.add(new HighScoreObject("N/A", 0));
+                highScoreFragment.fillHighScore(queue);
             }
 
             @Override
