@@ -62,7 +62,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         audioPlayer = new AudioPlayer(view.getContext());
 
         // Create spritefactory
-        highScoreFactory = new SpriteEntityFactory(R.drawable.numbers_letters, 80, 80, 9, 4, new PointF(0, 0));
+        highScoreFactory = new SpriteEntityFactory(R.drawable.numbers_letters, 80, 80, 11, 4, new PointF(0, 0));
 
         view.bringToFront();
 
@@ -203,7 +203,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
                 sprite += 7;
             }
 
-            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
+//            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
 
 
             drawer.setCurrentSprite(sprite);
