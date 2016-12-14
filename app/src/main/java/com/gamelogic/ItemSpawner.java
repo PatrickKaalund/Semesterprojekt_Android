@@ -19,7 +19,7 @@ public class ItemSpawner {
 
     public ItemSpawner(Context c){
         DisplayMetrics displayMetrics = c.getResources().getDisplayMetrics();
-        PointF sizeOfItem = new PointF(100, 100);
+        PointF sizeOfItem = new PointF(95, 95);
         itemFactory = new SpriteEntityFactory(R.drawable.drops_scaled, sizeOfItem.x, sizeOfItem.y, 6, 1, new PointF(0, 0));
 
         items = new ArrayList<>();

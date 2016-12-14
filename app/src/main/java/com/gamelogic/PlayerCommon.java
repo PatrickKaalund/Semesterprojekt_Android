@@ -16,7 +16,7 @@ abstract class PlayerCommon extends Creature {
     static final int BASE_HEALTH = 100;
 
     PlayerCommon() {
-        SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.players_red_small, 120, 200, 12, 11, new PointF(0, 0));
+        SpriteEntityFactory playerFactory = new SpriteEntityFactory(R.drawable.players_red_small, 115, 190, 12, 11, new PointF(0, 0));
         player = playerFactory.createEntity();
         player.setHitBoxSize(120, 120);
 

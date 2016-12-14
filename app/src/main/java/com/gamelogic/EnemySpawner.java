@@ -23,9 +23,9 @@ public class EnemySpawner {
 
 
     public EnemySpawner(Context c, Game game) {
-        PointF sizeOfEnemy = new PointF(240, 240);
-//        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol_reshaped, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
-        enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol_small, sizeOfEnemy.x, sizeOfEnemy.y, 2, 36, new PointF(0, 0));
+        PointF sizeOfEnemy = new PointF(235, 235);
+        enemyFactory = new SpriteEntityFactory(R.drawable.zombie, sizeOfEnemy.x, sizeOfEnemy.y, 4, 18, new PointF(0, 0));
+        //enemyFactory = new SpriteEntityFactory(R.drawable.zombie_topdown_red_hitcol_small, sizeOfEnemy.x, sizeOfEnemy.y, 2, 36, new PointF(0, 0));
         enemies = new ArrayList<>();
         this.game = game;
     }

@@ -80,8 +80,8 @@ class Enemy extends Creature {
         placeElementFromGlobalPos(map, startLocation);
 
         this.enemy.setCurrentSprite(4);
-        this.enemy.setAngleOffSet(-148);
-        //this.enemy.setAngleOffSet(-225);     // pointing right
+        //this.enemy.setAngleOffSet(-148);
+        this.enemy.setAngleOffSet(-225);     // pointing right
         this.enemy.setAnimationDivider(3);
 
         this.enemy.setAnimationOrder(currentState.ANIMATIONS);

@@ -24,21 +24,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/endKills"
-        android:background="@drawable/kills"
-
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/endShots"
-        android:background="@drawable/shots"
-
-        android:layout_below="@+id/endKills"
-        android:layout_alignEnd="@+id/endKills" />
+        android:id="@+id/buttonNext"
+        android:background="@drawable/next"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -48,15 +37,27 @@
 
         android:gravity="start"
         android:layout_below="@+id/endShots"
-        android:layout_alignParentStart="true"
-        android:layout_alignEnd="@+id/endShots" />
+        android:layout_toStartOf="@+id/buttonNext" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/buttonNext"
-        android:background="@drawable/next"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:id="@+id/endShots"
+        android:background="@drawable/shots"
+
+        android:layout_below="@+id/endKills"
+        android:layout_alignStart="@+id/endHits"
+        android:layout_alignEnd="@+id/endHits" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/endKills"
+        android:background="@drawable/kills"
+
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignStart="@+id/endShots"
+        android:layout_alignEnd="@+id/endShots" />
 
 </RelativeLayout>
