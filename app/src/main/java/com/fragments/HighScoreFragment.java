@@ -124,29 +124,55 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
                 ViewGroup.LayoutParams.MATCH_PARENT));
         glSurfaceView.setZOrderOnTop(true);
 
-        int counter = 0;
+        int highScoreElement = 0;
         while (queue.peek() != null) {
 
             HighScoreObject highScoreObject = queue.poll();
             String name = highScoreObject.name.toUpperCase();
+            String points = Integer.toString(highScoreObject.value).toUpperCase();
 
-            drawHighScoreListElement(name, counter);
-//            (highScoreObject.name + " : " + highScoreObject.value);
+            drawHighScoreListElement(name, points, highScoreElement);
 
             // Draw top 4 on high score list
-            if (++counter == 4) {
+            if (++highScoreElement == 4) {
                 return;
             }
         }
     }
 
-    private void drawHighScoreListElement(String text, int indexHeight) {
+    private void drawHighScoreListElement(String name, String points, int indexHeight) {
         if (indexHeight == 0) {
-            drawString("RANK", new Point(displayMetrics.widthPixels/2 - 300, displayMetrics.heightPixels/2 + 300));
+            drawString("RANK", new Point(displayMetrics.widthPixels/2 - 350, displayMetrics.heightPixels/2 + 300));
+            drawString("SCORE", new Point(displayMetrics.widthPixels/2 - 100, displayMetrics.heightPixels/2 + 300));
+            drawString("NAME", new Point(displayMetrics.widthPixels/2 + 200, displayMetrics.heightPixels/2 + 300));
         }
 
-        // Draw each letter separately
-//        drawString(text, new Point());
+        Point placementOnScreen = new Point(displayMetrics.widthPixels/2 - 350, displayMetrics.heightPixels/2 + 200 - (indexHeight * 80));
+
+        switch (indexHeight){
+            case 0:
+                drawString("1ST", placementOnScreen);
+                break;
+            case 1:
+                drawString("2ND", placementOnScreen);
+                break;
+            case 2:
+                drawString("3RD", placementOnScreen);
+                break;
+            // default case index > 2:
+            default:
+                drawString(indexHeight + "TH", placementOnScreen);
+                break;
+        }
+
+        drawString(points, new Point(displayMetrics.widthPixels/2 - 100, placementOnScreen.y));
+
+        // Trim name
+        if(name.length() > 6){
+            name = name.substring(0,6);
+        }
+
+        drawString(name, new Point(displayMetrics.widthPixels/2 + 200, placementOnScreen.y));
     }
 
     private void drawString(String text, Point placementOnScreen) {
@@ -154,12 +180,13 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         // Draw each number separately
         for (int i = 0; i < text.length(); i++) {
             Entity drawer = highScoreFactory.createEntity();
-            drawer.placeAt(placementOnScreen.x + (60 * i), placementOnScreen.y);
+            drawer.placeAt(placementOnScreen.x + (50 * i), placementOnScreen.y);
             drawer.setCurrentSprite(0);
 //            Log.e("HighScoreFragment", "Added drawer");
 
             // Convert from ASCII to sprite
-            int sprite = text.charAt(i) - 65;
+            int spriteSheetOffset = 65;
+            int sprite = text.charAt(i) - spriteSheetOffset;
 //            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
 
             if (sprite >= 0 && sprite < 26) {
