@@ -142,30 +142,18 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
                 return;
             }
         }
-
-            HighScoreObject highScoreObject = queue.poll();
-            String name = highScoreObject.name.toUpperCase();
-            String points = Integer.toString(highScoreObject.value).toUpperCase();
-
-            drawHighScoreListElement(name, points, highScoreElement);
-
-            // Draw top 4 on high score list
-            if (++highScoreElement == 4) {
-                return;
-            }
-        }
     }
 
     private void drawHighScoreListElement(String name, String points, int indexHeight) {
         if (indexHeight == 0) {
-            drawString("RANK", new Point(displayMetrics.widthPixels/2 - 370, displayMetrics.heightPixels/2 + 300));
-            drawString("SCORE", new Point(displayMetrics.widthPixels/2 - 120, displayMetrics.heightPixels/2 + 300));
-            drawString("NAME", new Point(displayMetrics.widthPixels/2 + 200, displayMetrics.heightPixels/2 + 300));
+            drawString("RANK", new Point(displayMetrics.widthPixels / 2 - 370, displayMetrics.heightPixels / 2 + 300));
+            drawString("SCORE", new Point(displayMetrics.widthPixels / 2 - 120, displayMetrics.heightPixels / 2 + 300));
+            drawString("NAME", new Point(displayMetrics.widthPixels / 2 + 200, displayMetrics.heightPixels / 2 + 300));
         }
 
-        Point placementOnScreen = new Point(displayMetrics.widthPixels/2 - 350, displayMetrics.heightPixels/2 + 200 - (indexHeight * 80));
+        Point placementOnScreen = new Point(displayMetrics.widthPixels / 2 - 350, displayMetrics.heightPixels / 2 + 200 - (indexHeight * 80));
 
-        switch (indexHeight){
+        switch (indexHeight) {
             case 0:
                 drawString("1ST", placementOnScreen);
                 break;
@@ -183,21 +171,21 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
         // Fill up points with zeroes in front - 4 ciffers
         int pointsWithZeroes = Integer.parseInt(points);
-        if(pointsWithZeroes < 10){
+        if (pointsWithZeroes < 10) {
             points = "000" + points;
-        }else if(pointsWithZeroes < 100){
+        } else if (pointsWithZeroes < 100) {
             points = "00" + points;
-        }else if(pointsWithZeroes < 1000){
+        } else if (pointsWithZeroes < 1000) {
             points = "0" + points;
         }
-        drawString(points, new Point(displayMetrics.widthPixels/2 - 100, placementOnScreen.y));
+        drawString(points, new Point(displayMetrics.widthPixels / 2 - 100, placementOnScreen.y));
 
         // Trim name
-        if(name.length() > 5){
-            name = name.substring(0,5);
+        if (name.length() > 5) {
+            name = name.substring(0, 5);
         }
 
-        drawString(name, new Point(displayMetrics.widthPixels/2 + 200, placementOnScreen.y));
+        drawString(name, new Point(displayMetrics.widthPixels / 2 + 200, placementOnScreen.y));
     }
 
     private void drawString(String text, Point placementOnScreen) {
@@ -215,11 +203,11 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
             int sprite = text.charAt(i) - spriteSheetOffset;
 
             // Adjust for numbers
-            if(sprite >= -7 && sprite < 4){
+            if (sprite >= -7 && sprite < 4) {
                 sprite += 7;
             }
             // Unknown sprite - Draw space
-            else if(sprite > 35 || sprite < 10){
+            else if (sprite > 35 || sprite < 10) {
                 sprite = 41;
             }
 
