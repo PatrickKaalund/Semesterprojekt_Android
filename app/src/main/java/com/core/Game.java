@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.support.design.widget.FloatingActionButton;
 import android.util.Log;
+import android.view.View;
 
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.gamelogic.Control;
@@ -79,6 +80,7 @@ public class Game implements Runnable {
 
     Random rand;
     private int itemSpawnTimer = 0;
+    private boolean gameEnded = false;
 
     enum GameStates_e {
 
@@ -164,7 +166,8 @@ public class Game implements Runnable {
         while (isRunning) {
             if (!isPaused) {
 //                handler.postDelayed(this, 33);
-                updateGame();
+                if (!gameEnded)
+                    updateGame();
                 glSurfaceView.requestRender();
 
             } else {
@@ -257,7 +260,8 @@ public class Game implements Runnable {
 
         if (player.currentState == Player.PlayerStates_e.GAME_OVER) {
             Log.e("GAME STATE", "################# GAME OVER ##################");
-            isPaused = true;
+            glSurfaceView.onPause();
+            gameEnded = true;
         }
     }
 
