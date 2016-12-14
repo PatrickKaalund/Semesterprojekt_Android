@@ -42,9 +42,9 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
         glSurfaceView = new OurGLSurfaceView(getActivity().getApplicationContext());
 
+        // Inflate glSurfaceView on top of running activity
         ((Activity) view.getContext()).getWindow().addContentView(glSurfaceView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-
         glSurfaceView.setZOrderOnTop(true);
 
         spriteEntityFactory = new SpriteEntityFactory(R.drawable.letters_red, 100,100, 16, 2, new PointF(0,0));
@@ -117,8 +117,10 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onDestroy() {
+        // Delete sprite factory and remove glSurfaceView
         spriteEntityFactory.delete();
         glSurfaceView.setVisibility(View.INVISIBLE);
+        loginString = "";
         super.onDestroy();
     }
 

@@ -25,7 +25,7 @@
             android:id="@+id/fragment_endgame_holder"
             tools:layout="@layout/fragment_end_game"
             android:layout_marginStart="150dp"
-            android:layout_marginTop="260dp"
+            android:layout_marginTop="300dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>

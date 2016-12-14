@@ -134,7 +134,7 @@
             style="@android:style/Widget.Material.ProgressBar.Large"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/start_keyboard_fragment_holder"
@@ -146,7 +146,7 @@
 
         <RelativeLayout
             android:id="@+id/start_fragment_holder"
-            android:layout_width="230dp"
+            android:layout_width="235dp"
             android:layout_height="270dp"
             android:layout_above="@+id/start_keyboard_fragment_holder"
             android:layout_centerHorizontal="true"

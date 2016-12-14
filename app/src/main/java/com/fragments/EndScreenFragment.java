@@ -1,6 +1,8 @@
 package com.fragments;
 
+import android.app.Activity;
 import android.graphics.PointF;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.widget.TextView;
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.Entity;
+import com.graphics.OurGLSurfaceView;
 import com.graphics.SpriteEntityFactory;
 
 import java.util.ArrayList;
@@ -34,6 +37,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
     private ArrayList<Entity> shotsDrawers;
     private SpriteEntityFactory endScreenFactory;
     private DisplayMetrics displayMetrics;
+    private OurGLSurfaceView glSurfaceView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -47,6 +51,13 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
 
         View view = inflater.inflate(R.layout.fragment_end_game, container, false);
         this.view = view;
+
+        glSurfaceView = new OurGLSurfaceView(getActivity().getApplicationContext());
+
+        // Inflate glSurfaceView on top of running activity
+        ((Activity) view.getContext()).getWindow().addContentView(glSurfaceView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        glSurfaceView.setZOrderOnTop(true);
 
         TextView nextButton = (TextView) view.findViewById(R.id.buttonNext);
 
@@ -74,12 +85,6 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
         startDrawers(shotsDrawers, 110);
         startDrawers(hitsDrawers, 220);
 
-        try {
-            Thread.sleep(300);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         new Thread(background).start();
     }
 
@@ -88,7 +93,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
 
         for (int i = 0; i < 4; i++) {
             Entity drawer = endScreenFactory.createEntity();
-            drawer.placeAt(displayMetrics.widthPixels - 300 - (60 * i), displayMetrics.heightPixels - 738 - yOffset);
+            drawer.placeAt(displayMetrics.widthPixels - 300 - (60 * i), displayMetrics.heightPixels - 800 - yOffset);
             drawer.setCurrentSprite(0);
             drawers.add(drawer);
         }
@@ -98,19 +103,20 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
     private Runnable background = new Runnable() {
 
         private void draw(ArrayList<Entity> drawers, int size) throws InterruptedException {
+            Thread.sleep(600);
+
             String sizeString =  Integer.toString(size);
             if (size < 9999 && size > 0) {
 
                 for (int i = 0; i < sizeString.length(); i++) {
                     // get next digit in string  - convert from ASCII char
                     int sprite = sizeString.charAt(sizeString.length() - (i + 1)) - 48;
-                    Log.d("EndScreen_background", "Read: " + sprite);
 
                     for (int j = 0; j < sprite; j++) {
                         drawers.get(i).setCurrentSprite(j + 1);
 
                         audioPlayer.playAudioFromRaw(R.raw.click);
-
+                        glSurfaceView.requestRender();
                         Thread.sleep(350);
                     }
                 }
@@ -141,9 +147,12 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
             case R.id.buttonNext:
                 Log.d("Main", "Clicked");
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
-                audioPlayer.playAudioFromRaw(R.raw.click);
 
+                // Delete sprite factory and remove glSurfaceView
                 endScreenFactory.delete();
+                glSurfaceView.setVisibility(View.INVISIBLE);
+
+                audioPlayer.playAudioFromRaw(R.raw.click);
 
                 getFragmentManager().beginTransaction()
                         .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
