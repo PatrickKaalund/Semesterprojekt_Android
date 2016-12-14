@@ -62,7 +62,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         audioPlayer = new AudioPlayer(view.getContext());
 
         // Create spritefactory
-        highScoreFactory = new SpriteEntityFactory(R.drawable.letters_red, 80, 80, 16, 2, new PointF(0, 0));
+        highScoreFactory = new SpriteEntityFactory(R.drawable.numbers_letters, 80, 80, 9, 4, new PointF(0, 0));
 
         view.bringToFront();
 
@@ -142,8 +142,8 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
     private void drawHighScoreListElement(String name, String points, int indexHeight) {
         if (indexHeight == 0) {
-            drawString("RANK", new Point(displayMetrics.widthPixels/2 - 350, displayMetrics.heightPixels/2 + 300));
-            drawString("SCORE", new Point(displayMetrics.widthPixels/2 - 100, displayMetrics.heightPixels/2 + 300));
+            drawString("RANK", new Point(displayMetrics.widthPixels/2 - 370, displayMetrics.heightPixels/2 + 300));
+            drawString("SCORE", new Point(displayMetrics.widthPixels/2 - 120, displayMetrics.heightPixels/2 + 300));
             drawString("NAME", new Point(displayMetrics.widthPixels/2 + 200, displayMetrics.heightPixels/2 + 300));
         }
 
@@ -161,15 +161,24 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
                 break;
             // default case index > 2:
             default:
-                drawString(indexHeight + "TH", placementOnScreen);
+                drawString((indexHeight + 1) + "TH", placementOnScreen);
                 break;
         }
 
+        // Fill up points with zeroes in front - 4 ciffers
+        int pointsWithZeroes = Integer.parseInt(points);
+        if(pointsWithZeroes < 10){
+            points = "000" + points;
+        }else if(pointsWithZeroes < 100){
+            points = "00" + points;
+        }else if(pointsWithZeroes < 1000){
+            points = "0" + points;
+        }
         drawString(points, new Point(displayMetrics.widthPixels/2 - 100, placementOnScreen.y));
 
         // Trim name
-        if(name.length() > 6){
-            name = name.substring(0,6);
+        if(name.length() > 5){
+            name = name.substring(0,5);
         }
 
         drawString(name, new Point(displayMetrics.widthPixels/2 + 200, placementOnScreen.y));
@@ -180,24 +189,32 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         // Draw each number separately
         for (int i = 0; i < text.length(); i++) {
             Entity drawer = highScoreFactory.createEntity();
-            drawer.placeAt(placementOnScreen.x + (50 * i), placementOnScreen.y);
+            drawer.placeAt(placementOnScreen.x + (55 * i), placementOnScreen.y);
             drawer.setCurrentSprite(0);
 //            Log.e("HighScoreFragment", "Added drawer");
 
-            // Convert from ASCII to sprite
-            int spriteSheetOffset = 65;
+            // Convert from ASCII to spritesheet indexes
+            int spriteSheetOffset = 55;
+            // Adjust for letters
             int sprite = text.charAt(i) - spriteSheetOffset;
-//            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
 
-            if (sprite >= 0 && sprite < 26) {
-                drawer.setCurrentSprite(sprite);
-            } else if (sprite == -33) {
-                drawer.setCurrentSprite(31);
-            } // Space
-            else {
-                Log.e("HighScoreFragment", "Unvalid sprite number: " + sprite + ". Char at: " + text.charAt(i));
-                drawer.setCurrentSprite(26);
+            // Adjust for numbers
+            if(sprite >= -7 && sprite < 4){
+                sprite += 7;
             }
+
+            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
+
+
+            drawer.setCurrentSprite(sprite);
+
+//            else if (sprite == -33) {
+//                drawer.setCurrentSprite(31);
+//            } // Space
+//            else {
+//                Log.e("HighScoreFragment", "Unvalid sprite number: " + sprite + ". Char at: " + text.charAt(i));
+//                drawer.setCurrentSprite(26);
+//            }
         }
         audioPlayer.playAudioFromRaw(R.raw.click);
         glSurfaceView.requestRender();
