@@ -35,6 +35,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
     private OurGLSurfaceView glSurfaceView;
     private SpriteEntityFactory highScoreFactory;
     private DisplayMetrics displayMetrics;
+    private Point fragmentMiddle;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,12 +58,15 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
         TextView mainMenuButton = (TextView) view.findViewById(R.id.buttonMainMenu);
 
+//        fragmentMiddle = new Point(0,0);
+//        Log.e("HighScoreFragment", "Center x: " + fragmentMiddle.x + ". Center y: " + fragmentMiddle.y);
+
         mainMenuButton.setOnClickListener(this);
 
         audioPlayer = new AudioPlayer(view.getContext());
 
         // Create spritefactory
-        highScoreFactory = new SpriteEntityFactory(R.drawable.numbers_letters, 80, 80, 11, 4, new PointF(0, 0));
+        highScoreFactory = new SpriteEntityFactory(R.drawable.numbers_letters, 70, 70, 11, 4, new PointF(0, 0));
 
         view.bringToFront();
 
@@ -126,6 +130,18 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
         int highScoreElement = 0;
         while (queue.peek() != null) {
+
+            HighScoreObject highScoreObject = queue.poll();
+            String name = highScoreObject.name.toUpperCase();
+            String points = Integer.toString(highScoreObject.value).toUpperCase();
+
+            drawHighScoreListElement(name, points, highScoreElement);
+
+            // Draw top 4 on high score list
+            if (++highScoreElement == 4) {
+                return;
+            }
+        }
 
             HighScoreObject highScoreObject = queue.poll();
             String name = highScoreObject.name.toUpperCase();
