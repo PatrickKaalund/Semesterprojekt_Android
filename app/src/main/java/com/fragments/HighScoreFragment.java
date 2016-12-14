@@ -202,19 +202,14 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
             if(sprite >= -7 && sprite < 4){
                 sprite += 7;
             }
-
-//            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
-
+            // Unknown sprite - Draw space
+            else if(sprite > 35 || sprite < 10){
+                sprite = 41;
+            }
 
             drawer.setCurrentSprite(sprite);
 
-//            else if (sprite == -33) {
-//                drawer.setCurrentSprite(31);
-//            } // Space
-//            else {
-//                Log.e("HighScoreFragment", "Unvalid sprite number: " + sprite + ". Char at: " + text.charAt(i));
-//                drawer.setCurrentSprite(26);
-//            }
+//            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
         }
         audioPlayer.playAudioFromRaw(R.raw.click);
         glSurfaceView.requestRender();
