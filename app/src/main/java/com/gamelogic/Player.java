@@ -98,8 +98,8 @@ public class Player extends PlayerCommon {
         player.setPosition(new PointF(map.screenPos.x - (screenWidth/2 - startPosOnScreen.x), map.screenPos.y - (screenHeight/2 - startPosOnScreen.y)));
         Log.e("Player", "Player pos " + player.getPosition().x + ", " + player.getPosition().y);
         direction = new Direction(super.speed);
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.health, 80, 220, 21, 1, new PointF(125, 260));
+
+        SpriteEntityFactory healthFactory = new SpriteEntityFactory(R.drawable.health_new, 80, 220, 7, 3, new PointF(125, 260));
         SpriteEntityFactory livesFactory = new SpriteEntityFactory(R.drawable.lives, 25, 170, 4, 1, new PointF(130, 205));
 
         healthDrawer = healthFactory.createEntity();
@@ -290,12 +290,12 @@ public class Player extends PlayerCommon {
     public boolean doDamage(int damage) {
         if (currentState == PlayerStates_e.NORMAL) {
             super.health -= damage;
-
+            audioPlayer.playAudioFromRaw(R.raw.player_hit);
             if (super.health <= 0) {
                 lives--;
+                audioPlayer.playAudioFromRaw(R.raw.scream);
                 if (lives <= 0) {
                     currentState = PlayerStates_e.GAME_OVER;
-
                     // Broadcast stats to UI-thread
                     broadcastStats();
                 } else {

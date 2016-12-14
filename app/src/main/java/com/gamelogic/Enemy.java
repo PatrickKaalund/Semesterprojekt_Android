@@ -4,7 +4,9 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
 
+import com.audio.AudioPlayer;
 import com.core.Game;
+import com.example.patrickkaalund.semesterprojekt_android.R;
 import com.graphics.BackgroundEntity;
 import com.graphics.Direction;
 import com.graphics.Entity;
@@ -40,6 +42,7 @@ class Enemy extends Creature {
     private int stateCounter = 0;
     private int gotHitCounter = 0;
     private Shooter shooter;
+    private AudioPlayer audioPlayer;
 
     public enum EnemyStates_e {
         NORMAL(NORMAL_ANIMATIONS, 0, ATACKING_ANIMATION_DIV),
@@ -85,6 +88,8 @@ class Enemy extends Creature {
         direction = new Direction();
         this.enemy.setHitBoxSize(100, 100);
         this.game = game;
+
+        audioPlayer = new AudioPlayer(game.getGameView().getContext());
     }
 
     private void placeElementFromGlobalPos(BackgroundEntity map, PointF globalPos) {
@@ -230,11 +235,13 @@ class Enemy extends Creature {
                 currentState = EnemyStates_e.DYING;
                 enemy.setAnimationDivider(currentState.ANIMATIONDIV);
                 enemy.setAnimationOrder(currentState.ANIMATIONS);
+                audioPlayer.playAudioFromRaw(R.raw.zombie_die);
                 game.getPlayer().getShooter().incrementKills(1);
                 return gotHit = true;
             } else {
                 gotHitCounter = 0;
                 enemy.setAnimationOffset(GOT_HIT_OFFSET);
+                audioPlayer.playAudioFromRaw(R.raw.zombie_hit);
                 return gotHit = true;
             }
         }
