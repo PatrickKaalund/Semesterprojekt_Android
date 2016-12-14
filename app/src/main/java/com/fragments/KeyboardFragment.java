@@ -152,7 +152,7 @@ public class KeyboardFragment extends Fragment implements View.OnClickListener {
 
         for (int i = 0; i < 6; i++) {
             Entity drawer = spriteEntityFactory.createEntity();
-            drawer.placeAt(displayMetrics.widthPixels / 2 - 185 + (i * yOffset), displayMetrics.heightPixels / 2 + (i * xOffset));
+            drawer.placeAt(displayMetrics.widthPixels / 2 - 190 + (i * yOffset), displayMetrics.heightPixels / 2 + (i * xOffset));
             drawer.setCurrentSprite(31);
             drawers.add(drawer);
         }
