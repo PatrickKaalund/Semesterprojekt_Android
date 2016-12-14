@@ -36,7 +36,7 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
     private OurGLSurfaceView glSurfaceView;
     private SpriteEntityFactory highScoreFactory;
     private DisplayMetrics displayMetrics;
-    private Point fragmentMiddle;
+    private int yOffset;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,8 +83,9 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         super.onActivityCreated(savedInstanceState);
         int[] location = new int[2];
         view.getLocationOnScreen(location);
-        fragmentMiddle = new Point(location[0], location[1]);
-        Log.e("HighScoreFragment", "Center X: " + fragmentMiddle.x + ". Center Y: " + fragmentMiddle.y);
+        this.yOffset = this.displayMetrics.heightPixels - location[1] - 220;
+        Log.e("HighScoreFragment", "Y offset: " + this.yOffset);
+//        Log.e("HighScoreFragment", "Width: " + view.getTop()/2 + ". Height: " + view.getRight()/2);
     }
 
     @Override
@@ -149,12 +150,12 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
     private void drawHighScoreListElement(String name, String points, int indexHeight) {
         if (indexHeight == 0) {
-            drawString("RANK", new Point(displayMetrics.widthPixels / 2 - 370, displayMetrics.heightPixels / 2 + 300));
-            drawString("SCORE", new Point(displayMetrics.widthPixels / 2 - 120, displayMetrics.heightPixels / 2 + 300));
-            drawString("NAME", new Point(displayMetrics.widthPixels / 2 + 200, displayMetrics.heightPixels / 2 + 300));
+            drawString("RANK", new Point(displayMetrics.widthPixels / 2 - 390, yOffset));
+            drawString("SCORE", new Point(displayMetrics.widthPixels / 2 - 140, yOffset));
+            drawString("NAME", new Point(displayMetrics.widthPixels / 2 + 180, yOffset));
         }
 
-        Point placementOnScreen = new Point(displayMetrics.widthPixels / 2 - 350, displayMetrics.heightPixels / 2 + 200 - (indexHeight * 80));
+        Point placementOnScreen = new Point(displayMetrics.widthPixels / 2 - 370, yOffset - 100 - (indexHeight * 80));
 
         switch (indexHeight) {
             case 0:
@@ -181,14 +182,14 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
         } else if (pointsWithZeroes < 1000) {
             points = "0" + points;
         }
-        drawString(points, new Point(displayMetrics.widthPixels / 2 - 100, placementOnScreen.y));
+        drawString(points, new Point(displayMetrics.widthPixels / 2 - 120, placementOnScreen.y));
 
         // Trim name
         if (name.length() > 5) {
             name = name.substring(0, 5);
         }
 
-        drawString(name, new Point(displayMetrics.widthPixels / 2 + 200, placementOnScreen.y));
+        drawString(name, new Point(displayMetrics.widthPixels / 2 + 180, placementOnScreen.y));
     }
 
     private void drawString(String text, Point placementOnScreen) {
