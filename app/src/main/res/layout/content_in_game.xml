@@ -83,7 +83,7 @@
         android:visibility="gone" >
 
         <RelativeLayout
-            android:layout_width="235dp"
+            android:layout_width="300dp"
             android:layout_height="270dp"
             android:name="com.fragments.EndScreenFragment"
             android:id="@+id/fragment_endgame_holder"
