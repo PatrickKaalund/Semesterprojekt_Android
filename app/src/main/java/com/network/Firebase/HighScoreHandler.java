@@ -69,6 +69,61 @@ public class HighScoreHandler {
         });
     }
 
+    // publish HighScore
+    public void publishHighScore(final String userName, final int points){
+
+        // get high score list from server
+        mFirebaseDatabaseReference.child(highScoreLocation).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Object receivedObject = dataSnapshot.getValue();
+
+                Comparator<HighScoreObject> comparator = new HighScoreComparator();
+                PriorityQueue<HighScoreObject> queue = new PriorityQueue<>(10, comparator);
+
+                if (receivedObject != null) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(receivedObject.toString());
+                        Iterator<?> keys = jsonObject.keys();
+
+                        Log.e("NetworkHandler", "Received: " + jsonObject.toString());
+
+                        // Add highscore objects to queue
+                        while (keys.hasNext()) {
+                            String key = (String) keys.next();
+//                            Log.d("NetworkHandler", "Key: " + key + ". Value is: " + jsonObject.get(key));
+                            queue.offer(new HighScoreObject(key, (int) jsonObject.get(key)));
+                        }
+
+                        HighScoreObject lowestHighScore = null;
+                        while(queue.peek() != null){
+                            lowestHighScore = queue.remove();
+                        }
+
+                        if(lowestHighScore != null && points > lowestHighScore.value){
+                            Log.e("NetworkHandler", "Updating lowest highscore element: " + userName + " with value: " + points);
+                            mFirebaseDatabaseReference.child(highScoreLocation).child(userName).setValue(points);
+                            Log.e("NetworkHandler", "Removing lowest highscore element: " + lowestHighScore.name + " with value: " + lowestHighScore.value);
+                            mFirebaseDatabaseReference.child(highScoreLocation).child(lowestHighScore.name).removeValue();
+                        }else{
+                            Log.e("NetworkHandler", "Not updating!!!: " + lowestHighScore.name + " with value: " + lowestHighScore.value);
+                        }
+
+                        return;
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("NetworkHandler", "Cancel subscription!");
+            }
+        });
+    }
+
 
     // Sorting highest to lowest
     public class HighScoreComparator implements Comparator<HighScoreObject> {

@@ -56,7 +56,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
         // Publish high-score
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         HighScoreHandler highScoreHandler = new HighScoreHandler();
-        // ToDO --> highScoreHandler.publishHighScore(preferences.getString("player", "DEFAULT"), kills);
+        highScoreHandler.publishHighScore(preferences.getString("player", "DEFAULT"), kills);
 
         // Inflate view
         View view = inflater.inflate(R.layout.fragment_end_game, container, false);
