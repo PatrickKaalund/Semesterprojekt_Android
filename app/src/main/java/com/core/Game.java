@@ -102,7 +102,6 @@ public class Game implements Runnable {
         fpsMeasuring = new FPSMeasuring(context);
         fpsMeasuring.start();
 
-        // Must be moved to background thread
         initGameComponents();
         gameStart();
 
