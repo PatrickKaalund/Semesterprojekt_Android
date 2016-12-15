@@ -22,9 +22,11 @@ public class AudioPlayer {
 
     public void playAudioFromRaw(int raw) {
 
+        // Check if sound is enabled
         if (preferences.getBoolean("sound", true)) {
             try {
                 Uri rawPath = Uri.parse("android.resource://" + context.getPackageName() + "/" + raw);
+                // Reset MediaPlayer and prepare Async
                 mediaPlayer.reset();
                 mediaPlayer.setDataSource(context, rawPath);
                 mediaPlayer.prepareAsync();

@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -24,6 +23,7 @@ public class Main extends BaseActivity {
 
     private SharedPreferences preferences;
 
+    // Create ServiceConnection to MusicService
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -35,12 +35,14 @@ public class Main extends BaseActivity {
         }
     };
 
+    // Bind MusicService method
     void doBindService() {
         bindService(new Intent(this,MusicService.class),
                 serviceConnection, Context.BIND_AUTO_CREATE);
         musicIsBound = true;
     }
 
+    // Unbind MusicService method
     void doUnbindService() {
         if(musicIsBound) {
             unbindService(serviceConnection);
@@ -52,22 +54,23 @@ public class Main extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set full screen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // Bind service
         doBindService();
 
         setContentView(R.layout.activity_main_menu);
 
-        // Check if logged in
+        // Check SharedPreferences if logged in
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
         boolean logged_in = preferences.getBoolean("logged_in", false);
-
         Log.e("LoginFragment", "Logged in: " + logged_in);
 
+        // Start Fragments
         if (savedInstanceState == null && !logged_in) {
             findViewById(R.id.overlay).setVisibility(View.VISIBLE);
 
@@ -84,12 +87,14 @@ public class Main extends BaseActivity {
 
     @Override
     protected void onPostResume() {
+        // Setup music
         preferences.edit().putInt("track", R.raw.menu_music).apply();
         super.onPostResume();
     }
 
     @Override
     protected void onDestroy() {
+        // Unbind MusicService
         doUnbindService();
         super.onDestroy();
     }

@@ -30,6 +30,7 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
     private AudioPlayer audioPlayer;
     FPSMeasuring fpsMeasuring;
 
+    // Create ServiceConnection to MusicService
     private ServiceConnection serviceConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -41,12 +42,14 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
         }
     };
 
+    // Bind MusicService method
     void doBindService() {
         bindService(new Intent(this,MusicService.class),
                 serviceConnection, Context.BIND_AUTO_CREATE);
         musicIsBound = true;
     }
 
+    // Unbind MusicService method
     void doUnbindService() {
         if(musicIsBound) {
             unbindService(serviceConnection);
@@ -58,6 +61,7 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Set full screen
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -67,6 +71,7 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
 
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        // Setup toggle buttons states and set correctly
         soundSwitch = (Switch) findViewById(R.id.switchSound);
         musicSwitch = (Switch) findViewById(R.id.switchMusic);
         fpsSwitch = (Switch) findViewById(R.id.switchFps);
@@ -78,6 +83,7 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
         soundSwitch.setChecked(preferences.getBoolean("sound", true));
         fpsSwitch.setChecked(preferences.getBoolean("fps", false));
 
+        // Setup OnClickListeners
         soundSwitch.setOnCheckedChangeListener(this);
         musicSwitch.setOnCheckedChangeListener(this);
         fpsSwitch.setOnCheckedChangeListener(this);
@@ -85,21 +91,25 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
         back.setOnClickListener(this);
         quit.setOnClickListener(this);
 
+        // Bind MusicService
         doBindService();
     }
 
     @Override
     protected void onDestroy() {
+        // Bind MusicService
         doUnbindService();
         super.onDestroy();
     }
 
     @Override
     protected void onPostResume() {
+        // Setup music
         preferences.edit().putInt("track", R.raw.dark_music).apply();
         super.onPostResume();
     }
 
+    // Handle button clicks and save state to SharedPreferences
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
 
@@ -136,6 +146,7 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
         }
     }
 
+    // Handle back- & quit buttons
     @Override
     public void onClick(View view) {
 
@@ -143,6 +154,7 @@ public class Options extends BaseActivity implements CompoundButton.OnCheckedCha
             view.startAnimation(AnimationUtils.loadAnimation(this, R.anim.view_clicked));
             audioPlayer.playAudioFromRaw(R.raw.click);
 
+            // Hackish way to mimic back-button press
             Intent startMain = new Intent(Intent.ACTION_MAIN);
             startMain.addCategory(Intent.CATEGORY_HOME);
             startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

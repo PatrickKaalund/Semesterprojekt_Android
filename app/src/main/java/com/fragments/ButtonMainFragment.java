@@ -34,18 +34,16 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         this.view = view;
 
-        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlay);
-
-        nextButton.setOnClickListener(this);
-
         audioPlayer = new AudioPlayer(getContext());
 
+        TextView nextButton = (TextView) view.findViewById(R.id.buttonPlay);
         TextView play = (TextView) getActivity().findViewById(R.id.buttonPlay);
         TextView playMulti = (TextView) getActivity().findViewById(R.id.buttonPlayMulti);
         TextView settings = (TextView) getActivity().findViewById(R.id.buttonSettings);
         TextView quit = (TextView) getActivity().findViewById(R.id.buttonQuit);
         TextView highscore = (TextView) getActivity().findViewById(R.id.buttonHighscore);
 
+        nextButton.setOnClickListener(this);
         play.setOnClickListener(this);
         playMulti.setOnClickListener(this);
         settings.setOnClickListener(this);
@@ -54,11 +52,13 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
 
         view.bringToFront();
 
+        // Do start-up animations
         RelativeLayout relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.RLayout);
         layout = (RelativeLayout) getActivity().findViewById(R.id.OuterRelativeLayout);
         relativeLayout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.startup));
         layout.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.startup));
         relativeLayout.setVisibility(View.VISIBLE);
+
         audioPlayer.playAudioFromRaw(R.raw.baretta);
 
         return view;
@@ -99,6 +99,8 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
                 case R.id.buttonQuit:
                     v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.view_clicked));
                     audioPlayer.playAudioFromRaw(R.raw.click);
+
+                    // Hackish way to mimic back-button press
                     Intent startMain = new Intent(Intent.ACTION_MAIN);
                     startMain.addCategory(Intent.CATEGORY_HOME);
                     startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

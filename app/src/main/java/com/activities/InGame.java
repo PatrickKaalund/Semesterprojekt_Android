@@ -29,26 +29,31 @@ public class InGame extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Create instance of InGameBroadcastReceiver and register receiver
         receiver = new InGameBroadcastReceiver();
         this.registerReceiver(receiver, new IntentFilter(InGameBroadcastReceiver.ACTION));
 
+        // Create instance of Game & set GameView as ContentView
         game = new Game(this);
-
         setContentView(game.getGameView());
 
+        // inflate activity_in_game and put on top of GameView
         LayoutInflater inflater = getLayoutInflater();
         getWindow().addContentView(inflater.inflate(R.layout.activity_in_game, null),
                 new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT));
 
+        // Register views in Control object
         game.setJoystick((JoystickView) findViewById(R.id.joystickView));
         game.setShootButton((FloatingActionButton) findViewById(R.id.floatingActionButton));
         game.setInventoryButton((DropDownMenu) findViewById(R.id.dropdown_menu));
+
         Log.d("InGame", "onCreate");
     }
 
     @Override
     protected void onPause() {
+        // Pause game clock
         game.gamePause();
         super.onPause();
         Log.d("InGame", "onPause");
@@ -56,7 +61,10 @@ public class InGame extends BaseActivity {
 
     @Override
     protected void onPostResume() {
+        // Start game clock
         game.gameStart();
+
+        // Change music to game music
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.edit().putInt("track", R.raw.challenge_mode).apply();
 
@@ -66,6 +74,7 @@ public class InGame extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        // Stop game clock and unregister InGameBroadcastReceiver
         game.gameStop();
         super.onPause();
         this.unregisterReceiver(receiver);
@@ -80,24 +89,28 @@ public class InGame extends BaseActivity {
 
         Fragment fragment = new EndScreenFragment();
 
+        // Create Bundle with player stats
         Bundle bundle = new Bundle();
         bundle.putInt("shots", shots);
         bundle.putInt("hits", hits);
         bundle.putInt("kills", kills);
         fragment.setArguments(bundle);
 
+        // Start EndScreenFragment
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_endgame_holder, fragment)
                 .commit();
     }
 
     public class InGameBroadcastReceiver extends BroadcastReceiver {
+        // Dummy string - we have only 1 call to this receiver..
         public static final String ACTION = "CALL_ME!";
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String data = intent.getStringExtra("data");
 
+            // If data is valid get stats from Player and stop game
             if (data != null && data.equals("KILL")) {
                 int shots = intent.getIntExtra("shots", 0);
                 int hits = intent.getIntExtra("hits", 0);
@@ -108,6 +121,7 @@ public class InGame extends BaseActivity {
                 Log.d("INGAME LISTENER", "Hits: " + hits);
                 Log.d("INGAME LISTENER", "Kills: " + kills);
 
+                // Start end screen
                 endGame(shots, hits, kills);
             }
         }

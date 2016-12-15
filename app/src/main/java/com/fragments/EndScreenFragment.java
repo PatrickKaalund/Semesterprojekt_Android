@@ -145,6 +145,8 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
                         Thread.sleep(350);
                     }
                 }
+                // Play heart-beat
+                audioPlayer.playAudioFromRaw(R.raw.heartbeat);
             }
         }
 
@@ -155,7 +157,6 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
                 draw(killDrawers, kills);
                 draw(shotsDrawers, shotsFired);
                 draw(hitsDrawers, hits);
-                audioPlayer.playAudioFromRaw(R.raw.heartbeat);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

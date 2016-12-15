@@ -17,11 +17,13 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Bind MusicService
         doBindService();
     }
 
     @Override
     protected void onDestroy() {
+        // unBind MusicService
         doUnbindService();
         super.onDestroy();
     }
@@ -38,6 +40,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onPostResume();
     }
 
+    // Create ServiceConnection to MusicService
     ServiceConnection serviceConnection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -49,12 +52,14 @@ public class BaseActivity extends AppCompatActivity {
         }
     };
 
+    // Bind MusicService method
     void doBindService() {
         bindService(new Intent(this, MusicService.class),
                 serviceConnection, BIND_AUTO_CREATE);
         musicIsBound = true;
     }
 
+    // Unbind MusicService method
     void doUnbindService() {
         if (musicIsBound) {
             unbindService(serviceConnection);
