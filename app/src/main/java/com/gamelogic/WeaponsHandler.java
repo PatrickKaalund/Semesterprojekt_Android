@@ -2,6 +2,7 @@ package com.gamelogic;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.util.DisplayMetrics;
 
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
@@ -67,9 +68,10 @@ class WeaponsHandler {
 
         audioPlayer = new AudioPlayer(context);
 
-        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammo, 140, 180, 20, 5, new PointF(950, 260));
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        SpriteEntityFactory ammoFactory = new SpriteEntityFactory(R.drawable.ammo, 140, 180, 20, 5, new PointF(displayMetrics.widthPixels - 135, 255));
         ammoDrawer = ammoFactory.createEntity();
-
+//950, 260
         ammoDrawer.setCurrentSprite(0);
 
         reset();
@@ -178,7 +180,6 @@ class WeaponsHandler {
 
     private void update() {
         ammoDrawer.setCurrentSprite(ammoAmounts.get(currentWeapon) + ammoAnimationOffset);
-      //  player.getPlayerEntity().drawNextSprite();
     }
 
 

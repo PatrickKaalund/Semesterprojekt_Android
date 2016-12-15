@@ -85,7 +85,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
         displayMetrics = view.getResources().getDisplayMetrics();
 
         // Create spritefactory
-        endScreenFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 120, 120, 11, 1, new PointF(0, 0));
+        endScreenFactory = new SpriteEntityFactory(R.drawable.numbers_fps, 100, 100, 11, 1, new PointF(0, 0));
 
         return view;
     }
@@ -115,7 +115,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
         // Use yOffset as y-offset :)
         for (int i = 0; i < 4; i++) {
             Entity drawer = endScreenFactory.createEntity();
-            drawer.placeAt(displayMetrics.widthPixels - 300 - (60 * i), displayMetrics.heightPixels - 800 - yOffset);
+            drawer.placeAt(displayMetrics.widthPixels/2 + 200 - (60 * i), displayMetrics.heightPixels/2 + 90 - yOffset);
             drawer.setCurrentSprite(0);
             drawers.add(drawer);
         }
