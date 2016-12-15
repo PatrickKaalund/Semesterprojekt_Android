@@ -64,7 +64,6 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
 
         // Create audioplayer
         audioPlayer = new AudioPlayer(view.getContext());
-        audioPlayer.playAudioFromRaw(R.raw.heartbeat);
 
         // Create new glSurfaceView
         glSurfaceView = new OurGLSurfaceView(getActivity().getApplicationContext());
@@ -156,6 +155,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
                 draw(killDrawers, kills);
                 draw(shotsDrawers, shotsFired);
                 draw(hitsDrawers, hits);
+                audioPlayer.playAudioFromRaw(R.raw.heartbeat);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
