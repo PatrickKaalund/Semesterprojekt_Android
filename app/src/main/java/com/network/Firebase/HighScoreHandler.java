@@ -104,7 +104,11 @@ public class HighScoreHandler {
                             Log.e("NetworkHandler", "Updating lowest highscore element: " + userName + " with value: " + points);
                             mFirebaseDatabaseReference.child(highScoreLocation).child(userName).setValue(points);
                             Log.e("NetworkHandler", "Removing lowest highscore element: " + lowestHighScore.name + " with value: " + lowestHighScore.value);
-                            mFirebaseDatabaseReference.child(highScoreLocation).child(lowestHighScore.name).removeValue();
+                            // Delete old highscore if not yourself
+                            if(!(lowestHighScore.name.equals(userName))){
+                                mFirebaseDatabaseReference.child(highScoreLocation).child(lowestHighScore.name).removeValue();
+                            }
+
                         }else{
                             Log.e("NetworkHandler", "Not updating!!!: " + lowestHighScore.name + " with value: " + lowestHighScore.value);
                         }
