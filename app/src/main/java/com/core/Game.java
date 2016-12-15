@@ -97,7 +97,7 @@ public class Game implements Runnable {
 //        GLOBAL_START_POS_Y =  context.getResources().getDisplayMetrics().heightPixels / 2;
 
         glSurfaceView = new OurGLSurfaceView(context);
-        networkHandler = new NetworkHandler(this.multiplayerGame);
+
 
         fpsMeasuring = new FPSMeasuring(context);
         fpsMeasuring.start();
@@ -112,6 +112,8 @@ public class Game implements Runnable {
     }
 
     private void initGameComponents() {
+
+        networkHandler = new NetworkHandler(this.multiplayerGame);
 
         //Make a map
         mapFactory = new BackgroundFactory(

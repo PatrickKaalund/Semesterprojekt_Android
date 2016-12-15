@@ -75,7 +75,6 @@ public class ButtonMainFragment extends Fragment implements View.OnClickListener
 
                 case R.id.buttonPlayMulti:
                     Log.d("ButtonMainFragment", "Multiplayer game!");
-                    DataContainer.instance.multiplayerGame = true;
 
                     v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
                     audioPlayer.playAudioFromRaw(R.raw.click);

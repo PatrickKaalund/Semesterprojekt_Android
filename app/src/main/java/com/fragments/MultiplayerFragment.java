@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.activities.InGame;
 import com.audio.AudioPlayer;
 import com.example.patrickkaalund.semesterprojekt_android.R;
+import com.gamelogic.DataContainer;
 
 public class MultiplayerFragment extends Fragment implements View.OnClickListener {
 
@@ -129,10 +130,14 @@ public class MultiplayerFragment extends Fragment implements View.OnClickListene
         switch (v.getId()) {
             case R.id.buttonPlayM:
                 Log.d("MultiplayerFragment", "Start multiplayer clicked! Number of players: " + this.numberOfPlayers);
+
                 if(this.numberOfPlayers > 2){
                     Toast.makeText(getActivity(), "Max 2 players at the moment", Toast.LENGTH_SHORT).show();
                     break;
                 }
+
+                DataContainer.instance.multiplayerGame = true;
+
                 isInMultiplayerFragment = false;
 
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));

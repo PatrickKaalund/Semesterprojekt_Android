@@ -40,6 +40,8 @@ public class NetworkHandler {
 
         this.multiPlayerGame = multiPlayerGame;
 
+        Log.e("NetworkHandler", "NetworkHandler started. Multiplayer: " + this.multiPlayerGame);
+
         if (this.multiPlayerGame) {
 
             gamePrefix = "Game_";
@@ -49,9 +51,9 @@ public class NetworkHandler {
 
             // testing - adding games
             mother = "Games";
-            String testGame1 = "TestGame" + randomNumber(minimum, maximum);
-            String testGame2 = "TestGame" + randomNumber(minimum, maximum);
-            String testGame3 = "TestGame" + randomNumber(minimum, maximum);
+            String testGame1 = "TestGame_" + 9999999;
+//            String testGame2 = "TestGame" + randomNumber(minimum, maximum);
+//            String testGame3 = "TestGame" + randomNumber(minimum, maximum);
 
             // Remove old data
 //            mFirebaseDatabaseReference.child(mother).removeValue();
@@ -75,7 +77,7 @@ public class NetworkHandler {
                 if (receivedObject != null) {
                     try {
                         JSONObject jsonObject = new JSONObject(receivedObject.toString());
-                        Log.d("NetworkHandler", "Received json: " + jsonObject.toString());
+                        Log.e("NetworkHandler", "Received json: " + jsonObject.toString());
 
                         Iterator<?> keys = jsonObject.keys();
 
@@ -85,7 +87,7 @@ public class NetworkHandler {
                                 Log.d("NetworkHandler", "Key: " + key + " : game status: " + jsonObject.get(key).toString());
                                 Integer gameStatus = ((JSONObject) jsonObject.get(key)).getInt("Status");
                                 if (gameStatus == NetworkHandler.gameStatus.FILLING_GAME.ordinal()) {
-                                    Log.d("NetworkHandler", "Found game to join: " + key);
+                                    Log.e("NetworkHandler", "Found game to join: " + key);
                                     joinGame(key);
                                     return; // stop searching for game to join in iterator
                                 }
@@ -165,9 +167,9 @@ public class NetworkHandler {
     }
 
     private void createNewGame() {
-        Log.d("NetworkHandler", "Creating new multiplayer game");
         DataContainer.instance.player.setPlayerID(1);
         this.game += String.valueOf(randomNumber(minimum, maximum)); // game subfix
+        Log.e("NetworkHandler", "Creating new multiplayer game: " + game);
         myPlayerID += String.valueOf(DataContainer.instance.player.getPlayerID());
         mFirebaseDatabaseReference.child(mother).child(this.game).child("Status").setValue(gameStatus.FILLING_GAME.ordinal());
         beginGame();
@@ -175,7 +177,7 @@ public class NetworkHandler {
     }
 
     private void joinGame(String game) {
-        Log.d("NetworkHandler", "Joining multiplayer game");
+        Log.e("NetworkHandler", "Joining multiplayer game: " + game);
         this.game = game;
         DataContainer.instance.player.setPlayerID(2);
         myPlayerID += String.valueOf(DataContainer.instance.player.getPlayerID());
