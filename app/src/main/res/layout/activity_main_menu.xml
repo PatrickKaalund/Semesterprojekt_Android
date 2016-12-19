@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context="com.activities.Main"
     android:background="@drawable/explosion"
-    android:weightSum="100"
     android:orientation="vertical">
 
     <RelativeLayout
