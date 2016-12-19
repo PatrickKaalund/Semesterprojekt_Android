@@ -16,7 +16,7 @@ public class AudioPlayer {
 
     public AudioPlayer(Context context) {
         this.context = context;
-        mediaPlayer = new MediaPlayer();
+
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
@@ -27,7 +27,7 @@ public class AudioPlayer {
             try {
                 Uri rawPath = Uri.parse("android.resource://" + context.getPackageName() + "/" + raw);
                 // Reset MediaPlayer and prepare Async
-                mediaPlayer.reset();
+                MediaPlayer mediaPlayer = new MediaPlayer();
                 mediaPlayer.setDataSource(context, rawPath);
                 mediaPlayer.prepareAsync();
 
@@ -36,6 +36,16 @@ public class AudioPlayer {
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
                         mediaPlayer.start();
+                    }
+                });
+
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.reset();
+                        mp.release();
                     }
                 });
 

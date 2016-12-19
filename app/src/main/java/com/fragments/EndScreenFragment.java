@@ -30,7 +30,6 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
 
     private View view;
     private AudioPlayer audioPlayer;
-
     private int shotsFired;
     private int hits;
     private int kills;
@@ -42,6 +41,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
     private DisplayMetrics displayMetrics;
     private OurGLSurfaceView glSurfaceView;
     private SharedPreferences preferences;
+    private boolean isDying = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -129,14 +129,20 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
 
             // Get length of number to draw
             String sizeString =  Integer.toString(size);
-            if (size < 9999 && size > 0) {
+            if (size < 9999 && size > 0 && !isDying) {
 
                 // Draw each number separately
                 for (int i = 0; i < sizeString.length(); i++) {
+                    if (isDying)
+                        break;
+
                     // get next digit in string  - convert from ASCII char
                     int sprite = sizeString.charAt(sizeString.length() - (i + 1)) - 48;
 
                     for (int j = 0; j < sprite; j++) {
+                        if (isDying)
+                            break;
+
                         drawers.get(i).setCurrentSprite(j + 1);
 
                         // Request redraw and play click-sound then wait for 300millis
@@ -145,20 +151,22 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
                         Thread.sleep(350);
                     }
                 }
-                // Play heart-beat
-                audioPlayer.playAudioFromRaw(R.raw.heartbeat);
             }
+            // Play heart-beat
+            audioPlayer.playAudioFromRaw(R.raw.heartbeat);
         }
 
         @Override
         public void run() {
             // Request drawing from background thread
             try {
-                draw(killDrawers, kills);
-                draw(shotsDrawers, shotsFired);
-                draw(hitsDrawers, hits);
+                if (!isDying) {
+                    draw(killDrawers, kills);
+                    draw(shotsDrawers, shotsFired);
+                    draw(hitsDrawers, hits);
+                }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.d("EndScreenFragment", "Next was pressed - killing draw-thread");
             }
         }
     };
@@ -167,6 +175,8 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.buttonNext:
+                isDying = true;
+
                 Log.d("Main", "Clicked");
                 // Run animation now to match time with fragment removal
                 v.startAnimation(AnimationUtils.loadAnimation(view.getContext(), R.anim.view_clicked));
@@ -177,6 +187,7 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
 
                 // Play click
                 audioPlayer.playAudioFromRaw(R.raw.click);
+
 
                 // Remove this fragment from stack and put high-score fragment on stack
                 getFragmentManager().beginTransaction()

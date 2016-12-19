@@ -71,7 +71,7 @@ public class Main extends BaseActivity {
         Log.e("LoginFragment", "Logged in: " + logged_in);
 
         // Start Fragments
-        if (savedInstanceState == null && !logged_in) {
+        if (savedInstanceState == null && logged_in) {
             findViewById(R.id.overlay).setVisibility(View.VISIBLE);
 
             getSupportFragmentManager().beginTransaction()
