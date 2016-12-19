@@ -152,8 +152,6 @@ public class EndScreenFragment extends Fragment implements View.OnClickListener 
                     }
                 }
             }
-            // Play heart-beat
-            audioPlayer.playAudioFromRaw(R.raw.heartbeat);
         }
 
         @Override
