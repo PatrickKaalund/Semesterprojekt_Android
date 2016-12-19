@@ -219,7 +219,6 @@ public class HighScoreFragment extends Fragment implements View.OnClickListener 
 
 //            Log.e("HighScoreFragment", "Shown sprite number: " + sprite + ". Char at: " + text.charAt(i));
         }
-        audioPlayer.playAudioFromRaw(R.raw.click);
         glSurfaceView.requestRender();
     }
 }

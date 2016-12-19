@@ -79,7 +79,7 @@ class WeaponsHandler {
     }
 
 
-    private void reset() {
+    public void reset() {
 
         weaponsAvailable.put(WeaponList_e.GUN, true);
         weaponsAvailable.put(WeaponList_e.SHOTGUN, false);

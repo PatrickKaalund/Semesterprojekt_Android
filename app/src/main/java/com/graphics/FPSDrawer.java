@@ -36,7 +36,7 @@ class FPSDrawer {
     public void update(int counter){
         if(counter < 100){
 
-            if(counter > 10){
+            if(counter > 9){
                 numberDrawer.setCurrentSprite(counter / 10);
                 numberDrawer2.setCurrentSprite(counter % 10);
             }else{

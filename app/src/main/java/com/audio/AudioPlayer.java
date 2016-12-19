@@ -44,6 +44,16 @@ public class AudioPlayer {
                     }
                 });
 
+                mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+                    @Override
+                    public void onCompletion(MediaPlayer mp) {
+                        mp.stop();
+                        mp.reset();
+                        mp.release();
+                    }
+                });
+
             } catch (IOException e) {
                 Log.e("SHOOTER", "FAILED IN AUDIOPLAYER " + context.getResources().getResourceName(raw));
             }

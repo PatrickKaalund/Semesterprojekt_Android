@@ -294,6 +294,7 @@ public class Player extends PlayerCommon {
             if (super.health <= 0) {
                 lives--;
                 audioPlayer.playAudioFromRaw(R.raw.scream);
+                weaponsHandler.reset();
                 if (lives <= 0) {
                     currentState = PlayerStates_e.GAME_OVER;
                     // Broadcast stats to UI-thread
