@@ -86,7 +86,7 @@ class WeaponsHandler {
         weaponsAvailable.put(WeaponList_e.AK47, false);
 
         ammoDmgValues.put(WeaponList_e.GUN, 3);
-        ammoDmgValues.put(WeaponList_e.SHOTGUN, 6);
+        ammoDmgValues.put(WeaponList_e.SHOTGUN, 20);
         ammoDmgValues.put(WeaponList_e.AK47, 8);
 
         ammoAmounts.put(WeaponList_e.GUN, GUN_CAP);
